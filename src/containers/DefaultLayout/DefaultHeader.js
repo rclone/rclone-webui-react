@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {AppAsideToggler, AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler} from '@coreui/react';
 import logo from '../../assets/img/brand/logo.png'
 import favicon from '../../assets/img/brand/favicon.png'
+import BackendStatusCard from "../../views/BackendStatusCard/BackendStatusCard";
 
 const propTypes = {
     children: PropTypes.node,
@@ -35,6 +36,7 @@ class DefaultHeader extends Component {
 
                 </Nav>
                 <Nav className="ml-auto" navbar>
+                    <BackendStatusCard mode={"button"}/>
                     <NavItem className="d-md-down-none">
                         <NavLink to="#" className="nav-link"><i className="icon-bell"></i><Badge pill
                                                                                                  color="danger">5</Badge></NavLink>

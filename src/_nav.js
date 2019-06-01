@@ -10,5 +10,10 @@ export default {
             url: '/newdrive',
             icon: 'icon-speedometer'
         },
+        {
+            name: 'Configs',
+            url: '/showconfig',
+            icon: 'icon-speedometer'
+        },
     ],
 };
