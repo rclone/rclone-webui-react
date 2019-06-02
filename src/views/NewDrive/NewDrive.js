@@ -13,13 +13,12 @@ import {
     Input,
     Label
 } from "reactstrap";
-
-import {config} from "./config.js";
+// import {config} from "./config.js";
 import NewDriveAuthModal from "../Base/NewDriveAuthModal";
 import axiosInstance from "../../utils/API";
 import isEmpty from "../../utils/Tools";
 
-function DriveParameters({driveType, loadAdvanced, changeHandler, currentValues}) {
+function DriveParameters({driveType, loadAdvanced, changeHandler, currentValues, config}) {
     if (driveType !== undefined && driveType !== "") {
         const inputsMap = config[driveType].Options;
         // console.log("current values" + currentValues);
@@ -31,19 +30,21 @@ function DriveParameters({driveType, loadAdvanced, changeHandler, currentValues}
 
                 const hasExamples = !isEmpty(attr.Examples);
                 let examplesMap = null;
-                if (hasExamples) {
-                    examplesMap = attr.Examples.map((ex1, id1) => {
-                        return (<option key={"option" + id1} value={ex1.Value}>{ex1.Help}</option>);
-                    })
-                }
 
                 let inputType = "";
                 if (attr.IsPassword) {
                     inputType = "password";
                 } else if (hasExamples) {
-                    inputType = "select"
+                    inputType = "select";
+                    examplesMap = attr.Examples.map((ex1, id1) => {
+                        return (<option key={"option" + id1} value={ex1.Value}>{ex1.Help}</option>);
+                    })
                 } else if (attr.Default === true || attr.Default === false) {
-                    inputType = "checkbox"
+                    inputType = "select";
+                    examplesMap = [
+                        (<option key={1} value={true}>Yes</option>),
+                        (<option key={2} value={false}>No</option>)
+                    ];
                 } else {
                     inputType = "text";
                 }
@@ -72,7 +73,8 @@ function DriveParameters({driveType, loadAdvanced, changeHandler, currentValues}
     );
 }
 
-function DriveTypes(props) {
+function DriveTypes({config}) {
+    console.log(config);
     let configMap = config.map((drive, idx) => (
         <option key={idx} value={idx}>{drive.Description}</option>
     ));
@@ -113,7 +115,7 @@ class NewDrive extends React.Component {
             driveNameIsValid: false,
             formErrors: {driveName: ""},
 
-            config: {}
+            config: []
 
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -135,6 +137,7 @@ class NewDrive extends React.Component {
     // Update the driveType and then load the equivalent input parameters for that drive
     changeDriveType = (e) => {
         e.preventDefault();
+        const {config} = this.state;
 
         let val = e.target.value;
 
@@ -240,17 +243,21 @@ class NewDrive extends React.Component {
     // TODO: Get providers by dynamic call to the backend and remove static config file
     async getProviders() {
         try {
-            await axiosInstance.post("/config/providers").then((res) => {
-                this.setState({config: res.data});
-            })
+            let res = await axiosInstance.post("/config/providers");
+            // console.log(res);
+            this.setState({config: res.data.providers});
         } catch (e) {
             console.log(`Error getting the provider details: ${e}`);
         }
     }
 
 
+    componentDidMount() {
+        this.getProviders();
+    }
+
     render() {
-        const {colRconfig, colSetup, colAdvanced, driveType, advancedOptions, driveName, driveNameIsValid} = this.state;
+        const {colRconfig, colSetup, colAdvanced, driveType, advancedOptions, driveName, driveNameIsValid, config} = this.state;
 
         return (
             <div>
@@ -279,7 +286,7 @@ class NewDrive extends React.Component {
                                         <Input type="select" name="type" id="driveType" value={driveType}
                                                onChange={this.changeDriveType} required>
                                             <option value="">Select one</option>
-                                            <DriveTypes/>
+                                            <DriveTypes config={config}/>
                                         </Input>
                                     </Col>
                                 </FormGroup>
@@ -315,7 +322,7 @@ class NewDrive extends React.Component {
                             <CardBody>
                                 <DriveParameters driveType={driveType} loadAdvanced={false}
                                                  changeHandler={this.handleInputChange}
-                                                 currentValues={this.state.formValues}/>
+                                                 currentValues={this.state.formValues} config={config}/>
                             </CardBody>
                             <CardFooter>
                                 <div className="clearfix">
@@ -346,7 +353,7 @@ class NewDrive extends React.Component {
                             <CardBody>
                                 <DriveParameters driveType={driveType} loadAdvanced={true}
                                                  changeHandler={this.handleInputChange}
-                                                 currentValues={this.state.formValues}/>
+                                                 currentValues={this.state.formValues} config={config}/>
                             </CardBody>
                             <CardFooter>
                                 <div className="clearfix">

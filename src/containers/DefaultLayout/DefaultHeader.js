@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {AppAsideToggler, AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler} from '@coreui/react';
 import logo from '../../assets/img/brand/logo.png'
 import favicon from '../../assets/img/brand/favicon.png'
-import BackendStatusCard from "../../views/BackendStatusCard/BackendStatusCard";
+import BackendStatusCard from "../../views/Base/BackendStatusCard/BackendStatusCard";
 
 const propTypes = {
     children: PropTypes.node,

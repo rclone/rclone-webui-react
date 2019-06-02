@@ -1,7 +1,17 @@
 import React from "react";
-import axiosInstance from "../../utils/API";
+import axiosInstance from "../../../utils/API";
 import {Button, Card, CardBody, CardHeader} from "reactstrap";
-import "../../utils/Global.js";
+import "../../../utils/Global.js";
+import PropTypes from "prop-types";
+import BandwidthStatusCard from "../BandwidthStatusCard/BandwidthStatusCard";
+
+const propTypes = {
+    mode: PropTypes.string,
+};
+
+const defaultProps = {
+    mode: "card",
+};
 
 class BackendStatusCard extends React.Component {
 
@@ -45,7 +55,7 @@ class BackendStatusCard extends React.Component {
             return (
 
                 <Card
-                    className={"                          atext-center " + (connectivityStatus ? "card-accent-info" : "card-accent-warning")}>
+                    className={"text-center " + (connectivityStatus ? "card-accent-info" : "card-accent-warning")}>
                     <CardHeader>
                         rclone status
                     </CardHeader>
@@ -75,5 +85,9 @@ function StatusText({connectivityStatus, ipAddress}) {
         )
     }
 }
+
+BandwidthStatusCard.propTypes = propTypes;
+BandwidthStatusCard.defaultProps = defaultProps;
+
 
 export default BackendStatusCard;

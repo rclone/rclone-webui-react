@@ -1,6 +1,14 @@
 import React from "react";
 import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
+import PropTypes from "prop-types";
 
+const propTypes = {
+    isVisible: PropTypes.bool,
+};
+
+const defaultProps = {
+    isVisible: true,
+};
 
 class NewDriveAuthModal extends React.Component {
     constructor(props) {
@@ -37,5 +45,9 @@ class NewDriveAuthModal extends React.Component {
         );
     }
 }
+
+NewDriveAuthModal.propTypes = propTypes;
+NewDriveAuthModal.defaultProps = defaultProps;
+
 
 export default NewDriveAuthModal;

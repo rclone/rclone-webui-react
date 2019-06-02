@@ -1,15 +1,17 @@
 import React from 'react';
 import {Col, Row} from "reactstrap";
-import BackendStatusCard from "../BackendStatusCard/BackendStatusCard";
+import BackendStatusCard from "../Base/BackendStatusCard/BackendStatusCard";
 import "../../utils/Global";
-import BandwidthStatusCard from "../BandwidthStatusCard/BandwidthStatusCard";
+import BandwidthStatusCard from "../Base/BandwidthStatusCard/BandwidthStatusCard";
+import RunningJobs from "../Base/RunningJobs";
 
 class Home extends React.Component {
 
 
     render() {
         return (<div>
-            <p>Welcome to Rclone dashboard. Begin by creating a new drive from the left sidebar.</p>
+            <h2>Welcome to Rclone dashboard. </h2>
+            <p>Begin by creating a new remote config from the left sidebar.</p>
             <Row>
                 <Col lg={4} sm={12}>
                     <BackendStatusCard ipAddress={global.ipAddress} mode={"card"}/>
@@ -18,6 +20,10 @@ class Home extends React.Component {
                     <BandwidthStatusCard/>
                 </Col>
             </Row>
+            <h2>Jobs</h2>
+
+            <RunningJobs/>
+
         </div>);
     }
 }
