@@ -4,7 +4,7 @@ import "../../../utils/Global";
 import CardHeader from "reactstrap/es/CardHeader";
 import CardBody from "reactstrap/es/CardBody";
 import axiosInstance from "../../../utils/API";
-import {bpsToMbps, bytesToMB, secondsToMinutesHourString} from "../../../utils/Tools";
+import {bpsToMbps, bytesToMB, formatBytes, secondsToStr} from "../../../utils/Tools";
 
 const propTypes = {};
 
@@ -19,7 +19,7 @@ function JobCard({job}) {
             <p><strong>Average Speed: </strong>{bpsToMbps(speedAvg)} Mbps</p> {/*speedAvg*/}
             <p><strong>Total transferred: </strong>{bytesToMB(bytes)} MB</p> {/*bytes: convert to mb*/}
             <p><strong>Size: </strong>{bytesToMB(size)} bytes</p>
-            <p><strong>ETA: </strong>{secondsToMinutesHourString(eta)} seconds</p>
+            <p><strong>ETA: </strong>{secondsToStr(eta)} seconds</p>
         </CardBody>
 
     </Card>);
@@ -28,21 +28,22 @@ function JobCard({job}) {
 
 function GlobalStatus({stats}) {
     const {speed, bytes, checks, elapsedTime, deletes, errors, transfers} = stats;
-    return (<Card>
-        <CardHeader><strong>Global Stats</strong></CardHeader>
-        <CardBody>
-            <p><strong>Bytes Transferred: </strong>{bytesToMB(bytes)} MB</p>
-            <p><strong>Average Speed: </strong>{bpsToMbps(speed)} Mbps</p>
-            <p><strong>Checks: </strong>{checks}</p>
-            <p><strong>Deletes: </strong>{deletes}</p>
-            <p><strong>Running since: </strong>{secondsToMinutesHourString(elapsedTime)}</p>
-            <p><strong>Errors: </strong>{errors}</p>
-            <p><strong>Transfers: </strong>{transfers}</p>
+    return (
+        <Card>
+            <CardHeader><strong>Global Stats</strong></CardHeader>
+            <CardBody>
+                <p><strong>Bytes Transferred: </strong>{formatBytes(bytes)}</p>
+                <p><strong>Average Speed: </strong>{formatBytes(speed)}PS</p>
+                <p><strong>Checks: </strong>{checks}</p>
+                <p><strong>Deletes: </strong>{deletes}</p>
+                <p><strong>Running since: </strong>{secondsToStr(elapsedTime)}</p>
+                <p><strong>Errors: </strong>{errors}</p>
+                <p><strong>Transfers: </strong>{transfers}</p>
 
-        </CardBody>
-        {/*<CardFooter></CardFooter>*/}
+            </CardBody>
+            {/*<CardFooter></CardFooter>*/}
 
-    </Card>);
+        </Card>);
 
 }
 

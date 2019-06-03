@@ -15,5 +15,10 @@ export default {
             url: '/showconfig',
             icon: 'icon-speedometer'
         },
+        {
+            name: 'Explorer',
+            url: '/remoteExplorer',
+            icon: 'icon-speedometer'
+        },
     ],
 };

@@ -23,6 +23,26 @@ function DriveParameters({driveType, loadAdvanced, changeHandler, currentValues,
         const inputsMap = config[driveType].Options;
         // console.log("current values" + currentValues);
 
+        /* Options format is as follows
+        {
+					"Advanced": true,
+					"Default": -1,
+					"DefaultStr": "off",
+					"Help": "If Object's are greater, use drive v2 API to download.",
+					"Hide": 0,
+					"IsPassword": false,
+					"Name": "v2_download_min_size",
+					"NoPrefix": false,
+					"Provider": "",
+					"Required": false,
+					"ShortOpt": "",
+					"Type": "SizeSuffix",
+					"Value": null,
+					"ValueStr": "off"
+				},
+
+		*/
+
         let outputMap = inputsMap.map((attr, idx) => {
             if ((loadAdvanced && attr.Advanced) || (!loadAdvanced && !attr.Advanced)) {
                 const labelValue = `${attr.Help}`;
@@ -32,6 +52,8 @@ function DriveParameters({driveType, loadAdvanced, changeHandler, currentValues,
                 let examplesMap = null;
 
                 let inputType = "";
+
+
                 if (attr.IsPassword) {
                     inputType = "password";
                 } else if (hasExamples) {
@@ -39,15 +61,24 @@ function DriveParameters({driveType, loadAdvanced, changeHandler, currentValues,
                     examplesMap = attr.Examples.map((ex1, id1) => {
                         return (<option key={"option" + id1} value={ex1.Value}>{ex1.Help}</option>);
                     })
-                } else if (attr.Default === true || attr.Default === false) {
+                } else if (attr.Type === "bool") {
                     inputType = "select";
                     examplesMap = [
                         (<option key={1} value={true}>Yes</option>),
                         (<option key={2} value={false}>No</option>)
                     ];
                 } else {
-                    inputType = "text";
+                    // TODO: Write logic for SizeSuffix, Duration, int
+                    if (attr.Type === "int") {
+                        inputType = "number";
+                    } else if (attr.Type === "string") {
+                        inputType = "text";
+                    } else {
+                        inputType = "text";
+                    }
+
                 }
+
 
                 return (
                     <FormGroup key={idx} row>
@@ -74,9 +105,9 @@ function DriveParameters({driveType, loadAdvanced, changeHandler, currentValues,
 }
 
 function DriveTypes({config}) {
-    console.log(config);
+    // console.log(config);
     let configMap = config.map((drive, idx) => (
-        <option key={idx} value={idx}>{drive.Description}</option>
+        <option key={drive.Prefix} value={idx}>{drive.Description}</option>
     ));
     return configMap;
 }
@@ -89,7 +120,7 @@ function CustomInput({key, id, label, changeHandler, type, value, name, placehol
                 <Input type={type} value={value} name={name} placeholder={placeholder}
                        id={id} onChange={changeHandler} valid={isValid} invalid={!isValid} required/>
                 <FormFeedback valid>Sweet! that name is available</FormFeedback>
-                <FormFeedback>Sad! That name is already assigned</FormFeedback>
+                <FormFeedback>Sad! That name is already assigned or empty</FormFeedback>
             </Col>
         </FormGroup>);
 }
@@ -109,6 +140,7 @@ class NewDrive extends React.Component {
 
             advancedOptions: false,
             formValues: {},
+            formValuesValid: {},
             authModalIsVisible: false,
 
             driveType: "",
@@ -118,7 +150,11 @@ class NewDrive extends React.Component {
             config: []
 
         };
+        this.configCheckInterval = null;
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.toggleAuthModal = this.toggleAuthModal.bind(this);
+        this.startAuthentication = this.startAuthentication.bind(this);
+        this.checkConfigStatus = this.checkConfigStatus.bind(this);
     }
 
     toggle = (e) => {
@@ -126,6 +162,26 @@ class NewDrive extends React.Component {
 
         this.setState({[name]: !this.state[name]})
     };
+
+    // Returns true or false based on whether the config is created
+    async checkConfigStatus() {
+        const {driveName} = this.state;
+
+        try {
+            let res = await axiosInstance.post("/config/get", {name: driveName});
+            console.log(res);
+
+            if (!isEmpty(res.data)) {
+                // Config is created, clear the interval and hide modal
+                clearInterval(this.configCheckInterval);
+                this.configCheckInterval = null;
+                this.toggleAuthModal();
+
+            }
+        } catch (e) {
+            console.log(`Error occurred while checking for config: ${e}`);
+        }
+    }
 
     handleInputChange = (e) => {
         let new_prod_diff = this.state.formValues;
@@ -145,7 +201,7 @@ class NewDrive extends React.Component {
         let drivePrefix = "";
         if (val !== undefined && val !== "") {
             config[val].Options.forEach(item => {
-                availableOptions[item.Name] = item.Default;
+                availableOptions[item.Name] = item.DefaultStr;
             });
             drivePrefix = config[val].Prefix;
         }
@@ -181,6 +237,23 @@ class NewDrive extends React.Component {
         return flag;
     }
 
+    toggleAuthModal() {
+        this.setState((state, props) => {
+            return {authModalIsVisible: !state.authModalIsVisible}
+        })
+    }
+
+    startAuthentication() {
+        this.toggleAuthModal();
+        // Check every second if the config is created
+        if (this.configCheckInterval === null) {
+            this.configCheckInterval = setInterval(this.checkConfigStatus, 1000);
+        } else {
+            console.error("Interval already running. Should not start a new one");
+        }
+
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         console.log("Submitted form");
@@ -189,13 +262,9 @@ class NewDrive extends React.Component {
 
         if (this.validateForm()) {
             console.log("Validated form");
-
-
             axiosInstance.post('/config/create', data).then((response) => {
-                // console.log(response); // ex.: { user: 'Your User'}
-                // console.log(response.status); // ex.: 200
                 //Show the Auth Modal
-                this.setState({authModalIsVisible: true});
+                this.startAuthentication();
             }, (err) => {
                 console.log("Error" + err);
             });
@@ -240,11 +309,9 @@ class NewDrive extends React.Component {
     };
 
 
-    // TODO: Get providers by dynamic call to the backend and remove static config file
     async getProviders() {
         try {
             let res = await axiosInstance.post("/config/providers");
-            // console.log(res);
             this.setState({config: res.data.providers});
         } catch (e) {
             console.log(`Error getting the provider details: ${e}`);
@@ -254,6 +321,12 @@ class NewDrive extends React.Component {
 
     componentDidMount() {
         this.getProviders();
+    }
+
+
+    componentWillUnmount() {
+        clearInterval(this.configCheckInterval);
+        this.configCheckInterval = null;
     }
 
     render() {
@@ -372,7 +445,7 @@ class NewDrive extends React.Component {
                         </div>
                     </div>
                 </Form>
-                <NewDriveAuthModal isVisible={this.state.authModalIsVisible}/>
+                <NewDriveAuthModal isVisible={this.state.authModalIsVisible} closeModal={this.toggleAuthModal}/>
             </div>);
     }
 }

@@ -9,8 +9,8 @@ function RemoteRows({remotes, refreshHandle}) {
     let returnMap = [];
     let curKey = 1;
     for (const [key, value] of Object.entries(remotes)) {
-        returnMap.push((<ConfigRow sequenceNumber={curKey} key={curKey} remoteName={key} remote={value}
-                                   refreshHandle={refreshHandle}/>))
+        returnMap.push((<ConfigRow sequenceNumber={curKey} key={key} remoteName={key} remote={value}
+                                   refreshHandle={refreshHandle}/>));
         curKey++;
     }
     // return remotes.map((item, idx) => {
