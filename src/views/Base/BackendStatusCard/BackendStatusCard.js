@@ -13,7 +13,7 @@ const defaultProps = {
     mode: "card",
 };
 
-class BackendStatusCard extends React.Component {
+class BackendStatusCard extends React.PureComponent {
 
     constructor(props, context) {
         super(props, context);

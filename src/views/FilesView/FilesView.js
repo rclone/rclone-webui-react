@@ -5,9 +5,10 @@ import PropTypes from "prop-types";
 import axiosInstance from "../../utils/API";
 
 const propTypes = {
-    remoteName: PropTypes.string.isRequired,
-    remotePath: PropTypes.string.isRequired,
+    // remoteName: PropTypes.string.isRequired,
+    // remotePath: PropTypes.string.isRequired,
     updateRemotePathHandle: PropTypes.func.isRequired,
+    upButtonHandle: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -26,13 +27,18 @@ function FileIcon({IsDir, MimeType}) {
         className = "fa-file-image-o";
     } else if (MimeType === "application/rar" || MimeType === "application/x-rar-compressed" || MimeType === " application/zip") {
         className = "fa-file-archive-o";
+    } else if (MimeType === "text/plain") {
+        className = "fa-file-text-o";
+    } else if (MimeType === "text/x-vcard") {
+        className = "fa-address-card-o";
     }
-    return <i className={className + " fa fa-lg mt-4"}/>;
+    return <i className={className + " fa fa-lg"}/>;
 }
 
 // TODO: Add mode parameter for card view or list view
-function FileComponent({item}) {
+function FileComponent({item, clickHandler}) {
     /*
+    MimeTypes: https://www.freeformatter.com/mime-types-list.html
     * {
     * For Directory
 			"ID": "18DsZ4ne6XV3qwDZQCBj2nAEwouFMxudB",
@@ -58,7 +64,7 @@ function FileComponent({item}) {
     * */
     const {IsDir, MimeType, ModTime, Name, Path, Size} = item;
     return (
-        <tr>
+        <tr onClick={() => clickHandler(item)}>
             <th><FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}</th>
             <td>{Size === -1 ? "NA" : formatBytes(Size, 2)}</td>
             {/*TODO: change the time format to required time using timezone as well*/}
@@ -67,14 +73,16 @@ function FileComponent({item}) {
     )
 }
 
-class FilesView extends React.Component {
+class FilesView extends React.PureComponent {
 
     constructor(props) {
         super(props);
         this.state = {
             filesList: [],
-            isLoading: false,
-        }
+            isLoading: false
+        };
+
+        this.handleFileClick = this.handleFileClick.bind(this);
     }
 
     componentDidMount() {
@@ -88,6 +96,15 @@ class FilesView extends React.Component {
         if (prevProps.remoteName !== remoteName || prevProps.remotePath !== remotePath) {
             this.getFilesList();
         }
+    }
+
+    handleFileClick(item) {
+        const {Path, IsDir} = item;
+        console.log("Clicked" + Path);
+        if (IsDir) {
+            this.props.updateRemotePathHandle(Path);
+        }
+
     }
 
 
@@ -116,12 +133,12 @@ class FilesView extends React.Component {
     render() {
         const {isLoading} = this.state;
         if (isLoading) {
-            return (<div>Loading</div>);
+            return (<div><i className={"fa fa-circle-o-notch fa-lg"}/> Loading</div>);
         } else {
             const {filesList} = this.state;
             if (filesList.length > 0) {
                 let fileComponentMap = filesList.map((item, idx) => {
-                    return (<FileComponent key={item.ID} item={item}/>)
+                    return (<FileComponent key={item.ID} item={item} clickHandler={this.handleFileClick}/>)
                 });
                 return (
                     <Table>
@@ -133,13 +150,20 @@ class FilesView extends React.Component {
                         </tr>
                         </thead>
                         <tbody>
+                        <tr onClick={() => {
+                            this.props.upButtonHandle()
+                        }}>
+                            <th><i className={"fa fa-file-o"}/> Go Back</th>
+                            <td></td>
+                            <td></td>
+                        </tr>
                         {fileComponentMap}
                         </tbody>
                     </Table>
 
                 );
             } else if (this.state.remoteName === "") {
-                return (<div>No remote is selected. Select a remote from above to show files</div>);
+                return (<div>No remote is selected. Select a remote from above to show files.</div>);
             } else {
                 return (<div>No files to display</div>);
             }
