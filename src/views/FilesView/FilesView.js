@@ -73,6 +73,16 @@ function FileComponent({item, clickHandler}) {
     )
 }
 
+function UpRowComponent({upButtonHandle}) {
+    return (<tr onClick={() => {
+        upButtonHandle()
+    }}>
+        <th><i className={"fa fa-file-o"}/> Go Up</th>
+        <td></td>
+        <td></td>
+    </tr>);
+}
+
 class FilesView extends React.PureComponent {
 
     constructor(props) {
@@ -130,6 +140,7 @@ class FilesView extends React.PureComponent {
         }
     }
 
+
     render() {
         const {isLoading} = this.state;
         if (isLoading) {
@@ -150,13 +161,7 @@ class FilesView extends React.PureComponent {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr onClick={() => {
-                            this.props.upButtonHandle()
-                        }}>
-                            <th><i className={"fa fa-file-o"}/> Go Back</th>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                        <UpRowComponent upButtonHandle={this.props.upButtonHandle}/>
                         {fileComponentMap}
                         </tbody>
                     </Table>

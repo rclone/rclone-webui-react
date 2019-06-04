@@ -67,7 +67,7 @@ class RemoteExplorer extends React.Component {
                 </Card>
                 <Card>
                     <CardHeader>
-                        Files
+                        Files: {remoteName}
                     </CardHeader>
                     <CardBody className="pl-5 pr-5">
                         <Row>
