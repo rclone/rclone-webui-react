@@ -3,8 +3,9 @@ import Table from "reactstrap/es/Table";
 import {formatBytes} from "../../utils/Tools";
 import PropTypes from "prop-types";
 import axiosInstance from "../../utils/API";
-import {Button} from "reactstrap";
+import {Alert, Button} from "reactstrap";
 import "../../utils/Global";
+
 
 const propTypes = {
     // remoteName: PropTypes.string.isRequired,
@@ -38,7 +39,7 @@ function FileIcon({IsDir, MimeType}) {
 }
 
 // TODO: Add mode parameter for card view or list view
-function FileComponent({item, clickHandler, downloadHandler}) {
+function FileComponent({item, clickHandler, downloadHandle}) {
     /*
     MimeTypes: https://www.freeformatter.com/mime-types-list.html
     * {
@@ -64,10 +65,10 @@ function FileComponent({item, clickHandler, downloadHandler}) {
 		},
 
     * */
-    const {IsDir, MimeType, ModTime, Name, Path, Size} = item;
+    const {IsDir, MimeType, ModTime, Name, Size} = item;
     let actions = "";
     if (!IsDir) {
-        actions = <Button block color="link" onClick={() => downloadHandler(item)}><i
+        actions = <Button block color="link" onClick={() => downloadHandle(item)}><i
             className={"fa fa-cloud-download fa-lg"}/></Button>;
     }
     return (
@@ -99,11 +100,13 @@ class FilesView extends React.PureComponent {
         super(props);
         this.state = {
             filesList: [],
-            isLoading: false
+            isLoading: false,
+            isDownloadProgress: false,
+            downloadingItems: 0,
         };
 
         this.handleFileClick = this.handleFileClick.bind(this);
-        this.downloadHandler = this.downloadHandler.bind(this);
+        this.downloadHandle = this.downloadHandle.bind(this);
     }
 
     componentDidMount() {
@@ -121,9 +124,12 @@ class FilesView extends React.PureComponent {
 
     handleFileClick(e, item) {
         const {Path, IsDir} = item;
+        const {updateRemotePathHandle} = this.props;
         console.log("Clicked" + Path);
         if (IsDir) {
-            this.props.updateRemotePathHandle(Path);
+            updateRemotePathHandle(Path);
+        } else {
+            this.downloadHandle(item);
         }
 
     }
@@ -151,7 +157,7 @@ class FilesView extends React.PureComponent {
         }
     }
 
-    async downloadHandler(item) {
+    async downloadHandle(item) {
         let {remoteName, remotePath} = this.props;
         // let globalBase = global.ipAddress;
 
@@ -160,6 +166,13 @@ class FilesView extends React.PureComponent {
         // }
         const downloadUrl = `/[${remoteName}:${remotePath}]/${item.Name}`;
         // openInNewTab(downloadUrl);
+
+        this.setState((prevState) => {
+            return {
+                downloadingItems: prevState.downloadingItems + 1,
+                isDownloadProgress: true
+            };
+        });
 
         let response = await axiosInstance({
             url: downloadUrl,
@@ -173,7 +186,21 @@ class FilesView extends React.PureComponent {
         link.setAttribute('download', item.Name);
         document.body.appendChild(link);
         link.click();
+
+        this.setState((prevState) => {
+            return {
+                downloadingItems: prevState.downloadingItems - 1,
+            };
+        }, () => {
+            if (this.state.downloadingItems === 0) {
+                this.setState({isDownloadProgress: false})
+            }
+        });
     }
+
+    dismissAlert = (e) => {
+        this.setState({isDownloadProgress: false});
+    };
 
 
     render() {
@@ -181,27 +208,37 @@ class FilesView extends React.PureComponent {
         if (isLoading) {
             return (<div><i className={"fa fa-circle-o-notch fa-lg"}/> Loading</div>);
         } else {
+
             const {filesList} = this.state;
             if (filesList.length > 0) {
                 let fileComponentMap = filesList.map((item, idx) => {
                     return (<FileComponent key={item.ID} item={item} clickHandler={this.handleFileClick}
-                                           downloadHandler={this.downloadHandler}/>)
+                                           downloadHandle={this.downloadHandle}/>)
                 });
                 return (
-                    <Table>
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Size</th>
-                            <th>Modified</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <UpRowComponent upButtonHandle={this.props.upButtonHandle}/>
-                        {fileComponentMap}
-                        </tbody>
-                    </Table>
+                    <React.Fragment>
+                        <Alert color="info" isOpen={this.state.isDownloadProgress} toggle={this.dismissAlert} sm={12}
+                               lg={12}>
+                            Downloading {this.state.downloadingItems} file(s). Please wait.
+                        </Alert>
+
+                        <Table sm={12} lg={12}>
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Size</th>
+                                <th>Modified</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <UpRowComponent upButtonHandle={this.props.upButtonHandle}/>
+                            {fileComponentMap}
+                            </tbody>
+                        </Table>
+
+
+                    </React.Fragment>
 
                 );
             } else if (this.state.remoteName === "") {

@@ -6,6 +6,7 @@ import CardHeader from "reactstrap/es/CardHeader";
 import RemotesList from "../RemotesList";
 import FilesView from "../FilesView/FilesView";
 import BackStack from "../../utils/BackStack";
+import ScrollableDiv from "../Base/ScrollableDiv/ScrollableDiv";
 
 
 const propTypes = {};
@@ -58,26 +59,33 @@ class RemoteExplorer extends React.Component {
     render() {
         const {remoteName, remotePath} = this.state.backStack.peek();
         return (
-            <div>
+            <React.Fragment>
+                {/*Render remotes array*/}
                 <Card>
                     <CardHeader>Remotes</CardHeader>
                     <CardBody>
-                        <RemotesList updateRemoteNameHandle={this.updateRemoteName}/>
+                        <ScrollableDiv height={"200px"}>
+                            <RemotesList updateRemoteNameHandle={this.updateRemoteName}/>
+                        </ScrollableDiv>
                     </CardBody>
                 </Card>
+
+                {/*Render the files in the selected remote*/}
                 <Card>
                     <CardHeader>
                         Files: {remoteName}
                     </CardHeader>
-                    <CardBody className="pl-5 pr-5">
-                        <Row>
-                            <FilesView remoteName={remoteName} remotePath={remotePath}
-                                       updateRemotePathHandle={this.updateRemotePath}
-                                       upButtonHandle={this.buttonUpPressed}/>
-                        </Row>
+                    <CardBody>
+                        <ScrollableDiv height={"500px"}>
+                            <Row className={"mr-1 ml-1"}>
+                                <FilesView remoteName={remoteName} remotePath={remotePath}
+                                           updateRemotePathHandle={this.updateRemotePath}
+                                           upButtonHandle={this.buttonUpPressed}/>
+                            </Row>
+                        </ScrollableDiv>
                     </CardBody>
                 </Card>
-            </div>
+            </React.Fragment>
         );
     }
 

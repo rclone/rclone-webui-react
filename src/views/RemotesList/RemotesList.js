@@ -50,16 +50,17 @@ class RemotesList extends React.Component {
         if (isEmpty) {
             return (
                 <div>
-                    Add some remotes to see them here <span role={"img"}>&#128512;</span>.
+                    Add some remotes to see them here <span role="img" aria-label="sheep">🐑</span>.
                 </div>);
         } else {
             let remotesMap = remotes.map((item, idx) => {
                 return (
-                    <Col key={item} xs={12} sm={6} lg={4}>
+                    <Col key={item} xs={12} sm={6} lg={3}>
                         <Card>
                             <CardBody>
-                                <p><strong>Name:</strong> {item}</p>
-                                <p><Button onClick={() => updateRemoteNameHandle(item)}>Open</Button></p>
+                                <p><strong>Name:</strong> {item} <Button color={"info"}
+                                                                         onClick={() => updateRemoteNameHandle(item)}>Open</Button>
+                                </p>
                             </CardBody>
                         </Card>
                     </Col>

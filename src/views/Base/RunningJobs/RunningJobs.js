@@ -4,9 +4,12 @@ import "../../../utils/Global";
 import CardHeader from "reactstrap/es/CardHeader";
 import CardBody from "reactstrap/es/CardBody";
 import axiosInstance from "../../../utils/API";
-import {bpsToMbps, bytesToMB, formatBytes, secondsToStr} from "../../../utils/Tools";
+import {formatBytes, secondsToStr} from "../../../utils/Tools";
+import PropTypes from "prop-types";
 
-const propTypes = {};
+const propTypes = {
+    mode: PropTypes.string.isRequired
+};
 
 function JobCard({job}) {
     const {name, eta, percentage, speed, speedAvg, size, bytes} = job;
@@ -15,10 +18,10 @@ function JobCard({job}) {
         <CardBody>
             <p>{name}</p> {/*Name of the file*/}
             <Progress value={percentage} className={"mb-2"}>{percentage} %</Progress> {/*percentage*/}
-            <p><strong>Speed: </strong>{bpsToMbps(speed)} Mbps</p> {/*speed*/}
-            <p><strong>Average Speed: </strong>{bpsToMbps(speedAvg)} Mbps</p> {/*speedAvg*/}
-            <p><strong>Total transferred: </strong>{bytesToMB(bytes)} MB</p> {/*bytes: convert to mb*/}
-            <p><strong>Size: </strong>{bytesToMB(size)} bytes</p>
+            <p><strong>Speed: </strong>{formatBytes(speed)}PS</p> {/*speed*/}
+            <p><strong>Average Speed: </strong>{formatBytes(speedAvg)}PS</p> {/*speedAvg*/}
+            <p><strong>Total transferred: </strong>{formatBytes(bytes)}</p> {/*bytes: convert to mb*/}
+            <p><strong>Size: </strong>{formatBytes(size)}</p>
             <p><strong>ETA: </strong>{secondsToStr(eta)} seconds</p>
         </CardBody>
 
@@ -90,15 +93,18 @@ class RunningJobs extends React.Component {
     render() {
         const {jobs} = this.state;
         const {transferring} = jobs;
-        return (
-            <Row>
-                <Col sm={12} lg={4}>
-                    <GlobalStatus stats={jobs}/>
-                </Col>
-                <Col sm={12} lg={4}>
-                    <TransferringJobs transferring={transferring}/>
-                </Col>
-            </Row>);
+        const {mode} = this.props;
+        if (mode === "full-status") {
+            return (
+                <Row>
+                    <Col sm={12} lg={4}>
+                        <GlobalStatus stats={jobs}/>
+                    </Col>
+                    <Col sm={12} lg={4}>
+                        <TransferringJobs transferring={transferring}/>
+                    </Col>
+                </Row>);
+        }
 
     }
 }

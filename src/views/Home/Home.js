@@ -22,7 +22,7 @@ class Home extends React.Component {
             </Row>
             <h2>Jobs</h2>
 
-            <RunningJobs/>
+            <RunningJobs mode={"full-status"}/>
 
         </div>);
     }
