@@ -3,6 +3,8 @@ import Table from "reactstrap/es/Table";
 import {formatBytes} from "../../utils/Tools";
 import PropTypes from "prop-types";
 import axiosInstance from "../../utils/API";
+import {Button} from "reactstrap";
+import "../../utils/Global";
 
 const propTypes = {
     // remoteName: PropTypes.string.isRequired,
@@ -36,7 +38,7 @@ function FileIcon({IsDir, MimeType}) {
 }
 
 // TODO: Add mode parameter for card view or list view
-function FileComponent({item, clickHandler}) {
+function FileComponent({item, clickHandler, downloadHandler}) {
     /*
     MimeTypes: https://www.freeformatter.com/mime-types-list.html
     * {
@@ -63,12 +65,18 @@ function FileComponent({item, clickHandler}) {
 
     * */
     const {IsDir, MimeType, ModTime, Name, Path, Size} = item;
+    let actions = "";
+    if (!IsDir) {
+        actions = <Button block color="link" onClick={() => downloadHandler(item)}><i
+            className={"fa fa-cloud-download fa-lg"}/></Button>;
+    }
     return (
-        <tr onClick={() => clickHandler(item)}>
-            <th><FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}</th>
+        <tr className={"pointer-cursor"}>
+            <th onClick={(e) => clickHandler(e, item)}><FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}</th>
             <td>{Size === -1 ? "NA" : formatBytes(Size, 2)}</td>
             {/*TODO: change the time format to required time using timezone as well*/}
             <td>{ModTime}</td>
+            <td>{actions}</td>
         </tr>
     )
 }
@@ -76,8 +84,10 @@ function FileComponent({item, clickHandler}) {
 function UpRowComponent({upButtonHandle}) {
     return (<tr onClick={() => {
         upButtonHandle()
-    }}>
+    }} className={"pointer-cursor"}>
+
         <th><i className={"fa fa-file-o"}/> Go Up</th>
+        <td></td>
         <td></td>
         <td></td>
     </tr>);
@@ -93,6 +103,7 @@ class FilesView extends React.PureComponent {
         };
 
         this.handleFileClick = this.handleFileClick.bind(this);
+        this.downloadHandler = this.downloadHandler.bind(this);
     }
 
     componentDidMount() {
@@ -108,7 +119,7 @@ class FilesView extends React.PureComponent {
         }
     }
 
-    handleFileClick(item) {
+    handleFileClick(e, item) {
         const {Path, IsDir} = item;
         console.log("Clicked" + Path);
         if (IsDir) {
@@ -140,6 +151,30 @@ class FilesView extends React.PureComponent {
         }
     }
 
+    async downloadHandler(item) {
+        let {remoteName, remotePath} = this.props;
+        // let globalBase = global.ipAddress;
+
+        // if (remoteName[-1] !== ":") {
+        //     remoteName = remoteName + ":"
+        // }
+        const downloadUrl = `/[${remoteName}:${remotePath}]/${item.Name}`;
+        // openInNewTab(downloadUrl);
+
+        let response = await axiosInstance({
+            url: downloadUrl,
+            method: 'GET',
+            responseType: 'blob',
+        });
+
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', item.Name);
+        document.body.appendChild(link);
+        link.click();
+    }
+
 
     render() {
         const {isLoading} = this.state;
@@ -149,7 +184,8 @@ class FilesView extends React.PureComponent {
             const {filesList} = this.state;
             if (filesList.length > 0) {
                 let fileComponentMap = filesList.map((item, idx) => {
-                    return (<FileComponent key={item.ID} item={item} clickHandler={this.handleFileClick}/>)
+                    return (<FileComponent key={item.ID} item={item} clickHandler={this.handleFileClick}
+                                           downloadHandler={this.downloadHandler}/>)
                 });
                 return (
                     <Table>
@@ -158,6 +194,7 @@ class FilesView extends React.PureComponent {
                             <th>Name</th>
                             <th>Size</th>
                             <th>Modified</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>

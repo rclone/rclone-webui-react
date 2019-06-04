@@ -5,7 +5,7 @@ import CardBody from "reactstrap/es/CardBody";
 import CardHeader from "reactstrap/es/CardHeader";
 import RemotesList from "../RemotesList";
 import FilesView from "../FilesView/FilesView";
-import BackStack from "../FilesView/BackStack";
+import BackStack from "../../utils/BackStack";
 
 
 const propTypes = {};

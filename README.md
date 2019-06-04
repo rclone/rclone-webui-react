@@ -18,6 +18,17 @@ The project currently requires you to install and configure react and npm to run
   npm start
 ```
 
+### Run Rclone
+You have to run rclone with the following flags:
+```
+    rclone rc --rc-no-auth --rc-serve
+
+```
+
+--rc-no-auth: skips authentication for authenticated calls.
+
+--rc-serve:  It serves the remote objects at localhost:5572/[remoteName:remotePath]/path/to/file. It enables us to download files via the RemoteExplorer through the browser.
+
 ## Progress
 
 For the progress and future implementation details please refer Progress.md

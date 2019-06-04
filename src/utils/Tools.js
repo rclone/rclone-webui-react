@@ -104,4 +104,8 @@ export function validateDuration(str) {
     return baseValidator(regex, str);
 }
 
+export function openInNewTab(url) {
+    let win = window.open(url, '_blank');
+    win.focus();
+}
 export default isEmpty;
