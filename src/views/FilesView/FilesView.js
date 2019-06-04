@@ -16,7 +16,18 @@ const defaultProps = {
 
 // TODO: return a file-icon based on the directory and mimeType attribute
 function FileIcon({IsDir, MimeType}) {
-    return null;
+    let className = "fa-file";
+    if (IsDir) {
+        className = "fa-folder";
+    }
+    if (MimeType === "application/pdf") {
+        className = "fa-file-pdf-o";
+    } else if (MimeType === "image/jpeg") {
+        className = "fa-file-image-o";
+    } else if (MimeType === "application/rar" || MimeType === "application/x-rar-compressed" || MimeType === " application/zip") {
+        className = "fa-file-archive-o";
+    }
+    return <i className={className + " fa fa-lg mt-4"}/>;
 }
 
 // TODO: Add mode parameter for card view or list view
