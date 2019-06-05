@@ -3,13 +3,12 @@ import Table from "reactstrap/es/Table";
 import {formatBytes} from "../../utils/Tools";
 import PropTypes from "prop-types";
 import axiosInstance from "../../utils/API";
-import {Alert, Button} from "reactstrap";
+import {Alert, Button, Col} from "reactstrap";
 import "../../utils/Global";
+import FileOperations from "../Base/NewFolder/FileOperations";
 
 
 const propTypes = {
-    // remoteName: PropTypes.string.isRequired,
-    // remotePath: PropTypes.string.isRequired,
     updateRemotePathHandle: PropTypes.func.isRequired,
     upButtonHandle: PropTypes.func.isRequired
 };
@@ -73,6 +72,7 @@ function FileComponent({item, clickHandler, downloadHandle}) {
     }
     return (
         <tr className={"pointer-cursor"}>
+            <td><input type="checkbox"/></td>
             <th onClick={(e) => clickHandler(e, item)}><FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}</th>
             <td>{Size === -1 ? "NA" : formatBytes(Size, 2)}</td>
             {/*TODO: change the time format to required time using timezone as well*/}
@@ -86,12 +86,16 @@ function UpRowComponent({upButtonHandle}) {
     return (<tr onClick={() => {
         upButtonHandle()
     }} className={"pointer-cursor"}>
-
-        <th><i className={"fa fa-file-o"}/> Go Up</th>
+        <td></td>
+        <td><i className={"fa fa-file-o"}/> Go Up...</td>
         <td></td>
         <td></td>
         <td></td>
     </tr>);
+}
+
+function ActionButtonsComponent(props) {
+
 }
 
 class FilesView extends React.PureComponent {
@@ -210,44 +214,49 @@ class FilesView extends React.PureComponent {
         } else {
 
             const {filesList} = this.state;
-            if (filesList.length > 0) {
-                let fileComponentMap = filesList.map((item, idx) => {
-                    return (<FileComponent key={item.ID} item={item} clickHandler={this.handleFileClick}
-                                           downloadHandle={this.downloadHandle}/>)
-                });
-                return (
-                    <React.Fragment>
-                        <Alert color="info" isOpen={this.state.isDownloadProgress} toggle={this.dismissAlert} sm={12}
-                               lg={12}>
-                            Downloading {this.state.downloadingItems} file(s). Please wait.
-                        </Alert>
-
-                        <Table sm={12} lg={12}>
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Size</th>
-                                <th>Modified</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <UpRowComponent upButtonHandle={this.props.upButtonHandle}/>
-                            {fileComponentMap}
-                            </tbody>
-                        </Table>
-
-
-                    </React.Fragment>
-
-                );
-            } else if (this.state.remoteName === "") {
+            if (this.props.remoteName === "") {
                 return (<div>No remote is selected. Select a remote from above to show files.</div>);
-            } else {
-                return (<div>No files to display</div>);
             }
+
+            let fileComponentMap = filesList.map((item, idx) => {
+                const {ID} = item;
+                return (<FileComponent key={ID} item={item} clickHandler={this.handleFileClick}
+                                       downloadHandle={this.downloadHandle}/>)
+            });
+            return (
+                <React.Fragment>
+                    <Alert color="info" isOpen={this.state.isDownloadProgress} toggle={this.dismissAlert} sm={12}
+                           lg={12}>
+                        Downloading {this.state.downloadingItems} file(s). Please wait.
+                    </Alert>
+
+                    <Col sm={12}>
+                        <FileOperations/>
+                    </Col>
+
+
+                    <Table sm={12} lg={12}>
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Size</th>
+                            <th>Modified</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <UpRowComponent upButtonHandle={this.props.upButtonHandle}/>
+                        {filesList.length > 0 ? fileComponentMap : (<tr>
+                            <td>No files</td>
+                        </tr>)}
+                        </tbody>
+                    </Table>
+                </React.Fragment>
+            );
         }
     }
+
 }
 
 FilesView.propTypes = propTypes;

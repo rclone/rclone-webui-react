@@ -7,6 +7,7 @@ import RemotesList from "../RemotesList";
 import FilesView from "../FilesView/FilesView";
 import BackStack from "../../utils/BackStack";
 import ScrollableDiv from "../Base/ScrollableDiv/ScrollableDiv";
+import RemoteExplorerContext from "./RemoteExplorerContext";
 
 
 const propTypes = {};
@@ -59,7 +60,7 @@ class RemoteExplorer extends React.Component {
     render() {
         const {remoteName, remotePath} = this.state.backStack.peek();
         return (
-            <React.Fragment>
+            <RemoteExplorerContext.Provider value={{remoteName: remoteName, remotePath: remotePath}}>
                 {/*Render remotes array*/}
                 <Card>
                     <CardHeader>Remotes</CardHeader>
@@ -85,7 +86,7 @@ class RemoteExplorer extends React.Component {
                         </ScrollableDiv>
                     </CardBody>
                 </Card>
-            </React.Fragment>
+            </RemoteExplorerContext.Provider>
         );
     }
 

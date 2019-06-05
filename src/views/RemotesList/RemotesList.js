@@ -58,8 +58,8 @@ class RemotesList extends React.Component {
                     <Col key={item} xs={12} sm={6} lg={3}>
                         <Card>
                             <CardBody>
-                                <p><strong>Name:</strong> {item} <Button color={"info"}
-                                                                         onClick={() => updateRemoteNameHandle(item)}>Open</Button>
+                                <p><strong>Name:</strong> {item}
+                                    <Button color={"info"} onClick={() => updateRemoteNameHandle(item)}>Open</Button>
                                 </p>
                             </CardBody>
                         </Card>
