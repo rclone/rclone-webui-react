@@ -1,85 +1,30 @@
 import React from "react";
 import Table from "reactstrap/es/Table";
-import {formatBytes} from "../../utils/Tools";
 import PropTypes from "prop-types";
 import axiosInstance from "../../utils/API";
-import {Alert, Button, Col} from "reactstrap";
+import {Alert, Col} from "reactstrap";
 import "../../utils/Global";
 import FileOperations from "../Base/NewFolder/FileOperations";
+import {DropTarget} from "react-dnd";
+import FileComponent from "./FileComponent";
+import {ItemTypes} from "./Constants";
 
 
 const propTypes = {
     updateRemotePathHandle: PropTypes.func.isRequired,
-    upButtonHandle: PropTypes.func.isRequired
+    upButtonHandle: PropTypes.func.isRequired,
+    remotePath: PropTypes.string.isRequired
 };
 
 const defaultProps = {
     remotePath: "",
 };
 
-// TODO: return a file-icon based on the directory and mimeType attribute
-function FileIcon({IsDir, MimeType}) {
-    let className = "fa-file";
-    if (IsDir) {
-        className = "fa-folder";
+function addSemicolonAtLast(name) {
+    if (name[-1] !== ":") {
+        name = name + ":"
     }
-    if (MimeType === "application/pdf") {
-        className = "fa-file-pdf-o";
-    } else if (MimeType === "image/jpeg") {
-        className = "fa-file-image-o";
-    } else if (MimeType === "application/rar" || MimeType === "application/x-rar-compressed" || MimeType === " application/zip") {
-        className = "fa-file-archive-o";
-    } else if (MimeType === "text/plain") {
-        className = "fa-file-text-o";
-    } else if (MimeType === "text/x-vcard") {
-        className = "fa-address-card-o";
-    }
-    return <i className={className + " fa fa-lg"}/>;
-}
-
-// TODO: Add mode parameter for card view or list view
-function FileComponent({item, clickHandler, downloadHandle}) {
-    /*
-    MimeTypes: https://www.freeformatter.com/mime-types-list.html
-    * {
-    * For Directory
-			"ID": "18DsZ4ne6XV3qwDZQCBj2nAEwouFMxudB",
-			"IsDir": true,
-			"MimeType": "inode/directory",
-			"ModTime": "2019-02-12T14:23:33.440Z",
-			"Name": "two pass 28-1-19",
-			"Path": "two pass 28-1-19",
-			"Size": -1
-		},
-		*
-		* // For non-directory
-		* {
-			"ID": "1u4D6-UdxhJYY8AVd8FcTN2Tl73W1RXsk",
-			"IsDir": false,
-			"MimeType": "application/octet-stream",
-			"ModTime": "2018-11-18T13:14:54.068Z",
-			"Name": "streamlined-gdoc.gdoc",
-			"Path": "streamlined-gdoc.gdoc",
-			"Size": 173
-		},
-
-    * */
-    const {IsDir, MimeType, ModTime, Name, Size} = item;
-    let actions = "";
-    if (!IsDir) {
-        actions = <Button block color="link" onClick={() => downloadHandle(item)}><i
-            className={"fa fa-cloud-download fa-lg"}/></Button>;
-    }
-    return (
-        <tr className={"pointer-cursor"}>
-            <td><input type="checkbox"/></td>
-            <th onClick={(e) => clickHandler(e, item)}><FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}</th>
-            <td>{Size === -1 ? "NA" : formatBytes(Size, 2)}</td>
-            {/*TODO: change the time format to required time using timezone as well*/}
-            <td>{ModTime}</td>
-            <td>{actions}</td>
-        </tr>
-    )
+    return name;
 }
 
 function UpRowComponent({upButtonHandle}) {
@@ -94,11 +39,69 @@ function UpRowComponent({upButtonHandle}) {
     </tr>);
 }
 
-function ActionButtonsComponent(props) {
+async function performCopyFile(srcFs, srcRemote, dstFs, dstRemote, Name, IsDir) {
 
+    if (dstRemote === "") {
+        dstRemote = Name;
+    } else {
+        dstRemote += "/" + Name;
+    }
+
+
+    const data = {
+        srcFs: srcFs,
+        srcRemote: srcRemote,
+        dstFs: dstFs,
+        dstRemote: dstRemote,
+    };
+    try {
+        let res = await axiosInstance.post("/operations/copyfile", data);
+        console.log("Res", res);
+    } catch (e) {
+        console.log(`Error while copying file: ${e}`)
+    }
 }
 
-class FilesView extends React.PureComponent {
+const filesTarget = {
+    drop(props, monitor) {
+        console.log("drop", props, monitor.getItem());
+        let {Name, Path, IsDir, remoteName} = monitor.getItem();
+
+        let srcRemoteName = addSemicolonAtLast(remoteName);
+        let srcRemotePath = Path;
+        let destRemoteName = addSemicolonAtLast(props.remoteName);
+        let destRemotePath = props.remotePath;
+
+        performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+    }
+};
+
+function collect(connect, monitor) {
+    return {
+        connectDropTarget: connect.dropTarget(),
+        isOver: monitor.isOver()
+    }
+}
+
+function renderOverlay() {
+    return (
+        <div
+            style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                height: '100%',
+                width: '100%',
+                zIndex: 1,
+                opacity: 0.5,
+                backgroundColor: 'yellow',
+            }}
+        />
+    );
+}
+
+
+class FilesView extends React.Component {
 
     constructor(props) {
         super(props);
@@ -111,6 +114,7 @@ class FilesView extends React.PureComponent {
 
         this.handleFileClick = this.handleFileClick.bind(this);
         this.downloadHandle = this.downloadHandle.bind(this);
+        performCopyFile.bind(this);
     }
 
     componentDidMount() {
@@ -146,16 +150,16 @@ class FilesView extends React.PureComponent {
 
             console.log(remoteName, remotePath);
 
-            if (remoteName[-1] !== ":") {
-                remoteName = remoteName + ":"
-            }
+            remoteName = addSemicolonAtLast(remoteName);
+
+
             let data = {
                 fs: remoteName,
                 remote: remotePath
             };
             this.setState({isLoading: true});
             let res = await axiosInstance.post("/operations/list", data);
-            console.log(res);
+            // console.log(res);
 
             this.setState({filesList: res.data.list, isLoading: false});
         }
@@ -163,11 +167,7 @@ class FilesView extends React.PureComponent {
 
     async downloadHandle(item) {
         let {remoteName, remotePath} = this.props;
-        // let globalBase = global.ipAddress;
 
-        // if (remoteName[-1] !== ":") {
-        //     remoteName = remoteName + ":"
-        // }
         const downloadUrl = `/[${remoteName}:${remotePath}]/${item.Name}`;
         // openInNewTab(downloadUrl);
 
@@ -208,26 +208,29 @@ class FilesView extends React.PureComponent {
 
 
     render() {
-        const {isLoading} = this.state;
+        const {isLoading, isDownloadProgress, downloadingItems} = this.state;
+        const {connectDropTarget, isOver, upButtonHandle, remoteName} = this.props;
         if (isLoading) {
             return (<div><i className={"fa fa-circle-o-notch fa-lg"}/> Loading</div>);
         } else {
 
             const {filesList} = this.state;
-            if (this.props.remoteName === "") {
+            if (remoteName === "") {
                 return (<div>No remote is selected. Select a remote from above to show files.</div>);
             }
 
             let fileComponentMap = filesList.map((item, idx) => {
                 const {ID} = item;
                 return (<FileComponent key={ID} item={item} clickHandler={this.handleFileClick}
-                                       downloadHandle={this.downloadHandle}/>)
+                                       downloadHandle={this.downloadHandle} remoteName={remoteName}/>)
             });
-            return (
-                <React.Fragment>
-                    <Alert color="info" isOpen={this.state.isDownloadProgress} toggle={this.dismissAlert} sm={12}
+            return connectDropTarget(
+                <div className={"col-12"}>
+                    {isOver && renderOverlay()}
+
+                    <Alert color="info" isOpen={isDownloadProgress} toggle={this.dismissAlert} sm={12}
                            lg={12}>
-                        Downloading {this.state.downloadingItems} file(s). Please wait.
+                        Downloading {downloadingItems} file(s). Please wait.
                     </Alert>
 
                     <Col sm={12}>
@@ -246,13 +249,15 @@ class FilesView extends React.PureComponent {
                         </tr>
                         </thead>
                         <tbody>
-                        <UpRowComponent upButtonHandle={this.props.upButtonHandle}/>
-                        {filesList.length > 0 ? fileComponentMap : (<tr>
-                            <td>No files</td>
-                        </tr>)}
+                        <UpRowComponent upButtonHandle={upButtonHandle}/>
+                        {filesList.length > 0 ? fileComponentMap :
+                            (<tr>
+                                <td>No files</td>
+                            </tr>)
+                        }
                         </tbody>
                     </Table>
-                </React.Fragment>
+                </div>
             );
         }
     }
@@ -262,4 +267,4 @@ class FilesView extends React.PureComponent {
 FilesView.propTypes = propTypes;
 FilesView.defaultProps = defaultProps;
 
-export default FilesView;
+export default DropTarget(ItemTypes.FILECOMPONENT, filesTarget, collect)(FilesView);

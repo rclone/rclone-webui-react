@@ -24,7 +24,7 @@ class FileOperations extends React.Component {
         return (
 
             <div className="clearfix mb-3">
-                <Button color="success" className="ml-2" onClick={() => this.openNewFolderModal()}>New Folder</Button>
+                <Button color="success" className="ml-2" onClick={this.openNewFolderModal}>New Folder</Button>
                 {/*<Button color="success" className="ml-2">Copy</Button>*/}
                 {/*<Button color="success" className="ml-2">Rename</Button>*/}
                 {/*<Button color="success" className="ml-2">Upload</Button>*/}

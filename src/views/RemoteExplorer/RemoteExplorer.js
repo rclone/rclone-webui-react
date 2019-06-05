@@ -19,8 +19,6 @@ class RemoteExplorer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            // remoteName: "",
-            // remotePath: "",
             backStack: new BackStack()
         };
 
@@ -62,6 +60,7 @@ class RemoteExplorer extends React.Component {
         return (
             <RemoteExplorerContext.Provider value={{remoteName: remoteName, remotePath: remotePath}}>
                 {/*Render remotes array*/}
+
                 <Card>
                     <CardHeader>Remotes</CardHeader>
                     <CardBody>

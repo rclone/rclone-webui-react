@@ -428,10 +428,6 @@ class NewDrive extends React.Component {
                                                  changeHandler={this.handleInputChange}
                                                  currentValues={this.state.formValues} config={config}/>
                             </CardBody>
-                            <CardFooter>
-                                <div className="clearfix">
-                                </div>
-                            </CardFooter>
 
                         </Collapse>
                     </Card>
