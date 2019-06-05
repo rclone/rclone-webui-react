@@ -252,7 +252,11 @@ class FilesView extends React.Component {
                         <UpRowComponent upButtonHandle={upButtonHandle}/>
                         {filesList.length > 0 ? fileComponentMap :
                             (<tr>
-                                <td>No files</td>
+                                <th></th>
+                                <th>No files</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
                             </tr>)
                         }
                         </tbody>
