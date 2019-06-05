@@ -114,6 +114,7 @@ class FilesView extends React.Component {
 
         this.handleFileClick = this.handleFileClick.bind(this);
         this.downloadHandle = this.downloadHandle.bind(this);
+        this.deleteHandle = this.deleteHandle.bind(this);
         performCopyFile.bind(this);
     }
 
@@ -202,6 +203,23 @@ class FilesView extends React.Component {
         });
     }
 
+    async deleteHandle(item) {
+        console.log("Delete pressed");
+        let {remoteName, remotePath} = this.props;
+
+        const data = {
+            fs: addSemicolonAtLast(remoteName),
+            remote: item.Path,
+        };
+        try {
+            let res = await axiosInstance.post("/operations/deletefile", data);
+            console.log("deletefile", res);
+        } catch (e) {
+            console.log(`Error in deleting file`);
+        }
+
+    }
+
     dismissAlert = (e) => {
         this.setState({isDownloadProgress: false});
     };
@@ -221,8 +239,11 @@ class FilesView extends React.Component {
 
             let fileComponentMap = filesList.map((item, idx) => {
                 const {ID} = item;
-                return (<FileComponent key={ID} item={item} clickHandler={this.handleFileClick}
-                                       downloadHandle={this.downloadHandle} remoteName={remoteName}/>)
+                return (
+                    <FileComponent key={ID} item={item} clickHandler={this.handleFileClick}
+                                   downloadHandle={this.downloadHandle} deleteHandle={this.deleteHandle}
+                                   remoteName={remoteName}/>
+                )
             });
             return connectDropTarget(
                 <div className={"col-12"}>
@@ -249,14 +270,14 @@ class FilesView extends React.Component {
                         </tr>
                         </thead>
                         <tbody>
-                        <UpRowComponent upButtonHandle={upButtonHandle}/>
+                        <UpRowComponent key={0} upButtonHandle={upButtonHandle}/>
                         {filesList.length > 0 ? fileComponentMap :
                             (<tr>
-                                <th></th>
-                                <th>No files</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
+                                <td></td>
+                                <td>No files</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>)
                         }
                         </tbody>

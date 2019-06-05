@@ -43,8 +43,32 @@ function FileIcon({IsDir, MimeType}) {
     return <i className={className + " fa fa-lg"}/>;
 }
 
+function confirmDelete(deleteHandle, item) {
+    if (window.confirm(`Are you sure you want to delete ${item.Name}`)) {
+        deleteHandle(item);
+    }
+}
 
-function FileComponent({item, clickHandler, downloadHandle, connectDragSource, isDragging, remoteName}) {
+function Actions({downloadHandle, deleteHandle, IsDir, item}) {
+    if (!IsDir) {
+        return (
+            <React.Fragment>
+                <Button color="link" onClick={() => downloadHandle(item)}>
+                    <i className={"fa fa-cloud-download fa-lg d-inline"}/>
+                </Button>
+                <Button color="link" onClick={() => confirmDelete(deleteHandle, item)}>
+                    <i className={"fa fa-remove fa-lg d-inline"}/>
+                </Button>
+            </React.Fragment>
+
+        );
+    } else {
+        return null;
+    }
+}
+
+// Non used props are required for drag-and-drop functionality
+function FileComponent({item, clickHandler, downloadHandle, deleteHandle, connectDragSource, isDragging, remoteName}) {
     /*
     MimeTypes: https://www.freeformatter.com/mime-types-list.html
     * {
@@ -72,11 +96,6 @@ function FileComponent({item, clickHandler, downloadHandle, connectDragSource, i
     * */
     const {IsDir, MimeType, ModTime, Name, Size} = item;
 
-    let actions = "";
-    if (!IsDir) {
-        actions = <Button block color="link" onClick={() => downloadHandle(item)}><i
-            className={"fa fa-cloud-download fa-lg"}/></Button>;
-    }
     return connectDragSource(
         <tr className={"pointer-cursor"}>
             <td><input type="checkbox"/></td>
@@ -84,7 +103,7 @@ function FileComponent({item, clickHandler, downloadHandle, connectDragSource, i
             <td>{Size === -1 ? "NA" : formatBytes(Size, 2)}</td>
             {/*TODO: change the time format to required time using timezone as well*/}
             <td>{ModTime}</td>
-            <td>{actions}</td>
+            <td><Actions IsDir={IsDir} downloadHandle={downloadHandle} deleteHandle={deleteHandle} item={item}/></td>
         </tr>
     )
 }
