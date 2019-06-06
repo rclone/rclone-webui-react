@@ -143,6 +143,7 @@ class NewDrive extends React.Component {
             authModalIsVisible: false,
 
             driveType: "",
+            drivePrefix: "",
             driveNameIsValid: false,
             formErrors: {driveName: ""},
             optionTypes: {},
@@ -247,6 +248,7 @@ class NewDrive extends React.Component {
         let formErrors = {};
         let drivePrefix = "";
         if (val !== undefined && val !== "") {
+
             config[val].Options.forEach(item => {
                 const {DefaultStr, Type, Name} = item;
                 availableOptions[Name] = DefaultStr;
@@ -301,6 +303,7 @@ class NewDrive extends React.Component {
         this.setState((state, props) => {
             return {authModalIsVisible: !state.authModalIsVisible}
         })
+        clearInterval(this.configCheckInterval);
     }
 
     startAuthentication() {
@@ -318,13 +321,43 @@ class NewDrive extends React.Component {
         e.preventDefault();
         console.log("Submitted form");
 
-        let data = {parameters: this.state.formValues, name: this.state.driveName, type: this.state.drivePrefix};
+        const {formValues, config, driveType} = this.state;
+
+        const defaults = config[driveType].Options;
+
+        console.log(config, formValues, defaults);
+
+        let finalParamterValues = {};
+
+
+        for (const [key, value] of Object.entries(formValues)) {
+
+            const defaultValueObj = defaults.find((ele, idx, array) => {
+                return (key === ele.Name);
+            });
+
+            const {DefaultStr} = defaultValueObj;
+            if (value !== DefaultStr) {
+                console.log(`${value} !== ${DefaultStr}`);
+                finalParamterValues[key] = value;
+            }
+
+        }
+
+
+        let data = {
+            parameters: finalParamterValues,
+
+            name: this.state.driveName,
+            type: this.state.drivePrefix
+        };
 
         if (this.validateForm()) {
             console.log("Validated form");
+            this.startAuthentication();
             axiosInstance.post('/config/create', data).then((response) => {
                 //Show the Auth Modal
-                this.startAuthentication();
+
             }, (err) => {
                 console.log("Error" + err);
             });

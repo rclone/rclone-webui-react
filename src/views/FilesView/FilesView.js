@@ -217,7 +217,7 @@ class FilesView extends React.Component {
 
     async deleteHandle(item) {
         console.log("Delete pressed");
-        let {remoteName, remotePath} = this.props;
+        let {remoteName} = this.props;
 
         const data = {
             fs: addSemicolonAtLast(remoteName),
