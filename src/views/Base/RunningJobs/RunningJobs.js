@@ -1,8 +1,6 @@
 import React from 'react';
-import {Card, Col, Progress, Row} from "reactstrap";
+import {Card, CardBody, CardHeader, Col, Progress, Row} from "reactstrap";
 import "../../../utils/Global";
-import CardHeader from "reactstrap/es/CardHeader";
-import CardBody from "reactstrap/es/CardBody";
 import axiosInstance from "../../../utils/API";
 import {formatBytes, secondsToStr} from "../../../utils/Tools";
 import PropTypes from "prop-types";

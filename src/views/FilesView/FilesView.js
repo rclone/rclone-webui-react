@@ -1,8 +1,7 @@
 import React from "react";
-import Table from "reactstrap/es/Table";
 import PropTypes from "prop-types";
 import axiosInstance from "../../utils/API";
-import {Alert, Col} from "reactstrap";
+import {Alert, Col, Table} from "reactstrap";
 import "../../utils/Global";
 import FileOperations from "../Base/NewFolder/FileOperations";
 import {DropTarget} from "react-dnd";
@@ -55,12 +54,21 @@ async function performCopyFile(srcFs, srcRemote, dstFs, dstRemote, Name, IsDir) 
         dstRemote: dstRemote,
     };
     try {
-        let res = await axiosInstance.post("/operations/copyfile", data);
-        console.log("Res", res);
+        if (IsDir) {
+            // let res = await axiosInstance.post("/operations/copy")
+
+        } else {
+            let res = await axiosInstance.post("/operations/copyfile", data);
+            console.log("Res", res);
+        }
     } catch (e) {
         console.log(`Error while copying file: ${e}`)
     }
 }
+
+/*
+* Start code for react DND
+* */
 
 const filesTarget = {
     drop(props, monitor) {
@@ -94,11 +102,15 @@ function renderOverlay() {
                 width: '100%',
                 zIndex: 1,
                 opacity: 0.5,
-                backgroundColor: 'yellow',
+                backgroundColor: 'gray',
             }}
         />
     );
 }
+
+/*
+* END code for react DND
+* */
 
 
 class FilesView extends React.Component {

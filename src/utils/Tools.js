@@ -20,7 +20,7 @@ export function bpsToMbps(bps) {
 }
 
 export function formatBytes(bytes, decimals = 2) {
-    if (bytes === 0) return '0 B';
+    if (bytes < 1) return '0 B';
 
     const k = 1024;
     const dm = decimals < 0 ? 0 : decimals;
@@ -76,20 +76,13 @@ export function secondsToStr(seconds) {
 }
 
 function baseValidator(regex, str) {
-    let m;
 
-    if ((m = regex.exec(str)) !== null) {
-        // The result can be accessed through the `m`-variable.
-        return m.length === 0;
-    } else {
-        console.log(`Error compiling regex: ${regex} - default return false`);
-    }
-    return false;
+    return regex.test(str);
 }
 
 
 export function validateSizeSuffix(str) {
-    const regex = /^off|([0-9]+([KMGTP]))$/;
+    const regex = /^off|([0-9]+([KMGTP]))$/g;
 
     return baseValidator(regex, str);
 }
@@ -100,7 +93,7 @@ export function validateInt(str) {
 }
 
 export function validateDuration(str) {
-    const regex = /^(\d+[hH])?(\d+[Mm])?(\d+[Ss])?$/;
+    const regex = /^(\d+[h])?(\d+[m])?(\d+[s])?(\d+ms)??$/i;
     return baseValidator(regex, str);
 }
 

@@ -16,9 +16,9 @@ import {
 // import {config} from "./config.js";
 import NewDriveAuthModal from "../Base/NewDriveAuthModal";
 import axiosInstance from "../../utils/API";
-import isEmpty from "../../utils/Tools";
+import isEmpty, {validateDuration, validateInt, validateSizeSuffix} from "../../utils/Tools";
 
-function DriveParameters({driveType, loadAdvanced, changeHandler, currentValues, config}) {
+function DriveParameters({driveType, loadAdvanced, changeHandler, currentValues, isValidMap, errorsMap, config}) {
     if (driveType !== undefined && driveType !== "") {
         const inputsMap = config[driveType].Options;
         // console.log("current values" + currentValues);
@@ -78,17 +78,16 @@ function DriveParameters({driveType, loadAdvanced, changeHandler, currentValues,
                     }
 
                 }
-
-
                 return (
                     <FormGroup key={idx} row>
                         <Label for={attr.Name} sm={5}>{labelValue}{requiredValue}</Label>
                         <Col sm={7}>
                             <Input type={inputType} value={currentValues[attr.Name]}
-                                   name={attr.Name}
+                                   name={attr.Name} valid={isValidMap[attr.Name]} invalid={!isValidMap[attr.Name]}
                                    id={attr.Name} onChange={changeHandler} required={attr.Required}>
                                 {examplesMap}
                             </Input>
+                            <FormFeedback>{errorsMap[attr.Name]}</FormFeedback>
 
                         </Col>
                     </FormGroup>
@@ -146,6 +145,8 @@ class NewDrive extends React.Component {
             driveType: "",
             driveNameIsValid: false,
             formErrors: {driveName: ""},
+            optionTypes: {},
+            isValid: {},
 
             config: []
 
@@ -176,6 +177,7 @@ class NewDrive extends React.Component {
                 clearInterval(this.configCheckInterval);
                 this.configCheckInterval = null;
                 this.toggleAuthModal();
+                this.props.history.push('/home');
 
             }
         } catch (e) {
@@ -184,9 +186,51 @@ class NewDrive extends React.Component {
     }
 
     handleInputChange = (e) => {
-        let new_prod_diff = this.state.formValues;
-        new_prod_diff[e.target.name] = e.target.value;
-        this.setState({formValues: new_prod_diff});
+        // let new_prod_diff = this.state.formValues;
+        // new_prod_diff[e.target.name] = e.target.value;
+
+        let inputName = e.target.name;
+        let inputValue = e.target.value;
+        const inputType = this.state.optionTypes[inputName];
+        this.setState({
+            formValues: {
+                ...this.state.formValues,
+                [inputName]: inputValue
+            }
+        });
+        let validateResult = true;
+        let error = "";
+        if (inputType === "SizeSuffix") {
+            validateResult = validateSizeSuffix(inputValue);
+            if (!validateResult) {
+                error = "The valid input is size( off | {unit}{metric} eg: 10G, 100M, 10G100M etc.)"
+            }
+        } else if (inputType === "Duration") {
+            validateResult = validateDuration(inputValue);
+            if (!validateResult) {
+                error = "The valid input is time ({unit}{metric} eg: 10ms, 100m, 10h15ms etc.)"
+            }
+        } else if (inputType === "int") {
+            validateResult = validateInt(inputValue);
+            if (!validateResult) {
+                error = "The valid input is int (100,200,300 etc)"
+            }
+        }
+
+        this.setState((prevState) => {
+            return {
+                isValid: {
+                    ...prevState.isValid,
+                    [inputName]: validateResult
+                },
+                formErrors: {
+                    ...prevState.formErrors,
+                    [inputName]: error
+                },
+            }
+        });
+
+
 
     };
 
@@ -198,15 +242,30 @@ class NewDrive extends React.Component {
         let val = e.target.value;
 
         let availableOptions = {};
+        let optionTypes = {};
+        let isValid = {};
+        let formErrors = {};
         let drivePrefix = "";
         if (val !== undefined && val !== "") {
             config[val].Options.forEach(item => {
-                availableOptions[item.Name] = item.DefaultStr;
+                const {DefaultStr, Type, Name} = item;
+                availableOptions[Name] = DefaultStr;
+                optionTypes[Name] = Type;
+                isValid[Name] = true;
+                formErrors[Name] = "";
+
             });
             drivePrefix = config[val].Prefix;
         }
 
-        this.setState({driveType: val, drivePrefix: drivePrefix, formValues: availableOptions});
+        this.setState({
+            driveType: val,
+            drivePrefix: drivePrefix,
+            formValues: availableOptions,
+            optionTypes: optionTypes,
+            isValid: isValid,
+            formErrors: formErrors,
+        });
 
 
     };
@@ -234,6 +293,7 @@ class NewDrive extends React.Component {
         if (driveType === "") {
             flag = false;
         }
+
         return flag;
     }
 
@@ -272,6 +332,10 @@ class NewDrive extends React.Component {
             alert("Problems in validation")
         }
     }
+
+    clearForm = e => {
+        this.setState({driveName: "", driveType: ""})
+    };
 
 
 
@@ -395,6 +459,8 @@ class NewDrive extends React.Component {
                             <CardBody>
                                 <DriveParameters driveType={driveType} loadAdvanced={false}
                                                  changeHandler={this.handleInputChange}
+                                                 errorsMap={this.state.formErrors}
+                                                 isValidMap={this.state.isValid}
                                                  currentValues={this.state.formValues} config={config}/>
                             </CardBody>
                             <CardFooter>
@@ -426,6 +492,8 @@ class NewDrive extends React.Component {
                             <CardBody>
                                 <DriveParameters driveType={driveType} loadAdvanced={true}
                                                  changeHandler={this.handleInputChange}
+                                                 errorsMap={this.state.formErrors}
+                                                 isValidMap={this.state.isValid}
                                                  currentValues={this.state.formValues} config={config}/>
                             </CardBody>
 
@@ -435,7 +503,7 @@ class NewDrive extends React.Component {
                         this.configEndDiv = el
                     }}>
                         <div className="float-right mb-3">
-                            <Button color="info" type="reset">Clear</Button>
+                            <Button color="info" type="reset" onClick={() => this.clearForm()}>Clear</Button>
                             <Button color="success" type="submit">Create Config</Button>
 
                         </div>

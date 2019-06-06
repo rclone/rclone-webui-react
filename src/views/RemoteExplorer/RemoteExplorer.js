@@ -1,8 +1,6 @@
 import React from 'react';
 import "../../utils/Global";
-import {Card, Row} from "reactstrap";
-import CardBody from "reactstrap/es/CardBody";
-import CardHeader from "reactstrap/es/CardHeader";
+import {Card, CardBody, CardHeader, Row} from "reactstrap";
 import RemotesList from "../RemotesList";
 import FilesView from "../FilesView/FilesView";
 import BackStack from "../../utils/BackStack";

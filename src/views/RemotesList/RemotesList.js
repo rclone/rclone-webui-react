@@ -1,8 +1,7 @@
 import React from 'react';
 import "../../utils/Global";
 import axiosInstance from "../../utils/API";
-import {Button, Card, Col, Row} from "reactstrap";
-import CardBody from "reactstrap/es/CardBody";
+import {Button, Card, CardBody, Col, Row} from "reactstrap";
 
 class RemotesList extends React.Component {
 
