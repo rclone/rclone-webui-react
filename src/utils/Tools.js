@@ -101,4 +101,13 @@ export function openInNewTab(url) {
     let win = window.open(url, '_blank');
     win.focus();
 }
+
+/*Returns object of config if found, else returns undefined*/
+export function findFromConfig(config, name) {
+    const currentConfig = config.find((ele, idx, array) => {
+        return (name === ele.Prefix);
+    });
+    return currentConfig;
+}
+
 export default isEmpty;

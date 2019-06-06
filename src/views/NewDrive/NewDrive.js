@@ -16,86 +16,92 @@ import {
 // import {config} from "./config.js";
 import NewDriveAuthModal from "../Base/NewDriveAuthModal";
 import axiosInstance from "../../utils/API";
-import isEmpty, {validateDuration, validateInt, validateSizeSuffix} from "../../utils/Tools";
+import isEmpty, {findFromConfig, validateDuration, validateInt, validateSizeSuffix} from "../../utils/Tools";
+import ProviderAutoSuggest from "./ProviderAutoSuggest";
 
-function DriveParameters({driveType, loadAdvanced, changeHandler, currentValues, isValidMap, errorsMap, config}) {
-    if (driveType !== undefined && driveType !== "") {
-        const inputsMap = config[driveType].Options;
-        // console.log("current values" + currentValues);
+function DriveParameters({drivePrefix, loadAdvanced, changeHandler, currentValues, isValidMap, errorsMap, config}) {
+    if (drivePrefix !== undefined && drivePrefix !== "") {
+        const currentProvider = findFromConfig(config, drivePrefix);
+        let outputMap = [];
+        if (currentProvider !== undefined) {
+            const inputsMap = currentProvider.Options;
 
-        /* Options format is as follows
-        {
-					"Advanced": true,
-					"Default": -1,
-					"DefaultStr": "off",
-					"Help": "If Object's are greater, use drive v2 API to download.",
-					"Hide": 0,
-					"IsPassword": false,
-					"Name": "v2_download_min_size",
-					"NoPrefix": false,
-					"Provider": "",
-					"Required": false,
-					"ShortOpt": "",
-					"Type": "SizeSuffix",
-					"Value": null,
-					"ValueStr": "off"
-				},
+            // console.log("current values" + currentValues);
 
-		*/
+            /* Options format is as follows
+            {
+                        "Advanced": true,
+                        "Default": -1,
+                        "DefaultStr": "off",
+                        "Help": "If Object's are greater, use drive v2 API to download.",
+                        "Hide": 0,
+                        "IsPassword": false,
+                        "Name": "v2_download_min_size",
+                        "NoPrefix": false,
+                        "Provider": "",
+                        "Required": false,
+                        "ShortOpt": "",
+                        "Type": "SizeSuffix",
+                        "Value": null,
+                        "ValueStr": "off"
+                    },
 
-        let outputMap = inputsMap.map((attr, idx) => {
-            if ((loadAdvanced && attr.Advanced) || (!loadAdvanced && !attr.Advanced)) {
-                const labelValue = `${attr.Help}`;
-                const requiredValue = ((attr.Required) ? (<i className={"text-red"}>*</i>) : null);
+            */
 
-                const hasExamples = !isEmpty(attr.Examples);
-                let examplesMap = null;
+            outputMap = inputsMap.map((attr, idx) => {
+                if ((loadAdvanced && attr.Advanced) || (!loadAdvanced && !attr.Advanced)) {
+                    const labelValue = `${attr.Help}`;
+                    const requiredValue = ((attr.Required) ? (<i className={"text-red"}>*</i>) : null);
 
-                let inputType = "";
+                    const hasExamples = !isEmpty(attr.Examples);
+                    let examplesMap = null;
+
+                    let inputType = "";
 
 
-                if (attr.IsPassword) {
-                    inputType = "password";
-                } else if (hasExamples) {
-                    inputType = "select";
-                    examplesMap = attr.Examples.map((ex1, id1) => {
-                        return (<option key={"option" + id1} value={ex1.Value}>{ex1.Help}</option>);
-                    })
-                } else if (attr.Type === "bool") {
-                    inputType = "select";
-                    examplesMap = [
-                        (<option key={1} value={true}>Yes</option>),
-                        (<option key={2} value={false}>No</option>)
-                    ];
-                } else {
-                    // TODO: Write logic for SizeSuffix, Duration, int
-                    if (attr.Type === "int") {
-                        inputType = "number";
-                    } else if (attr.Type === "string") {
-                        inputType = "text";
+                    if (attr.IsPassword) {
+                        inputType = "password";
+                    } else if (hasExamples) {
+                        inputType = "select";
+                        examplesMap = attr.Examples.map((ex1, id1) => {
+                            return (<option key={"option" + id1} value={ex1.Value}>{ex1.Help}</option>);
+                        })
+                    } else if (attr.Type === "bool") {
+                        inputType = "select";
+                        examplesMap = [
+                            (<option key={1} value={true}>Yes</option>),
+                            (<option key={2} value={false}>No</option>)
+                        ];
                     } else {
-                        inputType = "text";
+                        // TODO: Write logic for SizeSuffix, Duration, int
+                        if (attr.Type === "int") {
+                            inputType = "number";
+                        } else if (attr.Type === "string") {
+                            inputType = "text";
+                        } else {
+                            inputType = "text";
+                        }
+
                     }
+                    return (
+                        <FormGroup key={idx} row>
+                            <Label for={attr.Name} sm={5}>{labelValue}{requiredValue}</Label>
+                            <Col sm={7}>
+                                <Input type={inputType} value={currentValues[attr.Name]}
+                                       name={attr.Name} valid={isValidMap[attr.Name]} invalid={!isValidMap[attr.Name]}
+                                       id={attr.Name} onChange={changeHandler} required={attr.Required}>
+                                    {examplesMap}
+                                </Input>
+                                <FormFeedback>{errorsMap[attr.Name]}</FormFeedback>
 
+                            </Col>
+                        </FormGroup>
+                    );
+                } else {
+                    return null;
                 }
-                return (
-                    <FormGroup key={idx} row>
-                        <Label for={attr.Name} sm={5}>{labelValue}{requiredValue}</Label>
-                        <Col sm={7}>
-                            <Input type={inputType} value={currentValues[attr.Name]}
-                                   name={attr.Name} valid={isValidMap[attr.Name]} invalid={!isValidMap[attr.Name]}
-                                   id={attr.Name} onChange={changeHandler} required={attr.Required}>
-                                {examplesMap}
-                            </Input>
-                            <FormFeedback>{errorsMap[attr.Name]}</FormFeedback>
-
-                        </Col>
-                    </FormGroup>
-                );
-            } else {
-                return null;
-            }
-        });
+            });
+        }
         return outputMap;
     }
     return (
@@ -103,13 +109,13 @@ function DriveParameters({driveType, loadAdvanced, changeHandler, currentValues,
     );
 }
 
-function DriveTypes({config}) {
-    // console.log(config);
-    let configMap = config.map((drive, idx) => (
-        <option key={drive.Prefix} value={idx}>{drive.Description}</option>
-    ));
-    return configMap;
-}
+// function DriveTypes({config}) {
+//     // console.log(config);
+//     let configMap = config.map((drive, idx) => (
+//         <option key={drive.Prefix} value={idx}>{drive.Description}</option>
+//     ));
+//     return configMap;
+// }
 
 function CustomInput({key, id, label, changeHandler, type, value, name, placeholder, isValid = false}) {
     return (
@@ -149,9 +155,8 @@ class NewDrive extends React.Component {
             optionTypes: {},
             isValid: {},
 
-            config: []
-
         };
+        this.config = [];
         this.configCheckInterval = null;
         this.handleSubmit = this.handleSubmit.bind(this);
         this.toggleAuthModal = this.toggleAuthModal.bind(this);
@@ -236,38 +241,45 @@ class NewDrive extends React.Component {
     };
 
     // Update the driveType and then load the equivalent input parameters for that drive
-    changeDriveType = (e) => {
-        e.preventDefault();
-        const {config} = this.state;
+    changeDriveType = (event, {newValue}) => {
 
-        let val = e.target.value;
+        const {config} = this;
+
+        let val = newValue;
+
 
         let availableOptions = {};
         let optionTypes = {};
         let isValid = {};
         let formErrors = {};
-        let drivePrefix = "";
+        // let drivePrefix = "";
+        // console.log("driveType change", val);
         if (val !== undefined && val !== "") {
 
-            config[val].Options.forEach(item => {
-                const {DefaultStr, Type, Name} = item;
-                availableOptions[Name] = DefaultStr;
-                optionTypes[Name] = Type;
-                isValid[Name] = true;
-                formErrors[Name] = "";
+            const currentConfig = findFromConfig(config, val);
+            if (currentConfig !== undefined) {
 
+                currentConfig.Options.forEach(item => {
+                    const {DefaultStr, Type, Name} = item;
+                    availableOptions[Name] = DefaultStr;
+                    optionTypes[Name] = Type;
+                    isValid[Name] = true;
+                    formErrors[Name] = "";
+                });
+            }
+            this.setState({
+                drivePrefix: val,
+                formValues: availableOptions,
+                optionTypes: optionTypes,
+                isValid: isValid,
+                formErrors: formErrors,
             });
-            drivePrefix = config[val].Prefix;
+        } else {
+            this.setState({drivePrefix: val})
+
         }
 
-        this.setState({
-            driveType: val,
-            drivePrefix: drivePrefix,
-            formValues: availableOptions,
-            optionTypes: optionTypes,
-            isValid: isValid,
-            formErrors: formErrors,
-        });
+
 
 
     };
@@ -286,7 +298,7 @@ class NewDrive extends React.Component {
 
     validateForm() {
         //    Validate driveName and other parameters
-        const {driveNameIsValid, driveType} = this.state;
+        const {driveNameIsValid, driveType, isValid} = this.state;
         let flag = true;
 
         if (!driveNameIsValid) {
@@ -296,13 +308,22 @@ class NewDrive extends React.Component {
             flag = false;
         }
 
+
+        /*Check for validations based on inputType*/
+        for (const [key, value] of Object.entries(isValid)) {
+            if (!value) {
+                flag = false;
+                break;
+            }
+        }
+
         return flag;
     }
 
     toggleAuthModal() {
         this.setState((state, props) => {
             return {authModalIsVisible: !state.authModalIsVisible}
-        })
+        });
         clearInterval(this.configCheckInterval);
     }
 
@@ -317,52 +338,61 @@ class NewDrive extends React.Component {
 
     }
 
+
     handleSubmit(e) {
         e.preventDefault();
         console.log("Submitted form");
 
-        const {formValues, config, driveType} = this.state;
+        const {formValues, drivePrefix} = this.state;
+        const {config} = this;
 
-        const defaults = config[driveType].Options;
-
-        console.log(config, formValues, defaults);
-
-        let finalParamterValues = {};
+        if (drivePrefix !== undefined && drivePrefix !== "") {
+            const currentProvider = findFromConfig(config, drivePrefix);
+            if (currentProvider !== undefined) {
 
 
-        for (const [key, value] of Object.entries(formValues)) {
+                const defaults = currentProvider.Options;
 
-            const defaultValueObj = defaults.find((ele, idx, array) => {
-                return (key === ele.Name);
-            });
+                // console.log(config, formValues, defaults);
 
-            const {DefaultStr} = defaultValueObj;
-            if (value !== DefaultStr) {
-                console.log(`${value} !== ${DefaultStr}`);
-                finalParamterValues[key] = value;
+                let finalParameterValues = {};
+
+
+                for (const [key, value] of Object.entries(formValues)) {
+
+                    const defaultValueObj = defaults.find((ele, idx, array) => {
+                        return (key === ele.Name);
+                    });
+
+                    const {DefaultStr} = defaultValueObj;
+                    if (value !== DefaultStr) {
+                        console.log(`${value} !== ${DefaultStr}`);
+                        finalParameterValues[key] = value;
+                    }
+
+                }
+
+
+                let data = {
+                    parameters: finalParameterValues,
+
+                    name: this.state.driveName,
+                    type: this.state.drivePrefix
+                };
+
+                if (this.validateForm()) {
+                    console.log("Validated form");
+                    this.startAuthentication();
+                    axiosInstance.post('/config/create', data).then((response) => {
+                        //Show the Auth Modal
+
+                    }, (err) => {
+                        console.log("Error" + err);
+                    });
+                } else {
+                    alert("Problems in validation")
+                }
             }
-
-        }
-
-
-        let data = {
-            parameters: finalParamterValues,
-
-            name: this.state.driveName,
-            type: this.state.drivePrefix
-        };
-
-        if (this.validateForm()) {
-            console.log("Validated form");
-            this.startAuthentication();
-            axiosInstance.post('/config/create', data).then((response) => {
-                //Show the Auth Modal
-
-            }, (err) => {
-                console.log("Error" + err);
-            });
-        } else {
-            alert("Problems in validation")
         }
     }
 
@@ -409,7 +439,9 @@ class NewDrive extends React.Component {
     async getProviders() {
         try {
             let res = await axiosInstance.post("/config/providers");
-            this.setState({config: res.data.providers});
+            const {providers} = res.data;
+            this.config = providers;
+            // this.setState({config: res.data.providers});
         } catch (e) {
             console.log(`Error getting the provider details: ${e}`);
         }
@@ -427,8 +459,9 @@ class NewDrive extends React.Component {
     }
 
     render() {
-        const {colRconfig, colSetup, colAdvanced, driveType, advancedOptions, driveName, driveNameIsValid, config} = this.state;
-
+        const {colRconfig, colSetup, colAdvanced, drivePrefix, advancedOptions, driveName, driveNameIsValid} = this.state;
+        const {config} = this;
+        // console.log("config", config);
         return (
             <div>
                 <p>This 3 step process will guide you through creating a new config. For auto config, leave the
@@ -453,11 +486,8 @@ class NewDrive extends React.Component {
                                 <FormGroup row>
                                     <Label for="driveType" sm={5}>Select</Label>
                                     <Col sm={7}>
-                                        <Input type="select" name="type" id="driveType" value={driveType}
-                                               onChange={this.changeDriveType} required>
-                                            <option value="">Select one</option>
-                                            <DriveTypes config={config}/>
-                                        </Input>
+                                        <ProviderAutoSuggest suggestions={config} value={drivePrefix}
+                                                             onChange={this.changeDriveType}/>
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
@@ -490,7 +520,7 @@ class NewDrive extends React.Component {
                         <Collapse isOpen={colSetup}>
 
                             <CardBody>
-                                <DriveParameters driveType={driveType} loadAdvanced={false}
+                                <DriveParameters drivePrefix={drivePrefix} loadAdvanced={false}
                                                  changeHandler={this.handleInputChange}
                                                  errorsMap={this.state.formErrors}
                                                  isValidMap={this.state.isValid}
@@ -523,7 +553,7 @@ class NewDrive extends React.Component {
                         <Collapse isOpen={colAdvanced}>
 
                             <CardBody>
-                                <DriveParameters driveType={driveType} loadAdvanced={true}
+                                <DriveParameters drivePrefix={drivePrefix} loadAdvanced={true}
                                                  changeHandler={this.handleInputChange}
                                                  errorsMap={this.state.formErrors}
                                                  isValidMap={this.state.isValid}
