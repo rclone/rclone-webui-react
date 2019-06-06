@@ -49,21 +49,29 @@ function confirmDelete(deleteHandle, item) {
     }
 }
 
-function Actions({downloadHandle, deleteHandle, IsDir, item}) {
+function Actions({downloadHandle, deleteHandle, item}) {
+
+    const {IsDir} = item;
+
     if (!IsDir) {
+
         return (
             <React.Fragment>
                 <Button color="link" onClick={() => downloadHandle(item)}>
                     <i className={"fa fa-cloud-download fa-lg d-inline"}/>
                 </Button>
-                <Button color="link" onClick={() => confirmDelete(deleteHandle, item)}>
+                <Button color="link" className="text-danger" onClick={() => confirmDelete(deleteHandle, item)}>
                     <i className={"fa fa-remove fa-lg d-inline"}/>
                 </Button>
             </React.Fragment>
 
         );
     } else {
-        return null;
+        return (
+            <Button color="link" className="text-danger" onClick={() => confirmDelete(deleteHandle, item)}>
+                <i className={"fa fa-remove fa-lg d-inline"}/>
+            </Button>
+        )
     }
 }
 
@@ -96,14 +104,15 @@ function FileComponent({item, clickHandler, downloadHandle, deleteHandle, connec
     * */
     const {IsDir, MimeType, ModTime, Name, Size} = item;
 
+    let modTime = new Date(Date.parse(ModTime));
+
     return connectDragSource(
         <tr className={"pointer-cursor"}>
             <td><input type="checkbox"/></td>
             <th onClick={(e) => clickHandler(e, item)}><FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}</th>
             <td>{Size === -1 ? "NA" : formatBytes(Size, 2)}</td>
-            {/*TODO: change the time format to required time using timezone as well*/}
-            <td>{ModTime}</td>
-            <td><Actions IsDir={IsDir} downloadHandle={downloadHandle} deleteHandle={deleteHandle} item={item}/></td>
+            <td>{modTime.toLocaleDateString()}</td>
+            <td><Actions downloadHandle={downloadHandle} deleteHandle={deleteHandle} item={item}/></td>
         </tr>
     )
 }

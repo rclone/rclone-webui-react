@@ -40,29 +40,40 @@ function UpRowComponent({upButtonHandle}) {
 
 async function performCopyFile(srcFs, srcRemote, dstFs, dstRemote, Name, IsDir) {
 
-    if (dstRemote === "") {
-        dstRemote = Name;
-    } else {
-        dstRemote += "/" + Name;
-    }
-
-
-    const data = {
-        srcFs: srcFs,
-        srcRemote: srcRemote,
-        dstFs: dstFs,
-        dstRemote: dstRemote,
-    };
     try {
         if (IsDir) {
+            // if (dstRemote === "") {
+            //     dstRemote = Name;
+            // } else {
+            //     dstRemote += "/" + Name;
+            // }
+            // const data = {
+            //     srcFs: srcFs + srcRemote,
+            //     dstFs: dstFs + dstRemote
+            // };
+
             // let res = await axiosInstance.post("/operations/copy")
+            // let res = await axiosInstance.post("/sync/copy", data);
+            // console.log("Dir copy Res", res);
+            // this.setState({isOperationInProgress: false})
+            console.log("Copying directory feature is not yet implemented");
 
         } else {
+
+
+            const data = {
+                srcFs: srcFs,
+                srcRemote: srcRemote,
+                dstFs: dstFs,
+                dstRemote: dstRemote,
+            };
             let res = await axiosInstance.post("/operations/copyfile", data);
             console.log("Res", res);
+
         }
     } catch (e) {
         console.log(`Error while copying file: ${e}`)
+
     }
 }
 
@@ -122,6 +133,8 @@ class FilesView extends React.Component {
             isLoading: false,
             isDownloadProgress: false,
             downloadingItems: 0,
+            isOperationInProgress: false
+
         };
 
         this.handleFileClick = this.handleFileClick.bind(this);
@@ -132,7 +145,6 @@ class FilesView extends React.Component {
 
     componentDidMount() {
         const {remoteName, remotePath} = this.props;
-        console.log("component did mount FilesView");
         this.getFilesList(remoteName, remotePath);
     }
 
@@ -238,7 +250,7 @@ class FilesView extends React.Component {
 
 
     render() {
-        const {isLoading, isDownloadProgress, downloadingItems} = this.state;
+        const {isLoading, isDownloadProgress, downloadingItems, isOperationInProgress} = this.state;
         const {connectDropTarget, isOver, upButtonHandle, remoteName} = this.props;
         if (isLoading) {
             return (<div><i className={"fa fa-circle-o-notch fa-lg"}/> Loading</div>);
@@ -272,6 +284,10 @@ class FilesView extends React.Component {
                     <Alert color="info" isOpen={isDownloadProgress} toggle={this.dismissAlert} sm={12}
                            lg={12}>
                         Downloading {downloadingItems} file(s). Please wait.
+                    </Alert>
+                    <Alert color="info" isOpen={isOperationInProgress} toggle={this.dismissAlert} sm={12}
+                           lg={12}>
+                        Copy in progress
                     </Alert>
 
                     <Col sm={12}>
