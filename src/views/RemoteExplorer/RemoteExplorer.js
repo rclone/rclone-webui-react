@@ -77,11 +77,11 @@ class RemoteExplorer extends React.Component {
                     <CardHeader>Remotes</CardHeader>
                     <CardBody>
                         <Row>
-                            <Col sm={12} lg={6}>
+                            <Col sm={10} lg={6}>
 
                                 <RemotesList updateRemoteNameHandle={this.updateRemoteName} remoteName={remoteName}/>
                             </Col>
-                            <Col sm={12} lg={6}>
+                            <Col sm={2} lg={2}>
 
                                 <Button className={"btn-lg"} color="success"
                                         onClick={() => this.openRemote()}>Open</Button>
