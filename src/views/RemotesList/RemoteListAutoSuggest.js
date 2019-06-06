@@ -63,7 +63,7 @@ class RemoteListAutoSuggest extends React.Component {
 
         // Autosuggest will pass through all these props to the input.
         const inputProps = {
-            placeholder: 'Type a provider type',
+            placeholder: 'Type the name of remote you want to open',
             value: value,
             onChange: onChange
         };

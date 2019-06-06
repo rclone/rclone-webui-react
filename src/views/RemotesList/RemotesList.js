@@ -1,7 +1,6 @@
 import React from 'react';
 import "../../utils/Global";
 import axiosInstance from "../../utils/API";
-import {Col, Row} from "reactstrap";
 import RemoteListAutoSuggest from "./RemoteListAutoSuggest";
 
 class RemotesList extends React.Component {
@@ -56,6 +55,7 @@ class RemotesList extends React.Component {
 
     render() {
         const {isEmpty, remotes, remoteName} = this.state;
+        const {updateRemoteNameHandle} = this.props;
 
         if (isEmpty) {
             return (
@@ -63,26 +63,11 @@ class RemotesList extends React.Component {
                     Add some remotes to see them here <span role="img" aria-label="sheep">🐑</span>.
                 </div>);
         } else {
-            // let remotesMap = remotes.map((item, idx) => {
-            //     return (
-            //         {/*<Col key={item} xs={12} sm={6} lg={3}>*/}
-            //         {/*    <Card>*/}
-            //         {/*        <CardBody>*/}
-            //         {/*            <p><strong>Name:</strong> {item}*/}
-            //         {/*                <Button color={"info"} onClick={() => updateRemoteNameHandle(item)}>Open</Button>*/}
-            //         {/*            </p>*/}
-            //         {/*        </CardBody>*/}
-            //         {/*    </Card>*/}
-            //         {/*</Col>*/}
-            //     )
-            // });
+
             return (
-                <Row>
-                    <Col sm={12} lg={6}>
-                        <RemoteListAutoSuggest value={remoteName} onChange={this.shouldUpdateRemoteName}
-                                               suggestions={remotes}/>
-                    </Col>
-                </Row>
+
+                <RemoteListAutoSuggest value={remoteName} onChange={this.shouldUpdateRemoteName}
+                                       suggestions={remotes}/>
             );
         }
     }
