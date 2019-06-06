@@ -1,13 +1,8 @@
 import React from 'react';
-import {Button, Col, FormGroup, Label, Modal} from "reactstrap";
-import ModalHeader from "reactstrap/es/ModalHeader";
-import ModalBody from "reactstrap/es/ModalBody";
-import ModalFooter from "reactstrap/es/ModalFooter";
-import Input from "reactstrap/es/Input";
+import {Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import PropTypes from "prop-types";
 import axiosInstance from "../../../utils/API";
 import RemoteExplorerContext from "../../RemoteExplorer/RemoteExplorerContext";
-import Form from "reactstrap/es/Form";
 
 const propTypes = {
     isVisible: PropTypes.bool.isRequired,

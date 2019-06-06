@@ -249,12 +249,20 @@ class FilesView extends React.Component {
                 return (<div>No remote is selected. Select a remote from above to show files.</div>);
             }
 
+            console.log("filesList", filesList);
+
             let fileComponentMap = filesList.map((item, idx) => {
-                const {ID} = item;
+                let {ID, Name} = item;
+                // Using fallback as fileName when the ID is not available (for local file system)
+                if (ID === undefined) {
+                    ID = Name;
+                }
                 return (
-                    <FileComponent key={ID} item={item} clickHandler={this.handleFileClick}
+                    <React.Fragment key={ID}>
+                        <FileComponent item={item} clickHandler={this.handleFileClick}
                                    downloadHandle={this.downloadHandle} deleteHandle={this.deleteHandle}
                                    remoteName={remoteName}/>
+                    </React.Fragment>
                 )
             });
             return connectDropTarget(
@@ -282,7 +290,7 @@ class FilesView extends React.Component {
                         </tr>
                         </thead>
                         <tbody>
-                        <UpRowComponent key={0} upButtonHandle={upButtonHandle}/>
+                        <UpRowComponent key={"uniqueKey"} upButtonHandle={upButtonHandle}/>
                         {filesList.length > 0 ? fileComponentMap :
                             (<tr>
                                 <td></td>

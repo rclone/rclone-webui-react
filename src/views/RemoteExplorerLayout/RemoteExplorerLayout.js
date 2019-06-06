@@ -1,9 +1,7 @@
 import React from "react";
-import {Button, Col, Row} from "reactstrap";
+import {Button, Card, CardBody, CardHeader, Col, Row} from "reactstrap";
 import RemoteExplorer from "../RemoteExplorer";
-import Card from "reactstrap/es/Card";
-import CardBody from "reactstrap/es/CardBody";
-import CardHeader from "reactstrap/es/CardHeader";
+
 import HTML5Backend from "react-dnd-html5-backend";
 import {DragDropContext} from "react-dnd";
 
