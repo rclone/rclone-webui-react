@@ -62,9 +62,9 @@ class RemoteExplorer extends React.Component {
                 <Card>
                     <CardHeader>Remotes</CardHeader>
                     <CardBody>
-                        <ScrollableDiv height={"200px"}>
-                            <RemotesList updateRemoteNameHandle={this.updateRemoteName}/>
-                        </ScrollableDiv>
+
+                        <RemotesList updateRemoteNameHandle={this.updateRemoteName} remoteName={remoteName}/>
+
                     </CardBody>
                 </Card>
 
