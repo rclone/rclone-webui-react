@@ -4,6 +4,7 @@ import {Button} from "reactstrap";
 import {ItemTypes} from './Constants'
 import {DragSource} from 'react-dnd'
 import {formatBytes} from "../../utils/Tools";
+import {performCopyFile, performMoveFile} from "../../utils/API";
 
 const fileComponentSource = {
     beginDrag(props) {
@@ -11,6 +12,20 @@ const fileComponentSource = {
         const {Name, Path, IsDir} = props.item;
         return {
             Name: Name, Path: Path, IsDir: IsDir, remoteName: props.remoteName
+        }
+    },
+
+    async endDrag(props, monitor, component) {
+        console.log("EndDrag", monitor.getDropResult());
+
+        const {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir, dropEffect} = monitor.getDropResult();
+
+        if (dropEffect === "move") { /*Default operation without holding alt is copy, named as move in react-dnd*/
+            let res = await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+
+        } else {
+            let res = await performMoveFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+
         }
     }
 };
@@ -109,7 +124,7 @@ function FileComponent({item, clickHandler, downloadHandle, deleteHandle, connec
     return connectDragSource(
         <tr className={"pointer-cursor"}>
             <td><input type="checkbox"/></td>
-            <th onClick={(e) => clickHandler(e, item)}><FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}</th>
+            <td onClick={(e) => clickHandler(e, item)}><FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}</td>
             <td>{Size === -1 ? "NA" : formatBytes(Size, 2)}</td>
             <td>{modTime.toLocaleDateString()}</td>
             <td><Actions downloadHandle={downloadHandle} deleteHandle={deleteHandle} item={item}/></td>
