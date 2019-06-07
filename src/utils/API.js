@@ -51,7 +51,7 @@ async function performCopyOrMoveFile(srcFs, srcRemote, dstFs, dstRemote, Name, I
             srcFs: srcFs,
             srcRemote: srcRemote,
             dstFs: dstFs,
-            dstRemote: dstRemote,
+            dstRemote: dstRemote
         };
         let res = await axiosInstance.post(url, data);
         console.log("Res", res);

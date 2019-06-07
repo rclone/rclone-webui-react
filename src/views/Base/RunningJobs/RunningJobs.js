@@ -58,12 +58,14 @@ function TransferringJobs({transferring}) {
     return null;
 }
 
+
 class RunningJobs extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             jobs: {},
+            jobids: []
         };
         this.loadJobs = this.loadJobs.bind(this);
     }
@@ -71,9 +73,9 @@ class RunningJobs extends React.Component {
     async loadJobs() {
         try {
             let res = await axiosInstance.post("/core/stats");
-            // console.log(`Job Refresh`);
-            // console.log(res.data);
             this.setState({jobs: res.data});
+
+
         } catch (e) {
             console.log(`Error loading jobs: core/stats ${e}`);
         }

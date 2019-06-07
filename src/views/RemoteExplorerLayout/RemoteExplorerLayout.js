@@ -24,7 +24,7 @@ class RemoteExplorerLayout extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            cols: 1
+            cols: 1,
         };
         this.changeLayout = this.changeLayout.bind(this);
     }
@@ -57,15 +57,15 @@ class RemoteExplorerLayout extends React.Component {
                                         onClick={() => this.changeLayout(2, "side")}>2 - side by side</Button>
                                 <Button color={"primary"} className={"ml-2"}
                                         onClick={() => this.changeLayout(3, "side")}>3 - side by side</Button>
+                                <Button color={"primary"} className={"ml-2"}
+                                        onClick={() => this.changeLayout(4, "side")}>4 - side by side</Button>
                                 {/*<Button onClick={this.changeLayout(4,"grid")}>4 - grid</Button>*/}
                             </CardBody>
                         </Card>
                     </Col>
                 </Row>
                 <Row>
-
                     <RemoteExplorerList cols={cols}/>
-
                 </Row>
             </div>
         );

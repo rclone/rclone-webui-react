@@ -26,27 +26,15 @@ function addSemicolonAtLast(name) {
     return name;
 }
 
-function UpRowComponent({upButtonHandle}) {
-    return (<tr onClick={() => {
-        upButtonHandle()
-    }} className={"pointer-cursor"}>
-        <td></td>
-        <td><i className={"fa fa-file-o"}/> Go Up...</td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>);
-}
-
 
 /*
 * Start code for react DND
 * */
 
 const filesTarget = {
-    drop(props, monitor) {
+    drop(props, monitor, component) {
         if (monitor.didDrop()) return;
-        console.log("drop", props, monitor, monitor.getItem());
+        console.log("drop", props, monitor, monitor.getItem(), component);
 
         let {Name, Path, IsDir, remoteName} = monitor.getItem();
 
@@ -55,14 +43,17 @@ const filesTarget = {
         let destRemoteName = addSemicolonAtLast(props.remoteName);
         let destRemotePath = props.remotePath;
 
-        // if(dropEffect === "move"){ /*Without pressing alt*/
+        console.log("drop:this", this);
 
-        // performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
-        // }else{
-        //
-        // }
-
-        return {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir}
+        return {
+            srcRemoteName,
+            srcRemotePath,
+            destRemoteName,
+            destRemotePath,
+            Name,
+            IsDir,
+            updateHandler: component.updateHandler
+        }
 
     }
 };
@@ -95,6 +86,16 @@ function renderOverlay() {
 * END code for react DND
 * */
 
+function UpButtonComponent({upButtonHandle}) {
+    return (
+        <tr onClick={() => upButtonHandle()} className={"pointer-cursor"}>
+            <td></td>
+            <td><i className={"fa fa-file-o"}/> Go Up...</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>);
+}
 
 class FilesView extends React.Component {
 
@@ -105,7 +106,8 @@ class FilesView extends React.Component {
             isLoading: false,
             isDownloadProgress: false,
             downloadingItems: 0,
-            isOperationInProgress: false
+            isOperationInProgress: false,
+            shouldUpdate: true,
 
         };
         this.handleFileClick = this.handleFileClick.bind(this);
@@ -114,20 +116,15 @@ class FilesView extends React.Component {
     }
 
     componentDidMount() {
-        // const {remoteName, remotePath} = this.props;
         this.getFilesList();
-        // if(this.updateInterval === null)
-        //     this.updateInterval = setInterval(()=>this.getFilesList(false), 3000);
     }
 
-    componentWillUnmount() {
-        // clearInterval(this.updateInterval);
-        // this.updateInterval = null;
-    }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {remoteName, remotePath} = this.props;
-        if (prevProps.remoteName !== remoteName || prevProps.remotePath !== remotePath) {
+        const {shouldUpdate} = this.state;
+        console.log("componentDidUpdate");
+        if (prevProps.remoteName !== remoteName || prevProps.remotePath !== remotePath || prevState.shouldUpdate !== shouldUpdate) {
             this.getFilesList();
         }
     }
@@ -220,11 +217,13 @@ class FilesView extends React.Component {
                 let res = await axiosInstance.post("/operations/purge", data);
                 console.log("deletefile", res);
 
+                this.updateHandler();
 
             } else {
 
                 let res = await axiosInstance.post("/operations/deletefile", data);
                 console.log("deletefile", res);
+                this.updateHandler();
             }
         } catch (e) {
             console.log(`Error in deleting file`);
@@ -232,14 +231,41 @@ class FilesView extends React.Component {
 
     }
 
+    updateHandler = () => {
+        this.setState((prevState) => {
+            return {shouldUpdate: !prevState.shouldUpdate}
+        })
+
+    }
+
     dismissAlert = (e) => {
         this.setState({isDownloadProgress: false});
     };
+
+    getFileComponents = (filesList, remoteName, isDir) => {
+        return filesList.map((item, idx) => {
+            let {ID, Name} = item;
+            // Using fallback as fileName when the ID is not available (for local file system)
+            if (ID === undefined) {
+                ID = Name;
+            }
+            if (item.IsDir === isDir) {
+                return (
+                    <React.Fragment key={ID}>
+                        <FileComponent item={item} clickHandler={this.handleFileClick}
+                                       downloadHandle={this.downloadHandle} deleteHandle={this.deleteHandle}
+                                       remoteName={remoteName}/>
+                    </React.Fragment>
+                )
+            }
+        });
+    }
 
 
     render() {
         const {isLoading, isDownloadProgress, downloadingItems, isOperationInProgress} = this.state;
         const {connectDropTarget, isOver, upButtonHandle, remoteName} = this.props;
+
         if (isLoading) {
             return (<div><i className={"fa fa-circle-o-notch fa-lg"}/> Loading</div>);
         } else {
@@ -251,45 +277,18 @@ class FilesView extends React.Component {
 
             console.log("filesList", filesList);
 
-            let dirComponentMap = filesList.map((item, idx) => {
-                let {ID, Name} = item;
-                // Using fallback as fileName when the ID is not available (for local file system)
-                if (ID === undefined) {
-                    ID = Name;
-                }
-                if (item.IsDir) {
-                    return (
-                        <React.Fragment key={ID}>
-                            <FileComponent item={item} clickHandler={this.handleFileClick}
-                                           downloadHandle={this.downloadHandle} deleteHandle={this.deleteHandle}
-                                           remoteName={remoteName}/>
-                        </React.Fragment>
-                    )
-                }
-            });
 
-            let fileComponentMap = filesList.map((item, idx) => {
-                let {ID, Name} = item;
-                // Using fallback as fileName when the ID is not available (for local file system)
-                if (ID === undefined) {
-                    ID = Name;
-                }
-                if (!item.IsDir) {
-                    return (
-                        <React.Fragment key={ID}>
-                            <FileComponent item={item} clickHandler={this.handleFileClick}
-                                           downloadHandle={this.downloadHandle} deleteHandle={this.deleteHandle}
-                                           remoteName={remoteName}/>
-                        </React.Fragment>
-                    )
-                }
-            });
+            let dirComponentMap = this.getFileComponents(filesList, remoteName, true);
+
+            let fileComponentMap = this.getFileComponents(filesList, remoteName, false);
 
             const renderElement = (
+
+
                 <React.Fragment>
                     <tr>
                         <td></td>
-                        <td><strong> Directories</strong></td>
+                        <th>Directories</th>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -297,18 +296,19 @@ class FilesView extends React.Component {
                     {dirComponentMap}
                     <tr>
                         <td></td>
-                        <td><strong> Files</strong></td>
+                        <th>Files</th>
                         <td></td>
                         <td></td>
                         <td></td>
                     </tr>
                     {fileComponentMap}
                 </React.Fragment>
-            )
+
+            );
 
 
             return connectDropTarget(
-                <div className={"col-12"}>
+                <div className={"col-12"} style={{height: "100%"}}>
                     {isOver && renderOverlay()}
 
                     <Alert color="info" isOpen={isDownloadProgress} toggle={this.dismissAlert} sm={12}
@@ -321,7 +321,7 @@ class FilesView extends React.Component {
                     </Alert>
 
                     <Col sm={12}>
-                        <FileOperations/>
+                        <FileOperations updateHandler={this.updateHandler}/>
                     </Col>
 
 
@@ -336,15 +336,15 @@ class FilesView extends React.Component {
                         </tr>
                         </thead>
                         <tbody>
-                        <UpRowComponent key={"uniqueKey"} upButtonHandle={upButtonHandle}/>
+                        <UpButtonComponent upButtonHandle={upButtonHandle}/>
                         {filesList.length > 0 ? renderElement :
-                            (<tr>
+                            <tr>
                                 <td></td>
                                 <td>No files</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                            </tr>)
+                            </tr>
                         }
                         </tbody>
                     </Table>

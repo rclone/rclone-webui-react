@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button} from "reactstrap";
 import NewFolder from "./NewFolder";
+import PropTypes from "prop-types";
 
 class FileOperations extends React.Component {
     constructor(props) {
@@ -17,6 +18,7 @@ class FileOperations extends React.Component {
 
     closeNewFolderModal = () => {
         this.setState({newFolderModalIsVisible: false});
+        this.props.updateHandler();
     };
 
 
@@ -35,5 +37,9 @@ class FileOperations extends React.Component {
         );
     }
 }
+
+FileOperations.propTypes = {
+    updateHandler: PropTypes.func.isRequired
+};
 
 export default FileOperations;

@@ -66,11 +66,24 @@ class RemoteExplorer extends React.Component {
         }
     }
 
+    updateHandle = () => {
+        console.log("componentShouldUpdate");
+        this.setState({componentShouldUpdate: true});
+    };
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.componentShouldUpdate) {
+            this.setState({componentShouldUpdate: false});
+
+        }
+    }
+
 
     render() {
         const {remoteName, remotePath} = this.state.backStack.peek();
         return (
-            <RemoteExplorerContext.Provider value={{remoteName: remoteName, remotePath: remotePath}}>
+            <RemoteExplorerContext.Provider
+                value={{remoteName: remoteName, remotePath: remotePath, updateHandle: this.updateHandle}}>
                 {/*Render remotes array*/}
 
                 <Card>
@@ -99,12 +112,14 @@ class RemoteExplorer extends React.Component {
                         Files: {remoteName}
                     </CardHeader>
                     <CardBody>
-                        <ScrollableDiv height={"500px"}>
-                            <Row className={"mr-1 ml-1"}>
+                        <ScrollableDiv height={"700px"}>
+                            {/*<Row className={"mr-0 ml-0"}>*/}
                                 <FilesView remoteName={remoteName} remotePath={remotePath}
                                            updateRemotePathHandle={this.updateRemotePath}
-                                           upButtonHandle={this.buttonUpPressed}/>
-                            </Row>
+                                           upButtonHandle={this.buttonUpPressed}
+                                           componentShouldUpdate={this.state.componentShouldUpdate}
+                                />
+                            {/*</Row>*/}
                         </ScrollableDiv>
                     </CardBody>
                 </Card>

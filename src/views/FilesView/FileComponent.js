@@ -16,16 +16,22 @@ const fileComponentSource = {
     },
 
     async endDrag(props, monitor, component) {
-        console.log("EndDrag", monitor.getDropResult());
+        // console.log("EndDrag", monitor.getDropResult());
+        if (monitor.getDropResult()) {
 
-        const {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir, dropEffect} = monitor.getDropResult();
+            const {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir, dropEffect, updateHandler} = monitor.getDropResult();
 
-        if (dropEffect === "move") { /*Default operation without holding alt is copy, named as move in react-dnd*/
-            let res = await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+            if (dropEffect === "move") { /*Default operation without holding alt is copy, named as move in react-dnd*/
+                let res = await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+                // console.log("endDrag", props, monitor, monitor.getItem(), component);
+                updateHandler();
 
-        } else {
-            let res = await performMoveFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
 
+            } else {
+                let res = await performMoveFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+                // console.log("endDrag", props, monitor, monitor.getItem(), component);
+                updateHandler();
+            }
         }
     }
 };
