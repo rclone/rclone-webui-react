@@ -22,13 +22,13 @@ const fileComponentSource = {
             const {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir, dropEffect, updateHandler} = monitor.getDropResult();
 
             if (dropEffect === "move") { /*Default operation without holding alt is copy, named as move in react-dnd*/
-                let res = await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+                await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
                 // console.log("endDrag", props, monitor, monitor.getItem(), component);
                 updateHandler();
 
 
             } else {
-                let res = await performMoveFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+                await performMoveFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
                 // console.log("endDrag", props, monitor, monitor.getItem(), component);
                 updateHandler();
             }
@@ -97,7 +97,7 @@ function Actions({downloadHandle, deleteHandle, item}) {
 }
 
 // Non used props are required for drag-and-drop functionality
-function FileComponent({item, clickHandler, downloadHandle, deleteHandle, connectDragSource, isDragging, remoteName}) {
+function FileComponent({item, clickHandler, downloadHandle, deleteHandle, connectDragSource, /*isDragging, remoteName*/}) {
     /*
     MimeTypes: https://www.freeformatter.com/mime-types-list.html
     * {

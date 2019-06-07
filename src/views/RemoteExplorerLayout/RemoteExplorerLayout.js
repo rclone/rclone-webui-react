@@ -24,7 +24,7 @@ class RemoteExplorerLayout extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            cols: 1,
+            cols: 1
         };
         this.changeLayout = this.changeLayout.bind(this);
     }
@@ -64,6 +64,7 @@ class RemoteExplorerLayout extends React.Component {
                         </Card>
                     </Col>
                 </Row>
+
                 <Row>
                     <RemoteExplorerList cols={cols}/>
                 </Row>

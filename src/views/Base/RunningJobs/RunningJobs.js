@@ -27,6 +27,22 @@ function JobCard({job}) {
 
 }
 
+function JobCardRow({job}) {
+    const {name, percentage, speed, size} = job;
+    return (
+        <React.Fragment>
+            <Row>
+                <Col lg={12}>{name}({formatBytes(size)}) - {formatBytes(speed)}PS </Col>
+            </Row>
+            <Row>
+                <Col lg={12}><Progress value={percentage} className={"mb-2"}>{percentage} %</Progress></Col>
+            </Row>
+
+        </React.Fragment>
+    );
+
+}
+
 function GlobalStatus({stats}) {
     const {speed, bytes, checks, elapsedTime, deletes, errors, transfers} = stats;
     return (
@@ -58,14 +74,23 @@ function TransferringJobs({transferring}) {
     return null;
 }
 
+function TransferringJobsRow({transferring}) {
+    // const {transferring} = this.state.jobs;
+    if (transferring !== undefined) {
+        return transferring.map((item, idx) => {
+            return (<JobCardRow key={idx} job={item}/>);
+        });
+    }
+    return null;
+}
+
 
 class RunningJobs extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            jobs: {},
-            jobids: []
+            jobs: {}
         };
         this.loadJobs = this.loadJobs.bind(this);
     }
@@ -104,6 +129,21 @@ class RunningJobs extends React.Component {
                         <TransferringJobs transferring={transferring}/>
                     </Col>
                 </Row>);
+        } else if (mode === "card") {
+            return (
+
+                <TransferringJobsRow transferring={transferring}/>
+            );
+
+        } else if (mode === "modal") {
+            if (transferring && transferring.length > 0)
+                return (
+                    <Card className={"progress-modal"}>
+                        <CardHeader>Progress</CardHeader>
+                        <CardBody><TransferringJobsRow transferring={transferring}/></CardBody>
+                    </Card>
+                );
+            return null;
         }
 
     }

@@ -4,6 +4,8 @@ import {Button, Card, CardBody, CardHeader} from "reactstrap";
 import "../../../utils/Global.js";
 import PropTypes from "prop-types";
 import BandwidthStatusCard from "../BandwidthStatusCard/BandwidthStatusCard";
+import ReactDOM from "react-dom";
+import RunningJobs from "../RunningJobs";
 
 const propTypes = {
     mode: PropTypes.string,
@@ -13,7 +15,14 @@ const defaultProps = {
     mode: "card",
 };
 
-class BackendStatusCard extends React.PureComponent {
+function TaskModal() {
+    return ReactDOM.createPortal((
+        <RunningJobs mode={"modal"}/>
+
+    ), document.getElementById("modal-root"));
+}
+
+class BackendStatusCard extends React.Component {
 
     constructor(props, context) {
         super(props, context);
@@ -67,8 +76,12 @@ class BackendStatusCard extends React.PureComponent {
             );
         else /*Default*/
             return (
-                <Button type="primary"
-                        className={connectivityStatus ? "bg-info" : "bg-warning"}>{connectivityStatus ? "CONNECTED" : "DISCONNECTED"}</Button>
+                <React.Fragment>
+                    <Button type="primary"
+                            className={connectivityStatus ? "bg-info" : "bg-warning"}>{connectivityStatus ? "CONNECTED" : "DISCONNECTED"}</Button>
+                    {/*Show current tasks in the side modal*/}
+                    <TaskModal/>
+                </React.Fragment>
             )
     }
 }

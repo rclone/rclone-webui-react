@@ -258,6 +258,7 @@ class FilesView extends React.Component {
                     </React.Fragment>
                 )
             }
+            return null;
         });
     }
 
