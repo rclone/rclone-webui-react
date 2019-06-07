@@ -148,7 +148,6 @@ class NewDrive extends React.Component {
             formValuesValid: {},
             authModalIsVisible: false,
 
-            driveType: "",
             drivePrefix: "",
             driveNameIsValid: false,
             formErrors: {driveName: ""},
@@ -298,13 +297,13 @@ class NewDrive extends React.Component {
 
     validateForm() {
         //    Validate driveName and other parameters
-        const {driveNameIsValid, driveType, isValid} = this.state;
+        const {driveNameIsValid, drivePrefix, isValid} = this.state;
         let flag = true;
 
         if (!driveNameIsValid) {
             flag = false;
         }
-        if (driveType === "") {
+        if (drivePrefix === "") {
             flag = false;
         }
 
@@ -346,41 +345,43 @@ class NewDrive extends React.Component {
         const {formValues, drivePrefix} = this.state;
         const {config} = this;
 
-        if (drivePrefix !== undefined && drivePrefix !== "") {
-            const currentProvider = findFromConfig(config, drivePrefix);
-            if (currentProvider !== undefined) {
+        if (this.validateForm()) {
+
+            if (drivePrefix !== undefined && drivePrefix !== "") {
+                const currentProvider = findFromConfig(config, drivePrefix);
+                if (currentProvider !== undefined) {
 
 
-                const defaults = currentProvider.Options;
+                    const defaults = currentProvider.Options;
 
-                // console.log(config, formValues, defaults);
+                    // console.log(config, formValues, defaults);
 
-                let finalParameterValues = {};
+                    let finalParameterValues = {};
 
 
-                for (const [key, value] of Object.entries(formValues)) {
+                    for (const [key, value] of Object.entries(formValues)) {
 
-                    const defaultValueObj = defaults.find((ele, idx, array) => {
-                        return (key === ele.Name);
-                    });
+                        const defaultValueObj = defaults.find((ele, idx, array) => {
+                            return (key === ele.Name);
+                        });
 
-                    const {DefaultStr} = defaultValueObj;
-                    if (value !== DefaultStr) {
-                        console.log(`${value} !== ${DefaultStr}`);
-                        finalParameterValues[key] = value;
+                        const {DefaultStr} = defaultValueObj;
+                        if (value !== DefaultStr) {
+                            console.log(`${value} !== ${DefaultStr}`);
+                            finalParameterValues[key] = value;
+                        }
+
                     }
 
-                }
+
+                    let data = {
+                        parameters: finalParameterValues,
+
+                        name: this.state.driveName,
+                        type: this.state.drivePrefix
+                    };
 
 
-                let data = {
-                    parameters: finalParameterValues,
-
-                    name: this.state.driveName,
-                    type: this.state.drivePrefix
-                };
-
-                if (this.validateForm()) {
                     console.log("Validated form");
                     this.startAuthentication();
                     axiosInstance.post('/config/create', data).then((response) => {
@@ -389,15 +390,16 @@ class NewDrive extends React.Component {
                     }, (err) => {
                         console.log("Error" + err);
                     });
-                } else {
-                    alert("Problems in validation")
+
                 }
             }
+        } else {
+            alert("Problems in validation")
         }
     }
 
     clearForm = e => {
-        this.setState({driveName: "", driveType: ""})
+        this.setState({driveName: "", drivePrefix: ""})
     };
 
 
