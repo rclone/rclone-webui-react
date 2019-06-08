@@ -6,6 +6,9 @@ import FilesView from "../FilesView/FilesView";
 import BackStack from "../../utils/BackStack";
 import ScrollableDiv from "../Base/ScrollableDiv/ScrollableDiv";
 import RemoteExplorerContext from "./RemoteExplorerContext";
+import {addColonAtLast} from "../../utils/Tools";
+import {toast} from "react-toastify";
+import axiosInstance from "../../utils/API";
 
 
 const propTypes = {};
@@ -20,7 +23,8 @@ class RemoteExplorer extends React.Component {
             backStack: new BackStack(),
             remoteName: "",
             remotePath: "",
-            remoteNameTemp: ""
+            remoteNameTemp: "",
+            fsInfo: {}
 
         };
 
@@ -33,11 +37,25 @@ class RemoteExplorer extends React.Component {
 
     }
 
+    async getFsInfo(remoteName) {
+        // const {remoteName} = this.state;
+        console.log("FsInfo: remoteName:" + remoteName);
+
+        remoteName = addColonAtLast(remoteName);
+        try {
+            let res = await axiosInstance.post("operations/fsinfo", {fs: remoteName});
+            console.log("FSConfig res for " + remoteName, res);
+            return res.data;
+        } catch (e) {
+            if (e.response) {
+                console.log(e.response);
+            } else {
+                toast.warn(`Error loading fs info config: ${e}`)
+            }
+        }
+    }
+
     updateRemoteName(remoteName) {
-        // const {backStack} = this.state;
-        // backStack.empty();
-        // backStack.push({remoteName: remoteName, remotePath: ""});
-        // this.setState(backStack.peek());
 
         this.setState({remoteNameTemp: remoteName});
 
@@ -48,11 +66,23 @@ class RemoteExplorer extends React.Component {
         backStack.empty();
         backStack.push({remoteName: remoteNameTemp, remotePath: ""});
         this.setState(backStack.peek());
+        this.getFsInfo(remoteNameTemp).then((data) => {
+            this.setState({fsInfo: data})
+
+        })
+
     };
 
-    updateRemotePath(remotePath) {
+    updateRemotePath(remotePath, IsDir, IsBucket) {
         const {backStack} = this.state;
-        backStack.push({remoteName: backStack.peek().remoteName, remotePath: remotePath});
+
+        if (IsBucket) {
+            backStack.push({remoteName: addColonAtLast(backStack.peek().remoteName) + remotePath, remotePath: ""});
+        } else if (IsDir) {
+            backStack.push({remoteName: backStack.peek().remoteName, remotePath: remotePath});
+        }
+
+        // console.log(backStack.peek());
 
         this.setState(backStack.peek());
     }
@@ -81,9 +111,10 @@ class RemoteExplorer extends React.Component {
 
     render() {
         const {remoteName, remotePath} = this.state.backStack.peek();
+        const {fsInfo} = this.state;
         return (
             <RemoteExplorerContext.Provider
-                value={{remoteName: remoteName, remotePath: remotePath}}>
+                value={{remoteName: remoteName, remotePath: remotePath, fsInfo: fsInfo}}>
                 {/*Render remotes array*/}
 
                 <Card>

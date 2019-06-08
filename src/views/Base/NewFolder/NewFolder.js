@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import axiosInstance from "../../../utils/API";
 import RemoteExplorerContext from "../../RemoteExplorer/RemoteExplorerContext";
 import {toast} from "react-toastify";
+import {addColonAtLast} from "../../../utils/Tools";
 
 const propTypes = {
     isVisible: PropTypes.bool.isRequired,
@@ -27,23 +28,28 @@ class NewFolder extends React.Component {
 
     disableForm = (shouldDisable) => {
         this.setState({disableForm: shouldDisable});
-    }
+    };
 
     async createNewFolder() {
 
         console.log("Form Submitted");
-        let {remoteName, remotePath} = this.context;
+        let {remoteName, remotePath, fsInfo} = this.context;
         let {name} = this.state;
-        if (remoteName[-1] !== ":") {
-            remoteName += ":";
-        }
-        if (remotePath === "") {
-            remotePath = name;
-        } else {
-            remotePath += "/" + name;
-        }
+
+        remoteName = addColonAtLast(remoteName);
+
         // remotePath = this.state.name;
         try {
+            console.log("fsInfo", fsInfo);
+            if (fsInfo.Features.BucketBased && remotePath === "") {/*Trying to create a bucket, not a dir*/
+                remoteName += name;
+            } else { /*Normal directory*/
+                if (remotePath === "") {
+                    remotePath = name;
+                } else {
+                    remotePath += "/" + name;
+                }
+            }
             const data = {
                 fs: remoteName,
                 remote: remotePath
@@ -63,23 +69,10 @@ class NewFolder extends React.Component {
             this.disableForm(false);
 
             if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-            } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                // http.ClientRequest in node.js
-                console.log(error.request);
+                toast.error(`Error creating folder: ${error.response.data.error}`)
             } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log('Error', error.message);
+                toast.error(`Error creating folder: ${error}`);
             }
-            toast.error(`Error creating new folder. ${error.message}`, {
-                autoClose: false
-            });
 
             // console.log(`Error occurred at operations/mkdir: ${e}, ${e.response}`);
         }

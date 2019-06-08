@@ -10,7 +10,7 @@ function RemoteExplorerList({cols}) {
     const lgSize = 12 / cols;
     for (let i = 0; i < cols; i++) {
         remoteExplorers.push((
-            <Col xs={12} sm={6} lg={lgSize} key={i}>
+            <Col xs={12} sm={12} lg={lgSize} key={i}>
                 <RemoteExplorer/>
             </Col>
         ));

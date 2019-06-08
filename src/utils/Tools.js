@@ -1,5 +1,5 @@
 export function isEmpty(obj) {
-    for (var key in obj) {
+    for (let key in obj) {
         if (obj.hasOwnProperty(key))
             return false;
     }
@@ -112,10 +112,13 @@ export function findFromConfig(config, name) {
     return currentConfig;
 }
 
-export function addSemicolonAtLast(name) {
-    if (name[name.length - 1] !== ":") {
-        name = name + ":"
+export function addColonAtLast(name) {
+    if (name.indexOf(':') === -1) {
+        if (name[name.length - 1] !== ":") {
+            name = name + ":"
+        }
     }
+
     return name;
 }
 

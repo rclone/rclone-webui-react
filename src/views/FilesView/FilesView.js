@@ -8,7 +8,7 @@ import {DropTarget} from "react-dnd";
 import FileComponent from "./FileComponent";
 import {ItemTypes} from "./Constants";
 import {toast} from "react-toastify";
-import {addSemicolonAtLast} from "../../utils/Tools";
+import {addColonAtLast} from "../../utils/Tools";
 
 
 const propTypes = {
@@ -34,9 +34,9 @@ const filesTarget = {
 
         let {Name, Path, IsDir, remoteName} = monitor.getItem();
 
-        let srcRemoteName = addSemicolonAtLast(remoteName);
+        let srcRemoteName = addColonAtLast(remoteName);
         let srcRemotePath = Path;
-        let destRemoteName = addSemicolonAtLast(props.remoteName);
+        let destRemoteName = addColonAtLast(props.remoteName);
         let destRemotePath = props.remotePath;
 
         console.log("drop:this", this);
@@ -126,11 +126,11 @@ class FilesView extends React.Component {
     }
 
     handleFileClick(e, item) {
-        const {Path, IsDir} = item;
+        const {Path, IsDir, IsBucket} = item;
         const {updateRemotePathHandle} = this.props;
         console.log("Clicked" + Path);
-        if (IsDir) {
-            updateRemotePathHandle(Path);
+        if (IsDir || IsBucket) {
+            updateRemotePathHandle(Path, IsDir, IsBucket);
         } else {
             this.downloadHandle(item);
         }
@@ -145,7 +145,7 @@ class FilesView extends React.Component {
 
             console.log(remoteName, remotePath);
 
-            remoteName = addSemicolonAtLast(remoteName);
+            remoteName = addColonAtLast(remoteName);
 
 
             let data = {
@@ -155,8 +155,17 @@ class FilesView extends React.Component {
             if (showLoading)
                 this.setState({isLoading: true});
 
-            let res = await axiosInstance.post("/operations/list", data);
-            this.setState({filesList: res.data.list});
+            try {
+
+                let res = await axiosInstance.post("/operations/list", data);
+                this.setState({filesList: res.data.list});
+            } catch (e) {
+                console.log("Error loading files");
+                toast.warn('Error loading files');
+                // Pop current state
+                this.props.upButtonHandle();
+            }
+
             if (showLoading)
                 this.setState({isLoading: false});
         }
@@ -204,7 +213,7 @@ class FilesView extends React.Component {
         let {remoteName} = this.props;
 
         const data = {
-            fs: addSemicolonAtLast(remoteName),
+            fs: addColonAtLast(remoteName),
             remote: item.Path,
         };
         try {
@@ -318,10 +327,6 @@ class FilesView extends React.Component {
                     <Alert color="info" isOpen={isDownloadProgress} toggle={this.dismissAlert} sm={12}
                            lg={12}>
                         Downloading {downloadingItems} file(s). Please wait.
-                    </Alert>
-                    <Alert color="info" isOpen={isOperationInProgress} toggle={this.dismissAlert} sm={12}
-                           lg={12}>
-                        Copy in progress
                     </Alert>
 
                     <Col sm={12}>
