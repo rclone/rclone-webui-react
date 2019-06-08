@@ -5,6 +5,7 @@ import {ItemTypes} from './Constants'
 import {DragSource} from 'react-dnd'
 import {formatBytes} from "../../utils/Tools";
 import {performCopyFile, performMoveFile} from "../../utils/API";
+import {toast} from "react-toastify";
 
 const fileComponentSource = {
     beginDrag(props) {
@@ -17,21 +18,41 @@ const fileComponentSource = {
 
     async endDrag(props, monitor, component) {
         // console.log("EndDrag", monitor.getDropResult());
-        if (monitor.getDropResult()) {
+        try {
+            if (monitor.getDropResult()) {
 
-            const {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir, dropEffect, updateHandler} = monitor.getDropResult();
+                const {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir, dropEffect, updateHandler} = monitor.getDropResult();
 
-            if (dropEffect === "move") { /*Default operation without holding alt is copy, named as move in react-dnd*/
-                await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
-                // console.log("endDrag", props, monitor, monitor.getItem(), component);
-                updateHandler();
+                if (dropEffect === "move") { /*Default operation without holding alt is copy, named as move in react-dnd*/
+                    await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+                    // console.log("endDrag", props, monitor, monitor.getItem(), component);
+                    updateHandler();
+                    if (IsDir) {
+                        toast.info(`Directory copied: ${Name}`);
+                    } else {
+                        toast.info(`File copied: ${Name}`);
+                    }
 
+                } else {
+                    await performMoveFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+                    // console.log("endDrag", props, monitor, monitor.getItem(), component);
+                    updateHandler();
+                    if (IsDir) {
+                        toast.info(`Directory moved: ${Name}`);
+                    } else {
+                        toast.info(`File moved: ${Name}`);
+                    }
 
-            } else {
-                await performMoveFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
-                // console.log("endDrag", props, monitor, monitor.getItem(), component);
-                updateHandler();
+                }
             }
+        } catch (e) {
+            const error = e.response ? e.response : e;
+            console.log(JSON.stringify(error));
+
+            toast.error(`Error copying file(s). ${error.data.error}`, {
+                autoClose: false
+            });
+
         }
     }
 };

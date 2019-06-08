@@ -32,7 +32,9 @@ function JobCardRow({job}) {
     return (
         <React.Fragment>
             <Row>
-                <Col lg={12}>{name}({formatBytes(size)}) - {formatBytes(speed)}PS </Col>
+                {(size && speed) ? (<Col lg={12}>{name}({formatBytes(size)}) - {formatBytes(speed)}PS </Col>) : (
+                    <Col lg={12}>Calculating</Col>)}
+
             </Row>
             <Row>
                 <Col lg={12}><Progress value={percentage} className={"mb-2"}>{percentage} %</Progress></Col>
@@ -45,6 +47,7 @@ function JobCardRow({job}) {
 
 function GlobalStatus({stats}) {
     const {speed, bytes, checks, elapsedTime, deletes, errors, transfers} = stats;
+    console.log("stats", stats);
     return (
         <Card>
             <CardHeader><strong>Global Stats</strong></CardHeader>
@@ -156,7 +159,10 @@ class RunningJobs extends React.Component {
                 return (
                     <Card className={"progress-modal"}>
                         <CardHeader>Progress</CardHeader>
-                        <CardBody><TransferringJobsRow transferring={transferring}/></CardBody>
+                        <CardBody>
+                            <TransferringJobsRow transferring={transferring}/>
+
+                        </CardBody>
                     </Card>
                 );
             return null;

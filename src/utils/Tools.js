@@ -6,6 +6,8 @@ export function isEmpty(obj) {
     return true;
 }
 
+export default isEmpty;
+
 export function bytesToMB(bytes) {
     if (bytes === 0) return 0;
     const mb = bytes / 1024 / 1024;
@@ -110,4 +112,10 @@ export function findFromConfig(config, name) {
     return currentConfig;
 }
 
-export default isEmpty;
+export function addSemicolonAtLast(name) {
+    if (name[name.length - 1] !== ":") {
+        name = name + ":"
+    }
+    return name;
+}
+

@@ -8,6 +8,7 @@ import {DropTarget} from "react-dnd";
 import FileComponent from "./FileComponent";
 import {ItemTypes} from "./Constants";
 import {toast} from "react-toastify";
+import {addSemicolonAtLast} from "../../utils/Tools";
 
 
 const propTypes = {
@@ -20,12 +21,6 @@ const defaultProps = {
     remotePath: "",
 };
 
-function addSemicolonAtLast(name) {
-    if (name[-1] !== ":") {
-        name = name + ":"
-    }
-    return name;
-}
 
 
 /*
@@ -126,7 +121,7 @@ class FilesView extends React.Component {
         const {shouldUpdate} = this.state;
         console.log("componentDidUpdate");
         if (prevProps.remoteName !== remoteName || prevProps.remotePath !== remotePath || prevState.shouldUpdate !== shouldUpdate) {
-            this.getFilesList();
+            this.getFilesList(prevState.shouldUpdate === shouldUpdate);
         }
     }
 
@@ -143,7 +138,7 @@ class FilesView extends React.Component {
     }
 
 
-    async getFilesList() {
+    async getFilesList(showLoading = true) {
         let {remoteName, remotePath} = this.props;
 
         if (remoteName !== "") {
@@ -157,13 +152,13 @@ class FilesView extends React.Component {
                 fs: remoteName,
                 remote: remotePath
             };
+            if (showLoading)
+                this.setState({isLoading: true});
 
-            this.setState({isLoading: true});
             let res = await axiosInstance.post("/operations/list", data);
-
-
-            // console.log(res);
-            this.setState({filesList: res.data.list, isLoading: false});
+            this.setState({filesList: res.data.list});
+            if (showLoading)
+                this.setState({isLoading: false});
         }
     }
 
@@ -219,12 +214,16 @@ class FilesView extends React.Component {
                 console.log("deletefile", res);
 
                 this.updateHandler();
+                toast.info(`${item.Name} deleted.`);
 
             } else {
 
                 let res = await axiosInstance.post("/operations/deletefile", data);
                 console.log("deletefile", res);
                 this.updateHandler();
+                toast.info(`${item.Name} deleted.`, {
+                    autoClose: false
+                });
             }
         } catch (e) {
             console.log(`Error in deleting file`);
