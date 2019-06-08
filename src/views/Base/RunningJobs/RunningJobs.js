@@ -90,7 +90,9 @@ class RunningJobs extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            jobs: {}
+            jobs: {},
+            isConnected: false
+
         };
         this.loadJobs = this.loadJobs.bind(this);
     }
@@ -98,11 +100,16 @@ class RunningJobs extends React.Component {
     async loadJobs() {
         try {
             let res = await axiosInstance.post("/core/stats");
-            this.setState({jobs: res.data});
+
+            this.setState({jobs: res.data, isConnected: true});
 
 
         } catch (e) {
-            console.log(`Error loading jobs: core/stats ${e}`);
+
+            // console.log("error", e.response.status);
+
+            // console.log(`Error loading jobs: core/stats ${e}`);
+            this.setState({isConnected: false})
         }
     }
 
@@ -116,24 +123,33 @@ class RunningJobs extends React.Component {
     }
 
     render() {
-        const {jobs} = this.state;
+        const {jobs, isConnected} = this.state;
         const {transferring} = jobs;
         const {mode} = this.props;
         if (mode === "full-status") {
-            return (
-                <Row>
-                    <Col sm={12} lg={4}>
-                        <GlobalStatus stats={jobs}/>
-                    </Col>
-                    <Col sm={12} lg={4}>
-                        <TransferringJobs transferring={transferring}/>
-                    </Col>
-                </Row>);
-        } else if (mode === "card") {
-            return (
+            if (isConnected) {
+                return (
+                    <Row>
+                        <Col sm={12} lg={4}>
+                            <GlobalStatus stats={jobs}/>
+                        </Col>
+                        <Col sm={12} lg={4}>
+                            <TransferringJobs transferring={transferring}/>
+                        </Col>
+                    </Row>);
+            } else {
+                return (<div>Not connected to rclone.</div>)
+            }
 
-                <TransferringJobsRow transferring={transferring}/>
-            );
+        } else if (mode === "card") {
+            if (isConnected) {
+                return (
+
+                    <TransferringJobsRow transferring={transferring}/>
+                );
+            } else {
+                return (<div>Not connected to rclone.</div>);
+            }
 
         } else if (mode === "modal") {
             if (transferring && transferring.length > 0)

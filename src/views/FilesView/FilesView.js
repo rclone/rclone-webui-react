@@ -7,6 +7,7 @@ import FileOperations from "../Base/NewFolder/FileOperations";
 import {DropTarget} from "react-dnd";
 import FileComponent from "./FileComponent";
 import {ItemTypes} from "./Constants";
+import {toast} from "react-toastify";
 
 
 const propTypes = {
@@ -227,6 +228,9 @@ class FilesView extends React.Component {
             }
         } catch (e) {
             console.log(`Error in deleting file`);
+            toast.error(`Error deleting file. ${e}`, {
+                autoClose: false
+            });
         }
 
     }

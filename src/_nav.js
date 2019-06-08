@@ -1,24 +1,19 @@
 export default {
     items: [
         {
-            name: 'Home',
-            url: '/home',
-            icon: 'icon-speedometer'
-        },
-        {
-            name: 'New Drive',
-            url: '/newdrive',
+            name: 'Dashboard',
+            url: '/dashboard',
             icon: 'icon-speedometer'
         },
         {
             name: 'Configs',
             url: '/showconfig',
-            icon: 'icon-speedometer'
+            icon: 'icon-note'
         },
         {
             name: 'Explorer',
             url: '/remoteExplorer',
-            icon: 'icon-speedometer'
+            icon: 'icon-screen-desktop'
         },
     ],
 };

@@ -3,6 +3,7 @@ import {Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFoote
 import PropTypes from "prop-types";
 import axiosInstance from "../../../utils/API";
 import RemoteExplorerContext from "../../RemoteExplorer/RemoteExplorerContext";
+import {toast} from "react-toastify";
 
 const propTypes = {
     isVisible: PropTypes.bool.isRequired,
@@ -22,6 +23,10 @@ class NewFolder extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.toggle = this.toggle.bind(this);
 
+    }
+
+    disableForm = (shouldDisable) => {
+        this.setState({disableForm: shouldDisable});
     }
 
     async createNewFolder() {
@@ -46,16 +51,37 @@ class NewFolder extends React.Component {
             console.log("Data", data);
 
             /*Disable form submit button*/
-            this.setState({disableForm: true});
-
+            this.disableForm(true);
+            /*Network Request*/
             let res = await axiosInstance.post("operations/mkdir", data);
             console.log("mkdir", res);
-            this.setState({disableForm: false});
+            this.disableForm(false);
 
             this.toggle();
-        } catch (e) {
-            this.setState({disableForm: false});
-            console.log(`Error occurred at operations/mkdir: ${e}`);
+            toast.info(`Folder created: ${remotePath}`)
+        } catch (error) {
+            this.disableForm(false);
+
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                // http.ClientRequest in node.js
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
+            toast.error(`Error creating new folder. ${error.message}`, {
+                autoClose: false
+            });
+
+            // console.log(`Error occurred at operations/mkdir: ${e}, ${e.response}`);
         }
     }
 

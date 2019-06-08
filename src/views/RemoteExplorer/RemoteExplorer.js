@@ -66,10 +66,10 @@ class RemoteExplorer extends React.Component {
         }
     }
 
-    updateHandle = () => {
-        console.log("componentShouldUpdate");
-        this.setState({componentShouldUpdate: true});
-    };
+    // updateHandle = () => {
+    //     console.log("componentShouldUpdate");
+    //     this.setState({componentShouldUpdate: true});
+    // };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevState.componentShouldUpdate) {
@@ -83,7 +83,7 @@ class RemoteExplorer extends React.Component {
         const {remoteName, remotePath} = this.state.backStack.peek();
         return (
             <RemoteExplorerContext.Provider
-                value={{remoteName: remoteName, remotePath: remotePath, updateHandle: this.updateHandle}}>
+                value={{remoteName: remoteName, remotePath: remotePath}}>
                 {/*Render remotes array*/}
 
                 <Card>
@@ -91,12 +91,12 @@ class RemoteExplorer extends React.Component {
                     <CardBody>
                         <Form onSubmit={() => this.openRemote()}>
                             <Row>
-                                <Col sm={10} lg={6}>
+                                <Col xs={12} sm={8} lg={6}>
 
                                     <RemotesList updateRemoteNameHandle={this.updateRemoteName}
                                                  remoteName={remoteName}/>
                                 </Col>
-                                <Col sm={2} lg={2}>
+                                <Col xs={12} sm={2} lg={2}>
 
                                     <Button className={"btn-lg"} color="success"
                                             type="submit">Open</Button>

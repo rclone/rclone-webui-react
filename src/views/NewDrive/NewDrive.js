@@ -18,6 +18,7 @@ import NewDriveAuthModal from "../Base/NewDriveAuthModal";
 import axiosInstance from "../../utils/API";
 import isEmpty, {findFromConfig, validateDuration, validateInt, validateSizeSuffix} from "../../utils/Tools";
 import ProviderAutoSuggest from "./ProviderAutoSuggest";
+import {toast} from "react-toastify";
 
 function DriveParameters({drivePrefix, loadAdvanced, changeHandler, currentValues, isValidMap, errorsMap, config}) {
     if (drivePrefix !== undefined && drivePrefix !== "") {
@@ -49,7 +50,7 @@ function DriveParameters({drivePrefix, loadAdvanced, changeHandler, currentValue
             */
 
             outputMap = inputsMap.map((attr, idx) => {
-                if ((loadAdvanced && attr.Advanced) || (!loadAdvanced && !attr.Advanced)) {
+                if (attr.Hide === 0 && ((loadAdvanced && attr.Advanced) || (!loadAdvanced && !attr.Advanced))) {
                     const labelValue = `${attr.Help}`;
                     const requiredValue = ((attr.Required) ? (<i className={"text-red"}>*</i>) : null);
 
@@ -146,6 +147,7 @@ class NewDrive extends React.Component {
             advancedOptions: false,
             formValues: {},
             formValuesValid: {},
+            required: {},
             authModalIsVisible: false,
 
             drivePrefix: "",
@@ -187,6 +189,9 @@ class NewDrive extends React.Component {
             }
         } catch (e) {
             console.log(`Error occurred while checking for config: ${e}`);
+            toast.error(`Error creating config. ${e}`, {
+                autoClose: false
+            });
         }
     }
 
@@ -222,6 +227,14 @@ class NewDrive extends React.Component {
             }
         }
 
+        if (this.state.required[inputName] && (!inputValue || inputValue === "")) {
+            validateResult = false;
+            if (!validateResult) {
+                error += " This field is required";
+            }
+        }
+
+
         this.setState((prevState) => {
             return {
                 isValid: {
@@ -251,6 +264,7 @@ class NewDrive extends React.Component {
         let optionTypes = {};
         let isValid = {};
         let formErrors = {};
+        let required = {};
         // let drivePrefix = "";
         // console.log("driveType change", val);
         if (val !== undefined && val !== "") {
@@ -259,11 +273,19 @@ class NewDrive extends React.Component {
             if (currentConfig !== undefined) {
 
                 currentConfig.Options.forEach(item => {
-                    const {DefaultStr, Type, Name} = item;
-                    availableOptions[Name] = DefaultStr;
-                    optionTypes[Name] = Type;
-                    isValid[Name] = true;
-                    formErrors[Name] = "";
+
+                    const {DefaultStr, Type, Name, Required, Hide} = item;
+                    if (Hide === 0) {
+                        availableOptions[Name] = DefaultStr;
+                        optionTypes[Name] = Type;
+                        required[Name] = Required;
+
+                        if (Required && (!DefaultStr || DefaultStr === ""))
+                            isValid[Name] = false;
+                        else
+                            isValid[Name] = true;
+                        formErrors[Name] = "";
+                    }
                 });
             }
             this.setState({
@@ -272,6 +294,7 @@ class NewDrive extends React.Component {
                 optionTypes: optionTypes,
                 isValid: isValid,
                 formErrors: formErrors,
+                required: required
             });
         } else {
             this.setState({drivePrefix: val})
@@ -285,7 +308,7 @@ class NewDrive extends React.Component {
 
     // Open second step of setting up the drive
     openSetupDrive = (e) => {
-        e.preventDefault();
+        if (e) e.preventDefault();
         this.setState({'colSetup': true});
         this.setupDriveDiv.scrollIntoView({behavior: "smooth"});
     };
@@ -323,7 +346,6 @@ class NewDrive extends React.Component {
         this.setState((state, props) => {
             return {authModalIsVisible: !state.authModalIsVisible}
         });
-        clearInterval(this.configCheckInterval);
     }
 
     startAuthentication() {
@@ -337,13 +359,22 @@ class NewDrive extends React.Component {
 
     }
 
+    stopAuthentication() {
+        this.setState((state, props) => {
+            return {authModalIsVisible: false}
+        });
+        clearInterval(this.configCheckInterval);
 
-    handleSubmit(e) {
+    }
+
+
+    async handleSubmit(e) {
         e.preventDefault();
         console.log("Submitted form");
 
         const {formValues, drivePrefix} = this.state;
         const {config} = this;
+
 
         if (this.validateForm()) {
 
@@ -384,17 +415,30 @@ class NewDrive extends React.Component {
 
                     console.log("Validated form");
                     this.startAuthentication();
-                    axiosInstance.post('/config/create', data).then((response) => {
-                        //Show the Auth Modal
+                    try {
+                        let res = await axiosInstance.post('/config/create', data);
+                        toast.info("Config created");
 
-                    }, (err) => {
-                        console.log("Error" + err);
-                    });
+                    } catch (err) {
+                        toast.error(`Error creating config. ${err}`, {
+                            autoClose: false
+                        });
+                        this.stopAuthentication();
+                    }
 
                 }
             }
         } else {
-            alert("Problems in validation")
+            if (!this.state.colSetup) {
+                this.openSetupDrive();
+            }
+
+            if (this.state.advancedOptions && !this.state.colAdvanced) {
+                this.openAdvancedSettings();
+            }
+            toast.warn(`Check for errors before submitting.`, {
+                autoClose: false
+            });
         }
     }
 
@@ -446,6 +490,9 @@ class NewDrive extends React.Component {
             // this.setState({config: res.data.providers});
         } catch (e) {
             console.log(`Error getting the provider details: ${e}`);
+            toast.error(`Error loading providers. ${e}`, {
+                autoClose: false
+            });
         }
     }
 

@@ -9,7 +9,7 @@ const RemoteExplorerLayout = React.lazy(() => import("./views/RemoteExplorerLayo
 const routes = [
     {path: '/', exact: true, name: 'Home'},
     {path: '/newdrive', exact: true, name: 'New Drive', component: MyDashboard},
-    {path: '/home', name: 'Home', component: Home},
+    {path: '/dashboard', name: 'Dashboard', component: Home},
     {path: '/showconfig', name: 'Configs', component: ShowConfig},
     {path: '/remoteExplorer/:remoteName/:remotePath', exact: true, name: 'Explorer', component: RemoteExplorerLayout},
     {path: '/remoteExplorer', name: 'Explorer', component: RemoteExplorerLayout},

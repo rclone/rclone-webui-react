@@ -70,7 +70,7 @@ export function secondsToStr(seconds) {
     }
     seconds = seconds % 60;
     if (seconds) {
-        return seconds + ' second' + numberEnding(seconds);
+        return seconds.toFixed(2) + ' second' + numberEnding(seconds);
     }
     return 'less than a second'; //'just now' //or other string you like;
 }

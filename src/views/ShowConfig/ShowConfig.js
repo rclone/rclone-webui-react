@@ -1,7 +1,8 @@
 import React from "react";
-import {Table} from "reactstrap";
+import {Button, Col, Row, Table} from "reactstrap";
 import axiosInstance from "../../utils/API";
 import ConfigRow from "./ConfigRow";
+import {toast} from "react-toastify";
 
 
 function RemoteRows({remotes, refreshHandle}) {
@@ -21,7 +22,7 @@ function RemoteRows({remotes, refreshHandle}) {
 }
 
 
-class ShowConfig extends React.Component {
+class ShowConfig extends React.PureComponent {
     constructor(props, context) {
         super(props, context);
 
@@ -31,11 +32,15 @@ class ShowConfig extends React.Component {
         this.loadConfigDump = this.loadConfigDump.bind(this);
     }
 
-    loadConfigDump() {
+    async loadConfigDump() {
         try {
-            axiosInstance.post("config/dump").then((res) => this.setState({remotes: res.data}));
+            let res = await axiosInstance.post("config/dump");
+            this.setState({remotes: res.data});
         } catch (e) {
             console.log(`Error while processing request to get remote list ${e}`);
+            toast.error(`Error loading remotes list. ${e}`, {
+                autoClose: false
+            });
         }
     }
 
@@ -46,22 +51,37 @@ class ShowConfig extends React.Component {
     }
 
     render() {
-        return (<div>
-            <Table responsive>
-                <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Update</th>
-                    <th>Delete</th>
-                </tr>
-                </thead>
-                <tbody>
-                <RemoteRows remotes={this.state.remotes} refreshHandle={this.loadConfigDump}/>
-                </tbody>
-            </Table>
-        </div>)
+
+
+        return (
+            <div>
+                <Row>
+                    <Col lg={8}/>
+                    <Col lg={4} className={"mb-3"}>
+                        <Button color={"primary"} className={"float-right"}
+                                onClick={() => this.props.history.push("/newdrive")}>
+                            New Config
+                        </Button>
+                    </Col>
+
+                </Row>
+                <Table responsive>
+                    <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <RemoteRows remotes={this.state.remotes} refreshHandle={this.loadConfigDump}/>
+                    </tbody>
+                </Table>
+            </div>
+        )
+
     }
 }
 

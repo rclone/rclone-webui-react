@@ -2,6 +2,7 @@ import React from 'react';
 import "../../utils/Global";
 import axiosInstance from "../../utils/API";
 import RemoteListAutoSuggest from "./RemoteListAutoSuggest";
+import {toast} from "react-toastify";
 
 class RemotesList extends React.Component {
 
@@ -34,7 +35,10 @@ class RemotesList extends React.Component {
             }
 
         } catch (e) {
-            console.log(`Error loading remotes: ${e}`)
+            // console.log(`Error loading remotes. ${e}`);
+            toast.error(`Error loading remotes. ${e}`, {
+                autoClose: false
+            });
         }
     }
 
