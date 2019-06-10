@@ -9,6 +9,7 @@ import FileComponent from "./FileComponent";
 import {ItemTypes} from "./Constants";
 import {toast} from "react-toastify";
 import {addColonAtLast} from "../../utils/Tools";
+import RemoteExplorerContext from "../RemoteExplorer/RemoteExplorerContext";
 
 
 const propTypes = {
@@ -94,6 +95,8 @@ function UpButtonComponent({upButtonHandle}) {
 }
 
 class FilesView extends React.Component {
+    static contextType = RemoteExplorerContext;
+
 
     constructor(props) {
         super(props);
@@ -172,9 +175,15 @@ class FilesView extends React.Component {
     }
 
     async downloadHandle(item) {
-        let {remoteName, remotePath} = this.props;
+        // let {remoteName, remotePath} = this.props;
+        let {remoteName, remotePath, fsInfo} = this.context;
+        let downloadUrl = ""
+        if (fsInfo.Features.BucketBased) {
+            downloadUrl = `/[${remoteName}]/${remotePath}/${item.Name}`;
 
-        const downloadUrl = `/[${remoteName}:${remotePath}]/${item.Name}`;
+        } else {
+            downloadUrl = `/[${remoteName}:${remotePath}]/${item.Name}`;
+        }
         // openInNewTab(downloadUrl);
 
         this.setState((prevState) => {

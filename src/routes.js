@@ -4,11 +4,13 @@ const MyDashboard = React.lazy(() => import('./views/NewDrive'));
 const Home = React.lazy(() => import('./views/Home'));
 const ShowConfig = React.lazy(() => import('./views/ShowConfig'));
 const RemoteExplorerLayout = React.lazy(() => import("./views/RemoteExplorerLayout"))
+const Login = React.lazy(() => import("./views/Pages/Login"))
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
     {path: '/', exact: true, name: 'Home'},
     {path: '/newdrive', exact: true, name: 'New Drive', component: MyDashboard},
+    {path: '/login', exact: true, name: 'New Drive', component: Login},
     {path: '/dashboard', name: 'Dashboard', component: Home},
     {path: '/showconfig', name: 'Configs', component: ShowConfig},
     {path: '/remoteExplorer/:remoteName/:remotePath', exact: true, name: 'Explorer', component: RemoteExplorerLayout},
