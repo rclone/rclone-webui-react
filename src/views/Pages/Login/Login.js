@@ -14,8 +14,37 @@ import {
     InputGroupText,
     Row
 } from 'reactstrap';
+import '../../../utils/Global';
 
 class Login extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: "",
+            password: ""
+        };
+    }
+
+    changeUserName = e => {
+        this.setState({username: e.target.value});
+    }
+    changePassword = e => {
+        this.setState({password: e.target.value})
+    }
+
+    onSubmit = e => {
+        e.preventDefault();
+        localStorage.setItem('username', this.state.username);
+        localStorage.setItem('password', this.state.password);
+        this.props.history.push('/dashboard')
+    };
+
+    componentDidMount() {
+        localStorage.clear();
+    }
+
+
     render() {
         return (
             <div className="app flex-row align-items-center">
@@ -25,7 +54,7 @@ class Login extends Component {
                             <CardGroup>
                                 <Card className="p-4">
                                     <CardBody>
-                                        <Form>
+                                        <Form onSubmit={this.onSubmit}>
                                             <h1>Login</h1>
                                             <p className="text-muted">Sign In to your account</p>
                                             <InputGroup className="mb-3">
@@ -34,7 +63,8 @@ class Login extends Component {
                                                         <i className="icon-user"></i>
                                                     </InputGroupText>
                                                 </InputGroupAddon>
-                                                <Input type="text" placeholder="Username" autoComplete="username"/>
+                                                <Input type="text" placeholder="Username" autoComplete="username"
+                                                       onChange={this.changeUserName}/>
                                             </InputGroup>
                                             <InputGroup className="mb-4">
                                                 <InputGroupAddon addonType="prepend">
@@ -43,7 +73,7 @@ class Login extends Component {
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input type="password" placeholder="Password"
-                                                       autoComplete="current-password"/>
+                                                       autoComplete="current-password" onChange={this.changePassword}/>
                                             </InputGroup>
                                             <Row>
                                                 <Col xs="6">

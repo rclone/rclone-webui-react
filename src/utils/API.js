@@ -1,11 +1,22 @@
 import axios from "axios";
 import './Global'
 
+
 let axiosInstance = axios.create({
     baseURL: global.ipAddress,
     headers: {'Content-Type': 'application/json'},
     responseType: "json"
 });
+
+axiosInstance.interceptors.request.use(
+    config => {
+        config.headers.Authorization = 'Basic ' + btoa(localStorage.getItem('username') + ":" + localStorage.getItem('password'));
+        // console.log(config, localStorage.getItem('username'), localStorage.getItem('password'));
+        return config;
+    },
+    error => Promise.reject(error)
+);
+
 
 export function performMoveFile(srcFs, srcRemote, dstFs, dstRemote, Name, IsDir) {
     return performCopyOrMoveFile(srcFs, srcRemote, dstFs, dstRemote, Name, IsDir, 'move');

@@ -15,5 +15,10 @@ export default {
             url: '/remoteExplorer',
             icon: 'icon-screen-desktop'
         },
+        {
+            name: 'Log Out',
+            url: '/login',
+            icon: 'icon-star',
+        },
     ],
 };

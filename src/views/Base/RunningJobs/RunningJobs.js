@@ -47,7 +47,6 @@ function JobCardRow({job}) {
 
 function GlobalStatus({stats}) {
     const {speed, bytes, checks, elapsedTime, deletes, errors, transfers} = stats;
-    console.log("stats", stats);
     return (
         <Card>
             <CardHeader><strong>Global Stats</strong></CardHeader>
