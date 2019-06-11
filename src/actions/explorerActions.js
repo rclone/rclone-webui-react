@@ -14,10 +14,10 @@ export const getConfigForRemote = (remoteName) => dispatch => {
                 status: REQUEST_ERROR,
                 payload: error
             }))
-}
+};
 
 export const getRemoteNames = () => dispatch => {
-    axiosInstance.post("/config/listremotes").then(res => dispatch({
+    axiosInstance.post("config/listremotes").then(res => dispatch({
         type: GET_REMOTE_LIST,
         status: REQUEST_SUCCESS,
         payload: res.data.remotes
@@ -26,4 +26,5 @@ export const getRemoteNames = () => dispatch => {
         status: REQUEST_ERROR,
         payload: error
     }))
-}
+};
+

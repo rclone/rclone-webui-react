@@ -1,8 +1,8 @@
 import React from "react";
 import {Button, Col, Row, Table} from "reactstrap";
-import axiosInstance from "../../utils/API";
 import ConfigRow from "./ConfigRow";
-import {toast} from "react-toastify";
+import {connect} from "react-redux";
+import {getConfigDump} from "../../actions/configActions";
 
 
 function RemoteRows({remotes, refreshHandle}) {
@@ -19,31 +19,24 @@ function RemoteRows({remotes, refreshHandle}) {
 
 
 class ShowConfig extends React.PureComponent {
-    constructor(props, context) {
-        super(props, context);
 
-        this.state = {
-            remotes: []
-        };
-        this.loadConfigDump = this.loadConfigDump.bind(this);
-    }
 
-    async loadConfigDump() {
-        try {
-            let res = await axiosInstance.post("config/dump");
-            this.setState({remotes: res.data});
-        } catch (e) {
-            console.log(`Error while processing request to get remote list ${e}`);
-            toast.error(`Error loading remotes list. ${e}`, {
-                autoClose: false
-            });
-        }
-    }
+    // async loadConfigDump() {
+    //     try {
+    //         let res = await axiosInstance.post("config/dump");
+    //         this.setState({remotes: res.data});
+    //     } catch (e) {
+    //         console.log(`Error while processing request to get remote list ${e}`);
+    //         toast.error(`Error loading remotes list. ${e}`, {
+    //             autoClose: false
+    //         });
+    //     }
+    // }
 
 
     componentDidMount() {
         //Get the configs
-        this.loadConfigDump();
+        this.props.getConfigDump();
     }
 
     render() {
@@ -72,7 +65,7 @@ class ShowConfig extends React.PureComponent {
                     </tr>
                     </thead>
                     <tbody>
-                    <RemoteRows remotes={this.state.remotes} refreshHandle={this.loadConfigDump}/>
+                    <RemoteRows remotes={this.props.remotes} refreshHandle={this.props.getConfigDump}/>
                     </tbody>
                 </Table>
             </div>
@@ -81,4 +74,11 @@ class ShowConfig extends React.PureComponent {
     }
 }
 
-export default ShowConfig;
+const mapStateToProps = state => ({
+    remotes: state.config.configDump,
+    hasError: state.config.hasError,
+    error: state.config.error
+
+});
+
+export default connect(mapStateToProps, {getConfigDump})(ShowConfig);

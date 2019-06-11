@@ -120,7 +120,7 @@ class FilesView extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {remoteName, remotePath} = this.props;
         const {shouldUpdate} = this.state;
-        console.log("componentDidUpdate");
+        // console.log("componentDidUpdate");
         if (prevProps.remoteName !== remoteName || prevProps.remotePath !== remotePath || prevState.shouldUpdate !== shouldUpdate) {
             this.getFilesList(prevState.shouldUpdate === shouldUpdate);
         }
