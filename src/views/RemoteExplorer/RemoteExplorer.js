@@ -7,8 +7,8 @@ import BackStack from "../../utils/BackStack";
 import ScrollableDiv from "../Base/ScrollableDiv/ScrollableDiv";
 import RemoteExplorerContext from "./RemoteExplorerContext";
 import {addColonAtLast} from "../../utils/Tools";
-import {toast} from "react-toastify";
-import axiosInstance from "../../utils/API";
+import {connect} from "react-redux";
+import {getConfigForRemote} from "../../actions/explorerActions";
 
 
 const propTypes = {};
@@ -23,8 +23,7 @@ class RemoteExplorer extends React.Component {
             backStack: new BackStack(),
             remoteName: "",
             remotePath: "",
-            remoteNameTemp: "",
-            fsInfo: {}
+            remoteNameTemp: ""
 
         };
 
@@ -37,22 +36,11 @@ class RemoteExplorer extends React.Component {
 
     }
 
-    async getFsInfo(remoteName) {
-        // const {remoteName} = this.state;
-        console.log("FsInfo: remoteName:" + remoteName);
+    getFsInfo(remoteName) {
 
-        remoteName = addColonAtLast(remoteName);
-        try {
-            let res = await axiosInstance.post("operations/fsinfo", {fs: remoteName});
-            console.log("FSConfig res for " + remoteName, res);
-            return res.data;
-        } catch (e) {
-            if (e.response) {
-                console.log(e.response);
-            } else {
-                toast.warn(`Error loading fs info config: ${e}`)
-            }
-        }
+        if (!this.props.configs[remoteName])
+            this.props.getConfigForRemote(remoteName);
+
     }
 
     updateRemoteName(remoteName) {
@@ -66,10 +54,7 @@ class RemoteExplorer extends React.Component {
         backStack.empty();
         backStack.push({remoteName: remoteNameTemp, remotePath: ""});
         this.setState(backStack.peek());
-        this.getFsInfo(remoteNameTemp).then((data) => {
-            this.setState({fsInfo: data})
-
-        })
+        this.getFsInfo(remoteNameTemp)
 
     };
 
@@ -111,7 +96,7 @@ class RemoteExplorer extends React.Component {
 
     render() {
         const {remoteName, remotePath} = this.state.backStack.peek();
-        const {fsInfo} = this.state;
+        const fsInfo = this.props.configs[remoteName];
         return (
             <RemoteExplorerContext.Provider
                 value={{remoteName: remoteName, remotePath: remotePath, fsInfo: fsInfo}}>
@@ -163,4 +148,13 @@ class RemoteExplorer extends React.Component {
 RemoteExplorer.propTypes = propTypes;
 RemoteExplorer.defaultProps = defaultProps;
 
-export default RemoteExplorer;
+const mapStateToProps = state => ({
+    configs: state.remote.configs,
+    hasError: state.remote.hasError,
+    error: state.remote.error
+});
+
+export default connect(
+    mapStateToProps,
+    {getConfigForRemote}
+)(RemoteExplorer);

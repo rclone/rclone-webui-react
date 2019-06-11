@@ -1,65 +1,38 @@
 import React from 'react';
 import "../../utils/Global";
-import axiosInstance from "../../utils/API";
 import RemoteListAutoSuggest from "./RemoteListAutoSuggest";
-import {toast} from "react-toastify";
+import {connect} from "react-redux";
+import {getRemoteNames} from "../../actions/explorerActions";
 
 class RemotesList extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            remotes: [],
-            isEmpty: true,
+            isEmpty: false,
             remoteName: props.remoteName
         };
     }
 
-    async updateRemoteList() {
-        /*
-        {
-            "remotes": [
-                "eventsfunk",
-                "mydrive"
-            ]
-        }
-        */
-        try {
-            let res = await axiosInstance.post("/config/listremotes");
-            // console.log("Remote list response:");
-            // console.log(res, res.data.remotes.length);
-            if (res.data.remotes.length === 0) {
-                this.setState({isEmpty: true});
-            } else {
-                this.setState({remotes: res.data.remotes, isEmpty: false});
-            }
-
-        } catch (e) {
-            // console.log(`Error loading remotes. ${e}`);
-            toast.error(`Error loading remotes. ${e}`, {
-                autoClose: false
-            });
-        }
-    }
-
     componentDidMount() {
-        // TODO: Get remote List via config/listremotes
-        this.updateRemoteList();
+        // if(this.props.remotes.length < 1 || this.props.hasError)
+        this.props.getRemoteNames();
     }
 
     shouldUpdateRemoteName = (event, {newValue}) => {
         this.setState({remoteName: newValue});
 
         const {updateRemoteNameHandle} = this.props;
-        if (this.state.remotes.indexOf(newValue) !== -1) {
+        if (this.props.remotes.indexOf(newValue) !== -1) {
             updateRemoteNameHandle(newValue);
         }
     };
 
 
     render() {
-        const {isEmpty, remotes, remoteName} = this.state;
-        const {updateRemoteNameHandle} = this.props;
+        const {isEmpty, remoteName} = this.state;
+        const {remotes} = this.props;
+        // const {updateRemoteNameHandle} = this.props;
 
         if (isEmpty) {
             return (
@@ -77,4 +50,10 @@ class RemotesList extends React.Component {
     }
 }
 
-export default RemotesList;
+const mapStateToProps = state => ({
+    remotes: state.remote.remotes,
+    hasError: state.remote.hasError,
+    error: state.remote.error
+});
+
+export default connect(mapStateToProps, {getRemoteNames})(RemotesList);

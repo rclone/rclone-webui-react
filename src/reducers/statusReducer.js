@@ -1,4 +1,4 @@
-import {FETCH_STATUS_FAILED, FETCH_STATUS_SUCCESS} from "../actions/types";
+import {FETCH_STATUS, REQUEST_ERROR, REQUEST_SUCCESS} from "../actions/types";
 
 const initialState = {
     isConnected: false,
@@ -7,21 +7,21 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case FETCH_STATUS_SUCCESS:
-            console.log("Reducer", action.payload);
+        case FETCH_STATUS:
+            if (action.status === REQUEST_SUCCESS) {
 
-            return {
-                ...state,
-                jobs: action.payload,
-                isConnected: true
-            };
-
-        case FETCH_STATUS_FAILED:
-
-            return {
-                ...state,
-                error: action.payload
-            };
+                return {
+                    ...state,
+                    jobs: action.payload,
+                    isConnected: true
+                };
+            }
+            if (action.status === REQUEST_ERROR) {
+                return {
+                    ...state,
+                    error: action.payload
+                };
+            }
 
         default:
             return state;

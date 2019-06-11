@@ -2,19 +2,11 @@ import React from "react";
 import {Button, Card, CardBody, CardHeader} from "reactstrap";
 import "../../../utils/Global.js";
 import PropTypes from "prop-types";
-import BandwidthStatusCard from "../BandwidthStatusCard/BandwidthStatusCard";
 import ReactDOM from "react-dom";
 import RunningJobs from "../RunningJobs";
 import {connect} from "react-redux";
 import {getStatus} from "../../../actions/statusActions";
 
-const propTypes = {
-    mode: PropTypes.string,
-};
-
-const defaultProps = {
-    mode: "card",
-};
 
 function TaskModal() {
     return ReactDOM.createPortal((
@@ -25,24 +17,6 @@ function TaskModal() {
 
 class BackendStatusCard extends React.Component {
 
-    // constructor(props, context) {
-    //     super(props, context);
-    //     // this.state = {
-    //     //     connectivityStatus: false
-    //     // };
-    //     // this.tryConnection = this.tryConnection.bind(this);
-    // }
-
-    // // Test to check if the connection is working
-    // async tryConnection() {
-    //     try {
-    //
-    //         await axiosInstance.post('/rc/noop');
-    //         this.setState({connectivityStatus: true});
-    //     } catch (e) {
-    //         this.setState({connectivityStatus: false});
-    //     }
-    // }
 
     componentWillMount() {
 
@@ -98,8 +72,17 @@ function StatusText({connectivityStatus, ipAddress}) {
     }
 }
 
-BandwidthStatusCard.propTypes = propTypes;
-BandwidthStatusCard.defaultProps = defaultProps;
+const propTypes = {
+    mode: PropTypes.string,
+};
+
+const defaultProps = {
+    mode: "card",
+};
+
+
+BackendStatusCard.propTypes = propTypes;
+BackendStatusCard.defaultProps = defaultProps;
 
 const mapStateToProps = state => ({
     isConnected: state.status.isConnected

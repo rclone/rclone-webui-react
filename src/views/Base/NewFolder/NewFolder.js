@@ -6,10 +6,6 @@ import RemoteExplorerContext from "../../RemoteExplorer/RemoteExplorerContext";
 import {toast} from "react-toastify";
 import {addColonAtLast} from "../../../utils/Tools";
 
-const propTypes = {
-    isVisible: PropTypes.bool.isRequired,
-    closeModal: PropTypes.func.isRequired
-};
 
 class NewFolder extends React.Component {
     static contextType = RemoteExplorerContext;
@@ -128,6 +124,12 @@ class NewFolder extends React.Component {
     }
 
 }
+
+const propTypes = {
+    isVisible: PropTypes.bool.isRequired,
+    closeModal: PropTypes.func.isRequired
+};
+
 
 NewFolder.propTypes = propTypes;
 

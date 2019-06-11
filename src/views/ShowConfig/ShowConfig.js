@@ -14,10 +14,6 @@ function RemoteRows({remotes, refreshHandle}) {
                                    refreshHandle={refreshHandle}/>));
         curKey++;
     }
-    // return remotes.map((item, idx) => {
-    //     console.log(item);
-    //     return (<ConfigRow sequenceNumber={idx+1} key={idx} remoteName={item}/>);
-    // })
     return returnMap;
 }
 

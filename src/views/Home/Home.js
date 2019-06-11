@@ -2,7 +2,6 @@ import React from 'react';
 import {Col, Row} from "reactstrap";
 import BackendStatusCard from "../Base/BackendStatusCard/BackendStatusCard";
 import "../../utils/Global";
-import BandwidthStatusCard from "../Base/BandwidthStatusCard/BandwidthStatusCard";
 import RunningJobs from "../Base/RunningJobs";
 
 class Home extends React.Component {
@@ -16,9 +15,9 @@ class Home extends React.Component {
                 <Col lg={4} sm={12}>
                     <BackendStatusCard ipAddress={global.ipAddress} mode={"card"}/>
                 </Col>
-                <Col lg={4} sm={12}>
-                    <BandwidthStatusCard/>
-                </Col>
+                {/*<Col lg={4} sm={12}>*/}
+                {/*    <BandwidthStatusCard/>*/}
+                {/*</Col>*/}
             </Row>
             <h2>Jobs</h2>
 

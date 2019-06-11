@@ -1,4 +1,7 @@
 export const FETCH_STATUS = 'FETCH_STATUS';
-export const FETCH_STATUS_SUCCESS = 'FETCH_STATUS_SUCCESS';
-export const FETCH_STATUS_FAILED = 'FETCH_STATUS_FAILED';
 export const GET_PROVIDERS = 'GET_PROVIDERS';
+export const GET_CONFIG_FOR_REMOTE = 'GET_CONFIG_FOR_REMOTE';
+export const GET_REMOTE_LIST = 'GET_REMOTE_LIST';
+
+export const REQUEST_ERROR = 'error';
+export const REQUEST_SUCCESS = 'success';
