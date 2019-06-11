@@ -40,8 +40,6 @@ const filesTarget = {
         let destRemoteName = addColonAtLast(props.remoteName);
         let destRemotePath = props.remotePath;
 
-        console.log("drop:this", this);
-
         return {
             srcRemoteName,
             srcRemotePath,

@@ -18,6 +18,7 @@ import {
 import navigation from '../../_nav';
 // routes config
 import routes from '../../routes';
+import {connect} from "react-redux";
 
 const DefaultAside = React.lazy(() => import('./DefaultAside'));
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
@@ -42,7 +43,10 @@ class DefaultLayout extends Component {
     }
 
     render() {
+        console.log("isConnected, default layout", this.props.isConnected);
         return (
+
+
             <div className="app">
                 <AppHeader fixed>
                     <Suspense fallback={this.loading()}>
@@ -99,4 +103,8 @@ class DefaultLayout extends Component {
     }
 }
 
-export default DefaultLayout;
+const mapStateToProps = (state) => ({
+    isConnected: state.status.isConnected
+});
+
+export default connect(mapStateToProps, {})(DefaultLayout);

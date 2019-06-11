@@ -1,9 +1,10 @@
 import React from 'react';
 import {Card, CardBody, CardHeader, Col, Progress, Row} from "reactstrap";
 import "../../../utils/Global";
-import axiosInstance from "../../../utils/API";
 import {formatBytes, secondsToStr} from "../../../utils/Tools";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {getStatus} from "../../../actions/statusActions";
 
 const propTypes = {
     mode: PropTypes.string.isRequired
@@ -101,9 +102,9 @@ class RunningJobs extends React.Component {
 
     async loadJobs() {
         try {
-            let res = await axiosInstance.post("/core/stats");
+            this.props.getStatus();
 
-            this.setState({jobs: res.data, isConnected: true});
+            // this.setState({jobs: res.data, isConnected: true});
 
 
         } catch (e) {
@@ -111,13 +112,16 @@ class RunningJobs extends React.Component {
             // console.log("error", e.response.status);
 
             // console.log(`Error loading jobs: core/stats ${e}`);
-            this.setState({isConnected: false})
+            // this.setState({isConnected: false})
         }
     }
 
+    componentWillMount() {
+        this.props.getStatus();
+    }
+
     componentDidMount() {
-        this.loadJobs();
-        this.jobRefreshInterval = setInterval(this.loadJobs, 1000);
+        this.jobRefreshInterval = setInterval(this.loadJobs, 3000);
     }
 
     componentWillUnmount() {
@@ -125,7 +129,8 @@ class RunningJobs extends React.Component {
     }
 
     render() {
-        const {jobs, isConnected} = this.state;
+        const {jobs, isConnected} = this.props;
+        // const { isConnected} = this.state;
         const {transferring} = jobs;
         const {mode} = this.props;
         if (mode === "full-status") {
@@ -172,4 +177,9 @@ class RunningJobs extends React.Component {
 
 RunningJobs.propTypes = propTypes;
 
-export default RunningJobs;
+const mapStateToProps = state => ({
+    jobs: state.status.jobs,
+    isConnected: state.status.isConnected
+})
+
+export default connect(mapStateToProps, {getStatus})(RunningJobs);

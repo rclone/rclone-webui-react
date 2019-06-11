@@ -40,7 +40,10 @@
     "react-test-renderer": "^16.8.5",
     "reactstrap": "^7.1.0",
     "simple-line-icons": "^2.4.1",
-    "react-toastify": "^5.2.1"
+    "react-toastify": "^5.2.1",
+    "redux": "^4.0.1",
+    "react-redux": "^7.0.3",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "react-scripts": "^2.1.8"

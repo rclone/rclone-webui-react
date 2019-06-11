@@ -39,7 +39,6 @@ class BackendStatusCard extends React.Component {
             await axiosInstance.post('/rc/noop');
             this.setState({connectivityStatus: true});
         } catch (e) {
-            // console.log(`😱 Rclone backend connection request failed: ${e}`);
             this.setState({connectivityStatus: false});
         }
     }
