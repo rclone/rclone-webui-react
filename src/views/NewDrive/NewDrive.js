@@ -19,6 +19,9 @@ import axiosInstance from "../../utils/API";
 import isEmpty, {findFromConfig, validateDuration, validateInt, validateSizeSuffix} from "../../utils/Tools";
 import ProviderAutoSuggest from "./ProviderAutoSuggest";
 import {toast} from "react-toastify";
+import PropTypes from 'prop-types';
+import {getProviders} from "../../actions/configActions";
+import {connect} from "react-redux";
 
 function DriveParameters({drivePrefix, loadAdvanced, changeHandler, currentValues, isValidMap, errorsMap, config}) {
     if (drivePrefix !== undefined && drivePrefix !== "") {
@@ -157,7 +160,6 @@ class NewDrive extends React.Component {
             isValid: {},
 
         };
-        this.config = [];
         this.configCheckInterval = null;
         this.handleSubmit = this.handleSubmit.bind(this);
         this.toggleAuthModal = this.toggleAuthModal.bind(this);
@@ -255,7 +257,7 @@ class NewDrive extends React.Component {
     // Update the driveType and then load the equivalent input parameters for that drive
     changeDriveType = (event, {newValue}) => {
 
-        const {config} = this;
+        const {providers} = this.props;
 
         let val = newValue;
 
@@ -269,7 +271,7 @@ class NewDrive extends React.Component {
         // console.log("driveType change", val);
         if (val !== undefined && val !== "") {
 
-            const currentConfig = findFromConfig(config, val);
+            const currentConfig = findFromConfig(providers, val);
             if (currentConfig !== undefined) {
 
                 currentConfig.Options.forEach(item => {
@@ -373,13 +375,13 @@ class NewDrive extends React.Component {
         console.log("Submitted form");
 
         const {formValues, drivePrefix} = this.state;
-        const {config} = this;
+        const {providers} = this.props;
 
 
         if (this.validateForm()) {
 
             if (drivePrefix !== undefined && drivePrefix !== "") {
-                const currentProvider = findFromConfig(config, drivePrefix);
+                const currentProvider = findFromConfig(providers, drivePrefix);
                 if (currentProvider !== undefined) {
 
 
@@ -481,24 +483,25 @@ class NewDrive extends React.Component {
         }
     };
 
-
-    async getProviders() {
-        try {
-            let res = await axiosInstance.post("/config/providers");
-            const {providers} = res.data;
-            this.config = providers;
-            // this.setState({config: res.data.providers});
-        } catch (e) {
-            console.log(`Error getting the provider details: ${e}`);
-            toast.error(`Error loading providers. ${e}`, {
-                autoClose: false
-            });
-        }
-    }
+    //
+    // async getProviders() {
+    //     try {
+    //         let res = await axiosInstance.post("/config/providers");
+    //         const {providers} = res.data;
+    //         this.config = providers;
+    //         // this.setState({config: res.data.providers});
+    //     } catch (e) {
+    //         console.log(`Error getting the provider details: ${e}`);
+    //         toast.error(`Error loading providers. ${e}`, {
+    //             autoClose: false
+    //         });
+    //     }
+    // }
 
 
     componentDidMount() {
-        this.getProviders();
+        if (!this.props.providers || this.props.providers.length < 1)
+            this.props.getProviders();
     }
 
 
@@ -509,7 +512,7 @@ class NewDrive extends React.Component {
 
     render() {
         const {colRconfig, colSetup, colAdvanced, drivePrefix, advancedOptions, driveName, driveNameIsValid} = this.state;
-        const {config} = this;
+        const {providers} = this.props;
         // console.log("config", config);
         return (
             <div>
@@ -535,7 +538,7 @@ class NewDrive extends React.Component {
                                 <FormGroup row>
                                     <Label for="driveType" sm={5}>Select</Label>
                                     <Col sm={7}>
-                                        <ProviderAutoSuggest suggestions={config} value={drivePrefix}
+                                        <ProviderAutoSuggest suggestions={providers} value={drivePrefix}
                                                              onChange={this.changeDriveType}/>
                                     </Col>
                                 </FormGroup>
@@ -573,7 +576,7 @@ class NewDrive extends React.Component {
                                                  changeHandler={this.handleInputChange}
                                                  errorsMap={this.state.formErrors}
                                                  isValidMap={this.state.isValid}
-                                                 currentValues={this.state.formValues} config={config}/>
+                                                 currentValues={this.state.formValues} config={providers}/>
                             </CardBody>
                             <CardFooter>
                                 <div className="clearfix">
@@ -606,7 +609,7 @@ class NewDrive extends React.Component {
                                                  changeHandler={this.handleInputChange}
                                                  errorsMap={this.state.formErrors}
                                                  isValidMap={this.state.isValid}
-                                                 currentValues={this.state.formValues} config={config}/>
+                                                 currentValues={this.state.formValues} config={providers}/>
                             </CardBody>
 
                         </Collapse>
@@ -626,4 +629,14 @@ class NewDrive extends React.Component {
     }
 }
 
-export default NewDrive;
+const mapStateToProps = state => ({
+    providers: state.config.providers
+});
+
+NewDrive.propTypes = {
+    providers: PropTypes.array.isRequired,
+    getProviders: PropTypes.func.isRequired
+
+};
+
+export default connect(mapStateToProps, {getProviders})(NewDrive);

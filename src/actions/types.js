@@ -1,1 +1,2 @@
 export const FETCH_STATUS = 'FETCH_STATUS';
+export const GET_PROVIDERS = 'GET_PROVIDERS';
