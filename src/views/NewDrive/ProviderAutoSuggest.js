@@ -9,6 +9,11 @@ const getSuggestions = (config, value) => {
 
     // console.log("config getSuggestions", config, inputValue);
 
+    if (inputLength === 0) {
+        return config;
+
+    }
+
     return inputLength === 0 ? [] : config.filter(lang =>
         lang.Description.toLowerCase().slice(0, inputLength) === inputValue
     );
@@ -57,6 +62,10 @@ class ProviderAutoSuggest extends React.Component {
         });
     };
 
+    shouldRenderSuggestions(value) {
+        return true;
+    }
+
     render() {
         const {value, onChange, suggestions} = this.props;
         const currentConfig = findFromConfig(suggestions, value);
@@ -82,6 +91,8 @@ class ProviderAutoSuggest extends React.Component {
                 onSuggestionsClearRequested={this.onSuggestionsClearRequested}
                 getSuggestionValue={getSuggestionValue}
                 renderSuggestion={renderSuggestion}
+                alwaysRenderSuggestions={true}
+                highlightFirstSuggestion={true}
                 inputProps={inputProps}
             />
         );
