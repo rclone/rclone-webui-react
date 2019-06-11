@@ -1,11 +1,12 @@
 import React from "react";
-import axiosInstance from "../../../utils/API";
 import {Button, Card, CardBody, CardHeader} from "reactstrap";
 import "../../../utils/Global.js";
 import PropTypes from "prop-types";
 import BandwidthStatusCard from "../BandwidthStatusCard/BandwidthStatusCard";
 import ReactDOM from "react-dom";
 import RunningJobs from "../RunningJobs";
+import {connect} from "react-redux";
+import {getStatus} from "../../../actions/statusActions";
 
 const propTypes = {
     mode: PropTypes.string,
@@ -24,30 +25,29 @@ function TaskModal() {
 
 class BackendStatusCard extends React.Component {
 
-    constructor(props, context) {
-        super(props, context);
-        this.state = {
-            connectivityStatus: false
-        };
-        this.tryConnection = this.tryConnection.bind(this);
-    }
+    // constructor(props, context) {
+    //     super(props, context);
+    //     // this.state = {
+    //     //     connectivityStatus: false
+    //     // };
+    //     // this.tryConnection = this.tryConnection.bind(this);
+    // }
 
-    // Test to check if the connection is working
-    async tryConnection() {
-        try {
+    // // Test to check if the connection is working
+    // async tryConnection() {
+    //     try {
+    //
+    //         await axiosInstance.post('/rc/noop');
+    //         this.setState({connectivityStatus: true});
+    //     } catch (e) {
+    //         this.setState({connectivityStatus: false});
+    //     }
+    // }
 
-            await axiosInstance.post('/rc/noop');
-            this.setState({connectivityStatus: true});
-        } catch (e) {
-            this.setState({connectivityStatus: false});
-        }
-    }
-
-    componentDidMount() {
+    componentWillMount() {
 
         // Check if the connection to the backend is active
-        this.tryConnection();
-        this.refreshInterval = setInterval(this.tryConnection, 5000);
+        this.refreshInterval = setInterval(() => this.props.getStatus(), 5000);
     }
 
 
@@ -57,18 +57,18 @@ class BackendStatusCard extends React.Component {
     }
 
     render() {
-        const {connectivityStatus} = this.state;
+        const {isConnected} = this.props;
 
         if (this.props.mode === "card")
             return (
 
                 <Card
-                    className={"text-center " + (connectivityStatus ? "card-accent-info" : "card-accent-warning")}>
+                    className={"text-center " + (isConnected ? "card-accent-info" : "card-accent-warning")}>
                     <CardHeader>
                         rclone status
                     </CardHeader>
                     <CardBody>
-                        <StatusText connectivityStatus={connectivityStatus} ipAddress={global.ipAddress}/>
+                        <StatusText connectivityStatus={isConnected} ipAddress={global.ipAddress}/>
 
                     </CardBody>
                 </Card>
@@ -77,7 +77,7 @@ class BackendStatusCard extends React.Component {
             return (
                 <React.Fragment>
                     <Button type="primary"
-                            className={connectivityStatus ? "bg-info" : "bg-warning"}>{connectivityStatus ? "CONNECTED" : "DISCONNECTED"}</Button>
+                            className={isConnected ? "bg-info" : "bg-warning"}>{isConnected ? "CONNECTED" : "DISCONNECTED"}</Button>
                     {/*Show current tasks in the side modal*/}
                     <TaskModal/>
                 </React.Fragment>
@@ -101,5 +101,8 @@ function StatusText({connectivityStatus, ipAddress}) {
 BandwidthStatusCard.propTypes = propTypes;
 BandwidthStatusCard.defaultProps = defaultProps;
 
+const mapStateToProps = state => ({
+    isConnected: state.status.isConnected
+});
 
-export default BackendStatusCard;
+export default connect(mapStateToProps, {getStatus})(BackendStatusCard);

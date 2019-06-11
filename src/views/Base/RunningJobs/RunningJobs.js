@@ -4,7 +4,6 @@ import "../../../utils/Global";
 import {formatBytes, secondsToStr} from "../../../utils/Tools";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {getStatus} from "../../../actions/statusActions";
 
 const propTypes = {
     mode: PropTypes.string.isRequired
@@ -97,36 +96,8 @@ class RunningJobs extends React.Component {
             isConnected: false
 
         };
-        this.loadJobs = this.loadJobs.bind(this);
     }
 
-    async loadJobs() {
-        try {
-            this.props.getStatus();
-
-            // this.setState({jobs: res.data, isConnected: true});
-
-
-        } catch (e) {
-
-            // console.log("error", e.response.status);
-
-            // console.log(`Error loading jobs: core/stats ${e}`);
-            // this.setState({isConnected: false})
-        }
-    }
-
-    componentWillMount() {
-        this.props.getStatus();
-    }
-
-    componentDidMount() {
-        this.jobRefreshInterval = setInterval(this.loadJobs, 3000);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.jobRefreshInterval);
-    }
 
     render() {
         const {jobs, isConnected} = this.props;
@@ -179,7 +150,8 @@ RunningJobs.propTypes = propTypes;
 
 const mapStateToProps = state => ({
     jobs: state.status.jobs,
-    isConnected: state.status.isConnected
-})
+    isConnected: state.status.isConnected,
+    error: state.status.error
+});
 
-export default connect(mapStateToProps, {getStatus})(RunningJobs);
+export default connect(mapStateToProps, {})(RunningJobs);
