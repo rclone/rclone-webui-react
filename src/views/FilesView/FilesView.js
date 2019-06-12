@@ -10,6 +10,9 @@ import {ItemTypes} from "./Constants";
 import {toast} from "react-toastify";
 import {addColonAtLast} from "../../utils/Tools";
 import RemoteExplorerContext from "../RemoteExplorer/RemoteExplorerContext";
+import {connect} from "react-redux";
+import {getFiles} from "../../actions/explorerActions";
+import {compose} from "redux";
 
 
 const propTypes = {
@@ -139,37 +142,49 @@ class FilesView extends React.Component {
     }
 
 
-    async getFilesList(showLoading = true) {
-        let {remoteName, remotePath} = this.props;
+    getFilesList(showLoading = true) {
+        const {remoteName, remotePath} = this.props;
 
-        if (remoteName !== "") {
+        // let remoteName = "", remotePath = "";
+        // if(paths[containerID]) {
+        //     remoteName = paths[containerID].remoteName;
+        //     remotePath = paths[containerID].remotePath;
+        //
+        // }
 
-            console.log(remoteName, remotePath);
+        // const pathKey = `${remoteName}::${remotePath}`;
 
-            remoteName = addColonAtLast(remoteName);
+        // if(pathKey && !this.props.files[pathKey])
+        this.props.getFiles(remoteName, remotePath);
 
-
-            let data = {
-                fs: remoteName,
-                remote: remotePath
-            };
-            if (showLoading)
-                this.setState({isLoading: true});
-
-            try {
-
-                let res = await axiosInstance.post("/operations/list", data);
-                this.setState({filesList: res.data.list});
-            } catch (e) {
-                console.log("Error loading files");
-                toast.warn('Error loading files');
-                // Pop current state
-                this.props.upButtonHandle();
-            }
-
-            if (showLoading)
-                this.setState({isLoading: false});
-        }
+        // if (remoteName !== "") {
+        //
+        //     console.log(remoteName, remotePath);
+        //
+        //     remoteName = addColonAtLast(remoteName);
+        //
+        //
+        //     let data = {
+        //         fs: remoteName,
+        //         remote: remotePath
+        //     };
+        //     if (showLoading)
+        //         this.setState({isLoading: true});
+        //
+        //     try {
+        //
+        //         let res = await axiosInstance.post("/operations/list", data);
+        //         this.setState({files: res.data.list});
+        //     } catch (e) {
+        //         console.log("Error loading files");
+        //         toast.warn('Error loading files');
+        //         // Pop current state
+        //         this.props.upButtonHandle();
+        //     }
+        //
+        //     if (showLoading)
+        //         this.setState({isLoading: false});
+        // }
     }
 
     async downloadHandle(item) {
@@ -284,13 +299,19 @@ class FilesView extends React.Component {
 
     render() {
         const {isLoading, isDownloadProgress, downloadingItems, isOperationInProgress} = this.state;
-        const {connectDropTarget, isOver, upButtonHandle, remoteName} = this.props;
+        const {connectDropTarget, isOver, upButtonHandle, files} = this.props;
+        const {remoteName, remotePath} = this.context;
 
         if (isLoading) {
             return (<div><i className={"fa fa-circle-o-notch fa-lg"}/> Loading</div>);
         } else {
 
-            const {filesList} = this.state;
+            let filesList = [];
+            const pathkey = `${remoteName}::${remotePath}`
+            if (files[pathkey])
+                filesList = files[pathkey].files;
+
+
             if (remoteName === "") {
                 return (<div>No remote is selected. Select a remote from above to show files.</div>);
             }
@@ -374,4 +395,13 @@ class FilesView extends React.Component {
 FilesView.propTypes = propTypes;
 FilesView.defaultProps = defaultProps;
 
-export default DropTarget(ItemTypes.FILECOMPONENT, filesTarget, collect)(FilesView);
+const mapStateToProps = state => ({
+    files: state.remote.files
+});
+
+export default compose(
+    DropTarget(ItemTypes.FILECOMPONENT, filesTarget, collect),
+    connect(
+        mapStateToProps, {getFiles}
+    )
+)(FilesView)
