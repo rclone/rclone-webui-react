@@ -6,6 +6,11 @@ export const GET_CONFIG_DUMP = 'GET_CONFIG_DUMP';
 export const GET_FILES_LIST = 'GET_FILES_LIST';
 export const CHANGE_PATH = 'CHANGE_PATH';
 export const CREATE_PATH = 'CREATE_PATH';
+export const CHANGE_REMOTE_NAME = 'CHANGE_REMOTE_NAME';
+export const CHANGE_REMOTE_PATH = 'CHANGE_REMOTE_PATH';
+export const NAVIGATE_UP = 'NAVIGATE_UP';
+export const NAVIGATE_FWD = 'NAVIGATE_FWD';
+export const NAVIGATE_BACK = 'NAVIGATE_BACK';
 
 
 

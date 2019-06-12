@@ -3,7 +3,7 @@ import {GET_CONFIG_FOR_REMOTE, GET_FILES_LIST, GET_REMOTE_LIST, REQUEST_ERROR, R
 import {addColonAtLast} from "../utils/Tools";
 
 export const getConfigForRemote = (remoteName) => dispatch => {
-    axiosInstance.post("operations/fsinfo", {fs: remoteName})
+    axiosInstance.post("operations/fsinfo", {fs: addColonAtLast(remoteName)})
         .then((res) => dispatch({
                 type: GET_CONFIG_FOR_REMOTE,
                 status: REQUEST_SUCCESS,

@@ -4,14 +4,19 @@ import RemoteExplorer from "../RemoteExplorer";
 
 import HTML5Backend from "react-dnd-html5-backend";
 import {DragDropContext} from "react-dnd";
+import {connect} from "react-redux";
+import {compose} from "redux";
+import {createPath} from "../../actions/explorerStateActions";
+import PropTypes from 'prop-types';
 
-function RemoteExplorerList({cols}) {
+function RemoteExplorerList({cols, backStacks}) {
     let remoteExplorers = [];
     const lgSize = 12 / cols;
     for (let i = 0; i < cols; i++) {
+
         remoteExplorers.push((
             <Col xs={12} sm={12} lg={lgSize} key={i}>
-                <RemoteExplorer/>
+                <RemoteExplorer containerID={i.toString()}/>
             </Col>
         ));
     }
@@ -26,15 +31,24 @@ class RemoteExplorerLayout extends React.Component {
         this.state = {
             cols: 1
         };
+
+        this.props.createPath("0");
         this.changeLayout = this.changeLayout.bind(this);
     }
 
     changeLayout(nos, mode) {
         console.log("changing layout");
         if (mode === "side") {
-            this.setState({cols: nos});
+            this.setState({cols: nos},
+                () => {
+                    for (let i = 0; i < this.state.cols; i++) {
+                        this.props.createPath(i.toString())
+                    }
+                });
 
         }
+
+
     }
 
     render() {
@@ -66,7 +80,7 @@ class RemoteExplorerLayout extends React.Component {
                 </Row>
 
                 <Row>
-                    <RemoteExplorerList cols={cols}/>
+                    <RemoteExplorerList cols={cols} backStacks={this.props.backStacks}/>
                 </Row>
             </div>
         );
@@ -75,4 +89,15 @@ class RemoteExplorerLayout extends React.Component {
 
 }
 
-export default DragDropContext(HTML5Backend)(RemoteExplorerLayout);
+const mapStateToProps = (state, ownProps) => ({
+    backStacks: state.explorer.backStacks
+});
+
+RemoteExplorerLayout.propTypes = {
+    backStacks: PropTypes.object.isRequired
+}
+
+export default compose(
+    DragDropContext(HTML5Backend),
+    connect(mapStateToProps, {createPath})
+)(RemoteExplorerLayout);
