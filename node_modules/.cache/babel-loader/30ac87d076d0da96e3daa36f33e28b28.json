@@ -1,1 +1,0 @@
-{"ast":null,"code":"// Written in this round about way for babel-transform-imports\nimport withRouter from \"react-router/es/withRouter\";\nexport default withRouter;","map":null,"metadata":{},"sourceType":"module"}

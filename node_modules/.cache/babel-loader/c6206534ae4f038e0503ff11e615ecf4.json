@@ -1,1 +1,0 @@
-{"ast":null,"code":"// 7.2.1 RequireObjectCoercible(argument)\nmodule.exports = function (it) {\n  if (it == undefined) throw TypeError(\"Can't call method on  \" + it);\n  return it;\n};","map":null,"metadata":{},"sourceType":"script"}

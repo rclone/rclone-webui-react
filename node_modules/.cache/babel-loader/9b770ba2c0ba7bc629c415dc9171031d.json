@@ -1,1 +1,0 @@
-{"ast":null,"code":"// Thank's IE8 for his funny defineProperty\nmodule.exports = !require('./_fails')(function () {\n  return Object.defineProperty({}, 'a', {\n    get: function get() {\n      return 7;\n    }\n  }).a != 7;\n});","map":null,"metadata":{},"sourceType":"script"}

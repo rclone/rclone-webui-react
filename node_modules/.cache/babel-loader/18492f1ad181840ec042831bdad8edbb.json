@@ -1,1 +1,0 @@
-{"ast":null,"code":"// Written in this round about way for babel-transform-imports\nimport matchPath from \"react-router/es/matchPath\";\nexport default matchPath;","map":null,"metadata":{},"sourceType":"module"}

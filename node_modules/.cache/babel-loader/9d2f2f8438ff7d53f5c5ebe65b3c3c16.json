@@ -1,1 +1,0 @@
-{"ast":null,"code":"var hasOwnProperty = {}.hasOwnProperty;\n\nmodule.exports = function (it, key) {\n  return hasOwnProperty.call(it, key);\n};","map":null,"metadata":{},"sourceType":"script"}

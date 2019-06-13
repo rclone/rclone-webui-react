@@ -1,1 +1,0 @@
-{"ast":null,"code":"var document = require('./_global').document;\n\nmodule.exports = document && document.documentElement;","map":null,"metadata":{},"sourceType":"script"}

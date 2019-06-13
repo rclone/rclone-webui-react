@@ -1,1 +1,0 @@
-{"ast":null,"code":"// Written in this round about way for babel-transform-imports\nimport Prompt from \"react-router/es/Prompt\";\nexport default Prompt;","map":null,"metadata":{},"sourceType":"module"}

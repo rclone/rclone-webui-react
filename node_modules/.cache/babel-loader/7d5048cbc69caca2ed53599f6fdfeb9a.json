@@ -1,1 +1,0 @@
-{"ast":null,"code":"module.exports = Array.isArray || function (arr) {\n  return Object.prototype.toString.call(arr) == '[object Array]';\n};","map":null,"metadata":{},"sourceType":"script"}

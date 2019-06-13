@@ -1,1 +1,0 @@
-{"ast":null,"code":"// Written in this round about way for babel-transform-imports\nimport Redirect from \"react-router/es/Redirect\";\nexport default Redirect;","map":null,"metadata":{},"sourceType":"module"}

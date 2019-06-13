@@ -1,1 +1,0 @@
-{"ast":null,"code":"// 7.1.4 ToInteger\nvar ceil = Math.ceil;\nvar floor = Math.floor;\n\nmodule.exports = function (it) {\n  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);\n};","map":null,"metadata":{},"sourceType":"script"}

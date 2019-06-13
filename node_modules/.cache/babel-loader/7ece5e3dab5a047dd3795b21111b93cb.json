@@ -1,1 +1,0 @@
-{"ast":null,"code":"// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)\nvar $keys = require('./_object-keys-internal');\n\nvar hiddenKeys = require('./_enum-bug-keys').concat('length', 'prototype');\n\nexports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {\n  return $keys(O, hiddenKeys);\n};","map":null,"metadata":{},"sourceType":"script"}

@@ -1,1 +1,0 @@
-{"ast":null,"code":"var id = 0;\nvar px = Math.random();\n\nmodule.exports = function (key) {\n  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));\n};","map":null,"metadata":{},"sourceType":"script"}

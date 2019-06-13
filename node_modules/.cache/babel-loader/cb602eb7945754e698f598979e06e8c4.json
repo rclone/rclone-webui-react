@@ -1,1 +1,0 @@
-{"ast":null,"code":"var def = require('./_object-dp').f;\n\nvar has = require('./_has');\n\nvar TAG = require('./_wks')('toStringTag');\n\nmodule.exports = function (it, tag, stat) {\n  if (it && !has(it = stat ? it : it.prototype, TAG)) def(it, TAG, {\n    configurable: true,\n    value: tag\n  });\n};","map":null,"metadata":{},"sourceType":"script"}

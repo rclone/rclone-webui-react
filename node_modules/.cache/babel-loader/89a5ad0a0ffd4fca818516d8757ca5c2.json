@@ -1,1 +1,0 @@
-{"ast":null,"code":"'use strict';\n\nvar $defineProperty = require('./_object-dp');\n\nvar createDesc = require('./_property-desc');\n\nmodule.exports = function (object, index, value) {\n  if (index in object) $defineProperty.f(object, index, createDesc(0, value));else object[index] = value;\n};","map":null,"metadata":{},"sourceType":"script"}

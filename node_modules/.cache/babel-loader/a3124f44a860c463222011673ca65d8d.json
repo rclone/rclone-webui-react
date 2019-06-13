@@ -1,1 +1,0 @@
-{"ast":null,"code":"var isObject = require('./_is-object');\n\nvar document = require('./_global').document; // typeof document.createElement is 'object' in old IE\n\n\nvar is = isObject(document) && isObject(document.createElement);\n\nmodule.exports = function (it) {\n  return is ? document.createElement(it) : {};\n};","map":null,"metadata":{},"sourceType":"script"}

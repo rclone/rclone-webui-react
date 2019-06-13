@@ -1,1 +1,0 @@
-{"ast":null,"code":"// 7.2.2 IsArray(argument)\nvar cof = require('./_cof');\n\nmodule.exports = Array.isArray || function isArray(arg) {\n  return cof(arg) == 'Array';\n};","map":null,"metadata":{},"sourceType":"script"}

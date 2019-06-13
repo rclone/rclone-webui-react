@@ -1,1 +1,0 @@
-{"ast":null,"code":"var toInteger = require('./_to-integer');\n\nvar max = Math.max;\nvar min = Math.min;\n\nmodule.exports = function (index, length) {\n  index = toInteger(index);\n  return index < 0 ? max(index + length, 0) : min(index, length);\n};","map":null,"metadata":{},"sourceType":"script"}
