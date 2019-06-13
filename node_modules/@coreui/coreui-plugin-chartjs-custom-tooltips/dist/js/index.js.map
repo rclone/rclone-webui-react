@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../js/index.js"],"names":["customTooltips","CustomTooltips"],"mappings":"AACA,IAAMA,cAAc,GAAGC,cAAvB,C,CACA","sourcesContent":["import CustomTooltips from './custom-tooltips'\nconst customTooltips = CustomTooltips\n// TODO: camel-case\nexport {\n  CustomTooltips,\n  customTooltips\n}\n"],"file":"index.js"}
