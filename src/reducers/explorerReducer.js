@@ -1,8 +1,9 @@
-import {GET_CONFIG_FOR_REMOTE, GET_REMOTE_LIST, REQUEST_ERROR, REQUEST_SUCCESS} from "../actions/types";
+import {GET_CONFIG_FOR_REMOTE, GET_FILES_LIST, GET_REMOTE_LIST, REQUEST_ERROR, REQUEST_SUCCESS} from "../actions/types";
 
 const initialState = {
     configs: {},
     remotes: [],
+    files: {},
     hasError: false
 };
 
@@ -20,7 +21,6 @@ export default function (state = initialState, action) {
                     ...state,
                     error: action.payload,
                     hasError: true
-
                 };
             break;
         case GET_REMOTE_LIST:
@@ -37,6 +37,20 @@ export default function (state = initialState, action) {
                     hasError: true
                 };
             break;
+        case GET_FILES_LIST:
+            if (action.status === REQUEST_SUCCESS) {
+                return {
+                    ...state,
+                    files: {...state.files, [action.payload.path]: {time: new Date(), files: action.payload.filesList}},
+                    hasError: false
+                }
+            }
+            if (action.status === REQUEST_ERROR)
+                return {
+                    ...state,
+                    error: action.payload,
+                    hasError: true
+                };
         default:
             return state;
     }

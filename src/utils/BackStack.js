@@ -1,8 +1,8 @@
 // A very simple stack implementation to handle back links in remote explorer
 class BackStack {
     constructor() {
-        this.items = [];
-        this.count = 0;
+        this.items = [{remoteName: "", remotePath: ""}];
+        this.count = 1;
     }
 
     getLength() {
@@ -29,6 +29,12 @@ class BackStack {
     empty() {
         this.items = [];
         this.count = 0;
+    }
+
+    moveBack() {
+
+        if (this.getLength() > 1)
+            this.pop();
     }
 }
 

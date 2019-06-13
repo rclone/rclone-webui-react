@@ -21,17 +21,6 @@ function RemoteRows({remotes, refreshHandle}) {
 class ShowConfig extends React.PureComponent {
 
 
-    // async loadConfigDump() {
-    //     try {
-    //         let res = await axiosInstance.post("config/dump");
-    //         this.setState({remotes: res.data});
-    //     } catch (e) {
-    //         console.log(`Error while processing request to get remote list ${e}`);
-    //         toast.error(`Error loading remotes list. ${e}`, {
-    //             autoClose: false
-    //         });
-    //     }
-    // }
 
 
     componentDidMount() {

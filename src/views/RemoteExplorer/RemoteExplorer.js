@@ -3,31 +3,32 @@ import "../../utils/Global";
 import {Button, Card, CardBody, CardHeader, Col, Form, Row} from "reactstrap";
 import RemotesList from "../RemotesList";
 import FilesView from "../FilesView/FilesView";
-import BackStack from "../../utils/BackStack";
 import ScrollableDiv from "../Base/ScrollableDiv/ScrollableDiv";
 import RemoteExplorerContext from "./RemoteExplorerContext";
 import {addColonAtLast} from "../../utils/Tools";
 import {connect} from "react-redux";
 import {getConfigForRemote} from "../../actions/explorerActions";
-
-
-const propTypes = {};
-
-const defaultProps = {};
+import PropTypes from 'prop-types';
+import {
+    changePath,
+    changeRemoteName,
+    changeRemotePath,
+    createPath,
+    navigateBack,
+    navigateFwd,
+    navigateUp
+} from "../../actions/explorerStateActions";
 
 
 class RemoteExplorer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            backStack: new BackStack(),
+
             remoteName: "",
             remotePath: "",
             remoteNameTemp: ""
-
         };
-
-        this.state.backStack.push({remoteName: "", remotePath: ""});
 
 
         this.updateRemoteName = this.updateRemoteName.bind(this);
@@ -37,6 +38,7 @@ class RemoteExplorer extends React.Component {
     }
 
     getFsInfo(remoteName) {
+        console.log("config for", remoteName);
 
         if (!this.props.configs[remoteName])
             this.props.getConfigForRemote(remoteName);
@@ -50,41 +52,49 @@ class RemoteExplorer extends React.Component {
     }
 
     openRemote = () => {
-        const {backStack, remoteNameTemp} = this.state;
-        backStack.empty();
-        backStack.push({remoteName: remoteNameTemp, remotePath: ""});
-        this.setState(backStack.peek());
-        this.getFsInfo(remoteNameTemp)
+        const {remoteNameTemp} = this.state;
+        // backStack.empty();
+        // backStack.push({remoteName: remoteNameTemp, remotePath: ""});
+        // this.setState(backStack.peek());
+
+        this.props.changeRemoteName(this.props.containerID, remoteNameTemp, "");
+
+        this.getFsInfo(remoteNameTemp);
 
     };
 
-    updateRemotePath(remotePath, IsDir, IsBucket) {
-        const {backStack} = this.state;
+    updateRemotePath(newRemotePath, IsDir, IsBucket) {
+        // const {backStack} = this.props;
+        const {remoteName, remotePath} = this.props.currentPath;
+        // const curRemotePath = backStack.peek().remotePath;
+
+        let updateRemoteName = "";
+        let updateRemotePath = "";
+
+        console.log(remoteName, remotePath, newRemotePath)
 
         if (IsBucket) {
-            backStack.push({remoteName: addColonAtLast(backStack.peek().remoteName) + remotePath, remotePath: ""});
+            updateRemoteName = addColonAtLast(remoteName) + newRemotePath;
+            updateRemotePath = "";
+            // backStack.push({remoteName: addColonAtLast(backStack.peek().remoteName) + remotePath, remotePath: ""});
+
         } else if (IsDir) {
-            backStack.push({remoteName: backStack.peek().remoteName, remotePath: remotePath});
+            updateRemoteName = remoteName;
+            updateRemotePath = newRemotePath;
+            // backStack.push({remoteName: backStack.peek().remoteName, remotePath: remotePath});
         }
-
-        // console.log(backStack.peek());
-
-        this.setState(backStack.peek());
+        this.props.changePath(this.props.containerID, updateRemoteName, updateRemotePath);
     }
 
     buttonUpPressed() {
-        const {backStack} = this.state;
-        if (backStack.getLength() > 1) {
-            backStack.pop();
-
-            this.setState(backStack.peek());
-        }
+        this.props.navigateUp(this.props.containerID);
+        // const {backStack} = this.state;
+        // if (backStack.getLength() > 1) {
+        //     backStack.pop();
+        //
+        //     this.setState(backStack.peek());
+        // }
     }
-
-    // updateHandle = () => {
-    //     console.log("componentShouldUpdate");
-    //     this.setState({componentShouldUpdate: true});
-    // };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevState.componentShouldUpdate) {
@@ -95,8 +105,16 @@ class RemoteExplorer extends React.Component {
 
 
     render() {
-        const {remoteName, remotePath} = this.state.backStack.peek();
+
+        const currentPath = this.props.currentPath;
+        if (!currentPath) return null;
+        console.log(currentPath);
+
+
+        const {remoteName, remotePath} = currentPath;
+
         const fsInfo = this.props.configs[remoteName];
+        console.log(remotePath, remoteName, fsInfo);
         return (
             <RemoteExplorerContext.Provider
                 value={{remoteName: remoteName, remotePath: remotePath, fsInfo: fsInfo}}>
@@ -130,31 +148,48 @@ class RemoteExplorer extends React.Component {
                     <CardBody>
                         <ScrollableDiv height={"700px"}>
                             {/*<Row className={"mr-0 ml-0"}>*/}
-                                <FilesView remoteName={remoteName} remotePath={remotePath}
-                                           updateRemotePathHandle={this.updateRemotePath}
-                                           upButtonHandle={this.buttonUpPressed}
-                                           componentShouldUpdate={this.state.componentShouldUpdate}
-                                />
+                            <FilesView remoteName={remoteName} remotePath={remotePath}
+                                       updateRemotePathHandle={this.updateRemotePath}
+                                       upButtonHandle={this.buttonUpPressed}
+                                       componentShouldUpdate={this.state.componentShouldUpdate}
+                            />
                             {/*</Row>*/}
                         </ScrollableDiv>
                     </CardBody>
                 </Card>
             </RemoteExplorerContext.Provider>
         );
+
     }
 
 }
 
+
+const propTypes = {
+
+    containerID: PropTypes.string.isRequired,
+    createPath: PropTypes.func.isRequired,
+};
+
+const defaultProps = {};
+
+const mapStateToProps = (state, ownProps) => ({
+    configs: state.remote.configs,
+    hasError: state.remote.hasError,
+    error: state.remote.error,
+    // backStack: state.explorer.backStacks[ownProps.containerID],
+    currentPath: state.explorer.currentPaths[ownProps.containerID],
+    // remotePath: state.explorer.currentPaths[ownProps.containerID].remotePath
+});
+
 RemoteExplorer.propTypes = propTypes;
 RemoteExplorer.defaultProps = defaultProps;
 
-const mapStateToProps = state => ({
-    configs: state.remote.configs,
-    hasError: state.remote.hasError,
-    error: state.remote.error
-});
-
 export default connect(
     mapStateToProps,
-    {getConfigForRemote}
+    {
+        getConfigForRemote, createPath, changePath,
+        changeRemoteName, changeRemotePath, navigateUp,
+        navigateBack, navigateFwd
+    }
 )(RemoteExplorer);

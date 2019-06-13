@@ -1,8 +1,9 @@
 import axiosInstance from "../utils/API";
-import {GET_CONFIG_FOR_REMOTE, GET_REMOTE_LIST, REQUEST_ERROR, REQUEST_SUCCESS} from "./types";
+import {GET_CONFIG_FOR_REMOTE, GET_FILES_LIST, GET_REMOTE_LIST, REQUEST_ERROR, REQUEST_SUCCESS} from "./types";
+import {addColonAtLast} from "../utils/Tools";
 
 export const getConfigForRemote = (remoteName) => dispatch => {
-    axiosInstance.post("operations/fsinfo", {fs: remoteName})
+    axiosInstance.post("operations/fsinfo", {fs: addColonAtLast(remoteName)})
         .then((res) => dispatch({
                 type: GET_CONFIG_FOR_REMOTE,
                 status: REQUEST_SUCCESS,
@@ -26,5 +27,23 @@ export const getRemoteNames = () => dispatch => {
         status: REQUEST_ERROR,
         payload: error
     }))
+};
+
+export const getFiles = (remoteName, remotePath) => dispatch => {
+    remoteName = addColonAtLast(remoteName);
+
+
+    let data = {
+        fs: remoteName,
+        remote: remotePath
+    };
+
+
+    axiosInstance.post("operations/list", data).then(res => dispatch({
+        type: GET_FILES_LIST,
+        status: REQUEST_SUCCESS,
+        payload: {path: `${remoteName}:${remotePath}`, filesList: res.data.list}
+    }))
+
 };
 
