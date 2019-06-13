@@ -1,0 +1,1 @@
+{"ast":null,"code":"module.exports = function (it) {\n  return typeof it === 'object' ? it !== null : typeof it === 'function';\n};","map":null,"metadata":{},"sourceType":"script"}

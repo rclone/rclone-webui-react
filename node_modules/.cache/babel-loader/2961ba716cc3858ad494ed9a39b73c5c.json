@@ -1,0 +1,1 @@
+{"ast":null,"code":"// IE 8- don't enum bug keys\nmodule.exports = 'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'.split(',');","map":null,"metadata":{},"sourceType":"script"}

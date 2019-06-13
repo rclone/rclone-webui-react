@@ -3,7 +3,7 @@ import './Global'
 
 
 let axiosInstance = axios.create({
-    baseURL: global.ipAddress,
+    baseURL: localStorage.getItem('ipAddress'),
     headers: {'Content-Type': 'application/json'},
     responseType: "json"
 });
@@ -44,12 +44,6 @@ async function performCopyOrMoveFile(srcFs, srcRemote, dstFs, dstRemote, Name, I
     }
     if (IsDir) {
 
-        // if(dstRemote === ""){
-        //     dstRemote += srcRemote
-        // }else{
-        //     dstRemote += "/" + srcRemote;
-        // }
-
         const splitRes = srcRemote.split('/');
 
         const data = {
@@ -57,7 +51,7 @@ async function performCopyOrMoveFile(srcFs, srcRemote, dstFs, dstRemote, Name, I
             dstFs: dstFs + dstRemote + "/" + splitRes[splitRes.length - 1]
         };
 
-        console.log("dirop:", data);
+        // console.log("dirop:", data);
 
         return await axiosInstance.post(url, data);
 

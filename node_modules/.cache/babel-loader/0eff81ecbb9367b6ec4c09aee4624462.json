@@ -1,0 +1,1 @@
+{"ast":null,"code":"// Written in this round about way for babel-transform-imports\nimport MemoryRouter from \"react-router/es/MemoryRouter\";\nexport default MemoryRouter;","map":null,"metadata":{},"sourceType":"module"}

@@ -1,0 +1,1 @@
+{"ast":null,"code":"// https://github.com/tc39/proposal-object-values-entries\nvar $export = require('./_export');\n\nvar $entries = require('./_object-to-array')(true);\n\n$export($export.S, 'Object', {\n  entries: function entries(it) {\n    return $entries(it);\n  }\n});","map":null,"metadata":{},"sourceType":"script"}

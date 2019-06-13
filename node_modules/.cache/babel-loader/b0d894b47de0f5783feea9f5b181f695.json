@@ -1,0 +1,1 @@
+{"ast":null,"code":"// Written in this round about way for babel-transform-imports\nimport StaticRouter from \"react-router/es/StaticRouter\";\nexport default StaticRouter;","map":null,"metadata":{},"sourceType":"module"}

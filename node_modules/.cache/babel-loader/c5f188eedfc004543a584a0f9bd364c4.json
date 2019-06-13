@@ -1,0 +1,1 @@
+{"ast":null,"code":"// 7.1.13 ToObject(argument)\nvar defined = require('./_defined');\n\nmodule.exports = function (it) {\n  return Object(defined(it));\n};","map":null,"metadata":{},"sourceType":"script"}

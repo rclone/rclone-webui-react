@@ -20,9 +20,13 @@ class Login extends Component {
 
     constructor(props) {
         super(props);
+        let ipAddress = "http://localhost:5572/";
+        if(localStorage.getItem('ipAddress'))
+            ipAddress = localStorage.getItem('ipAddress');
         this.state = {
             username: "",
-            password: ""
+            password: "",
+            ipAddress: ipAddress
         };
     }
 
@@ -32,11 +36,17 @@ class Login extends Component {
     changePassword = e => {
         this.setState({password: e.target.value})
     }
+    changeIPAddress = e =>{
+
+        this.setState({ipAddress: e.target.value});
+    }
 
     onSubmit = e => {
         e.preventDefault();
         localStorage.setItem('username', this.state.username);
         localStorage.setItem('password', this.state.password);
+        localStorage.setItem('ipAddress', this.state.ipAddress);
+
         this.props.history.push('/dashboard')
     };
 
@@ -46,6 +56,8 @@ class Login extends Component {
 
 
     render() {
+        const {username, password, ipAddress} = this.state;
+
         return (
             <div className="app flex-row align-items-center">
                 <Container>
@@ -63,8 +75,17 @@ class Login extends Component {
                                                         <i className="icon-user"></i>
                                                     </InputGroupText>
                                                 </InputGroupAddon>
+                                                <Input type="text" placeholder="IP Address" autoComplete="ipAddress"
+                                                       onChange={this.changeIPAddress} value={ipAddress}/>
+                                            </InputGroup>
+                                            <InputGroup className="mb-3">
+                                                <InputGroupAddon addonType="prepend">
+                                                    <InputGroupText>
+                                                        <i className="icon-user"></i>
+                                                    </InputGroupText>
+                                                </InputGroupAddon>
                                                 <Input type="text" placeholder="Username" autoComplete="username"
-                                                       onChange={this.changeUserName}/>
+                                                       onChange={this.changeUserName} value={username}/>
                                             </InputGroup>
                                             <InputGroup className="mb-4">
                                                 <InputGroupAddon addonType="prepend">
@@ -73,7 +94,8 @@ class Login extends Component {
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input type="password" placeholder="Password"
-                                                       autoComplete="current-password" onChange={this.changePassword}/>
+                                                       autoComplete="current-password" onChange={this.changePassword}
+                                                       value={password}/>
                                             </InputGroup>
                                             <Row>
                                                 <Col xs="6">

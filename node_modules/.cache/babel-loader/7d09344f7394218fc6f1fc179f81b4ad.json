@@ -1,0 +1,1 @@
+{"ast":null,"code":"require('../../modules/es6.string.iterator');\n\nrequire('../../modules/es6.array.from');\n\nmodule.exports = require('../../modules/_core').Array.from;","map":null,"metadata":{},"sourceType":"script"}

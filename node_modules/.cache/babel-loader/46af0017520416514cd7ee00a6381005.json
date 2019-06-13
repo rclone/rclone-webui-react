@@ -1,0 +1,1 @@
+{"ast":null,"code":"module.exports = !require('./_descriptors') && !require('./_fails')(function () {\n  return Object.defineProperty(require('./_dom-create')('div'), 'a', {\n    get: function get() {\n      return 7;\n    }\n  }).a != 7;\n});","map":null,"metadata":{},"sourceType":"script"}

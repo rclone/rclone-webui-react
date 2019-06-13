@@ -1,0 +1,1 @@
+{"ast":null,"code":"// 7.1.15 ToLength\nvar toInteger = require('./_to-integer');\n\nvar min = Math.min;\n\nmodule.exports = function (it) {\n  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991\n};","map":null,"metadata":{},"sourceType":"script"}

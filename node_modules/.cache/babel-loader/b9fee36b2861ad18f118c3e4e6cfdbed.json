@@ -1,0 +1,1 @@
+{"ast":null,"code":"module.exports = function (it, Constructor, name, forbiddenField) {\n  if (!(it instanceof Constructor) || forbiddenField !== undefined && forbiddenField in it) {\n    throw TypeError(name + ': incorrect invocation!');\n  }\n\n  return it;\n};","map":null,"metadata":{},"sourceType":"script"}

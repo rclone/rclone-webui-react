@@ -1,0 +1,1 @@
+{"ast":null,"code":"// to indexed object, toObject with fallback for non-array-like ES3 strings\nvar IObject = require('./_iobject');\n\nvar defined = require('./_defined');\n\nmodule.exports = function (it) {\n  return IObject(defined(it));\n};","map":null,"metadata":{},"sourceType":"script"}

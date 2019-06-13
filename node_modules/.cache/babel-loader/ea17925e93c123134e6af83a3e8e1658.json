@@ -1,0 +1,1 @@
+{"ast":null,"code":"var isObject = require('./_is-object');\n\nmodule.exports = function (it) {\n  if (!isObject(it)) throw TypeError(it + ' is not an object!');\n  return it;\n};","map":null,"metadata":{},"sourceType":"script"}
