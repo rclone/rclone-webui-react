@@ -22,13 +22,16 @@ import {changePath, navigateUp} from "../../actions/explorerStateActions";
 const filesTarget = {
     drop(props, monitor, component) {
         if (monitor.didDrop()) return;
+        console.log("drop", props, monitor, monitor.getItem(), component);
 
         let {Name, Path, IsDir, remoteName} = monitor.getItem();
 
         let srcRemoteName = addColonAtLast(remoteName);
         let srcRemotePath = Path;
-        let destRemoteName = addColonAtLast(props.remoteName);
-        let destRemotePath = props.remotePath;
+        let destRemoteName = addColonAtLast(props.currentPath.remoteName);
+        let destRemotePath = props.currentPath.remotePath;
+
+        // console.log("drop:this", this);
 
         return {
             srcRemoteName,
@@ -333,10 +336,9 @@ class FilesView extends React.PureComponent {
 }
 
 const propTypes = {
-    // updateRemotePathHandle: PropTypes.func.isRequired,
-    // upButtonHandle: PropTypes.func.isRequired,
-    // remotePath: PropTypes.string.isRequired,
-    containerID: PropTypes.string.isRequired
+    containerID: PropTypes.string.isRequired,
+    currentPath: PropTypes.object.isRequired,
+    fsInfo: PropTypes.object.isRequired
 };
 
 const defaultProps = {
@@ -349,32 +351,30 @@ FilesView.defaultProps = defaultProps;
 
 
 const mapStateToProps = (state, ownProps) => {
-        const currentPath = state.explorer.currentPaths[ownProps.containerID];
-        let fsInfo = {};
-        const {remoteName, remotePath} = currentPath;
+    const currentPath = state.explorer.currentPaths[ownProps.containerID];
+    let fsInfo = {};
+    const {remoteName, remotePath} = currentPath;
 
 
-        if (currentPath && state.remote.configs && state.remote.configs[currentPath.remoteName]) {
-            fsInfo = state.remote.configs[currentPath.remoteName];
-        }
-
-        let files = state.remote.files[`${remoteName}::${remotePath}`];
-        if (files) {
-            files = files.files;
-        }
-
-        return {
-            files,
-            currentPath,
-            fsInfo
-        }
+    if (currentPath && state.remote.configs && state.remote.configs[currentPath.remoteName]) {
+        fsInfo = state.remote.configs[currentPath.remoteName];
     }
 
-;
+    let files = state.remote.files[`${remoteName}::${remotePath}`];
+    if (files) {
+        files = files.files;
+    }
+
+    return {
+        files,
+        currentPath,
+        fsInfo
+    }
+};
 
 export default compose(
-    DropTarget(ItemTypes.FILECOMPONENT, filesTarget, collect),
     connect(
         mapStateToProps, {getFiles, navigateUp, changePath}
-    )
+    ),
+    DropTarget(ItemTypes.FILECOMPONENT, filesTarget, collect)
 )(FilesView)
