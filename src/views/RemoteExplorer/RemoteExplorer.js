@@ -1,13 +1,12 @@
 import React from 'react';
 import "../../utils/Global";
-import {Button, Card, CardBody, CardHeader, Col, Form, Row} from "reactstrap";
+import {Card, CardBody, CardHeader} from "reactstrap";
 import RemotesList from "../RemotesList";
 import FilesView from "../FilesView/FilesView";
 import ScrollableDiv from "../Base/ScrollableDiv/ScrollableDiv";
-import RemoteExplorerContext from "./RemoteExplorerContext";
 import {addColonAtLast} from "../../utils/Tools";
 import {connect} from "react-redux";
-import {getConfigForRemote} from "../../actions/explorerActions";
+import {getFsInfo} from "../../actions/explorerActions";
 import PropTypes from 'prop-types';
 import {
     changePath,
@@ -33,15 +32,14 @@ class RemoteExplorer extends React.Component {
 
         this.updateRemoteName = this.updateRemoteName.bind(this);
         this.updateRemotePath = this.updateRemotePath.bind(this);
-        this.buttonUpPressed = this.buttonUpPressed.bind(this);
 
     }
 
-    getFsInfo(remoteName) {
-        console.log("config for", remoteName);
+    getFsInfo() {
 
+        const {remoteName} = this.props.currentPath;
         if (!this.props.configs[remoteName])
-            this.props.getConfigForRemote(remoteName);
+            this.props.getFsInfo(remoteName);
 
     }
 
@@ -51,27 +49,14 @@ class RemoteExplorer extends React.Component {
 
     }
 
-    openRemote = () => {
-        const {remoteNameTemp} = this.state;
-        // backStack.empty();
-        // backStack.push({remoteName: remoteNameTemp, remotePath: ""});
-        // this.setState(backStack.peek());
 
-        this.props.changeRemoteName(this.props.containerID, remoteNameTemp, "");
 
-        this.getFsInfo(remoteNameTemp);
-
-    };
 
     updateRemotePath(newRemotePath, IsDir, IsBucket) {
-        // const {backStack} = this.props;
-        const {remoteName, remotePath} = this.props.currentPath;
-        // const curRemotePath = backStack.peek().remotePath;
+        const {remoteName} = this.props.currentPath;
 
         let updateRemoteName = "";
         let updateRemotePath = "";
-
-        console.log(remoteName, remotePath, newRemotePath)
 
         if (IsBucket) {
             updateRemoteName = addColonAtLast(remoteName) + newRemotePath;
@@ -81,62 +66,31 @@ class RemoteExplorer extends React.Component {
         } else if (IsDir) {
             updateRemoteName = remoteName;
             updateRemotePath = newRemotePath;
-            // backStack.push({remoteName: backStack.peek().remoteName, remotePath: remotePath});
         }
         this.props.changePath(this.props.containerID, updateRemoteName, updateRemotePath);
     }
 
-    buttonUpPressed() {
-        this.props.navigateUp(this.props.containerID);
-        // const {backStack} = this.state;
-        // if (backStack.getLength() > 1) {
-        //     backStack.pop();
-        //
-        //     this.setState(backStack.peek());
-        // }
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevState.componentShouldUpdate) {
-            this.setState({componentShouldUpdate: false});
-
-        }
-    }
 
 
     render() {
 
-        const currentPath = this.props.currentPath;
-        if (!currentPath) return null;
-        console.log(currentPath);
 
+        const {remoteName} = this.props.currentPath;
 
-        const {remoteName, remotePath} = currentPath;
-
-        const fsInfo = this.props.configs[remoteName];
-        console.log(remotePath, remoteName, fsInfo);
         return (
-            <RemoteExplorerContext.Provider
-                value={{remoteName: remoteName, remotePath: remotePath, fsInfo: fsInfo}}>
+            <React.Fragment>
                 {/*Render remotes array*/}
 
                 <Card>
                     <CardHeader>Remotes</CardHeader>
                     <CardBody>
-                        <Form onSubmit={() => this.openRemote()}>
-                            <Row>
-                                <Col xs={12} sm={8} lg={6}>
 
-                                    <RemotesList updateRemoteNameHandle={this.updateRemoteName}
-                                                 remoteName={remoteName}/>
-                                </Col>
-                                <Col xs={12} sm={2} lg={2}>
 
-                                    <Button className={"btn-lg"} color="success"
-                                            type="submit">Open</Button>
-                                </Col>
-                            </Row>
-                        </Form>
+                        <RemotesList
+                            remoteName={remoteName}
+                            containerID={this.props.containerID}
+                        />
+
                     </CardBody>
                 </Card>
 
@@ -148,16 +102,18 @@ class RemoteExplorer extends React.Component {
                     <CardBody>
                         <ScrollableDiv height={"700px"}>
                             {/*<Row className={"mr-0 ml-0"}>*/}
-                            <FilesView remoteName={remoteName} remotePath={remotePath}
-                                       updateRemotePathHandle={this.updateRemotePath}
-                                       upButtonHandle={this.buttonUpPressed}
-                                       componentShouldUpdate={this.state.componentShouldUpdate}
+                            <FilesView
+                                // remoteName={remoteName} remotePath={remotePath}
+                                // updateRemotePathHandle={this.updateRemotePath}
+                                // upButtonHandle={this.buttonUpPressed}
+                                // componentShouldUpdate={this.state.componentShouldUpdate}
+                                containerID={this.props.containerID}
                             />
                             {/*</Row>*/}
                         </ScrollableDiv>
                     </CardBody>
                 </Card>
-            </RemoteExplorerContext.Provider>
+            </React.Fragment>
         );
 
     }
@@ -169,18 +125,30 @@ const propTypes = {
 
     containerID: PropTypes.string.isRequired,
     createPath: PropTypes.func.isRequired,
+    currentPath: PropTypes.shape({
+        remoteName: PropTypes.string.isRequired,
+        remotePath: PropTypes.string.isRequired
+    })
 };
 
 const defaultProps = {};
 
-const mapStateToProps = (state, ownProps) => ({
-    configs: state.remote.configs,
-    hasError: state.remote.hasError,
-    error: state.remote.error,
-    // backStack: state.explorer.backStacks[ownProps.containerID],
-    currentPath: state.explorer.currentPaths[ownProps.containerID],
-    // remotePath: state.explorer.currentPaths[ownProps.containerID].remotePath
-});
+const mapStateToProps = (state, ownProps) => {
+
+    const currentPath = state.explorer.currentPaths[ownProps.containerID];
+    let fsInfo = {};
+
+    if (currentPath && state.remote.configs && state.remote.configs[currentPath.remoteName]) {
+        fsInfo = state.remote.configs[currentPath.remoteName];
+    }
+    return {
+        configs: state.remote.configs,
+        hasError: state.remote.hasError,
+        error: state.remote.error,
+        currentPath: state.explorer.currentPaths[ownProps.containerID],
+        fsInfo
+    }
+};
 
 RemoteExplorer.propTypes = propTypes;
 RemoteExplorer.defaultProps = defaultProps;
@@ -188,7 +156,7 @@ RemoteExplorer.defaultProps = defaultProps;
 export default connect(
     mapStateToProps,
     {
-        getConfigForRemote, createPath, changePath,
+        getFsInfo, createPath, changePath,
         changeRemoteName, changeRemotePath, navigateUp,
         navigateBack, navigateFwd
     }

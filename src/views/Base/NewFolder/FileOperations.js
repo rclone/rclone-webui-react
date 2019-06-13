@@ -18,7 +18,7 @@ class FileOperations extends React.Component {
 
     closeNewFolderModal = () => {
         this.setState({newFolderModalIsVisible: false});
-        this.props.updateHandler();
+        // this.props.updateHandler();
     };
 
 
@@ -31,7 +31,8 @@ class FileOperations extends React.Component {
                 {/*<Button color="success" className="ml-2">Copy</Button>*/}
                 {/*<Button color="success" className="ml-2">Rename</Button>*/}
                 {/*<Button color="success" className="ml-2">Upload</Button>*/}
-                <NewFolder isVisible={this.state.newFolderModalIsVisible} closeModal={this.closeNewFolderModal}/>
+                <NewFolder containerID={this.props.containerID} isVisible={this.state.newFolderModalIsVisible}
+                           closeModal={this.closeNewFolderModal}/>
             </div>
 
         );
@@ -41,5 +42,6 @@ class FileOperations extends React.Component {
 FileOperations.propTypes = {
     updateHandler: PropTypes.func.isRequired
 };
+
 
 export default FileOperations;

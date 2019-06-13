@@ -43,7 +43,7 @@ class DefaultLayout extends Component {
     }
 
     render() {
-        console.log("isConnected, default layout", this.props.isConnected);
+        // console.log("isConnected, default layout", this.props.isConnected);
         return (
 
 

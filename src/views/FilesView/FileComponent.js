@@ -25,7 +25,6 @@ const fileComponentSource = {
 
                 if (dropEffect === "move") { /*Default operation without holding alt is copy, named as move in react-dnd*/
                     await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
-                    // console.log("endDrag", props, monitor, monitor.getItem(), component);
                     updateHandler();
                     if (IsDir) {
                         toast.info(`Directory copied: ${Name}`);
@@ -35,7 +34,6 @@ const fileComponentSource = {
 
                 } else {
                     await performMoveFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
-                    // console.log("endDrag", props, monitor, monitor.getItem(), component);
                     updateHandler();
                     if (IsDir) {
                         toast.info(`Directory moved: ${Name}`);

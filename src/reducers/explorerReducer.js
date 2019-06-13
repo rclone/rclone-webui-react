@@ -51,6 +51,7 @@ export default function (state = initialState, action) {
                     error: action.payload,
                     hasError: true
                 };
+            break;
         default:
             return state;
     }

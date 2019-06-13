@@ -334,7 +334,7 @@ class NewDrive extends React.Component {
 
 
         /*Check for validations based on inputType*/
-        for (const [key, value] of Object.entries(isValid)) {
+        for (const [_, value] of Object.entries(isValid)) {
             if (!value) {
                 flag = false;
                 break;
@@ -418,7 +418,7 @@ class NewDrive extends React.Component {
                     console.log("Validated form");
                     this.startAuthentication();
                     try {
-                        let res = await axiosInstance.post('/config/create', data);
+                        await axiosInstance.post('/config/create', data);
                         toast.info("Config created");
 
                     } catch (err) {
@@ -483,20 +483,6 @@ class NewDrive extends React.Component {
         }
     };
 
-    //
-    // async getProviders() {
-    //     try {
-    //         let res = await axiosInstance.post("/config/providers");
-    //         const {providers} = res.data;
-    //         this.config = providers;
-    //         // this.setState({config: res.data.providers});
-    //     } catch (e) {
-    //         console.log(`Error getting the provider details: ${e}`);
-    //         toast.error(`Error loading providers. ${e}`, {
-    //             autoClose: false
-    //         });
-    //     }
-    // }
 
 
     componentDidMount() {

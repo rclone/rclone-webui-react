@@ -27,8 +27,8 @@ class BackStack {
     }
 
     empty() {
-        this.items = [];
-        this.count = 0;
+        this.items = [{remoteName: "", remotePath: ""}];
+        this.count = 1;
     }
 
     moveBack() {

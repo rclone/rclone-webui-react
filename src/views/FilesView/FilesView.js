@@ -9,22 +9,10 @@ import FileComponent from "./FileComponent";
 import {ItemTypes} from "./Constants";
 import {toast} from "react-toastify";
 import {addColonAtLast} from "../../utils/Tools";
-import RemoteExplorerContext from "../RemoteExplorer/RemoteExplorerContext";
 import {connect} from "react-redux";
 import {getFiles} from "../../actions/explorerActions";
 import {compose} from "redux";
-
-
-const propTypes = {
-    updateRemotePathHandle: PropTypes.func.isRequired,
-    upButtonHandle: PropTypes.func.isRequired,
-    remotePath: PropTypes.string.isRequired
-};
-
-const defaultProps = {
-    remotePath: "",
-};
-
+import {changePath, navigateUp} from "../../actions/explorerStateActions";
 
 
 /*
@@ -34,7 +22,6 @@ const defaultProps = {
 const filesTarget = {
     drop(props, monitor, component) {
         if (monitor.didDrop()) return;
-        console.log("drop", props, monitor, monitor.getItem(), component);
 
         let {Name, Path, IsDir, remoteName} = monitor.getItem();
 
@@ -95,18 +82,15 @@ function UpButtonComponent({upButtonHandle}) {
         </tr>);
 }
 
-class FilesView extends React.Component {
-    static contextType = RemoteExplorerContext;
+class FilesView extends React.PureComponent {
 
 
     constructor(props) {
         super(props);
         this.state = {
-            filesList: [],
             isLoading: false,
             isDownloadProgress: false,
             downloadingItems: 0,
-            isOperationInProgress: false,
             shouldUpdate: true,
 
         };
@@ -115,89 +99,56 @@ class FilesView extends React.Component {
         this.deleteHandle = this.deleteHandle.bind(this);
     }
 
-    componentDidMount() {
-        this.getFilesList();
-    }
-
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const {remoteName, remotePath} = this.props;
-        const {shouldUpdate} = this.state;
-        // console.log("componentDidUpdate");
-        if (prevProps.remoteName !== remoteName || prevProps.remotePath !== remotePath || prevState.shouldUpdate !== shouldUpdate) {
-            this.getFilesList(prevState.shouldUpdate === shouldUpdate);
-        }
-    }
 
     handleFileClick(e, item) {
         const {Path, IsDir, IsBucket} = item;
-        const {updateRemotePathHandle} = this.props;
-        console.log("Clicked" + Path);
         if (IsDir || IsBucket) {
-            updateRemotePathHandle(Path, IsDir, IsBucket);
+            this.updateRemotePath(Path, IsDir, IsBucket);
         } else {
             this.downloadHandle(item);
         }
 
     }
 
+    updateRemotePath(newRemotePath, IsDir, IsBucket) {
+        const {remoteName} = this.props.currentPath;
+
+        let updateRemoteName = "";
+        let updateRemotePath = "";
+
+
+        if (IsBucket) {
+            updateRemoteName = addColonAtLast(remoteName) + newRemotePath;
+            updateRemotePath = "";
+            // backStack.push({remoteName: addColonAtLast(backStack.peek().remoteName) + remotePath, remotePath: ""});
+
+        } else if (IsDir) {
+            updateRemoteName = remoteName;
+            updateRemotePath = newRemotePath;
+            // backStack.push({remoteName: backStack.peek().remoteName, remotePath: remotePath});
+        }
+        this.props.changePath(this.props.containerID, updateRemoteName, updateRemotePath);
+    }
+
 
     getFilesList(showLoading = true) {
-        const {remoteName, remotePath} = this.props;
+        const {remoteName, remotePath} = this.props.currentPath;
 
-        // let remoteName = "", remotePath = "";
-        // if(paths[containerID]) {
-        //     remoteName = paths[containerID].remoteName;
-        //     remotePath = paths[containerID].remotePath;
-        //
-        // }
-
-        // const pathKey = `${remoteName}::${remotePath}`;
-
-        // if(pathKey && !this.props.files[pathKey])
         this.props.getFiles(remoteName, remotePath);
 
-        // if (remoteName !== "") {
-        //
-        //     console.log(remoteName, remotePath);
-        //
-        //     remoteName = addColonAtLast(remoteName);
-        //
-        //
-        //     let data = {
-        //         fs: remoteName,
-        //         remote: remotePath
-        //     };
-        //     if (showLoading)
-        //         this.setState({isLoading: true});
-        //
-        //     try {
-        //
-        //         let res = await axiosInstance.post("/operations/list", data);
-        //         this.setState({files: res.data.list});
-        //     } catch (e) {
-        //         console.log("Error loading files");
-        //         toast.warn('Error loading files');
-        //         // Pop current state
-        //         this.props.upButtonHandle();
-        //     }
-        //
-        //     if (showLoading)
-        //         this.setState({isLoading: false});
-        // }
     }
 
     async downloadHandle(item) {
         // let {remoteName, remotePath} = this.props;
-        let {remoteName, remotePath, fsInfo} = this.context;
-        let downloadUrl = ""
+        let {remoteName, remotePath} = this.props.currentPath;
+        const {fsInfo} = this.props;
+        let downloadUrl = "";
         if (fsInfo.Features.BucketBased) {
             downloadUrl = `/[${remoteName}]/${remotePath}/${item.Name}`;
 
         } else {
             downloadUrl = `/[${remoteName}:${remotePath}]/${item.Name}`;
         }
-        // openInNewTab(downloadUrl);
 
         this.setState((prevState) => {
             return {
@@ -231,8 +182,7 @@ class FilesView extends React.Component {
     }
 
     async deleteHandle(item) {
-        console.log("Delete pressed");
-        let {remoteName} = this.props;
+        let {remoteName} = this.props.currentPath;
 
         const data = {
             fs: addColonAtLast(remoteName),
@@ -241,16 +191,14 @@ class FilesView extends React.Component {
         try {
             if (item.IsDir) {
 
-                let res = await axiosInstance.post("/operations/purge", data);
-                console.log("deletefile", res);
+                await axiosInstance.post("/operations/purge", data);
 
                 this.updateHandler();
                 toast.info(`${item.Name} deleted.`);
 
             } else {
 
-                let res = await axiosInstance.post("/operations/deletefile", data);
-                console.log("deletefile", res);
+                await axiosInstance.post("/operations/deletefile", data);
                 this.updateHandler();
                 toast.info(`${item.Name} deleted.`, {
                     autoClose: false
@@ -266,11 +214,10 @@ class FilesView extends React.Component {
     }
 
     updateHandler = () => {
-        this.setState((prevState) => {
-            return {shouldUpdate: !prevState.shouldUpdate}
-        })
 
-    }
+        const {remoteName, remotePath} = this.props.currentPath;
+        this.getFilesList(remoteName, remotePath);
+    };
 
     dismissAlert = (e) => {
         this.setState({isDownloadProgress: false});
@@ -294,34 +241,27 @@ class FilesView extends React.Component {
             }
             return null;
         });
-    }
+    };
 
 
     render() {
-        const {isLoading, isDownloadProgress, downloadingItems, isOperationInProgress} = this.state;
-        const {connectDropTarget, isOver, upButtonHandle, files} = this.props;
-        const {remoteName, remotePath} = this.context;
+        const {isLoading, isDownloadProgress, downloadingItems,} = this.state;
+        const {connectDropTarget, isOver, files, navigateUp, containerID} = this.props;
+        const {remoteName} = this.props.currentPath;
 
-        if (isLoading) {
+        if (isLoading || !files) {
             return (<div><i className={"fa fa-circle-o-notch fa-lg"}/> Loading</div>);
         } else {
-
-            let filesList = [];
-            const pathkey = `${remoteName}::${remotePath}`
-            if (files[pathkey])
-                filesList = files[pathkey].files;
 
 
             if (remoteName === "") {
                 return (<div>No remote is selected. Select a remote from above to show files.</div>);
             }
 
-            console.log("filesList", filesList);
 
+            let dirComponentMap = this.getFileComponents(files, remoteName, true);
 
-            let dirComponentMap = this.getFileComponents(filesList, remoteName, true);
-
-            let fileComponentMap = this.getFileComponents(filesList, remoteName, false);
+            let fileComponentMap = this.getFileComponents(files, remoteName, false);
 
             const renderElement = (
 
@@ -358,7 +298,7 @@ class FilesView extends React.Component {
                     </Alert>
 
                     <Col sm={12}>
-                        <FileOperations updateHandler={this.updateHandler}/>
+                        <FileOperations updateHandler={this.updateHandler} containerID={containerID}/>
                     </Col>
 
 
@@ -373,8 +313,8 @@ class FilesView extends React.Component {
                         </tr>
                         </thead>
                         <tbody>
-                        <UpButtonComponent upButtonHandle={upButtonHandle}/>
-                        {filesList.length > 0 ? renderElement :
+                        <UpButtonComponent upButtonHandle={() => navigateUp(containerID)}/>
+                        {files.length > 0 ? renderElement :
                             <tr>
                                 <td></td>
                                 <td>No files</td>
@@ -392,16 +332,49 @@ class FilesView extends React.Component {
 
 }
 
+const propTypes = {
+    // updateRemotePathHandle: PropTypes.func.isRequired,
+    // upButtonHandle: PropTypes.func.isRequired,
+    // remotePath: PropTypes.string.isRequired,
+    containerID: PropTypes.string.isRequired
+};
+
+const defaultProps = {
+    remotePath: "",
+};
+
+
 FilesView.propTypes = propTypes;
 FilesView.defaultProps = defaultProps;
 
-const mapStateToProps = state => ({
-    files: state.remote.files
-});
+
+const mapStateToProps = (state, ownProps) => {
+        const currentPath = state.explorer.currentPaths[ownProps.containerID];
+        let fsInfo = {};
+        const {remoteName, remotePath} = currentPath;
+
+
+        if (currentPath && state.remote.configs && state.remote.configs[currentPath.remoteName]) {
+            fsInfo = state.remote.configs[currentPath.remoteName];
+        }
+
+        let files = state.remote.files[`${remoteName}::${remotePath}`];
+        if (files) {
+            files = files.files;
+        }
+
+        return {
+            files,
+            currentPath,
+            fsInfo
+        }
+    }
+
+;
 
 export default compose(
     DropTarget(ItemTypes.FILECOMPONENT, filesTarget, collect),
     connect(
-        mapStateToProps, {getFiles}
+        mapStateToProps, {getFiles, navigateUp, changePath}
     )
 )(FilesView)

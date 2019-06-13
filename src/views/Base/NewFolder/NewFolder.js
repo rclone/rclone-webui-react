@@ -2,13 +2,13 @@ import React from 'react';
 import {Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import PropTypes from "prop-types";
 import axiosInstance from "../../../utils/API";
-import RemoteExplorerContext from "../../RemoteExplorer/RemoteExplorerContext";
 import {toast} from "react-toastify";
 import {addColonAtLast} from "../../../utils/Tools";
+import {connect} from "react-redux";
+import {getFilesForContainerID} from "../../../actions/explorerStateActions";
 
 
 class NewFolder extends React.Component {
-    static contextType = RemoteExplorerContext;
 
     constructor(props) {
         super(props);
@@ -28,9 +28,10 @@ class NewFolder extends React.Component {
 
     async createNewFolder() {
 
-        console.log("Form Submitted");
-        let {remoteName, remotePath, fsInfo} = this.context;
+        // console.log("Form Submitted");
         let {name} = this.state;
+        let {remoteName, remotePath} = this.props.currentPath;
+        const {fsInfo} = this.props;
 
         remoteName = addColonAtLast(remoteName);
 
@@ -50,17 +51,18 @@ class NewFolder extends React.Component {
                 fs: remoteName,
                 remote: remotePath
             };
-            console.log("Data", data);
 
             /*Disable form submit button*/
             this.disableForm(true);
+
             /*Network Request*/
-            let res = await axiosInstance.post("operations/mkdir", data);
-            console.log("mkdir", res);
+            await axiosInstance.post("operations/mkdir", data);
+
             this.disableForm(false);
 
             this.toggle();
             toast.info(`Folder created: ${remotePath}`)
+            this.props.getFilesForContainerID(this.props.containerID);
         } catch (error) {
             this.disableForm(false);
 
@@ -127,11 +129,27 @@ class NewFolder extends React.Component {
 
 const propTypes = {
     isVisible: PropTypes.bool.isRequired,
-    closeModal: PropTypes.func.isRequired
+    closeModal: PropTypes.func.isRequired,
+    containerID: PropTypes.string.isRequired,
+    getFilesForContainerID: PropTypes.func.isRequired
 };
 
 
 NewFolder.propTypes = propTypes;
 
 
-export default NewFolder;
+const mapStateToProps = (state, ownProps) => {
+
+    const currentPath = state.explorer.currentPaths[ownProps.containerID];
+    let fsInfo = {};
+
+    if (currentPath && state.remote.configs && state.remote.configs[currentPath.remoteName]) {
+        fsInfo = state.remote.configs[currentPath.remoteName];
+    }
+    return {
+        currentPath,
+        fsInfo
+    }
+};
+
+export default connect(mapStateToProps, {getFilesForContainerID})(NewFolder);

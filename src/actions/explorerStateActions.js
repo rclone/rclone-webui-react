@@ -1,34 +1,50 @@
 import {CHANGE_PATH, CHANGE_REMOTE_NAME, CHANGE_REMOTE_PATH, CREATE_PATH, NAVIGATE_BACK, NAVIGATE_FWD} from "./types";
+import {getFiles} from "./explorerActions";
 
 export const changePath = (containerID, remoteName, remotePath) => {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         dispatch({
             type: CHANGE_PATH,
             remoteName: remoteName,
             id: containerID,
             remotePath: remotePath
         });
+        dispatch(getFilesForContainerID(containerID))
     }
 };
 
 export const changeRemoteName = (containerID, remoteName) => {
-    return (dispatch, getState) => {
+
+    return (dispatch) => {
         dispatch({
             type: CHANGE_REMOTE_NAME,
             remoteName: remoteName,
             id: containerID,
             remotePath: ""
         });
+
+        dispatch(getFilesForContainerID(containerID))
+    }
+};
+
+export const getFilesForContainerID = (containerID) => {
+
+    return (dispatch, getState) => {
+        const state = getState();
+        const {remoteName, remotePath} = state.explorer.currentPaths[containerID];
+        if (remoteName && remoteName !== "")
+            dispatch(getFiles(remoteName, remotePath));
     }
 };
 
 export const changeRemotePath = (containerID, remotePath) => {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         dispatch({
             type: CHANGE_REMOTE_PATH,
             id: containerID,
             remotePath: remotePath
         });
+        dispatch(getFilesForContainerID(containerID))
     }
 };
 
@@ -46,7 +62,9 @@ export const navigateUp = (containerID) => dispatch => {
     dispatch({
         type: NAVIGATE_BACK,
         id: containerID
-    })
+    });
+    dispatch(getFilesForContainerID(containerID))
+
 };
 
 export const navigateFwd = (containerID) => dispatch => {
@@ -54,7 +72,9 @@ export const navigateFwd = (containerID) => dispatch => {
     dispatch({
         type: NAVIGATE_FWD,
         id: containerID
-    })
+    });
+    dispatch(getFilesForContainerID(containerID))
+
 };
 
 export const navigateBack = (containerID) => dispatch => {
@@ -62,6 +82,8 @@ export const navigateBack = (containerID) => dispatch => {
     dispatch({
         type: NAVIGATE_BACK,
         id: containerID
-    })
+    });
+    dispatch(getFilesForContainerID(containerID))
+
 };
 
