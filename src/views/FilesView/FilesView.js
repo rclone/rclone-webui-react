@@ -236,7 +236,7 @@ class FilesView extends React.PureComponent {
         this.setState({isDownloadProgress: false});
     };
 
-    getFileComponents = (filesList, remoteName, isDir, gridMode) => {
+    getFileComponents = (filesList, remoteName, isDir, gridMode, containerID) => {
         return filesList.map((item, idx) => {
             let {ID, Name} = item;
             // Using fallback as fileName when the ID is not available (for local file system)
@@ -248,7 +248,7 @@ class FilesView extends React.PureComponent {
                     <React.Fragment key={ID}>
                         <FileComponent item={item} clickHandler={this.handleFileClick}
                                        downloadHandle={this.downloadHandle} deleteHandle={this.deleteHandle}
-                                       remoteName={remoteName} gridMode={gridMode}
+                                       remoteName={remoteName} gridMode={gridMode} containerID={containerID}
                         />
                     </React.Fragment>
                 )

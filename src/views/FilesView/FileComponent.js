@@ -6,6 +6,8 @@ import {DragSource} from 'react-dnd'
 import {formatBytes} from "../../utils/Tools";
 import {performCopyFile, performMoveFile} from "../../utils/API";
 import {toast} from "react-toastify";
+import {compose} from "redux";
+import {connect} from "react-redux";
 
 
 const fileComponentSource = {
@@ -22,24 +24,33 @@ const fileComponentSource = {
         try {
             if (monitor.getDropResult()) {
 
+
                 const {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir, dropEffect, updateHandler} = monitor.getDropResult();
 
                 if (dropEffect === "move") { /*Default operation without holding alt is copy, named as move in react-dnd*/
-                    await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
-                    updateHandler();
-                    if (IsDir) {
-                        toast.info(`Directory copied: ${Name}`);
+                    if (component.fsInfo.Features.Copy) {
+                        await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+                        updateHandler();
+                        if (IsDir) {
+                            toast.info(`Directory copied: ${Name}`);
+                        } else {
+                            toast.info(`File copied: ${Name}`);
+                        }
                     } else {
-                        toast.info(`File copied: ${Name}`);
+                        toast.error("This remote does not support copying");
                     }
 
                 } else {
-                    await performMoveFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
-                    updateHandler();
-                    if (IsDir) {
-                        toast.info(`Directory moved: ${Name}`);
+                    if (component.fsInfo.Features.Move) {
+                        await performMoveFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+                        updateHandler();
+                        if (IsDir) {
+                            toast.info(`Directory moved: ${Name}`);
+                        } else {
+                            toast.info(`File moved: ${Name}`);
+                        }
                     } else {
-                        toast.info(`File moved: ${Name}`);
+                        toast.error("This remote does not support moving");
                     }
 
                 }
@@ -172,17 +183,29 @@ function FileComponent({item, clickHandler, downloadHandle, deleteHandle, connec
             </tr>
         )
     }
-
-    // return connectDragSource(
-    //     <tr className={"pointer-cursor"}>
-    //         <td><input type="checkbox"/></td>
-    //         <td onClick={(e) => clickHandler(e, item)}><FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}</td>
-    //         <td>{Size === -1 ? "NA" : formatBytes(Size, 2)}</td>
-    //         <td>{modTime.toLocaleDateString()}</td>
-    //         <td><Actions downloadHandle={downloadHandle} deleteHandle={deleteHandle} item={item}/></td>
-    //     </tr>
-    // )
 }
 
+const mapStateToProps = (state, ownProps) => {
+    const currentPath = state.explorer.currentPaths[ownProps.containerID];
 
-export default DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect)(FileComponent);
+    let fsInfo = {};
+
+    if (currentPath && state.remote.configs && state.remote.configs[currentPath.remoteName]) {
+        fsInfo = state.remote.configs[currentPath.remoteName];
+    }
+
+
+    return {
+        // files,
+        // currentPath,
+        fsInfo,
+        // gridMode
+    }
+};
+
+export default compose(
+    connect(
+        mapStateToProps, {}
+    ),
+    DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect)
+)(FileComponent)

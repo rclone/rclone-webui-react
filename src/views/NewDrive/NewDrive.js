@@ -198,8 +198,6 @@ class NewDrive extends React.Component {
     }
 
     handleInputChange = (e) => {
-        // let new_prod_diff = this.state.formValues;
-        // new_prod_diff[e.target.name] = e.target.value;
 
         let inputName = e.target.name;
         let inputValue = e.target.value;
