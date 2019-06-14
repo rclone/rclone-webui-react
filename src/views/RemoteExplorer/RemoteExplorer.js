@@ -101,7 +101,6 @@ class RemoteExplorer extends React.Component {
                     </CardHeader>
                     <CardBody>
                         <ScrollableDiv height={"700px"}>
-                            {/*<Row className={"mr-0 ml-0"}>*/}
                             <FilesView
                                 // remoteName={remoteName} remotePath={remotePath}
                                 // updateRemotePathHandle={this.updateRemotePath}
@@ -109,7 +108,6 @@ class RemoteExplorer extends React.Component {
                                 // componentShouldUpdate={this.state.componentShouldUpdate}
                                 containerID={this.props.containerID}
                             />
-                            {/*</Row>*/}
                         </ScrollableDiv>
                     </CardBody>
                 </Card>

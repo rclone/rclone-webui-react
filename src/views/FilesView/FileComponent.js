@@ -1,11 +1,12 @@
 import React from "react";
-import {Button} from "reactstrap";
+import {Button, Card, CardBody, CardFooter} from "reactstrap";
 
 import {ItemTypes} from './Constants'
 import {DragSource} from 'react-dnd'
 import {formatBytes} from "../../utils/Tools";
 import {performCopyFile, performMoveFile} from "../../utils/API";
 import {toast} from "react-toastify";
+
 
 const fileComponentSource = {
     beginDrag(props) {
@@ -116,7 +117,7 @@ function Actions({downloadHandle, deleteHandle, item}) {
 }
 
 // Non used props are required for drag-and-drop functionality
-function FileComponent({item, clickHandler, downloadHandle, deleteHandle, connectDragSource, /*isDragging, remoteName*/}) {
+function FileComponent({item, clickHandler, downloadHandle, deleteHandle, connectDragSource, gridMode/*isDragging, remoteName*/}, ...props) {
     /*
     MimeTypes: https://www.freeformatter.com/mime-types-list.html
     * {
@@ -145,16 +146,45 @@ function FileComponent({item, clickHandler, downloadHandle, deleteHandle, connec
     const {IsDir, MimeType, ModTime, Name, Size} = item;
 
     let modTime = new Date(Date.parse(ModTime));
+    console.log("card", gridMode);
 
-    return connectDragSource(
-        <tr className={"pointer-cursor"}>
-            <td><input type="checkbox"/></td>
-            <td onClick={(e) => clickHandler(e, item)}><FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}</td>
-            <td>{Size === -1 ? "NA" : formatBytes(Size, 2)}</td>
-            <td>{modTime.toLocaleDateString()}</td>
-            <td><Actions downloadHandle={downloadHandle} deleteHandle={deleteHandle} item={item}/></td>
-        </tr>
-    )
+    if (gridMode === "card") {
+        console.log("card", gridMode);
+        return connectDragSource(
+            <div className={"col-lg-3"}>
+                <Card>
+                    <CardBody>
+                        <FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}
+                    </CardBody>
+                    <CardFooter>
+                        <Actions downloadHandle={downloadHandle} deleteHandle={deleteHandle} item={item}/>
+                    </CardFooter>
+                </Card>
+            </div>
+        )
+    } else {
+        return connectDragSource(
+            <tr className={"pointer-cursor"}>
+                <td><input type="checkbox"/></td>
+                <td onClick={(e) => clickHandler(e, item)}><FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}</td>
+                <td>{Size === -1 ? "NA" : formatBytes(Size, 2)}</td>
+                <td>{modTime.toLocaleDateString()}</td>
+                <td><Actions downloadHandle={downloadHandle} deleteHandle={deleteHandle} item={item}/></td>
+            </tr>
+        )
+    }
+
+    // return connectDragSource(
+    //     <tr className={"pointer-cursor"}>
+    //         <td><input type="checkbox"/></td>
+    //         <td onClick={(e) => clickHandler(e, item)}><FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}</td>
+    //         <td>{Size === -1 ? "NA" : formatBytes(Size, 2)}</td>
+    //         <td>{modTime.toLocaleDateString()}</td>
+    //         <td><Actions downloadHandle={downloadHandle} deleteHandle={deleteHandle} item={item}/></td>
+    //     </tr>
+    // )
 }
 
-export default DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect)(FileComponent);
+
+export default DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect)
+(FileComponent);

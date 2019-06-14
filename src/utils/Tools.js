@@ -122,3 +122,21 @@ export function addColonAtLast(name) {
     return name;
 }
 
+const visibilityAssociation = {
+    Images: "image/jpeg",
+    Pdf: "application/pdf",
+};
+
+
+export function changeListVisibility(list, filter, checkList = visibilityAssociation) {
+    let acceptType = checkList[filter];
+    // console.log(list);
+    if (acceptType) {
+        let newList = list.filter((item) => {
+            return (item.IsDir || item.MimeType === acceptType);
+        })
+        return newList;
+    }
+    return list;
+
+}

@@ -1,7 +1,9 @@
 import {
+    CHANGE_GRID_MODE,
     CHANGE_PATH,
     CHANGE_REMOTE_NAME,
     CHANGE_REMOTE_PATH,
+    CHANGE_VISIBILITY_FILTER,
     CREATE_PATH,
     NAVIGATE_BACK,
     NAVIGATE_FWD,
@@ -11,79 +13,13 @@ import BackStack from "../utils/BackStack";
 
 const initialState = {
     backStacks: {},
-    currentPaths: {}
+    currentPaths: {},
+    visibilityFilters: {},
+    gridMode: {},
 };
 
 
 export default function (state = initialState, action) {
-    // const id = action.id?action.id:"";
-    // let array = state.backStacks[id];
-    // if(!array) array = [];
-    //
-    // let arrayLen = array.length - 1 ;
-    //
-    // const remoteName = action.remoteName;
-    // const remotePath = action.remotePath;
-    //
-    // const data = {
-    //     remoteName: remoteName,
-    //     remotePath: remotePath
-    // };
-    //
-    // let ptr = state.pointers[id];
-    //
-    //
-    // switch (action.type) {
-    //     case CHANGE_PATH:
-    //         array.push(data);
-    //         ptr++;
-    //         break;
-    //
-    //     case CHANGE_REMOTE_NAME:
-    //         console.log("CHange remote name", remoteName, remotePath)
-    //         array.push({remoteName: remoteName, remotePath: ""});
-    //         ptr++;
-    //         break;
-    //
-    //     case CHANGE_REMOTE_PATH:
-    //         array.push({remoteName: array[arrayLen].remoteName, remotePath: remotePath});
-    //         ptr++;
-    //         break;
-    //
-    //     case CREATE_PATH:
-    //         array = [];
-    //         data.remoteName = "";
-    //         data.remotePath = "";
-    //         array.push(data);
-    //
-    //         ptr=0;
-    //         break;
-    //
-    //     case NAVIGATE_UP:
-    //         // TODO: Write logic for up, which will navigate one directory up
-    //         let current = array[arrayLen];
-    //         if(current.remotePath && current.remotePath !== ""){
-    //             current.remotePath = "";
-    //             const splitPath = current.remotePath.split('/');
-    //             for(let i=0;i<splitPath.length-1;i++){
-    //                 current.remotePath = splitPath[i];
-    //             }
-    //         }
-    //         array[arrayLen] = current;
-    //         break;
-    //
-    //     case NAVIGATE_FWD:
-    //         if(ptr < array.length){
-    //             ptr--;
-    //         }
-    //         break;
-    //
-    //     case NAVIGATE_BACK:
-    //         if(ptr>0){
-    //             ptr++;
-    //         }
-    //         break;
-
 
     const id = action.id;
     // console.log(action.type);
@@ -104,6 +40,10 @@ export default function (state = initialState, action) {
             remoteName: remoteName,
             remotePath: remotePath
         };
+
+        let visibilityFilter = state.visibilityFilters[id];
+        let gridMode = state.gridMode[id];
+
 
 
         switch (action.type) {
@@ -153,6 +93,14 @@ export default function (state = initialState, action) {
                 // console.log(backStack);
                 backStack.moveBack();
                 break;
+            case CHANGE_VISIBILITY_FILTER:
+                if (action.filter)
+                    visibilityFilter = action.filter;
+                break;
+            case CHANGE_GRID_MODE:
+                if (action.mode) {
+                    gridMode = action.mode;
+                }
             default:
                 break;
         }
@@ -160,7 +108,9 @@ export default function (state = initialState, action) {
         return {
             ...state,
             backStacks: {...state.backStacks, [id]: backStack},
-            currentPaths: {...state.currentPaths, [id]: {...backStack.peek()}}
+            currentPaths: {...state.currentPaths, [id]: {...backStack.peek()}},
+            visibilityFilters: {...state.visibilityFilters, [id]: visibilityFilter},
+            gridMode: {...state.gridMode, [id]: gridMode}
         };
     } else {
         // console.error("ID is unexpectedly null");

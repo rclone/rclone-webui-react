@@ -1,4 +1,13 @@
-import {CHANGE_PATH, CHANGE_REMOTE_NAME, CHANGE_REMOTE_PATH, CREATE_PATH, NAVIGATE_BACK, NAVIGATE_FWD} from "./types";
+import {
+    CHANGE_GRID_MODE,
+    CHANGE_PATH,
+    CHANGE_REMOTE_NAME,
+    CHANGE_REMOTE_PATH,
+    CHANGE_VISIBILITY_FILTER,
+    CREATE_PATH,
+    NAVIGATE_BACK,
+    NAVIGATE_FWD
+} from "./types";
 import {getFiles} from "./explorerActions";
 
 export const changePath = (containerID, remoteName, remotePath) => {
@@ -85,5 +94,21 @@ export const navigateBack = (containerID) => dispatch => {
     });
     dispatch(getFilesForContainerID(containerID))
 
+};
+
+export const changeVisibilityFilter = (containerID, filter) => dispatch => {
+    dispatch({
+        type: CHANGE_VISIBILITY_FILTER,
+        id: containerID,
+        filter
+    })
+};
+
+export const changeGridMode = (containerID, mode) => dispatch => {
+    dispatch({
+        type: CHANGE_GRID_MODE,
+        id: containerID,
+        mode
+    })
 };
 

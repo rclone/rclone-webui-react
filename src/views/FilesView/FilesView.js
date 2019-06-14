@@ -1,18 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import axiosInstance from "../../utils/API";
-import {Alert, Col, Table} from "reactstrap";
+import {Alert, Button, Col, Row, Table} from "reactstrap";
 import "../../utils/Global";
 import FileOperations from "../Base/NewFolder/FileOperations";
 import {DropTarget} from "react-dnd";
 import FileComponent from "./FileComponent";
 import {ItemTypes} from "./Constants";
 import {toast} from "react-toastify";
-import {addColonAtLast} from "../../utils/Tools";
+import {addColonAtLast, changeListVisibility} from "../../utils/Tools";
 import {connect} from "react-redux";
 import {getFiles} from "../../actions/explorerActions";
 import {compose} from "redux";
 import {changePath, navigateUp} from "../../actions/explorerStateActions";
+import Container from "reactstrap/es/Container";
 
 
 /*
@@ -74,16 +75,25 @@ function renderOverlay() {
 * END code for react DND
 * */
 
-function UpButtonComponent({upButtonHandle}) {
-    return (
-        <tr onClick={() => upButtonHandle()} className={"pointer-cursor"}>
-            <td></td>
-            <td><i className={"fa fa-file-o"}/> Go Up...</td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>);
+function UpButtonComponent({upButtonHandle, gridMode}) {
+    if (gridMode === "card") {
+        return (
+            <Col lg={12}>
+                <Button onClick={() => upButtonHandle()}>Go Up</Button>
+            </Col>
+        )
+    } else {
+        return (
+            <tr onClick={() => upButtonHandle()} className={"pointer-cursor"}>
+                <td></td>
+                <td><i className={"fa fa-file-o"}/> Go Up...</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>);
+    }
 }
+
 
 class FilesView extends React.PureComponent {
 
@@ -226,7 +236,7 @@ class FilesView extends React.PureComponent {
         this.setState({isDownloadProgress: false});
     };
 
-    getFileComponents = (filesList, remoteName, isDir) => {
+    getFileComponents = (filesList, remoteName, isDir, gridMode) => {
         return filesList.map((item, idx) => {
             let {ID, Name} = item;
             // Using fallback as fileName when the ID is not available (for local file system)
@@ -238,7 +248,8 @@ class FilesView extends React.PureComponent {
                     <React.Fragment key={ID}>
                         <FileComponent item={item} clickHandler={this.handleFileClick}
                                        downloadHandle={this.downloadHandle} deleteHandle={this.deleteHandle}
-                                       remoteName={remoteName}/>
+                                       remoteName={remoteName} gridMode={gridMode}
+                        />
                     </React.Fragment>
                 )
             }
@@ -249,7 +260,7 @@ class FilesView extends React.PureComponent {
 
     render() {
         const {isLoading, isDownloadProgress, downloadingItems,} = this.state;
-        const {connectDropTarget, isOver, files, navigateUp, containerID} = this.props;
+        const {connectDropTarget, isOver, files, navigateUp, containerID, gridMode} = this.props;
         const {remoteName} = this.props.currentPath;
 
         if (isLoading || !files) {
@@ -262,72 +273,112 @@ class FilesView extends React.PureComponent {
             }
 
 
-            let dirComponentMap = this.getFileComponents(files, remoteName, true);
+            let dirComponentMap = this.getFileComponents(files, remoteName, true, gridMode);
 
-            let fileComponentMap = this.getFileComponents(files, remoteName, false);
+            let fileComponentMap = this.getFileComponents(files, remoteName, false, gridMode);
 
-            const renderElement = (
+            let renderElement = "";
+
+            if (gridMode === "card") {
+
+                renderElement = (
+                    <Container fluid={true}>
+                        <Row>
+                            <UpButtonComponent upButtonHandle={() => navigateUp(containerID)} gridMode={gridMode}/>
+                        </Row>
 
 
-                <React.Fragment>
-                    <tr>
-                        <td></td>
-                        <th>Directories</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    {dirComponentMap}
-                    <tr>
-                        <td></td>
-                        <th>Files</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    {fileComponentMap}
-                </React.Fragment>
+                        <Row>
+                            <h3>Directories</h3>
+                        </Row>
+                        <Row>
+                            {dirComponentMap}
+                        </Row>
 
-            );
+
+                        <Row>
+                            <h3>Files</h3>
+                        </Row>
+                        <Row>
+                            {fileComponentMap}
+                        </Row>
+
+
+                    </Container>
+                )
+            } else {
+
+
+                renderElement = (
+
+                    <Container fluid={true}>
+
+                        <Table>
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Size</th>
+                                <th>Modified</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <UpButtonComponent upButtonHandle={() => navigateUp(containerID)} gridMode={gridMode}/>
+                            {files.length > 0 ? (
+                                    <React.Fragment>
+                                        <tr>
+                                            <td></td>
+                                            <th>Directories</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        {dirComponentMap}
+                                        <tr>
+                                            <td></td>
+                                            <th>Files</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        {fileComponentMap}
+                                    </React.Fragment>
+                                ) :
+                                <tr>
+                                    <td></td>
+                                    <td>No files</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            }
+                            </tbody>
+                        </Table>
+                    </Container>
+
+
+                );
+            }
 
 
             return connectDropTarget(
-                <div className={"col-12"} style={{height: "100%"}}>
+                <div className={"row"} style={{height: "100%"}}>
                     {isOver && renderOverlay()}
+                    <Col sm={12}>
+                        <FileOperations updateHandler={this.updateHandler} containerID={containerID}/>
+                    </Col>
 
                     <Alert color="info" isOpen={isDownloadProgress} toggle={this.dismissAlert} sm={12}
                            lg={12}>
                         Downloading {downloadingItems} file(s). Please wait.
                     </Alert>
 
-                    <Col sm={12}>
-                        <FileOperations updateHandler={this.updateHandler} containerID={containerID}/>
-                    </Col>
+                    {renderElement}
 
 
-                    <Table>
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th>Size</th>
-                            <th>Modified</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <UpButtonComponent upButtonHandle={() => navigateUp(containerID)}/>
-                        {files.length > 0 ? renderElement :
-                            <tr>
-                                <td></td>
-                                <td>No files</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        }
-                        </tbody>
-                    </Table>
+
+
                 </div>
             );
         }
@@ -338,7 +389,8 @@ class FilesView extends React.PureComponent {
 const propTypes = {
     containerID: PropTypes.string.isRequired,
     currentPath: PropTypes.object.isRequired,
-    fsInfo: PropTypes.object.isRequired
+    fsInfo: PropTypes.object.isRequired,
+    gridMode: PropTypes.string
 };
 
 const defaultProps = {
@@ -352,6 +404,9 @@ FilesView.defaultProps = defaultProps;
 
 const mapStateToProps = (state, ownProps) => {
     const currentPath = state.explorer.currentPaths[ownProps.containerID];
+    let visibilityFilter = state.explorer.visibilityFilters[ownProps.containerID];
+    const gridMode = state.explorer.gridMode[ownProps.containerID]
+
     let fsInfo = {};
     const {remoteName, remotePath} = currentPath;
 
@@ -361,14 +416,19 @@ const mapStateToProps = (state, ownProps) => {
     }
 
     let files = state.remote.files[`${remoteName}::${remotePath}`];
+
     if (files) {
         files = files.files;
+        if (visibilityFilter) {
+            files = changeListVisibility(files, visibilityFilter);
+        }
     }
 
     return {
         files,
         currentPath,
-        fsInfo
+        fsInfo,
+        gridMode
     }
 };
 
