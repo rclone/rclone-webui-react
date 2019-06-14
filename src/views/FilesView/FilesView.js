@@ -305,7 +305,7 @@ class FilesView extends React.PureComponent {
                     </Col>
 
 
-                    <Table sm={12} lg={12}>
+                    <Table>
                         <thead>
                         <tr>
                             <th></th>
