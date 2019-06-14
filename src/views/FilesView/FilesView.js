@@ -311,7 +311,7 @@ class FilesView extends React.PureComponent {
 
                 renderElement = (
 
-                    <Container fluid={true}>
+                    <Container fluid={true} className={"pd-0"}>
 
                         <Table>
                             <thead>
@@ -363,7 +363,7 @@ class FilesView extends React.PureComponent {
 
 
             return connectDropTarget(
-                <div className={"row"} style={{height: "100%"}}>
+                <div className={"row"}>
                     {isOver && renderOverlay()}
                     <Col sm={12}>
                         <FileOperations updateHandler={this.updateHandler} containerID={containerID}/>

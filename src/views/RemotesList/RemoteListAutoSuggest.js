@@ -7,7 +7,10 @@ const getSuggestions = (config, value) => {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
 
-    // console.log("config getSuggestions", config, inputValue);
+    if (inputLength === 0) {
+        return config;
+
+    }
 
     return inputLength === 0 ? [] : config.filter(lang =>
         lang.toLowerCase().slice(0, inputLength) === inputValue
@@ -76,6 +79,8 @@ class RemoteListAutoSuggest extends React.Component {
                 onSuggestionsClearRequested={this.onSuggestionsClearRequested}
                 getSuggestionValue={getSuggestionValue}
                 renderSuggestion={renderSuggestion}
+                alwaysRenderSuggestions={true}
+                highlightFirstSuggestion={true}
                 inputProps={inputProps}
             />
         );

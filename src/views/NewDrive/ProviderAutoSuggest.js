@@ -7,8 +7,6 @@ const getSuggestions = (config, value) => {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
 
-    // console.log("config getSuggestions", config, inputValue);
-
     if (inputLength === 0) {
         return config;
 
@@ -62,9 +60,6 @@ class ProviderAutoSuggest extends React.Component {
         });
     };
 
-    shouldRenderSuggestions(value) {
-        return true;
-    }
 
     render() {
         const {value, onChange, suggestions} = this.props;

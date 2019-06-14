@@ -101,6 +101,7 @@ export default function (state = initialState, action) {
                 if (action.mode) {
                     gridMode = action.mode;
                 }
+                break;
             default:
                 break;
         }

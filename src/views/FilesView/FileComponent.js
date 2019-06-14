@@ -146,10 +146,9 @@ function FileComponent({item, clickHandler, downloadHandle, deleteHandle, connec
     const {IsDir, MimeType, ModTime, Name, Size} = item;
 
     let modTime = new Date(Date.parse(ModTime));
-    console.log("card", gridMode);
+    // console.log("card", gridMode);
 
     if (gridMode === "card") {
-        console.log("card", gridMode);
         return connectDragSource(
             <div className={"col-lg-3"}>
                 <Card>
@@ -186,5 +185,4 @@ function FileComponent({item, clickHandler, downloadHandle, deleteHandle, connec
 }
 
 
-export default DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect)
-(FileComponent);
+export default DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect)(FileComponent);
