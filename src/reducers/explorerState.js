@@ -53,8 +53,15 @@ export default function (state = initialState, action) {
 
             case CHANGE_REMOTE_NAME:
                 // console.log("CHange remote name", remoteName, remotePath)
+                if (remoteName.indexOf('/') === 0) {/*The name starts with a /: local Name*/
+                    remotePath = remoteName;
+                    remoteName = "/";
+
+                } else {
+                    remotePath = "";
+                }
                 backStack.empty();
-                backStack.push({remoteName: remoteName, remotePath: ""});
+                backStack.push({remoteName: remoteName, remotePath: remotePath});
                 // ptr++;
 
                 break;

@@ -415,7 +415,7 @@ const mapStateToProps = (state, ownProps) => {
         fsInfo = state.remote.configs[currentPath.remoteName];
     }
 
-    let files = state.remote.files[`${remoteName}::${remotePath}`];
+    let files = state.remote.files[`${remoteName}-${remotePath}`];
 
     if (files) {
         files = files.files;

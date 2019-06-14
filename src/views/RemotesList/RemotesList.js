@@ -26,13 +26,13 @@ class RemotesList extends React.Component {
     shouldUpdateRemoteName = (event, {newValue}) => {
         this.setState({remoteName: newValue});
 
-        if (this.props.remotes.indexOf(newValue) !== -1) {
+        // if (this.props.remotes.indexOf(newValue) !== -1) {
             this.setState({openEnabled: true});
 
-        } else {
+        // } else {
             this.setState({openEnabled: false})
 
-        }
+        // }
     };
 
     openRemote = () => {
