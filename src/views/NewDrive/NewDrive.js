@@ -66,10 +66,10 @@ function DriveParameters({drivePrefix, loadAdvanced, changeHandler, currentValue
                     if (attr.IsPassword) {
                         inputType = "password";
                     } else if (hasExamples) {
-                        inputType = "select";
-                        examplesMap = attr.Examples.map((ex1, id1) => {
-                            return (<option key={"option" + id1} value={ex1.Value}>{ex1.Help}</option>);
-                        })
+                        inputType = "string";
+                        // examplesMap = attr.Examples.map((ex1, id1) => {
+                        //     return (<option key={"option" + id1} value={ex1.Value}>{ex1.Help}</option>);
+                        // })
                     } else if (attr.Type === "bool") {
                         inputType = "select";
                         examplesMap = [
