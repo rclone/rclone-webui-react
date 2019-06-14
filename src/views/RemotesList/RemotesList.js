@@ -14,7 +14,8 @@ class RemotesList extends React.Component {
         this.state = {
             isEmpty: false,
             remoteName: props.remoteName,
-            openEnabled: false
+            openEnabled: false,
+            openButtonText: "Open"
         };
     }
 
@@ -24,15 +25,20 @@ class RemotesList extends React.Component {
     }
 
     shouldUpdateRemoteName = (event, {newValue}) => {
-        this.setState({remoteName: newValue});
+        if (newValue.indexOf('/') === 0) {
+            this.setState({
+                remoteName: newValue,
+                openButtonText: "Open local path",
 
-        // if (this.props.remotes.indexOf(newValue) !== -1) {
-            this.setState({openEnabled: true});
+            });
+        } else {
+            this.setState({
+                remoteName: newValue,
+                openButtonText: "Open"
+            });
+        }
 
-        // } else {
-            this.setState({openEnabled: false})
 
-        // }
     };
 
     openRemote = () => {
@@ -75,7 +81,7 @@ class RemotesList extends React.Component {
                         <Col xs={12} sm={2} lg={2}>
 
                             <Button className={"btn-lg"} color="success"
-                                    type="submit">Open</Button>
+                                    type="submit">{this.state.openButtonText}</Button>
                         </Col>
 
                     </Row>
