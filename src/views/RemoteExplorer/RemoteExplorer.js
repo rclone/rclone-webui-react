@@ -44,9 +44,7 @@ class RemoteExplorer extends React.Component {
     }
 
     updateRemoteName(remoteName) {
-
         this.setState({remoteNameTemp: remoteName});
-
     }
 
 

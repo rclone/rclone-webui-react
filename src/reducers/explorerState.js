@@ -94,6 +94,7 @@ export default function (state = initialState, action) {
                 // if(ptr < array.length){
                 //     ptr--;
                 // }
+                backStack.moveForward();
                 break;
 
             case NAVIGATE_BACK:

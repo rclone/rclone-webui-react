@@ -4,7 +4,7 @@ import NewFolder from "./NewFolder";
 import PropTypes from "prop-types";
 import Input from "reactstrap/es/Input";
 import {connect} from "react-redux";
-import {changeGridMode, changeVisibilityFilter} from "../../../actions/explorerStateActions";
+import {changeGridMode, getFilesForContainerID, changeVisibilityFilter, navigateBack, navigateFwd} from "../../../actions/explorerStateActions";
 
 class FileOperations extends React.Component {
     constructor(props) {
@@ -41,17 +41,20 @@ class FileOperations extends React.Component {
 
 
     render() {
+        const {containerID} = this.props;
 
         return (
 
             <div className="float-right mb-3 mt-1 form-inline">
                 <Button color="success" className="mr-1" onClick={this.openNewFolderModal}>New Folder</Button>
-                {/*<Button color="success" className="ml-2">Copy from URL</Button>*/}
-                {/*<Button color="success" className="ml-2">Copy</Button>*/}
-                {/*<Button color="success" className="ml-2">Rename</Button>*/}
-                {/*<Button color="success" className="ml-2">Upload</Button>*/}
+
+                <Button color="success" className={"mr-1"} onClick={()=>this.props.navigateBack(containerID)}>Back</Button>
+                <Button color="success" className={"mr-1"} onClick={()=>this.props.navigateFwd(containerID)}>Forward</Button>
+                <Button color="success" className={"mr-1"} onClick={()=>this.props.getFilesForContainerID(containerID)}>Refresh</Button>
+
                 <NewFolder containerID={this.props.containerID} isVisible={this.state.newFolderModalIsVisible}
                            closeModal={this.closeNewFolderModal}/>
+
 
 
                 <Input type={"select"} onChange={this.handleChangeFilter} value={this.props.visibilityFilter}
@@ -91,4 +94,4 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 
-export default connect(mapStateToProps, {changeVisibilityFilter, changeGridMode})(FileOperations);
+export default connect(mapStateToProps, {changeVisibilityFilter, changeGridMode, navigateBack, navigateFwd, getFilesForContainerID})(FileOperations);

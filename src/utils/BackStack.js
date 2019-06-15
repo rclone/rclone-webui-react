@@ -1,41 +1,55 @@
+import Stack from './Stack'
 // A very simple stack implementation to handle back links in remote explorer
 class BackStack {
     constructor() {
-        this.items = [{remoteName: "", remotePath: ""}];
-        this.count = 1;
+        this.backStack = new Stack();
+        this.forwardStack = new Stack();
     }
 
     getLength() {
-        return this.count;
+        return this.backStack.getLength();
     }
 
     push(item) {
-        this.items.push(item);
-        this.count = this.count + 1;
+
+        this.backStack.push(item);
+        this.forwardStack.empty();
+
     }
 
     pop() {
-        if (this.count > 0) {
-            this.count = this.count - 1;
-        }
-
-        return this.items.pop();
+        const temp = this.backStack.pop();
+        return temp;
     }
 
     peek() {
-        return this.items.slice(-1)[0];
+        return this.backStack.peek();
     }
 
     empty() {
-        this.items = [];
-        this.count = 0;
+        this.backStack.empty();
+        this.forwardStack.empty();
     }
 
     moveBack() {
-
-        if (this.getLength() > 1)
-            this.pop();
+        const temp = this.backStack.moveBack();
+        if(temp)
+            this.forwardStack.push(temp);
+        return temp;
     }
+
+    moveForward(){
+        const temp = this.forwardStack.pop();
+        if(temp){
+            //Pop was successful
+            this.backStack.push(temp);
+        }
+        return temp;
+
+    }
+
+
+
 }
 
 export default BackStack;

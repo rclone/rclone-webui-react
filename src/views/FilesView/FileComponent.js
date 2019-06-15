@@ -177,7 +177,7 @@ function FileComponent({item, clickHandler, downloadHandle, deleteHandle, connec
             <tr className={"pointer-cursor"}>
                 <td><input type="checkbox"/></td>
                 <td onClick={(e) => clickHandler(e, item)}><FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}</td>
-                <td>{Size === -1 ? "NA" : formatBytes(Size, 2)}</td>
+                <td>{Size === -1 ? "-" : formatBytes(Size, 2)}</td>
                 <td>{modTime.toLocaleDateString()}</td>
                 <td><Actions downloadHandle={downloadHandle} deleteHandle={deleteHandle} item={item}/></td>
             </tr>
