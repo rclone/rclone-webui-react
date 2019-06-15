@@ -17,6 +17,7 @@ import {
     navigateFwd,
     navigateUp
 } from "../../actions/explorerStateActions";
+import FileOperations from "../Base/NewFolder/FileOperations";
 
 
 class RemoteExplorer extends React.Component {
@@ -24,8 +25,8 @@ class RemoteExplorer extends React.Component {
         super(props);
         this.state = {
 
-            remoteName: "",
-            remotePath: "",
+            // remoteName: "",
+            // remotePath: "",
             remoteNameTemp: ""
         };
 
@@ -59,7 +60,6 @@ class RemoteExplorer extends React.Component {
         if (IsBucket) {
             updateRemoteName = addColonAtLast(remoteName) + newRemotePath;
             updateRemotePath = "";
-            // backStack.push({remoteName: addColonAtLast(backStack.peek().remoteName) + remotePath, remotePath: ""});
 
         } else if (IsDir) {
             updateRemoteName = remoteName;
@@ -74,13 +74,16 @@ class RemoteExplorer extends React.Component {
 
 
         const {remoteName, remotePath} = this.props.currentPath;
+        const {containerID} = this.props;
 
         const pathBreadCrumbs = remotePath.split('/');
+
+        console.log(pathBreadCrumbs);
 
 
         pathBreadCrumbs.map((item, idx) => {
             return (<li key={idx}
-                        className={["breadcrumb-item ", idx === pathBreadCrumbs.length ? "active" : ""]}>{item}</li>)
+                        className={["breadcrumb-item ", idx === pathBreadCrumbs.length ? "active" : ""]}> / {item}</li>)
         });
 
         return (
@@ -94,7 +97,7 @@ class RemoteExplorer extends React.Component {
 
                         <RemotesList
                             remoteName={remoteName}
-                            containerID={this.props.containerID}
+                            containerID={containerID}
                         />
 
                     </CardBody>
@@ -103,22 +106,27 @@ class RemoteExplorer extends React.Component {
                 {/*Render the files in the selected remote*/}
                 <Card>
                     <CardHeader>
-                        <ol className="breadcrumb">
-                            <li className="breadcrumb-item active">{remoteName}:/</li>
+                        <nav aria-label="breadcrumb">
+                            <ol className="breadcrumb">
+                                <li className="breadcrumb-item active">{remoteName}:/</li>
 
-                            {pathBreadCrumbs}
-                            <li className="breadcrumb-menu">
-                                <div className="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                    {/*<a className="btn" href="#"><i className="cui-speech"></i></a>*/}
-                                    {/*<a className="btn" href="#"><i className="cui-graph"></i> Dashboard</a>*/}
-                                    <a className="btn"><i className="cui-settings"></i> Settings</a>
-                                </div>
-                            </li>
-                        </ol>
+                                {pathBreadCrumbs}
+                                <li className="breadcrumb-menu">
+                                    <div className="btn-group" role="group"
+                                         aria-label="Button group with nested dropdown">
+                                        {/*<a className="btn" href="#"><i className="cui-speech"></i></a>*/}
+                                        {/*<a className="btn" href="#"><i className="cui-graph"></i> Dashboard</a>*/}
+                                        <span className="btn"><i className="cui-settings"></i> Settings</span>
+                                    </div>
+                                </li>
+                            </ol>
+                            <FileOperations containerID={containerID}/>
+
+                        </nav>
                     </CardHeader>
                     <CardBody>
                         <ScrollableDiv height={"700px"}>
-                            <FilesView containerID={this.props.containerID}/>
+                            <FilesView containerID={containerID}/>
                         </ScrollableDiv>
                     </CardBody>
                 </Card>

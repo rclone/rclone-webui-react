@@ -48,8 +48,14 @@ export default function (state = initialState, action) {
             if (action.status === REQUEST_ERROR)
                 return {
                     ...state,
-                    error: action.payload,
-                    hasError: true
+                    files: {...state.files,
+                        [action.payload.path]: {
+                            time: new Date(),
+                            files: [],
+                            hasError: true,
+                            error: action.payload.error
+                        }
+                    }
                 };
             break;
         default:

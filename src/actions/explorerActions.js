@@ -40,7 +40,7 @@ export const getRemoteNames = () => {
 
 
 export const getFiles = (remoteName, remotePath) => dispatch => {
-    let newRemoteName = ""
+    let newRemoteName = "";
     if (remoteName !== "") {
         if (remoteName.indexOf('/') !== 0) {/*The name starts with a /: local Name*/
             newRemoteName = addColonAtLast(remoteName);
@@ -54,12 +54,18 @@ export const getFiles = (remoteName, remotePath) => dispatch => {
             remote: remotePath
         };
 
-
+        const path = `${remoteName}-${remotePath}`;
         axiosInstance.post("operations/list", data).then(res => dispatch({
-            type: GET_FILES_LIST,
-            status: REQUEST_SUCCESS,
-            payload: {path: `${remoteName}-${remotePath}`, filesList: res.data.list}
-        }))
+                type: GET_FILES_LIST,
+                status: REQUEST_SUCCESS,
+                payload: {path: path, filesList: res.data.list}
+            }),
+            error => dispatch({
+                type: GET_FILES_LIST,
+                status: REQUEST_ERROR,
+                payload: {path: path, error}
+            })
+        )
     }
 
 };

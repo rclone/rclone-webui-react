@@ -4,7 +4,13 @@ import NewFolder from "./NewFolder";
 import PropTypes from "prop-types";
 import Input from "reactstrap/es/Input";
 import {connect} from "react-redux";
-import {changeGridMode, getFilesForContainerID, changeVisibilityFilter, navigateBack, navigateFwd} from "../../../actions/explorerStateActions";
+import {
+    changeGridMode,
+    changeVisibilityFilter,
+    getFilesForContainerID,
+    navigateBack,
+    navigateFwd
+} from "../../../actions/explorerStateActions";
 
 class FileOperations extends React.Component {
     constructor(props) {
@@ -16,12 +22,11 @@ class FileOperations extends React.Component {
     }
 
     openNewFolderModal = () => {
-        this.setState({newFolderModalIsVisible: true})
+        this.setState({newFolderModalIsVisible: true});
     };
 
     closeNewFolderModal = () => {
         this.setState({newFolderModalIsVisible: false});
-        // this.props.updateHandler();
     };
 
     handleChangeFilter = (e) => {
@@ -44,33 +49,40 @@ class FileOperations extends React.Component {
         const {containerID} = this.props;
 
         return (
+            <div>
+                <Button color="light" className={"mr-1 btn-outline-dark"}
+                        onClick={() => this.props.navigateBack(containerID)}><i
+                    className={"fa fa-lg fa-angle-left"}/></Button>
+                <Button color="light" className={"mr-1 btn-outline-dark"}
+                        onClick={() => this.props.navigateFwd(containerID)}><i
+                    className={"fa fa-lg fa-angle-right"}/></Button>
 
-            <div className="float-right mb-3 mt-1 form-inline">
-                <Button color="success" className="mr-1" onClick={this.openNewFolderModal}>New Folder</Button>
+                <div className="float-right mb-3 mt-1 form-inline">
+                    <Button className="mr-1 btn-outline-dark" onClick={this.openNewFolderModal}>New Folder</Button>
 
-                <Button color="success" className={"mr-1"} onClick={()=>this.props.navigateBack(containerID)}>Back</Button>
-                <Button color="success" className={"mr-1"} onClick={()=>this.props.navigateFwd(containerID)}>Forward</Button>
-                <Button color="success" className={"mr-1"} onClick={()=>this.props.getFilesForContainerID(containerID)}>Refresh</Button>
+                    <Button className="mr-1 btn-outline-dark"
+                            onClick={() => this.props.getFilesForContainerID(containerID)}><i
+                        className={"fa fa-lg fa-repeat"}/></Button>
 
-                <NewFolder containerID={this.props.containerID} isVisible={this.state.newFolderModalIsVisible}
-                           closeModal={this.closeNewFolderModal}/>
+                    <NewFolder containerID={this.props.containerID} isVisible={this.state.newFolderModalIsVisible}
+                               closeModal={this.closeNewFolderModal}/>
 
 
+                    <Input type={"select"} onChange={this.handleChangeFilter} value={this.props.visibilityFilter}
+                           className="ml-1 mr-1">
+                        <option key={0}>None</option>
+                        {
+                            this.filterOptions.map((item, idx) => {
+                                return (<option key={item} value={item}>{item}</option>)
+                            })
+                        }
+                    </Input>
+                    <Input type={"select"} onChange={this.handleChangeGridMode} value={this.props.gridMode}>
+                        <option value={"grid"}>Grid</option>
+                        <option value={"card"}>Card</option>
+                    </Input>
 
-                <Input type={"select"} onChange={this.handleChangeFilter} value={this.props.visibilityFilter}
-                       className="ml-1 mr-1">
-                    <option key={0}>None</option>
-                    {
-                        this.filterOptions.map((item, idx) => {
-                            return (<option key={item} value={item}>{item}</option>)
-                        })
-                    }
-                </Input>
-                <Input type={"select"} onChange={this.handleChangeGridMode} value={this.props.gridMode}>
-                    <option value={"grid"}>Grid</option>
-                    <option value={"card"}>Card</option>
-                </Input>
-
+                </div>
             </div>
 
 
@@ -79,7 +91,6 @@ class FileOperations extends React.Component {
 }
 
 FileOperations.propTypes = {
-    updateHandler: PropTypes.func.isRequired,
     containerID: PropTypes.string.isRequired,
     changeVisibilityFilter: PropTypes.func.isRequired,
     visibilityFilter: PropTypes.string,

@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import axiosInstance from "../../utils/API";
 import {Alert, Button, Col, Row, Table} from "reactstrap";
 import "../../utils/Global";
-import FileOperations from "../Base/NewFolder/FileOperations";
 import {DropTarget} from "react-dnd";
 import FileComponent from "./FileComponent";
 import {ItemTypes} from "./Constants";
@@ -365,9 +364,8 @@ class FilesView extends React.PureComponent {
             return connectDropTarget(
                 <div className={"row"}>
                     {isOver && renderOverlay()}
-                    <Col sm={12}>
-                        <FileOperations updateHandler={this.updateHandler} containerID={containerID}/>
-                    </Col>
+                    {/*<Col sm={12}>*/}
+                    {/*</Col>*/}
 
                     <Alert color="info" isOpen={isDownloadProgress} toggle={this.dismissAlert} sm={12}
                            lg={12}>
