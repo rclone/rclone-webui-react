@@ -73,7 +73,15 @@ class RemoteExplorer extends React.Component {
     render() {
 
 
-        const {remoteName} = this.props.currentPath;
+        const {remoteName, remotePath} = this.props.currentPath;
+
+        const pathBreadCrumbs = remotePath.split('/');
+
+
+        pathBreadCrumbs.map((item, idx) => {
+            return (<li key={idx}
+                        className={["breadcrumb-item ", idx === pathBreadCrumbs.length ? "active" : ""]}>{item}</li>)
+        });
 
         return (
             <React.Fragment>
@@ -95,17 +103,22 @@ class RemoteExplorer extends React.Component {
                 {/*Render the files in the selected remote*/}
                 <Card>
                     <CardHeader>
-                        Files: {remoteName}
+                        <ol className="breadcrumb">
+                            <li className="breadcrumb-item active">{remoteName}:/</li>
+
+                            {pathBreadCrumbs}
+                            <li className="breadcrumb-menu">
+                                <div className="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                    {/*<a className="btn" href="#"><i className="cui-speech"></i></a>*/}
+                                    {/*<a className="btn" href="#"><i className="cui-graph"></i> Dashboard</a>*/}
+                                    <a className="btn"><i className="cui-settings"></i> Settings</a>
+                                </div>
+                            </li>
+                        </ol>
                     </CardHeader>
                     <CardBody>
                         <ScrollableDiv height={"700px"}>
-                            <FilesView
-                                // remoteName={remoteName} remotePath={remotePath}
-                                // updateRemotePathHandle={this.updateRemotePath}
-                                // upButtonHandle={this.buttonUpPressed}
-                                // componentShouldUpdate={this.state.componentShouldUpdate}
-                                containerID={this.props.containerID}
-                            />
+                            <FilesView containerID={this.props.containerID}/>
                         </ScrollableDiv>
                     </CardBody>
                 </Card>
