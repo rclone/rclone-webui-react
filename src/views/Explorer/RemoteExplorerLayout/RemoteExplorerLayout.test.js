@@ -12,7 +12,7 @@ const setUp = (props = {}) => {
     return component;
 }
 
-describe('Bandwidth Status Card', function () {
+describe('Remote Explorer Layout', function () {
 
     let wrapper;
     beforeEach(() => {
