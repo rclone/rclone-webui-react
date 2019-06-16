@@ -332,8 +332,8 @@ class NewDrive extends React.Component {
 
 
         /*Check for validations based on inputType*/
-        for (const [_, value] of Object.entries(isValid)) {
-            if (!value) {
+        for (const [key, value] of Object.entries(isValid)) {
+            if (!key || !value) {
                 flag = false;
                 break;
             }
