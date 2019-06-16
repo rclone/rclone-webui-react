@@ -1,5 +1,5 @@
 import React from "react";
-import axiosInstance from "../../utils/API";
+import axiosInstance from "../../../utils/API/API";
 import {Button} from "reactstrap";
 import PropTypes from "prop-types";
 

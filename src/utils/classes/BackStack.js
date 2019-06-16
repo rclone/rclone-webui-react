@@ -1,4 +1,5 @@
 import Stack from './Stack'
+
 // A very simple stack implementation to handle back links in remote explorer
 class BackStack {
     constructor() {

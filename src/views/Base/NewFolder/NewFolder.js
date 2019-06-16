@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import PropTypes from "prop-types";
-import axiosInstance from "../../../utils/API";
+import axiosInstance from "../../../utils/API/API";
 import {toast} from "react-toastify";
 import {addColonAtLast} from "../../../utils/Tools";
 import {connect} from "react-redux";

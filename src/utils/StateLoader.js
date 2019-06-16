@@ -1,3 +1,4 @@
+// Used to persist redux-state to the localStorage.
 export class StateLoader {
 
     loadState() {

@@ -1,6 +1,5 @@
 import React from "react";
 import {Button, Card, CardBody, CardHeader} from "reactstrap";
-import "../../../utils/Global.js";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import RunningJobs from "../RunningJobs";

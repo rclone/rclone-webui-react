@@ -1,12 +1,11 @@
 import React from 'react';
-import "../../utils/Global";
 import {Card, CardBody, CardHeader} from "reactstrap";
 import RemotesList from "../RemotesList";
 import FilesView from "../FilesView/FilesView";
-import ScrollableDiv from "../Base/ScrollableDiv/ScrollableDiv";
-import {addColonAtLast} from "../../utils/Tools";
+import ScrollableDiv from "../../Base/ScrollableDiv/ScrollableDiv";
+import {addColonAtLast} from "../../../utils/Tools";
 import {connect} from "react-redux";
-import {getFsInfo} from "../../actions/explorerActions";
+import {getFsInfo} from "../../../actions/explorerActions";
 import PropTypes from 'prop-types';
 import {
     changePath,
@@ -16,8 +15,8 @@ import {
     navigateBack,
     navigateFwd,
     navigateUp
-} from "../../actions/explorerStateActions";
-import FileOperations from "../Base/NewFolder/FileOperations";
+} from "../../../actions/explorerStateActions";
+import FileOperations from "../../Base/NewFolder/FileOperations";
 
 
 class RemoteExplorer extends React.Component {

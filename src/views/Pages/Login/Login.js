@@ -14,7 +14,6 @@ import {
     InputGroupText,
     Row
 } from 'reactstrap';
-import '../../../utils/Global';
 
 class Login extends Component {
 

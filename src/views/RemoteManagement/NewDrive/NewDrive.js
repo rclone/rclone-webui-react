@@ -14,13 +14,13 @@ import {
     Label
 } from "reactstrap";
 // import {config} from "./config.js";
-import NewDriveAuthModal from "../Base/NewDriveAuthModal";
-import axiosInstance from "../../utils/API";
-import isEmpty, {findFromConfig, validateDuration, validateInt, validateSizeSuffix} from "../../utils/Tools";
+import NewDriveAuthModal from "../../Base/NewDriveAuthModal";
+import axiosInstance from "../../../utils/API/API";
+import isEmpty, {findFromConfig, validateDuration, validateInt, validateSizeSuffix} from "../../../utils/Tools";
 import ProviderAutoSuggest from "./ProviderAutoSuggest";
 import {toast} from "react-toastify";
 import PropTypes from 'prop-types';
-import {getProviders} from "../../actions/configActions";
+import {getProviders} from "../../../actions/configActions";
 import {connect} from "react-redux";
 
 function DriveParameters({drivePrefix, loadAdvanced, changeHandler, currentValues, isValidMap, errorsMap, config}) {

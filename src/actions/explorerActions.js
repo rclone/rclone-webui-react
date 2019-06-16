@@ -1,4 +1,4 @@
-import axiosInstance from "../utils/API";
+import axiosInstance from "../utils/API/API";
 import {GET_CONFIG_FOR_REMOTE, GET_FILES_LIST, GET_REMOTE_LIST, REQUEST_ERROR, REQUEST_SUCCESS} from "./types";
 import {addColonAtLast} from "../utils/Tools";
 

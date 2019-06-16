@@ -1,5 +1,4 @@
 import axios from "axios";
-import './Global'
 
 
 let axiosInstance = axios.create({

@@ -1,10 +1,9 @@
 import React from 'react';
-import "../../utils/Global";
 import RemoteListAutoSuggest from "./RemoteListAutoSuggest";
 import {connect} from "react-redux";
-import {getFsInfo, getRemoteNames} from "../../actions/explorerActions";
+import {getFsInfo, getRemoteNames} from "../../../actions/explorerActions";
 import PropTypes from 'prop-types'
-import {changeRemoteName} from "../../actions/explorerStateActions";
+import {changeRemoteName} from "../../../actions/explorerStateActions";
 import {Button, Col, Form, Row} from "reactstrap";
 
 class RemotesList extends React.Component {

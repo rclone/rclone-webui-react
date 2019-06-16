@@ -9,7 +9,7 @@ import {
     NAVIGATE_FWD,
     NAVIGATE_UP
 } from "../actions/types";
-import BackStack from "../utils/BackStack";
+import BackStack from "../utils/classes/BackStack";
 
 const initialState = {
     backStacks: {},

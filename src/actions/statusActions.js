@@ -1,4 +1,4 @@
-import axiosInstance from "../utils/API";
+import axiosInstance from "../utils/API/API";
 import {FETCH_STATUS, REQUEST_ERROR, REQUEST_SUCCESS} from "./types";
 
 

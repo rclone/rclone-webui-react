@@ -6,7 +6,7 @@ import HTML5Backend from "react-dnd-html5-backend";
 import {DragDropContext} from "react-dnd";
 import {connect} from "react-redux";
 import {compose} from "redux";
-import {createPath} from "../../actions/explorerStateActions";
+import {createPath} from "../../../actions/explorerStateActions";
 import PropTypes from 'prop-types';
 
 function RemoteExplorerList({cols, backStacks}) {

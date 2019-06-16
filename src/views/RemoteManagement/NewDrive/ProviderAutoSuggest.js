@@ -1,6 +1,6 @@
 import Autosuggest from 'react-autosuggest';
 import React from "react";
-import {findFromConfig} from "../../utils/Tools";
+import {findFromConfig} from "../../../utils/Tools";
 
 // Teach Autosuggest how to calculate suggestions for any given input value.
 const getSuggestions = (config, value) => {

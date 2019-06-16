@@ -1,18 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import axiosInstance from "../../utils/API";
-import {Alert, Button, Col, Row, Table} from "reactstrap";
-import "../../utils/Global";
+import axiosInstance from "../../../utils/API/API";
+import {Alert, Button, Col, Container, Row, Table} from "reactstrap";
 import {DropTarget} from "react-dnd";
 import FileComponent from "./FileComponent";
 import {ItemTypes} from "./Constants";
 import {toast} from "react-toastify";
-import {addColonAtLast, changeListVisibility} from "../../utils/Tools";
+import {addColonAtLast, changeListVisibility} from "../../../utils/Tools";
 import {connect} from "react-redux";
-import {getFiles} from "../../actions/explorerActions";
+import {getFiles} from "../../../actions/explorerActions";
 import {compose} from "redux";
-import {changePath, navigateUp} from "../../actions/explorerStateActions";
-import Container from "reactstrap/es/Container";
+import {changePath, navigateUp} from "../../../actions/explorerStateActions";
 
 
 /*
@@ -74,6 +72,7 @@ function renderOverlay() {
 * END code for react DND
 * */
 
+// Provides the up button view in the files view
 function UpButtonComponent({upButtonHandle, gridMode}) {
     if (gridMode === "card") {
         return (

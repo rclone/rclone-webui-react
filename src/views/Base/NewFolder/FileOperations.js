@@ -1,8 +1,7 @@
 import React from 'react';
-import {Button} from "reactstrap";
+import {Button, Input} from "reactstrap";
 import NewFolder from "./NewFolder";
 import PropTypes from "prop-types";
-import Input from "reactstrap/es/Input";
 import {connect} from "react-redux";
 import {
     changeGridMode,

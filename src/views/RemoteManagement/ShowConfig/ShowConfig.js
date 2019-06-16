@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Col, Row, Table} from "reactstrap";
 import ConfigRow from "./ConfigRow";
 import {connect} from "react-redux";
-import {getConfigDump} from "../../actions/configActions";
+import {getConfigDump} from "../../../actions/configActions";
 
 
 function RemoteRows({remotes, refreshHandle}) {

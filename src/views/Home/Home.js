@@ -1,7 +1,6 @@
 import React from 'react';
 import {Col, Row} from "reactstrap";
 import BackendStatusCard from "../Base/BackendStatusCard/BackendStatusCard";
-import "../../utils/Global";
 import RunningJobs from "../Base/RunningJobs";
 
 class Home extends React.Component {

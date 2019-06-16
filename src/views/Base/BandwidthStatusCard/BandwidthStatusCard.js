@@ -1,5 +1,4 @@
 import React from "react";
-import "../../../utils/Global.js";
 import BandwidthWidget from "../Widgets/BandwidthWidget";
 
 

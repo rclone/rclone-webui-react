@@ -1,6 +1,5 @@
 import React from 'react';
 import {Card, CardBody, CardHeader, Col, Progress, Row} from "reactstrap";
-import "../../../utils/Global";
 import {formatBytes, secondsToStr} from "../../../utils/Tools";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";

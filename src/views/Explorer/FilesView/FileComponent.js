@@ -3,8 +3,8 @@ import {Button, Card, CardBody, CardFooter} from "reactstrap";
 
 import {ItemTypes} from './Constants'
 import {DragSource} from 'react-dnd'
-import {formatBytes} from "../../utils/Tools";
-import {performCopyFile, performMoveFile} from "../../utils/API";
+import {formatBytes} from "../../../utils/Tools";
+import {performCopyFile, performMoveFile} from "../../../utils/API/API";
 import {toast} from "react-toastify";
 import {compose} from "redux";
 import {connect} from "react-redux";
