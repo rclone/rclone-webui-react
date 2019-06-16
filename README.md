@@ -2,6 +2,9 @@
 
 This is a reactjs based web UI for the rclone cli project @ [Rclone Website](rclone.org)  
 
+## Build Status
+
+Travis: [![Build Status](https://travis-ci.com/negative0/rclone-webui-react.svg?branch=master)](https://travis-ci.com/negative0/rclone-webui-react)
 
 ## Getting Started
 
