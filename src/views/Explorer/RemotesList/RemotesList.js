@@ -93,7 +93,7 @@ class RemotesList extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
     remotes: state.remote.remotes,
-    hasError: state.remote.hasError,
+    hasError: false,
     error: state.remote.error,
     currentPath: state.explorer.currentPaths[ownProps.containerID],
 });

@@ -97,7 +97,7 @@ class NewFolder extends React.Component {
         const {isVisible} = this.props;
         return (
 
-            <Modal isOpen={isVisible} toggle={this.toggle} data-test="parent">
+            <Modal isOpen={isVisible} toggle={this.toggle}>
                 <Form onSubmit={this.handleSubmit}>
                     <ModalHeader toggle={this.toggle}>Enter the name for the folder</ModalHeader>
                     <ModalBody>
