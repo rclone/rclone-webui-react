@@ -57,7 +57,8 @@ class FileOperations extends React.Component {
                     className={"fa fa-lg fa-angle-right"}/></Button>
 
                 <div className="float-right mb-3 mt-1 form-inline">
-                    <Button className="mr-1 btn-outline-dark" onClick={this.openNewFolderModal}>New Folder</Button>
+                    <Button className="mr-1 btn-outline-dark" onClick={this.openNewFolderModal}><i
+                        className={"fa fa-lg fa-plus"}/> </Button>
 
                     <Button className="mr-1 btn-outline-dark"
                             onClick={() => this.props.getFilesForContainerID(containerID)}><i

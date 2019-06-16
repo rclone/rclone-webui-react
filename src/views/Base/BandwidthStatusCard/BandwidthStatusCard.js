@@ -10,7 +10,7 @@ class BandwidthStatusCard extends React.Component {
     }
 
     render() {
-        return (<BandwidthWidget icon="icon-speedometer" color="danger" header="100 Mbps" value="25">Current
+        return (<BandwidthWidget data-test="card" icon="icon-speedometer" color="danger" header="100 Mbps" value="25">Current
             bandwidth</BandwidthWidget>)
     }
 }

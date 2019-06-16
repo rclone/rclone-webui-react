@@ -37,8 +37,8 @@ class BackendStatusCard extends React.Component {
         if (this.props.mode === "card")
             return (
 
-                <Card
-                    className={"text-center " + (isConnected ? "card-accent-info" : "card-accent-warning")}>
+                <Card data-test={"card"}
+                      className={"text-center " + (isConnected ? "card-accent-info" : "card-accent-warning")}>
                     <CardHeader>
                         rclone status
                     </CardHeader>
@@ -51,7 +51,7 @@ class BackendStatusCard extends React.Component {
         else /*Default*/
             return (
                 <React.Fragment>
-                    <Button type="primary"
+                    <Button type="primary" data-test="card"
                             className={isConnected ? "bg-info" : "bg-warning"}>{isConnected ? "CONNECTED" : "DISCONNECTED"}</Button>
                     {/*Show current tasks in the side modal*/}
                     <TaskModal/>

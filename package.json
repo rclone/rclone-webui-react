@@ -20,8 +20,6 @@
     "chart.js": "^2.8.0",
     "classnames": "^2.2.6",
     "core-js": "^3.1.4",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0",
     "flag-icon-css": "^3.3.0",
     "font-awesome": "^4.7.0",
     "lodash": "^4.17.11",
@@ -46,9 +44,13 @@
     "simple-line-icons": "^2.4.1"
   },
   "devDependencies": {
+    "check-prop-types": "^1.1.2",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "fetch-mock": "^7.3.3",
     "react-scripts": "^3.0.1",
     "redux-mock-store": "^1.5.3",
-    "fetch-mock": "^7.3.3"
+    "ts-jest": "^24.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -73,6 +75,7 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
+      "!**/node_modules/**",
       "!**/*index.js",
       "!src/serviceWorker.js",
       "!src/polyfill.js"

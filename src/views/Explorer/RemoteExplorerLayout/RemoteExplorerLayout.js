@@ -9,6 +9,7 @@ import {compose} from "redux";
 import {createPath} from "../../../actions/explorerStateActions";
 import PropTypes from 'prop-types';
 
+
 function RemoteExplorerList({cols, backStacks}) {
     let remoteExplorers = [];
     const lgSize = 12 / cols;

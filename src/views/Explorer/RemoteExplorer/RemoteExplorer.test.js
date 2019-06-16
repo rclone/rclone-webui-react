@@ -1,12 +1,26 @@
-import ReactDOM from "react-dom";
 import React from "react";
-import {DragDropContext} from "react-dnd";
-import HTML5Backend from "react-dnd-html5-backend";
-import RemoteExplorer from "./RemoteExplorer";
+import {Provider} from "react-redux";
+import {testStore} from "../../../../Utils";
+import {shallow} from "enzyme";
 
-it('renders without crashing', () => {
-    const div = document.createElement('div');
-    const TestComp = DragDropContext(HTML5Backend)(RemoteExplorer);
-    ReactDOM.render(<TestComp/>, div);
-    ReactDOM.unmountComponentAtNode(div);
+const setUp = (props = {}) => {
+    const component = shallow(
+        <Provider store={testStore()}>
+        </Provider>
+    );
+    return component;
+}
+
+describe('Bandwidth Status Card', function () {
+
+    let wrapper;
+    beforeEach(() => {
+        const props = {};
+        wrapper = setUp(props)
+    });
+
+    it('should render without crashing', function () {
+        expect(wrapper).toHaveLength(1)
+    });
 });
+

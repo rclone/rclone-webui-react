@@ -21,7 +21,7 @@ class DefaultHeader extends Component {
         const {children, ...attributes} = this.props;
 
         return (
-            <React.Fragment>
+            <React.Fragment data-test="headerLayout">
                 <AppSidebarToggler className="d-lg-none" display="md" mobile/>
                 <AppNavbarBrand
                     full={{src: logo, width: 89, height: 25, alt: 'CoreUI Logo'}}
