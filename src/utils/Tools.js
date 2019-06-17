@@ -1,4 +1,5 @@
 export function isEmpty(obj) {
+    if (Array.isArray(obj)) return obj.length === 0;
     for (let key in obj) {
         if (obj.hasOwnProperty(key))
             return false;
@@ -74,17 +75,17 @@ export function secondsToStr(seconds) {
     if (seconds) {
         return seconds.toFixed(2) + ' second' + numberEnding(seconds);
     }
-    return 'less than a second'; //'just now' //or other string you like;
+    return 'Just now'; //'just now' //or other string you like;
 }
 
-function baseValidator(regex, str) {
+export function baseValidator(regex, str) {
 
     return regex.test(str);
 }
 
 
 export function validateSizeSuffix(str) {
-    const regex = /^off|([0-9]+([KMGTP]))$/g;
+    const regex = /^(off|(([0-9]+[.][0-9]+|[0-9]+)([KMGTP])))$/i;
 
     return baseValidator(regex, str);
 }
