@@ -59,7 +59,7 @@ const fileComponentSource = {
             const error = e.response ? e.response : e;
             console.log(JSON.stringify(error));
 
-            toast.error(`Error copying file(s). ${error.data.error}`, {
+            toast.error(`Error copying file(s). ${error}`, {
                 autoClose: false
             });
 

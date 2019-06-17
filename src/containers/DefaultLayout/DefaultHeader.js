@@ -49,7 +49,7 @@ class DefaultHeader extends Component {
                     </NavItem>
                     <AppHeaderDropdown direction="down">
                         <DropdownToggle nav>
-                            <img className="img-avatar"
+                            <img className="img-avatar d-none d-lg-block"
                                  alt="admin@bootstrapmaster.com"/>
                         </DropdownToggle>
                         <DropdownMenu right style={{right: 'auto'}}>

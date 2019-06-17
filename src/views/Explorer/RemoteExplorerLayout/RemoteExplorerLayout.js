@@ -57,8 +57,8 @@ class RemoteExplorerLayout extends React.Component {
         const {cols} = this.state;
 
         return (
-            <div>
-                <Row>
+            <React.Fragment>
+                <Row className={"d-none d-lg-block"}>
                     <Col sm={12} lg={12}>
                         <Card>
                             <CardHeader>
@@ -82,7 +82,7 @@ class RemoteExplorerLayout extends React.Component {
                 <Row>
                     <RemoteExplorerList cols={cols} backStacks={this.props.backStacks}/>
                 </Row>
-            </div>
+            </React.Fragment>
         );
     }
 

@@ -8,6 +8,7 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case FETCH_STATUS:
+
             if (action.status === REQUEST_SUCCESS) {
 
                 return {
@@ -19,7 +20,8 @@ export default function (state = initialState, action) {
             if (action.status === REQUEST_ERROR) {
                 return {
                     ...state,
-                    error: action.payload
+                    error: action.payload,
+                    isConnected: false
                 };
             }
             break;

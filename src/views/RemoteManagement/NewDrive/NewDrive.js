@@ -186,7 +186,7 @@ class NewDrive extends React.Component {
                 clearInterval(this.configCheckInterval);
                 this.configCheckInterval = null;
                 this.toggleAuthModal();
-                this.props.history.push('/home');
+                this.props.history.push('/dashboard');
 
             }
         } catch (e) {

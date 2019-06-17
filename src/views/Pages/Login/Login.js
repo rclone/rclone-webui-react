@@ -14,6 +14,8 @@ import {
     InputGroupText,
     Row
 } from 'reactstrap';
+import {connect} from "react-redux";
+import {signOut} from "../../../actions/userActions";
 
 class Login extends Component {
 
@@ -51,6 +53,7 @@ class Login extends Component {
 
     componentDidMount() {
         localStorage.clear();
+        this.props.signOut();
     }
 
 
@@ -130,4 +133,5 @@ class Login extends Component {
     }
 }
 
-export default Login;
+
+export default connect(null, {signOut})(Login);

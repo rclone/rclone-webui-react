@@ -52,7 +52,7 @@ class BackendStatusCard extends React.Component {
             return (
                 <React.Fragment>
                     <Button type="primary"
-                            className={isConnected ? "bg-info" : "bg-warning"}>{isConnected ? "CONNECTED" : "DISCONNECTED"}</Button>
+                            className={isConnected ? "bg-info  d-none d-lg-block" : "bg-warning d-none d-lg-block"}> {isConnected ? "CONNECTED" : "DISCONNECTED"}</Button>
                     {/*Show current tasks in the side modal*/}
                     <TaskModal/>
                 </React.Fragment>
