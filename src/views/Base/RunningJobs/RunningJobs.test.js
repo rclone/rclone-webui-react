@@ -1,28 +1,45 @@
 import React from "react";
-import RunningJobs from "./RunningJobs";
-import {testStore} from "../../../../Utils";
 import {shallow} from "enzyme";
-import {Provider} from "react-redux";
+import {testStore} from "../../../../Utils";
+import RunningJobs from "./RunningJobs";
+
+const setUp = (intialState = {}, props = {}) => {
+    const store = testStore(intialState);
+    const component = shallow(<RunningJobs {...props} store={store}/>);
+    return component.childAt(0).dive();
+};
 
 
-const setUp = (props = {}) => {
-    const component = shallow(
-        <Provider store={testStore()}>
-            <RunningJobs mode={"full-status"}/>
-        </Provider>
-    );
-    return component;
-}
+describe('Running Jobs', function () {
 
-describe('Bandwidth Status Card', function () {
 
-    let wrapper;
-    beforeEach(() => {
-        const props = {};
-        wrapper = setUp(props)
+    describe('renders', function () {
+        let wrapper;
+        beforeEach(() => {
+            const initialState = {
+                status: {
+                    jobs: {
+                        "transferring": {}
+                    },
+                    isConnected: true,
+                    error: {}
+                }
+            };
+
+            const props = {
+                mode: "full-status"
+            };
+            wrapper = setUp(initialState, props)
+        });
+
+        it('should render without crashing', function () {
+            expect(wrapper).toHaveLength(1)
+        });
+
+
     });
 
-    it('should render without crashing', function () {
-        expect(wrapper).toHaveLength(1)
-    });
+
+
+
 });

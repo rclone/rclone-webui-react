@@ -1,27 +1,48 @@
 import React from "react";
 import {shallow} from "enzyme";
-import {Provider} from "react-redux";
-import {testStore} from "../../../../Utils";
+import {checkProps, testStore} from "../../../../Utils";
 import BackendStatusCard from "./BackendStatusCard";
 
-const setUp = (props = {}) => {
-    const component = shallow(
-        <Provider store={testStore()}>
-            <BackendStatusCard/>
-        </Provider>
-    );
-    return component;
+const setUp = (intialState = {}, props = {}) => {
+    const store = testStore(intialState);
+    const component = shallow(<BackendStatusCard {...props} store={store}/>);
+    return component.childAt(0).dive();
 }
 
 describe('Backend Status Card', function () {
 
-    let wrapper;
-    beforeEach(() => {
-        const props = {};
-        wrapper = setUp(props)
+    describe('Checking propTypes', function () {
+        const expectedProps = {
+            isConnected: false,
+            mode: "card"
+        };
+        it('should not throw a warning', function () {
+            const propsError = checkProps(BackendStatusCard, expectedProps);
+            expect(propsError).toBeUndefined();
+        });
+
+
+    });
+    describe('renders', function () {
+        let wrapper;
+        beforeEach(() => {
+            const props = {};
+            const initialState = {
+                status: {
+                    isConnected: false,
+                    jobs: {}
+                },
+            };
+            wrapper = setUp(initialState, props)
+        });
+
+        it('should render without crashing', function () {
+            expect(wrapper).toHaveLength(1)
+        });
+
     });
 
-    it('should render without crashing', function () {
-        expect(wrapper).toHaveLength(1)
-    });
+
+
+
 });

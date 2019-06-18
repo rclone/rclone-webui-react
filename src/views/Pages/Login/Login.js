@@ -33,14 +33,14 @@ class Login extends Component {
 
     changeUserName = e => {
         this.setState({username: e.target.value});
-    }
+    };
     changePassword = e => {
         this.setState({password: e.target.value})
-    }
-    changeIPAddress = e =>{
+    };
+    changeIPAddress = e => {
 
         this.setState({ipAddress: e.target.value});
-    }
+    };
 
     onSubmit = e => {
         e.preventDefault();
@@ -61,7 +61,7 @@ class Login extends Component {
         const {username, password, ipAddress} = this.state;
 
         return (
-            <div className="app flex-row align-items-center">
+            <div className="app flex-row align-items-center" data-test="loginComponent">
                 <Container>
                     <Row className="justify-content-center">
                         <Col md="8">
@@ -114,9 +114,9 @@ class Login extends Component {
                                     <CardBody className="text-center">
                                         <div>
                                             <h2>Sign up</h2>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                                tempor incididunt ut
-                                                labore et dolore magna aliqua.</p>
+                                            <p>
+
+                                            </p>
                                             <Link to="/register">
                                                 <Button color="primary" className="mt-3" active tabIndex={-1}>Register
                                                     Now!</Button>

@@ -1,28 +1,36 @@
-import React from 'react';
-import {MemoryRouter} from 'react-router-dom';
-import Login from './Login';
-import {shallow} from "enzyme/build";
-import {Provider} from "react-redux";
-import {testStore} from "../../../../Utils";
+import React from "react";
+import {shallow} from "enzyme";
+import {findByTestAtrr, testStore} from "../../../../Utils";
+import Login from "./Login";
+import {MemoryRouter} from "react-router-dom";
 
-const setUp = (props = {}) => {
-    const component = shallow(
-        <Provider store={testStore()}>
-            <MemoryRouter><Login/></MemoryRouter>
-        </Provider>
-    );
+const setUp = (intialState = {}, props = {}) => {
+    const store = testStore(intialState);
+    let component = shallow(<MemoryRouter><Login store={store} {...props}/></MemoryRouter>);
+    component = component.childAt(0).dive().dive();
+    // console.log(component.debug());
     return component;
-}
+};
 
-describe('Login Page', function () {
 
-    let wrapper;
-    beforeEach(() => {
-        const props = {};
-        wrapper = setUp(props)
+describe('Remote Explorer Layout', function () {
+
+
+    describe('renders', function () {
+        let wrapper;
+        beforeEach(() => {
+            const initialState = {};
+
+            const props = {};
+            wrapper = setUp(initialState, props)
+        });
+
+        it('should render without crashing', function () {
+            const component = findByTestAtrr(wrapper, "loginComponent");
+            expect(component).toHaveLength(1);
+        });
+
     });
 
-    it('should render without crashing', function () {
-        expect(wrapper).toHaveLength(1)
-    });
+
 });

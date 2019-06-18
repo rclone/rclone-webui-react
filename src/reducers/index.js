@@ -10,7 +10,6 @@ const rootReducer = (state, action) => {
     if (action.type === SIGNOUT_REQUEST) {
         localStorage.clear();
         state = undefined;
-        console.log("Logout Reducer");
     }
 
     return appReducer(state, action);

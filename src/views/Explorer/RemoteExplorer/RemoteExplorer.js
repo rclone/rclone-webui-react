@@ -16,16 +16,13 @@ import {
     navigateFwd,
     navigateUp
 } from "../../../actions/explorerStateActions";
-import FileOperations from "../../Base/NewFolder/FileOperations";
+import FileOperations from "../../Base/FileOperations/FileOperations";
 
 
 class RemoteExplorer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
-            // remoteName: "",
-            // remotePath: "",
             remoteNameTemp: ""
         };
 
@@ -77,12 +74,12 @@ class RemoteExplorer extends React.Component {
 
         const pathBreadCrumbs = remotePath.split('/');
 
-        console.log(pathBreadCrumbs);
+        // console.log(pathBreadCrumbs);
 
 
         pathBreadCrumbs.map((item, idx) => {
             return (<li key={idx}
-                        className={["breadcrumb-item ", idx === pathBreadCrumbs.length ? "active" : ""]}> / {item}</li>)
+                        className={["breadcrumb-item ", idx === pathBreadCrumbs.length ? "active" : ""]}>{item}</li>)
         });
 
         return (
@@ -144,7 +141,19 @@ const propTypes = {
     currentPath: PropTypes.shape({
         remoteName: PropTypes.string.isRequired,
         remotePath: PropTypes.string.isRequired
-    })
+    }),
+    fsInfo: PropTypes.oneOfType([
+        PropTypes.shape({
+            Features: PropTypes.object.isRequired,
+            Hashes: PropTypes.array.isRequired,
+            Name: PropTypes.string.isRequired,
+            Precision: PropTypes.number.isRequired,
+            String: PropTypes.string.isRequired
+        }),
+        PropTypes.object
+    ]),
+    hasError: PropTypes.bool,
+
 };
 
 const defaultProps = {};

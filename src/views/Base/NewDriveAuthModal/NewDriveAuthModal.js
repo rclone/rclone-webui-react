@@ -2,22 +2,11 @@ import React from "react";
 import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import PropTypes from "prop-types";
 
-const propTypes = {
-    isVisible: PropTypes.bool.isRequired,
-    closeModal: PropTypes.func.isRequired
-};
-
-const defaultProps = {
-    isVisible: true,
-};
 
 class NewDriveAuthModal extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-
-        };
 
         this.toggle = this.toggle.bind(this);
     }
@@ -32,12 +21,12 @@ class NewDriveAuthModal extends React.Component {
         return (
             <div>
                 <Modal isOpen={isVisible} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Configuring your drive.</ModalHeader>
-                    <ModalBody>
+                    <ModalHeader toggle={this.toggle} data-test="modalHeader">Configuring your drive.</ModalHeader>
+                    <ModalBody data-test="modalBody">
                         A page will open for you with the authentication for your drive. This modal will automatically
                         dismiss upon successful creation
                     </ModalBody>
-                    <ModalFooter>
+                    <ModalFooter data-test="modalFooter">
                         <Button color="primary" onClick={this.toggle}>Done</Button>{' '}
                         {/*<Button color="secondary" onClick={this.toggle}>Cancel</Button>*/}
                     </ModalFooter>
@@ -47,8 +36,13 @@ class NewDriveAuthModal extends React.Component {
     }
 }
 
-NewDriveAuthModal.propTypes = propTypes;
-NewDriveAuthModal.defaultProps = defaultProps;
+NewDriveAuthModal.propTypes = {
+    isVisible: PropTypes.bool.isRequired,
+    closeModal: PropTypes.func.isRequired
+};
+NewDriveAuthModal.defaultProps = {
+    isVisible: true,
+};
 
 
 export default NewDriveAuthModal;

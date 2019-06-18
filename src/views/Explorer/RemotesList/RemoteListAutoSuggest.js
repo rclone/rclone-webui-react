@@ -79,7 +79,6 @@ class RemoteListAutoSuggest extends React.Component {
                 onSuggestionsClearRequested={this.onSuggestionsClearRequested}
                 getSuggestionValue={getSuggestionValue}
                 renderSuggestion={renderSuggestion}
-                alwaysRenderSuggestions={true}
                 highlightFirstSuggestion={true}
                 inputProps={inputProps}
             />

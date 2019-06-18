@@ -4,10 +4,6 @@ import {formatBytes, secondsToStr} from "../../../utils/Tools";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
-const propTypes = {
-    mode: PropTypes.string.isRequired
-};
-
 function JobCard({job}) {
     const {name, eta, percentage, speed, speedAvg, size, bytes} = job;
     return (<Card>
@@ -23,7 +19,6 @@ function JobCard({job}) {
         </CardBody>
 
     </Card>);
-
 }
 
 function JobCardRow({job}) {
@@ -145,7 +140,12 @@ class RunningJobs extends React.Component {
     }
 }
 
-RunningJobs.propTypes = propTypes;
+RunningJobs.propTypes = {
+    mode: PropTypes.string.isRequired,
+    isConnected: PropTypes.bool.isRequired,
+    jobs: PropTypes.object.isRequired,
+    error: PropTypes.object
+};
 
 const mapStateToProps = state => ({
     jobs: state.status.jobs,

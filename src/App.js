@@ -20,7 +20,7 @@ class App extends Component {
 
     render() {
         return (
-            <React.Fragment>
+            <div data-test="appComponent">
                 <ToastContainer/>
                 <HashRouter>
                     <React.Suspense fallback={loading()}>
@@ -34,7 +34,7 @@ class App extends Component {
                         </Switch>
                     </React.Suspense>
                 </HashRouter>
-            </React.Fragment>
+            </div>
         );
     }
 }

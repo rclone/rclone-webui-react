@@ -385,13 +385,24 @@ class FilesView extends React.PureComponent {
 
 const propTypes = {
     containerID: PropTypes.string.isRequired,
-    currentPath: PropTypes.object.isRequired,
-    fsInfo: PropTypes.object.isRequired,
+    currentPath: PropTypes.shape({
+        remoteName: PropTypes.string.isRequired,
+        remotePath: PropTypes.string.isRequired
+    }).isRequired,
+    fsInfo: PropTypes.oneOfType([
+        PropTypes.shape({
+            Features: PropTypes.object.isRequired,
+            Hashes: PropTypes.array.isRequired,
+            Name: PropTypes.string.isRequired,
+            Precision: PropTypes.number.isRequired,
+            String: PropTypes.string.isRequired
+        }),
+        PropTypes.object
+    ]),
     gridMode: PropTypes.string
 };
 
 const defaultProps = {
-    remotePath: "",
 };
 
 
@@ -402,7 +413,7 @@ FilesView.defaultProps = defaultProps;
 const mapStateToProps = (state, ownProps) => {
     const currentPath = state.explorer.currentPaths[ownProps.containerID];
     let visibilityFilter = state.explorer.visibilityFilters[ownProps.containerID];
-    const gridMode = state.explorer.gridMode[ownProps.containerID]
+    const gridMode = state.explorer.gridMode[ownProps.containerID];
 
     let fsInfo = {};
     const {remoteName, remotePath} = currentPath;
@@ -411,8 +422,9 @@ const mapStateToProps = (state, ownProps) => {
     if (currentPath && state.remote.configs && state.remote.configs[currentPath.remoteName]) {
         fsInfo = state.remote.configs[currentPath.remoteName];
     }
+    const pathKey = `${remoteName}-${remotePath}`;
 
-    let files = state.remote.files[`${remoteName}-${remotePath}`];
+    let files = state.remote.files[pathKey];
 
     if (files) {
         files = files.files;

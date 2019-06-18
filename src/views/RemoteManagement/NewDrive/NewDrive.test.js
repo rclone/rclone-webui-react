@@ -1,34 +1,70 @@
 import React from "react";
-import NewDrive from "./NewDrive";
-import {testStore} from "../../../../Utils";
 import {shallow} from "enzyme";
-import {Provider} from "react-redux";
-//
-// it('renders without crashing', () => {
-//     const div = document.createElement('div');
-//     ReactDOM.render(<NewDrive/>, div);
-//     ReactDOM.unmountComponentAtNode(div);
-// });
+import {findByTestAtrr, testStore} from "../../../../Utils";
+import NewDrive from "./NewDrive";
+
+const setUp = (intialState = {}, props = {}) => {
+    const store = testStore(intialState);
+    const component = shallow(<NewDrive {...props} store={store}/>);
+    return component.childAt(0).dive();
+};
 
 
-const setUp = (props = {}) => {
-    const component = shallow(
-        <Provider store={testStore()}>
-            <NewDrive/>
-        </Provider>
-    );
-    return component;
-}
+describe('Remote Explorer', function () {
 
-describe('Bandwidth Status Card', function () {
 
-    let wrapper;
-    beforeEach(() => {
-        const props = {};
-        wrapper = setUp(props)
+    describe('renders', function () {
+        let wrapper;
+        beforeEach(() => {
+            const initialState = {
+                remote: {
+                    files: {
+                        'localdrive-': {
+                            time: '2019-06-18T06:49:00.107Z',
+                            files: []
+                        }
+                    },
+
+                },
+                config: {
+                    providers: [
+                        {
+                            Name: 'alias',
+                            Description: 'Alias for an existing remote',
+                            Prefix: 'alias',
+                            Options: [
+                                {
+                                    Name: 'remote',
+                                    Help: 'Remote or path to alias.\nCan be "myremote:path/to/dir", "myremote:bucket", "myremote:" or "/local/path".',
+                                    Provider: '',
+                                    Default: '',
+                                    Value: null,
+                                    ShortOpt: '',
+                                    Hide: 0,
+                                    Required: true,
+                                    IsPassword: false,
+                                    NoPrefix: false,
+                                    Advanced: false,
+                                    DefaultStr: '',
+                                    ValueStr: '',
+                                    Type: 'string'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            };
+
+
+            const props = {};
+            wrapper = setUp(initialState, props)
+        });
+
+        it('should render without crashing', function () {
+            const component = findByTestAtrr(wrapper, "newDriveComponent");
+            expect(component).toHaveLength(1);
+        });
+
     });
 
-    it('should render without crashing', function () {
-        expect(wrapper).toHaveLength(1)
-    });
 });

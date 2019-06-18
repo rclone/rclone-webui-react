@@ -1,25 +1,36 @@
 import React from "react";
-import NewDriveAuthModal from "./NewDriveAuthModal";
 import {shallow} from "enzyme";
 import {testStore} from "../../../../Utils";
+import FileOperations from "./FileOperations";
 
 const setUp = (intialState = {}, props = {}) => {
     const store = testStore(intialState);
-    const component = shallow(<NewDriveAuthModal {...props} store={store}/>);
+    const component = shallow(<FileOperations {...props} store={store}/>);
     return component.childAt(0).dive();
-}
+};
 
-describe('New Drive Auth Modal', function () {
+
+describe('File Operations', function () {
 
 
     describe('renders', function () {
         let wrapper;
         beforeEach(() => {
-            const props = {
-                isVisible: true,
-                closeModal: jest.fn()
+            const initialState = {
+
+                explorer: {
+                    visibilityFilters: {"1": "Images"},
+                    gridMode: {
+                        "1": "card"
+                    }
+                }
+
             };
-            const initialState = {};
+
+            const props = {
+                containerID: "1",
+                changeVisibilityFilter: jest.fn()
+            };
             wrapper = setUp(initialState, props)
         });
 
@@ -27,6 +38,4 @@ describe('New Drive Auth Modal', function () {
             expect(wrapper).toHaveLength(1)
         });
     });
-
-
 });

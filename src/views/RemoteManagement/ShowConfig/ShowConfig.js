@@ -3,6 +3,7 @@ import {Button, Col, Row, Table} from "reactstrap";
 import ConfigRow from "./ConfigRow";
 import {connect} from "react-redux";
 import {getConfigDump} from "../../../actions/configActions";
+import * as PropTypes from "prop-types";
 
 
 function RemoteRows({remotes, refreshHandle}) {
@@ -20,9 +21,6 @@ function RemoteRows({remotes, refreshHandle}) {
 
 class ShowConfig extends React.PureComponent {
 
-
-
-
     componentDidMount() {
         //Get the configs
         this.props.getConfigDump();
@@ -32,7 +30,7 @@ class ShowConfig extends React.PureComponent {
 
 
         return (
-            <div>
+            <div data-test="showConfigComponent">
                 <Row>
                     <Col lg={8}/>
                     <Col lg={4} className={"mb-3"}>
@@ -69,5 +67,11 @@ const mapStateToProps = state => ({
     error: state.config.error
 
 });
+
+ShowConfig.propTypes = {
+    remotes: PropTypes.object.isRequired,
+    hasError: PropTypes.bool,
+    error: PropTypes.object
+};
 
 export default connect(mapStateToProps, {getConfigDump})(ShowConfig);

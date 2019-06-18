@@ -1,27 +1,33 @@
 import React from "react";
 import {shallow} from "enzyme";
-import {Provider} from "react-redux";
 import {testStore} from "../../../../Utils";
 import NewFolder from "./NewFolder";
 
-const setUp = (props = {}) => {
-    const component = shallow(
-        <Provider store={testStore()}>
-            <NewFolder/>
-        </Provider>
-    );
-    return component;
+const setUp = (intialState = {}, props = {}) => {
+    const store = testStore(intialState);
+    const component = shallow(<NewFolder {...props} store={store}/>);
+    return component.childAt(0).dive();
 }
 
 describe('New Folder', function () {
 
-    let wrapper;
-    beforeEach(() => {
-        const props = {};
-        wrapper = setUp(props)
+
+    describe('renders', function () {
+        let wrapper;
+        beforeEach(() => {
+            const props = {
+                isVisible: true,
+                closeModal: jest.fn(),
+                containerID: "1"
+            };
+            const initialState = {};
+            wrapper = setUp(initialState, props)
+        });
+
+        it('should render without crashing', function () {
+            expect(wrapper).toHaveLength(1)
+        });
     });
 
-    it('should render without crashing', function () {
-        expect(wrapper).toHaveLength(1)
-    });
+
 });

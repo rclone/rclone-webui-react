@@ -30,11 +30,11 @@ class BackendStatusCard extends React.Component {
     }
 
     render() {
-        const {isConnected} = this.props;
+        const {isConnected, mode} = this.props;
 
         const ipAddress = localStorage.getItem('ipAddress');
 
-        if (this.props.mode === "card")
+        if (mode === "card")
             return (
 
                 <Card
@@ -74,7 +74,8 @@ function StatusText({connectivityStatus, ipAddress}) {
 }
 
 const propTypes = {
-    mode: PropTypes.string,
+    mode: PropTypes.string.isRequired,
+    isConnected: PropTypes.bool.isRequired,
 };
 
 const defaultProps = {

@@ -75,8 +75,6 @@ function collect(connect, monitor) {
     }
 }
 
-
-// TODO: Add mode parameter for card view or list view
 function FileIcon({IsDir, MimeType}) {
     let className = "fa-file";
     if (IsDir) {

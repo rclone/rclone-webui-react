@@ -1,28 +1,49 @@
-import React from 'react';
-import {testStore} from "../../../../Utils";
+import React from "react";
 import {shallow} from "enzyme";
-import {Provider} from "react-redux";
+import {checkProps, findByTestAtrr, testStore} from "../../../../Utils";
 import RemoteExplorerLayout from "./RemoteExplorerLayout";
 
-
-const setUp = (props = {}) => {
-    const component = shallow(
-        <Provider store={testStore()}>
-            <RemoteExplorerLayout/>
-        </Provider>
-    );
+const setUp = (intialState = {}, props = {}) => {
+    const store = testStore(intialState);
+    let component = shallow(<RemoteExplorerLayout {...props} store={store}/>);
+    component = component.childAt(0).dive().childAt(0).dive().childAt(0).dive();
     return component;
-}
+};
+
 
 describe('Remote Explorer Layout', function () {
 
-    let wrapper;
-    beforeEach(() => {
-        const props = {};
-        wrapper = setUp(props)
+    describe('Checking PropTypes', () => {
+
+        it('Should NOT throw a warning', () => {
+            const expectedProps = {};
+            const propsError = checkProps(RemoteExplorerLayout, expectedProps);
+            expect(propsError).toBeUndefined();
+        });
+
     });
 
-    it('should render without crashing', function () {
-        expect(wrapper).toHaveLength(1)
+
+    describe('renders', function () {
+        let wrapper;
+        beforeEach(() => {
+            const initialState = {};
+
+            const props = {
+                createPath: jest.fn()
+            };
+            wrapper = setUp(initialState, props)
+        });
+
+        it('should render without crashing', function () {
+            const component = findByTestAtrr(wrapper, "remoteExplorerLayout");
+            expect(component).toHaveLength(1);
+        });
+
+
     });
+
+
+
+
 });

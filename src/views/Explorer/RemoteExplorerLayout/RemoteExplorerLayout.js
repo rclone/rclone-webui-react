@@ -10,13 +10,13 @@ import {createPath} from "../../../actions/explorerStateActions";
 import PropTypes from 'prop-types';
 
 
-function RemoteExplorerList({cols, backStacks}) {
+function RemoteExplorerList({cols}) {
     let remoteExplorers = [];
     const lgSize = 12 / cols;
     for (let i = 0; i < cols; i++) {
 
         remoteExplorers.push((
-            <Col xs={12} sm={12} lg={lgSize} key={i}>
+            <Col xs={12} sm={12} md={lgSize} lg={lgSize} key={i}>
                 <RemoteExplorer containerID={i.toString()}/>
             </Col>
         ));
@@ -38,16 +38,16 @@ class RemoteExplorerLayout extends React.Component {
     }
 
     changeLayout(nos, mode) {
+        const {backStacks, createPath} = this.props;
         // console.log("changing layout");
         if (mode === "side") {
             for (let i = 0; i < nos; i++) {
-                if (!this.props.backStacks[i.toString()])
-                    this.props.createPath(i.toString())
+                if (!backStacks[i.toString()])
+                    createPath(i.toString())
             }
             this.setState({cols: nos});
 
         }
-
 
     }
 
@@ -55,10 +55,11 @@ class RemoteExplorerLayout extends React.Component {
 
         /*Divide the 12 bootstrap columns to fit number of explorers*/
         const {cols} = this.state;
+        const {backStacks} = this.props;
 
         return (
             <React.Fragment>
-                <Row className={"d-none d-lg-block"}>
+                <Row className={"d-none d-md-block"} data-test="remoteExplorerLayout">
                     <Col sm={12} lg={12}>
                         <Card>
                             <CardHeader>
@@ -80,7 +81,7 @@ class RemoteExplorerLayout extends React.Component {
                 </Row>
 
                 <Row>
-                    <RemoteExplorerList cols={cols} backStacks={this.props.backStacks}/>
+                    <RemoteExplorerList cols={cols} backStacks={backStacks}/>
                 </Row>
             </React.Fragment>
         );
@@ -90,14 +91,16 @@ class RemoteExplorerLayout extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    backStacks: state.explorer.backStacks
+    backStacks: state.explorer.backStacks,
+
 });
 
 RemoteExplorerLayout.propTypes = {
-    backStacks: PropTypes.object.isRequired
+    backStacks: PropTypes.object.isRequired,
+    createPath: PropTypes.func.isRequired
 };
 
 export default compose(
-    DragDropContext(HTML5Backend),
-    connect(mapStateToProps, {createPath})
+    connect(mapStateToProps, {createPath}),
+    DragDropContext(HTML5Backend)
 )(RemoteExplorerLayout);

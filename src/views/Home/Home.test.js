@@ -1,27 +1,30 @@
 import React from "react";
 import {shallow} from "enzyme";
-import {Provider} from "react-redux";
-import {testStore} from "../../../Utils";
+import {findByTestAtrr, testStore} from "../../../Utils";
 import Home from "./Home";
 
-const setUp = (props = {}) => {
-    const component = shallow(
-        <Provider store={testStore()}>
-            <Home/>
-        </Provider>
-    );
-    return component;
-}
+const setUp = (intialState = {}, props = {}) => {
+    const store = testStore(intialState);
+    return shallow(<Home {...props} store={store}/>);
+};
 
-describe('Home container', function () {
 
-    let wrapper;
-    beforeEach(() => {
-        const props = {};
-        wrapper = setUp(props)
+describe('Home Component', function () {
+
+
+    describe('renders', function () {
+        let wrapper;
+        beforeEach(() => {
+            const initialState = {};
+
+            const props = {};
+            wrapper = setUp(initialState, props)
+        });
+
+        it('should render without crashing', function () {
+            const component = findByTestAtrr(wrapper, "homeComponent");
+            expect(component).toHaveLength(1);
+        });
     });
 
-    it('should render without crashing', function () {
-        expect(wrapper).toHaveLength(1)
-    });
 });

@@ -499,7 +499,7 @@ class NewDrive extends React.Component {
         const {providers} = this.props;
         // console.log("config", config);
         return (
-            <div>
+            <div data-test="newDriveComponent">
                 <p>This 3 step process will guide you through creating a new config. For auto config, leave the
                     parameters as is.</p>
                 <Form onSubmit={this.handleSubmit}>
@@ -620,7 +620,6 @@ const mapStateToProps = state => ({
 NewDrive.propTypes = {
     providers: PropTypes.array.isRequired,
     getProviders: PropTypes.func.isRequired
-
 };
 
 export default connect(mapStateToProps, {getProviders})(NewDrive);
