@@ -2,6 +2,7 @@ import React from 'react';
 import {
     Button,
     ButtonDropdown,
+    ButtonGroup,
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
@@ -21,7 +22,6 @@ import {
     setSearchQuery
 } from "../../../actions/explorerStateActions";
 import {visibilityFilteringOptions} from "../../../utils/Constants";
-import ButtonGroup from "reactstrap/es/ButtonGroup";
 
 class FileOperations extends React.Component {
     constructor(props) {
@@ -155,7 +155,8 @@ FileOperations.propTypes = {
     changeVisibilityFilter: PropTypes.func.isRequired,
     visibilityFilter: PropTypes.string,
     gridMode: PropTypes.string,
-    setSearchQuery: PropTypes.func.isRequired
+    setSearchQuery: PropTypes.func.isRequired,
+    searchQuery: PropTypes.string
 };
 
 const mapStateToProps = (state, ownProps) => ({

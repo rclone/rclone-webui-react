@@ -22,7 +22,11 @@ describe('File Operations', function () {
                     visibilityFilters: {"1": "Images"},
                     gridMode: {
                         "1": "card"
-                    }
+                    },
+                    searchQueries: {
+                        "1": "abcd"
+                    },
+
                 }
 
             };

@@ -93,7 +93,8 @@ describe('Files View', function () {
                         }
                     },
                     visibilityFilters: {},
-                    gridMode: {}
+                    gridMode: {},
+                    searchQueries: {}
                 }
 
 
