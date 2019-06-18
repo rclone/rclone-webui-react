@@ -2,7 +2,8 @@ import {GET_CONFIG_DUMP, GET_PROVIDERS, REQUEST_ERROR, REQUEST_SUCCESS} from "..
 
 const initialState = {
     providers: [],
-    configDump: {}
+    configDump: {},
+    hasError: false,
 };
 
 export default function (state = initialState, action) {
@@ -17,7 +18,8 @@ export default function (state = initialState, action) {
             if (action.status === REQUEST_SUCCESS)
                 return {
                     ...state,
-                    configDump: action.payload
+                    configDump: action.payload,
+                    hasError: false
                 };
             if (action.status === REQUEST_ERROR)
                 return {

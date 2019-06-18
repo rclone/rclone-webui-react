@@ -43,6 +43,7 @@
     "redux": "^4.0.1",
     "react-redux": "^7.1.0",
     "redux-thunk": "^2.3.0"
+
   },
   "devDependencies": {
     "check-prop-types": "^1.1.2",
@@ -66,12 +67,16 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 9",
-    "not op_mini all"
-  ],
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not ie <= 9",
+      "not op_mini all"
+    ],
+    "development": [
+    ]
+  },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
