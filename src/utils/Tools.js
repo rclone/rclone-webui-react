@@ -135,7 +135,19 @@ export function changeListVisibility(list, filter, checkList = visibilityAssocia
     if (acceptType) {
         let newList = list.filter((item) => {
             return (item.IsDir || item.MimeType === acceptType);
-        })
+        });
+        return newList;
+    }
+    return list;
+
+}
+
+export function changeSearchFilter(list, searchQuery = "") {
+    searchQuery = searchQuery.toLowerCase();
+    if (searchQuery) {
+        let newList = list.filter((item) => {
+            return item.Name.toLowerCase().startsWith(searchQuery);
+        });
         return newList;
     }
     return list;

@@ -3,6 +3,7 @@ import {
     CHANGE_PATH,
     CHANGE_REMOTE_NAME,
     CHANGE_REMOTE_PATH,
+    CHANGE_SEARCH_QUERY,
     CHANGE_VISIBILITY_FILTER,
     CREATE_PATH,
     NAVIGATE_BACK,
@@ -109,6 +110,14 @@ export const changeGridMode = (containerID, mode) => dispatch => {
         type: CHANGE_GRID_MODE,
         id: containerID,
         mode
+    })
+};
+
+export const setSearchQuery = (containerID, searchQuery) => dispatch => {
+    dispatch({
+        type: CHANGE_SEARCH_QUERY,
+        id: containerID,
+        searchQuery
     })
 };
 

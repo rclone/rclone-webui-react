@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
+import {Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader} from "reactstrap";
 import PropTypes from "prop-types";
 import axiosInstance from "../../../utils/API/API";
 import {toast} from "react-toastify";
@@ -94,16 +94,17 @@ class NewFolder extends React.Component {
 
     render() {
         const {name, disableForm} = this.state;
-        const {isVisible} = this.props;
+        const {isVisible, currentPath} = this.props;
         return (
 
             <Modal isOpen={isVisible} toggle={this.toggle}>
                 <Form onSubmit={this.handleSubmit}>
-                    <ModalHeader toggle={this.toggle}>Enter the name for the folder</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>Create New folder
+                        at {currentPath.remoteName}: {currentPath.remotePath}</ModalHeader>
                     <ModalBody>
                         <FormGroup row>
-                            <Label for="folderName" sm={3}>Enter the name</Label>
-                            <Col sm={9}>
+                            <Label for="folderName" sm={5}>Enter the name</Label>
+                            <Col sm={7}>
                                 <Input type="text" name="folderName" id="folderName" value={name}
                                        onChange={this.changeName} required autoFocus>
                                 </Input>
@@ -116,9 +117,6 @@ class NewFolder extends React.Component {
                         {/*<Input type={"text"} value={name} onChange={this.changeName}*/}
                         {/*       ref={(input) => this.NameInput = input}/>*/}
                     </ModalBody>
-                    <ModalFooter>
-
-                    </ModalFooter>
                 </Form>
             </Modal>
 

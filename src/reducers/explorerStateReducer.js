@@ -3,6 +3,7 @@ import {
     CHANGE_PATH,
     CHANGE_REMOTE_NAME,
     CHANGE_REMOTE_PATH,
+    CHANGE_SEARCH_QUERY,
     CHANGE_VISIBILITY_FILTER,
     CREATE_PATH,
     NAVIGATE_BACK,
@@ -16,6 +17,7 @@ const initialState = {
     currentPaths: {},
     visibilityFilters: {},
     gridMode: {},
+    searchQueries: {},
 };
 
 
@@ -44,6 +46,7 @@ export default function (state = initialState, action) {
         let visibilityFilter = state.visibilityFilters[id];
         let gridMode = state.gridMode[id];
 
+        let searchQuery = "";
 
 
         switch (action.type) {
@@ -110,6 +113,10 @@ export default function (state = initialState, action) {
                     gridMode = action.mode;
                 }
                 break;
+
+            case CHANGE_SEARCH_QUERY:
+                searchQuery = action.searchQuery;
+                break;
             default:
                 break;
         }
@@ -119,7 +126,8 @@ export default function (state = initialState, action) {
             backStacks: {...state.backStacks, [id]: backStack},
             currentPaths: {...state.currentPaths, [id]: {...backStack.peek()}},
             visibilityFilters: {...state.visibilityFilters, [id]: visibilityFilter},
-            gridMode: {...state.gridMode, [id]: gridMode}
+            gridMode: {...state.gridMode, [id]: gridMode},
+            searchQueries: {...state.searchQueries, [id]: searchQuery}
         };
     } else {
         // console.error("ID is unexpectedly null");

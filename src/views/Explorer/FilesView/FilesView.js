@@ -6,7 +6,7 @@ import {DropTarget} from "react-dnd";
 import FileComponent from "./FileComponent";
 import {ItemTypes} from "./Constants";
 import {toast} from "react-toastify";
-import {addColonAtLast, changeListVisibility} from "../../../utils/Tools";
+import {addColonAtLast, changeListVisibility, changeSearchFilter} from "../../../utils/Tools";
 import {connect} from "react-redux";
 import {getFiles} from "../../../actions/explorerActions";
 import {compose} from "redux";
@@ -261,6 +261,8 @@ class FilesView extends React.PureComponent {
         const {connectDropTarget, isOver, files, navigateUp, containerID, gridMode} = this.props;
         const {remoteName} = this.props.currentPath;
 
+        // console.log(this.props.searchQuery);
+
         if (isLoading || !files) {
             return (<div><i className={"fa fa-circle-o-notch fa-lg"}/> Loading</div>);
         } else {
@@ -399,7 +401,8 @@ const propTypes = {
         }),
         PropTypes.object
     ]),
-    gridMode: PropTypes.string
+    gridMode: PropTypes.string,
+    searchQuery: PropTypes.string
 };
 
 const defaultProps = {
@@ -414,6 +417,7 @@ const mapStateToProps = (state, ownProps) => {
     const currentPath = state.explorer.currentPaths[ownProps.containerID];
     let visibilityFilter = state.explorer.visibilityFilters[ownProps.containerID];
     const gridMode = state.explorer.gridMode[ownProps.containerID];
+    const searchQuery = state.explorer.searchQueries[ownProps.containerID];
 
     let fsInfo = {};
     const {remoteName, remotePath} = currentPath;
@@ -431,13 +435,17 @@ const mapStateToProps = (state, ownProps) => {
         if (visibilityFilter) {
             files = changeListVisibility(files, visibilityFilter);
         }
+        if (searchQuery) {
+            files = changeSearchFilter(files, searchQuery);
+        }
     }
 
     return {
         files,
         currentPath,
         fsInfo,
-        gridMode
+        gridMode,
+        searchQuery
     }
 };
 
