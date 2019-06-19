@@ -16,6 +16,13 @@ export function bytesToMB(bytes) {
     return mb;
 }
 
+export function bytesToGB(bytes) {
+    if (bytes === 0) return 0;
+    const mb = bytes / 1024 / 1024 / 1024;
+
+    return mb;
+}
+
 export function bpsToMbps(bps) {
     if (bps === 0) return 0;
     const mbps = bytesToMB(bps);
@@ -152,4 +159,9 @@ export function changeSearchFilter(list, searchQuery = "") {
     }
     return list;
 
+}
+
+
+export function isLocalRemoteName(remoteName) {
+    return (remoteName && remoteName !== "" && remoteName[0] === "/");
 }

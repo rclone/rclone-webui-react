@@ -26,26 +26,19 @@ class RemoteExplorer extends React.Component {
             remoteNameTemp: ""
         };
 
-
         this.updateRemoteName = this.updateRemoteName.bind(this);
         this.updateRemotePath = this.updateRemotePath.bind(this);
-
     }
 
     getFsInfo() {
-
         const {remoteName} = this.props.currentPath;
         if (!this.props.configs[remoteName])
             this.props.getFsInfo(remoteName);
-
     }
 
     updateRemoteName(remoteName) {
         this.setState({remoteNameTemp: remoteName});
     }
-
-
-
 
     updateRemotePath(newRemotePath, IsDir, IsBucket) {
         const {remoteName} = this.props.currentPath;
@@ -64,23 +57,13 @@ class RemoteExplorer extends React.Component {
         this.props.changePath(this.props.containerID, updateRemoteName, updateRemotePath);
     }
 
-
-
     render() {
 
 
-        const {remoteName, remotePath} = this.props.currentPath;
+        const {remoteName} = this.props.currentPath;
         const {containerID} = this.props;
 
-        const pathBreadCrumbs = remotePath.split('/');
-
-        // console.log(pathBreadCrumbs);
-
-
-        pathBreadCrumbs.map((item, idx) => {
-            return (<li key={idx}
-                        className={["breadcrumb-item ", idx === pathBreadCrumbs.length ? "active" : ""]}>{item}</li>)
-        });
+        const isValidPath = remoteName && remoteName !== "";
 
         return (
             <React.Fragment>
@@ -100,25 +83,9 @@ class RemoteExplorer extends React.Component {
                 </Card>
 
                 {/*Render the files in the selected remote*/}
-                <Card>
+                <Card className={isValidPath ? "" : "d-none"}>
                     <CardHeader>
-                        <nav aria-label="breadcrumb">
-                            <ol className="breadcrumb">
-                                <li className="breadcrumb-item active">{remoteName}:/</li>
-
-                                {pathBreadCrumbs}
-                                <li className="breadcrumb-menu">
-                                    <div className="btn-group" role="group"
-                                         aria-label="Button group with nested dropdown">
-                                        {/*<a className="btn" href="#"><i className="cui-speech"></i></a>*/}
-                                        {/*<a className="btn" href="#"><i className="cui-graph"></i> Dashboard</a>*/}
-                                        <span className="btn"><i className="cui-settings"></i> Settings</span>
-                                    </div>
-                                </li>
-                            </ol>
-                            <FileOperations containerID={containerID}/>
-
-                        </nav>
+                        <FileOperations containerID={containerID}/>
                     </CardHeader>
                     <CardBody>
                         <ScrollableDiv height={"700px"}>

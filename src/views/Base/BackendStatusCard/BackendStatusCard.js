@@ -33,6 +33,8 @@ class BackendStatusCard extends React.Component {
         const {isConnected, mode} = this.props;
 
         const ipAddress = localStorage.getItem('ipAddress');
+        const username = localStorage.getItem("username");
+
 
         if (mode === "card")
             return (
@@ -43,7 +45,7 @@ class BackendStatusCard extends React.Component {
                         rclone status
                     </CardHeader>
                     <CardBody>
-                        <StatusText connectivityStatus={isConnected} ipAddress={ipAddress}/>
+                        <StatusText connectivityStatus={isConnected} ipAddress={ipAddress} userName={username}/>
 
                     </CardBody>
                 </Card>
@@ -60,10 +62,11 @@ class BackendStatusCard extends React.Component {
     }
 }
 
-function StatusText({connectivityStatus, ipAddress}) {
+function StatusText({connectivityStatus, ipAddress, userName}) {
     if (connectivityStatus) {
         return (
-            <p>The rclone backend is connected and working as expected.<br/>Current IP address is {ipAddress}.</p>
+            <p>The rclone backend is connected and working as expected.<br/>Current IP address is {ipAddress}
+                <br/><strong> Username: </strong>{userName}</p>
         );
     } else {
         return (

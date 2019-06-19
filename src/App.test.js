@@ -37,6 +37,9 @@ describe('App Component', function () {
                 currentPaths: {},
                 visibilityFilters: {},
                 gridMode: {}
+            },
+            providerStatus: {
+                about: {}
             }
         };
         wrapper = setUp(initialState);

@@ -286,8 +286,6 @@ class FilesView extends React.PureComponent {
                         <Row>
                             <UpButtonComponent upButtonHandle={() => navigateUp(containerID)} gridMode={gridMode}/>
                         </Row>
-
-
                         <Row>
                             <h3>Directories</h3>
                         </Row>

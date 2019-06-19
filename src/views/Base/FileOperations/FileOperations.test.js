@@ -26,6 +26,12 @@ describe('File Operations', function () {
                     searchQueries: {
                         "1": "abcd"
                     },
+                    currentPaths: {
+                        "1": {
+                            remoteName: "",
+                            remotePath: ""
+                        }
+                    }
 
                 }
 

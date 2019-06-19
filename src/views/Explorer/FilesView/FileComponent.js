@@ -161,7 +161,7 @@ function FileComponent({item, clickHandler, downloadHandle, deleteHandle, connec
         return connectDragSource(
             <div className={"col-lg-3"}>
                 <Card>
-                    <CardBody>
+                    <CardBody onClick={(e) => clickHandler(e, item)}>
                         <FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}
                     </CardBody>
                     <CardFooter>

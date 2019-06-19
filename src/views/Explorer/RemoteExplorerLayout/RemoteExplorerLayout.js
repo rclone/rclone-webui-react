@@ -7,7 +7,7 @@ import {DragDropContext} from "react-dnd";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {createPath} from "../../../actions/explorerStateActions";
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 
 function RemoteExplorerList({cols}) {
@@ -46,7 +46,6 @@ class RemoteExplorerLayout extends React.Component {
                     createPath(i.toString())
             }
             this.setState({cols: nos});
-
         }
 
     }
@@ -83,11 +82,11 @@ class RemoteExplorerLayout extends React.Component {
                 <Row>
                     <RemoteExplorerList cols={cols} backStacks={backStacks}/>
                 </Row>
+
+
             </React.Fragment>
         );
     }
-
-
 }
 
 const mapStateToProps = (state) => ({

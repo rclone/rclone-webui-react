@@ -5,6 +5,7 @@ import configReducer from "./configReducer";
 import explorerReducer from "./explorerReducer";
 import explorerState from "./explorerStateReducer";
 import {SIGNOUT_REQUEST} from "../actions/types";
+import providerStatusReducer from "./providerStatusReducer";
 
 const rootReducer = (state, action) => {
     if (action.type === SIGNOUT_REQUEST) {
@@ -13,13 +14,14 @@ const rootReducer = (state, action) => {
     }
 
     return appReducer(state, action);
-}
+};
 
 const appReducer = combineReducers({
     status: statusReducer,
     config: configReducer,
     remote: explorerReducer,
-    explorer: explorerState
+    explorer: explorerState,
+    providerStatus: providerStatusReducer,
 });
 
 export default rootReducer;
