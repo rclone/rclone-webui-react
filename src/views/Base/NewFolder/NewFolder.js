@@ -37,7 +37,7 @@ class NewFolder extends React.Component {
 
         // remotePath = this.state.name;
         try {
-            console.log("fsInfo", fsInfo);
+            // console.log("fsInfo", fsInfo);
             if (fsInfo.Features.BucketBased && remotePath === "") {/*Trying to create a bucket, not a dir*/
                 remoteName += name;
             } else { /*Normal directory*/

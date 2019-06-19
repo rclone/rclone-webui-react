@@ -11,7 +11,8 @@ export default function (state = initialState, action) {
             if (action.status === REQUEST_SUCCESS) {
                 return {...state, about: {...state.about, [action.id]: action.payload}};
             } else if (action.status === REQUEST_ERROR) {
-                console.log("Error occurred");
+                // console.log("Error occurred");
+                return state;
             }
             break;
 

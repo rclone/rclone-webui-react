@@ -28,7 +28,11 @@ export default function (state = initialState, action) {
     if (id) {
 
         let backStack = state.backStacks[id];
-        if (!backStack) backStack = new BackStack();
+        // console.log(backStack, backStack instanceof BackStack);
+        if (!backStack || !(backStack instanceof BackStack)) {
+            // console.log("Creating new backstack");
+            backStack = new BackStack();
+        }
 
 
         // let arrayLen = array.length - 1 ;

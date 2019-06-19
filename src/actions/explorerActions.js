@@ -1,14 +1,21 @@
 import axiosInstance from "../utils/API/API";
 import {GET_CONFIG_FOR_REMOTE, GET_FILES_LIST, GET_REMOTE_LIST, REQUEST_ERROR, REQUEST_SUCCESS} from "./types";
-import {addColonAtLast} from "../utils/Tools";
+import {addColonAtLast, isLocalRemoteName} from "../utils/Tools";
 
 export const getFsInfo = (remoteName) => dispatch => {
-    axiosInstance.post("operations/fsinfo", {fs: addColonAtLast(remoteName)})
+
+    let sentRemoteName = "/";
+
+    if (!isLocalRemoteName(remoteName)) {
+        sentRemoteName = addColonAtLast(remoteName);
+    }
+    // console.log("Actual: ", remoteName);
+    axiosInstance.post("operations/fsinfo", {fs: sentRemoteName})
         .then((res) => {
                 dispatch({
                     type: GET_CONFIG_FOR_REMOTE,
                     status: REQUEST_SUCCESS,
-                    payload: {[remoteName]: res.data},
+                    payload: {[sentRemoteName]: res.data},
 
                 })
             },

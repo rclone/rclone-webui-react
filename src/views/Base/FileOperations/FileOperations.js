@@ -30,7 +30,9 @@ import {
 import {visibilityFilteringOptions} from "../../../utils/Constants";
 import {getAbout} from "../../../actions/providerStatusActions";
 import {Doughnut} from "react-chartjs-2";
-import {bytesToGB} from "../../../utils/Tools";
+import {addColonAtLast, bytesToGB, isLocalRemoteName} from "../../../utils/Tools";
+import axiosInstance from "../../../utils/API/API";
+import {toast} from "react-toastify";
 
 class FileOperations extends React.Component {
     constructor(props) {
@@ -102,6 +104,34 @@ class FileOperations extends React.Component {
 
     };
 
+    handleCleanTrash = () => {
+
+        const {currentPath, containerID, fsInfo} = this.props;
+        let {remoteName} = currentPath;
+        if (fsInfo && fsInfo.Features && fsInfo.Features.CleanUp) {
+            if (!isLocalRemoteName(remoteName)) {
+                remoteName = addColonAtLast(remoteName);
+            }
+
+            axiosInstance.post("operations/cleanup", {
+                fs: remoteName
+            }).then((res) => {
+                    if (res.status === 200) {
+                        toast('Trash Cleaned');
+                        this.props.getAbout(containerID);
+
+                    }
+                },
+                (err) => {
+                    toast.error("Error clearing trash");
+                }
+            )
+        } else {
+            // Cleanup is not allowed
+            toast.error("Clearing trash is not allowed on this drive");
+        }
+    };
+
 
     render() {
         const {containerID, getFilesForContainerID, visibilityFilter, gridMode, navigateFwd, navigateBack, searchQuery, currentPath, doughnutData} = this.props;
@@ -127,7 +157,7 @@ class FileOperations extends React.Component {
                             {/*<a className="btn" href="#"><i className="cui-speech"></i></a>*/}
                             {/*<a className="btn" href="#"><i className="cui-graph"></i> Dashboard</a>*/}
                             <Button onClick={this.toggleAboutModal} className="btn"><i
-                                className="cui-settings"></i> Settings</Button>
+                                className="cui-settings"/> Settings</Button>
                         </div>
                     </li>
                 </ol>
@@ -200,7 +230,10 @@ class FileOperations extends React.Component {
                                     </Col>
                                 </Row>
                                 <Row>
-
+                                    <Col sm={12}>
+                                        <Button color="danger" onClick={this.handleCleanTrash}>Clean Trash <i
+                                            className="fa fa-lg fa-trash"/></Button>
+                                    </Col>
                                 </Row>
 
                             </ModalBody>
@@ -233,6 +266,13 @@ FileOperations.propTypes = {
 const mapStateToProps = (state, ownProps) => {
     const remoteAbout = state.providerStatus.about[ownProps.containerID];
     let doughnutData = {};
+    const currentPath = state.explorer.currentPaths[ownProps.containerID];
+    let fsInfo = {};
+
+    if (currentPath && state.remote.configs && state.remote.configs[currentPath.remoteName]) {
+        fsInfo = state.remote.configs[currentPath.remoteName];
+    }
+
     if (remoteAbout) {
 
         let labels = [];
@@ -270,6 +310,7 @@ const mapStateToProps = (state, ownProps) => {
         currentPath: state.explorer.currentPaths[ownProps.containerID],
         gridMode: state.explorer.gridMode[ownProps.containerID],
         searchQuery: state.explorer.searchQueries[ownProps.containerID],
+        fsInfo,
         doughnutData
 
     }

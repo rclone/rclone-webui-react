@@ -5,7 +5,6 @@ import FilesView from "../FilesView/FilesView";
 import ScrollableDiv from "../../Base/ScrollableDiv/ScrollableDiv";
 import {addColonAtLast} from "../../../utils/Tools";
 import {connect} from "react-redux";
-import {getFsInfo} from "../../../actions/explorerActions";
 import PropTypes from 'prop-types';
 import {
     changePath,
@@ -30,11 +29,6 @@ class RemoteExplorer extends React.Component {
         this.updateRemotePath = this.updateRemotePath.bind(this);
     }
 
-    getFsInfo() {
-        const {remoteName} = this.props.currentPath;
-        if (!this.props.configs[remoteName])
-            this.props.getFsInfo(remoteName);
-    }
 
     updateRemoteName(remoteName) {
         this.setState({remoteNameTemp: remoteName});
@@ -83,7 +77,7 @@ class RemoteExplorer extends React.Component {
                 </Card>
 
                 {/*Render the files in the selected remote*/}
-                <Card className={isValidPath ? "" : "d-none"}>
+                {isValidPath && <Card>
                     <CardHeader>
                         <FileOperations containerID={containerID}/>
                     </CardHeader>
@@ -92,7 +86,8 @@ class RemoteExplorer extends React.Component {
                             <FilesView containerID={containerID}/>
                         </ScrollableDiv>
                     </CardBody>
-                </Card>
+                </Card>}
+
             </React.Fragment>
         );
 
@@ -148,7 +143,7 @@ RemoteExplorer.defaultProps = defaultProps;
 export default connect(
     mapStateToProps,
     {
-        getFsInfo, createPath, changePath,
+        createPath, changePath,
         changeRemoteName, changeRemotePath, navigateUp,
         navigateBack, navigateFwd
     }

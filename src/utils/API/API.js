@@ -47,7 +47,8 @@ async function performCopyOrMoveFile(srcFs, srcRemote, dstFs, dstRemote, Name, I
 
         const data = {
             srcFs: srcFs + srcRemote,
-            dstFs: dstFs + dstRemote + "/" + splitRes[splitRes.length - 1]
+            dstFs: dstFs + dstRemote + "/" + splitRes[splitRes.length - 1],
+            _async: true
         };
 
         // console.log("dirop:", data);

@@ -2,6 +2,7 @@ import React from "react";
 import axiosInstance from "../../../utils/API/API";
 import {Button} from "reactstrap";
 import PropTypes from "prop-types";
+import {toast} from "react-toastify";
 
 const propTypes = {
     remote: PropTypes.object.isRequired, // Name of the remote to perform operations
@@ -37,11 +38,13 @@ class ConfigRow extends React.Component {
 
             axiosInstance.post("/config/delete", {name: name}).then(
                 (res) => {
-                    console.log(res);
+                    // console.log(res);
                     // Refresh the parent component
                     refreshHandle();
+                    toast.info('Config deleted');
                 }, (err) => {
-                    console.log(`Error occurred: ${err}`);
+                    // console.log(`Error occurred: ${err}`);
+                    toast.error('Error deleting config')
                 }
             )
         }

@@ -7,12 +7,12 @@ import {formatBytes} from "../../../utils/Tools";
 import {performCopyFile, performMoveFile} from "../../../utils/API/API";
 import {toast} from "react-toastify";
 import {compose} from "redux";
-import {connect} from "react-redux";
+import PropTypes from "prop-types";
 
 
 const fileComponentSource = {
     beginDrag(props) {
-        console.log("props", props, props.remoteName);
+        // console.log("props", props, props.remoteName);
         const {Name, Path, IsDir} = props.item;
         return {
             Name: Name, Path: Path, IsDir: IsDir, remoteName: props.remoteName
@@ -21,6 +21,7 @@ const fileComponentSource = {
 
     async endDrag(props, monitor, component) {
         // console.log("EndDrag", monitor.getDropResult());
+        // console.log(props, "Component:", component);
         try {
             if (monitor.getDropResult()) {
 
@@ -28,26 +29,26 @@ const fileComponentSource = {
                 const {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir, dropEffect, updateHandler} = monitor.getDropResult();
 
                 if (dropEffect === "move") { /*Default operation without holding alt is copy, named as move in react-dnd*/
-                    if (component.fsInfo.Features.Copy) {
+                    if (component.props.canCopy) {
                         await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
                         updateHandler();
                         if (IsDir) {
-                            toast.info(`Directory copied: ${Name}`);
+                            toast.info(`Directory copying started in background: ${Name}`);
                         } else {
-                            toast.info(`File copied: ${Name}`);
+                            toast.info(`File copying started in background: ${Name}`);
                         }
                     } else {
                         toast.error("This remote does not support copying");
                     }
 
                 } else {
-                    if (component.fsInfo.Features.Move) {
+                    if (component.props.canMove) {
                         await performMoveFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
                         updateHandler();
                         if (IsDir) {
-                            toast.info(`Directory moved: ${Name}`);
+                            toast.info(`Directory moving started in background: ${Name}`);
                         } else {
-                            toast.info(`File moved: ${Name}`);
+                            toast.info(`Directory moving started in background: ${Name}`);
                         }
                     } else {
                         toast.error("This remote does not support moving");
@@ -57,7 +58,7 @@ const fileComponentSource = {
             }
         } catch (e) {
             const error = e.response ? e.response : e;
-            console.log(JSON.stringify(error));
+            // console.log(JSON.stringify(error));
 
             toast.error(`Error copying file(s). ${error}`, {
                 autoClose: false
@@ -126,7 +127,8 @@ function Actions({downloadHandle, deleteHandle, item}) {
 }
 
 // Non used props are required for drag-and-drop functionality
-function FileComponent({item, clickHandler, downloadHandle, deleteHandle, connectDragSource, gridMode/*isDragging, remoteName*/}, ...props) {
+class FileComponent extends React.Component {
+
     /*
     MimeTypes: https://www.freeformatter.com/mime-types-list.html
     * {
@@ -152,58 +154,59 @@ function FileComponent({item, clickHandler, downloadHandle, deleteHandle, connec
 		},
 
     * */
-    const {IsDir, MimeType, ModTime, Name, Size} = item;
 
-    let modTime = new Date(Date.parse(ModTime));
-    // console.log("card", gridMode);
+    render() {
+        const {item, clickHandler, downloadHandle, deleteHandle, connectDragSource, gridMode/*isDragging, remoteName*/} = this.props;
 
-    if (gridMode === "card") {
-        return connectDragSource(
-            <div className={"col-lg-3"}>
-                <Card>
-                    <CardBody onClick={(e) => clickHandler(e, item)}>
-                        <FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}
-                    </CardBody>
-                    <CardFooter>
-                        <Actions downloadHandle={downloadHandle} deleteHandle={deleteHandle} item={item}/>
-                    </CardFooter>
-                </Card>
-            </div>
-        )
-    } else {
-        return connectDragSource(
-            <tr className={"pointer-cursor"}>
-                <td><input type="checkbox"/></td>
-                <td onClick={(e) => clickHandler(e, item)}><FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}</td>
-                <td>{Size === -1 ? "-" : formatBytes(Size, 2)}</td>
-                <td>{modTime.toLocaleDateString()}</td>
-                <td><Actions downloadHandle={downloadHandle} deleteHandle={deleteHandle} item={item}/></td>
-            </tr>
-        )
+        const {IsDir, MimeType, ModTime, Name, Size} = item;
+
+        let modTime = new Date(Date.parse(ModTime));
+        // console.log("card", gridMode);
+
+        if (gridMode === "card") {
+            return connectDragSource(
+                <div className={"col-lg-3"}>
+                    <Card>
+                        <CardBody onClick={(e) => clickHandler(e, item)}>
+                            <FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}
+                        </CardBody>
+                        <CardFooter>
+                            <Actions downloadHandle={downloadHandle} deleteHandle={deleteHandle} item={item}/>
+                        </CardFooter>
+                    </Card>
+                </div>
+            )
+        } else {
+            return connectDragSource(
+                <tr className={"pointer-cursor"}>
+                    <td><input type="checkbox"/></td>
+                    <td onClick={(e) => clickHandler(e, item)}><FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}</td>
+                    <td>{Size === -1 ? "-" : formatBytes(Size, 2)}</td>
+                    <td>{modTime.toLocaleDateString()}</td>
+                    <td><Actions downloadHandle={downloadHandle} deleteHandle={deleteHandle} item={item}/></td>
+                </tr>
+            )
+        }
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    const currentPath = state.explorer.currentPaths[ownProps.containerID];
 
-    let fsInfo = {};
+FileComponent.propTypes = {
+    item: PropTypes.object.isRequired,
+    clickHandler: PropTypes.func.isRequired,
+    downloadHandle: PropTypes.func.isRequired,
+    deleteHandle: PropTypes.func.isRequired,
+    remoteName: PropTypes.string.isRequired,
+    gridMode: PropTypes.string,
+    containerID: PropTypes.string.isRequired,
+    canMove: PropTypes.bool.isRequired,
+    canCopy: PropTypes.bool.isRequired,
 
-    if (currentPath && state.remote.configs && state.remote.configs[currentPath.remoteName]) {
-        fsInfo = state.remote.configs[currentPath.remoteName];
-    }
-
-
-    return {
-        // files,
-        // currentPath,
-        fsInfo,
-        // gridMode
-    }
-};
+}
 
 export default compose(
-    connect(
-        mapStateToProps, {}
-    ),
+    // connect(
+    //     null, {}
+    // ),
     DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect)
 )(FileComponent)

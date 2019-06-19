@@ -216,7 +216,7 @@ class FilesView extends React.PureComponent {
                 });
             }
         } catch (e) {
-            console.log(`Error in deleting file`);
+            // console.log(`Error in deleting file`);
             toast.error(`Error deleting file. ${e}`, {
                 autoClose: false
             });
@@ -234,30 +234,36 @@ class FilesView extends React.PureComponent {
         this.setState({isDownloadProgress: false});
     };
 
-    getFileComponents = (filesList, remoteName, isDir, gridMode, containerID) => {
-        return filesList.map((item, idx) => {
-            let {ID, Name} = item;
-            // Using fallback as fileName when the ID is not available (for local file system)
-            if (ID === undefined) {
-                ID = Name;
-            }
-            if (item.IsDir === isDir) {
-                return (
-                    <React.Fragment key={ID}>
-                        <FileComponent item={item} clickHandler={this.handleFileClick}
-                                       downloadHandle={this.downloadHandle} deleteHandle={this.deleteHandle}
-                                       remoteName={remoteName} gridMode={gridMode} containerID={containerID}
-                        />
-                    </React.Fragment>
-                )
-            }
-            return null;
-        });
+    getFileComponents = (isDir) => {
+        const {files, containerID, gridMode, fsInfo} = this.props;
+        const {remoteName} = this.props.currentPath;
+
+        if (fsInfo && fsInfo.Features) {
+            return files.map((item, idx) => {
+                let {ID, Name} = item;
+                // Using fallback as fileName when the ID is not available (for local file system)
+                if (ID === undefined) {
+                    ID = Name;
+                }
+                if (item.IsDir === isDir) {
+                    return (
+                        <React.Fragment key={ID}>
+                            <FileComponent item={item} clickHandler={this.handleFileClick}
+                                           downloadHandle={this.downloadHandle} deleteHandle={this.deleteHandle}
+                                           remoteName={remoteName} gridMode={gridMode} containerID={containerID}
+                                           canCopy={fsInfo.Features.Copy} canMove={fsInfo.Features.Move}
+                            />
+                        </React.Fragment>
+                    )
+                }
+                return null;
+            });
+        }
     };
 
 
     render() {
-        const {isLoading, isDownloadProgress, downloadingItems,} = this.state;
+        const {isLoading, isDownloadProgress, downloadingItems} = this.state;
         const {connectDropTarget, isOver, files, navigateUp, containerID, gridMode} = this.props;
         const {remoteName} = this.props.currentPath;
 
@@ -273,9 +279,9 @@ class FilesView extends React.PureComponent {
             }
 
 
-            let dirComponentMap = this.getFileComponents(files, remoteName, true, gridMode);
+            let dirComponentMap = this.getFileComponents(true);
 
-            let fileComponentMap = this.getFileComponents(files, remoteName, false, gridMode);
+            let fileComponentMap = this.getFileComponents(false);
 
             let renderElement = "";
 
@@ -419,7 +425,7 @@ const mapStateToProps = (state, ownProps) => {
 
     let fsInfo = {};
     const {remoteName, remotePath} = currentPath;
-
+    // console.log("Query:", currentPath.remoteName);
 
     if (currentPath && state.remote.configs && state.remote.configs[currentPath.remoteName]) {
         fsInfo = state.remote.configs[currentPath.remoteName];

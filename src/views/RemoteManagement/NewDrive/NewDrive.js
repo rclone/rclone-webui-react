@@ -179,7 +179,7 @@ class NewDrive extends React.Component {
 
         try {
             let res = await axiosInstance.post("/config/get", {name: driveName});
-            console.log(res);
+            // console.log(res);
 
             if (!isEmpty(res.data)) {
                 // Config is created, clear the interval and hide modal
@@ -190,7 +190,7 @@ class NewDrive extends React.Component {
 
             }
         } catch (e) {
-            console.log(`Error occurred while checking for config: ${e}`);
+            // console.log(`Error occurred while checking for config: ${e}`);
             toast.error(`Error creating config. ${e}`, {
                 autoClose: false
             });
@@ -370,7 +370,7 @@ class NewDrive extends React.Component {
 
     async handleSubmit(e) {
         e.preventDefault();
-        console.log("Submitted form");
+        // console.log("Submitted form");
 
         const {formValues, drivePrefix} = this.state;
         const {providers} = this.props;
@@ -398,7 +398,7 @@ class NewDrive extends React.Component {
 
                         const {DefaultStr} = defaultValueObj;
                         if (value !== DefaultStr) {
-                            console.log(`${value} !== ${DefaultStr}`);
+                            // console.log(`${value} !== ${DefaultStr}`);
                             finalParameterValues[key] = value;
                         }
 
@@ -413,7 +413,7 @@ class NewDrive extends React.Component {
                     };
 
 
-                    console.log("Validated form");
+                    // console.log("Validated form");
                     this.startAuthentication();
                     try {
                         await axiosInstance.post('/config/create', data);
