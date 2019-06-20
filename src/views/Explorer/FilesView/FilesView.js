@@ -20,7 +20,7 @@ import {changePath, navigateUp} from "../../../actions/explorerStateActions";
 const filesTarget = {
     drop(props, monitor, component) {
         if (monitor.didDrop()) return;
-        console.log("drop", props, monitor, monitor.getItem(), component);
+        // console.log("drop", props, monitor, monitor.getItem(), component);
 
         let {Name, Path, IsDir, remoteName} = monitor.getItem();
 
@@ -237,7 +237,7 @@ class FilesView extends React.PureComponent {
     getFileComponents = (isDir) => {
         const {files, containerID, gridMode, fsInfo} = this.props;
         const {remoteName} = this.props.currentPath;
-
+        // console.log(fsInfo, files);
         if (fsInfo && !isEmpty(fsInfo)) {
             return files.map((item, idx) => {
                 let {ID, Name} = item;
@@ -320,7 +320,7 @@ class FilesView extends React.PureComponent {
                         <Table>
                             <thead>
                             <tr>
-                                <th></th>
+                                <th/>
                                 <th>Name</th>
                                 <th>Size</th>
                                 <th>Modified</th>
@@ -332,29 +332,29 @@ class FilesView extends React.PureComponent {
                             {files.length > 0 ? (
                                     <React.Fragment>
                                         <tr>
-                                            <td></td>
+                                            <td/>
                                             <th>Directories</th>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td/>
+                                            <td/>
+                                            <td/>
                                         </tr>
                                         {dirComponentMap}
                                         <tr>
-                                            <td></td>
+                                            <td/>
                                             <th>Files</th>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td/>
+                                            <td/>
+                                            <td/>
                                         </tr>
                                         {fileComponentMap}
                                     </React.Fragment>
                                 ) :
                                 <tr>
-                                    <td></td>
+                                    <td/>
                                     <td>No files</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td/>
+                                    <td/>
+                                    <td/>
                                 </tr>
                             }
                             </tbody>
@@ -415,18 +415,21 @@ FilesView.defaultProps = defaultProps;
 
 const mapStateToProps = (state, ownProps) => {
     const currentPath = state.explorer.currentPaths[ownProps.containerID];
-    let visibilityFilter = state.explorer.visibilityFilters[ownProps.containerID];
+    const visibilityFilter = state.explorer.visibilityFilters[ownProps.containerID];
     const gridMode = state.explorer.gridMode[ownProps.containerID];
     const searchQuery = state.explorer.searchQueries[ownProps.containerID];
 
     let fsInfo = {};
     const {remoteName, remotePath} = currentPath;
-    // console.log("Query:", currentPath.remoteName,  state.remote.configs);
-    if (currentPath && state.remote.configs && state.remote.configs[currentPath.remoteName]) {
 
-        fsInfo = state.remote.configs[currentPath.remoteName];
+    if (currentPath && state.remote.configs) {
+
+        const tempRemoteName = remoteName.split(':')[0];
+        if (state.remote.configs[tempRemoteName])
+
+            fsInfo = state.remote.configs[tempRemoteName];
     }
-    // console.log(fsInfo)
+
     const pathKey = `${remoteName}-${remotePath}`;
 
     let files = state.remote.files[pathKey];

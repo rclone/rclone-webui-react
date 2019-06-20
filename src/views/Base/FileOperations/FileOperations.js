@@ -106,29 +106,32 @@ class FileOperations extends React.Component {
 
     handleCleanTrash = () => {
 
-        const {currentPath, containerID, fsInfo} = this.props;
-        let {remoteName} = currentPath;
-        if (fsInfo && fsInfo.Features && fsInfo.Features.CleanUp) {
-            if (!isLocalRemoteName(remoteName)) {
-                remoteName = addColonAtLast(remoteName);
-            }
+        if (window.confirm("Are you sure you want to clear the trash. This operation cannot be undone")) {
 
-            axiosInstance.post("operations/cleanup", {
-                fs: remoteName
-            }).then((res) => {
-                    if (res.status === 200) {
-                        toast('Trash Cleaned');
-                        this.props.getAbout(containerID);
-
-                    }
-                },
-                (err) => {
-                    toast.error("Error clearing trash");
+            const {currentPath, containerID, fsInfo} = this.props;
+            let {remoteName} = currentPath;
+            if (fsInfo && fsInfo.Features && fsInfo.Features.CleanUp) {
+                if (!isLocalRemoteName(remoteName)) {
+                    remoteName = addColonAtLast(remoteName);
                 }
-            )
-        } else {
-            // Cleanup is not allowed
-            toast.error("Clearing trash is not allowed on this drive");
+
+                axiosInstance.post("operations/cleanup", {
+                    fs: remoteName
+                }).then((res) => {
+                        if (res.status === 200) {
+                            toast('Trash Cleaned');
+                            this.props.getAbout(containerID);
+
+                        }
+                    },
+                    (err) => {
+                        toast.error("Error clearing trash");
+                    }
+                )
+            } else {
+                // Cleanup is not allowed
+                toast.error("Clearing trash is not allowed on this drive");
+            }
         }
     };
 
@@ -138,12 +141,6 @@ class FileOperations extends React.Component {
         const {newFolderModalIsVisible, dropdownOpen, isAboutModalOpen} = this.state;
 
         const {remoteName, remotePath} = currentPath;
-
-        // const pathBreadCrumbs = remotePath.split('/');
-        // pathBreadCrumbs.map((item, idx) => {
-        //     return (<li key={idx}
-        //                 className={["breadcrumb-item ", idx === pathBreadCrumbs.length ? "active" : ""]}>{item}</li>)
-        // });
 
         return (
             <nav aria-label="breadcrumb">
@@ -225,8 +222,10 @@ class FileOperations extends React.Component {
                             <ModalBody>
                                 <Row>
                                     <Col sm={12}>
-                                        <p>Space Usage (in GB)</p>
-                                        {doughnutData ? <Doughnut data={doughnutData}/> : <p>Loading</p>}
+                                        <div className="chart-wrapper">
+                                            <p>Space Usage (in GB)</p>
+                                            {doughnutData ? <Doughnut data={doughnutData}/> : <p>Loading</p>}
+                                        </div>
                                     </Col>
                                 </Row>
                                 <Row>

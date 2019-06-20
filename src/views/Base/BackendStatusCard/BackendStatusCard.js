@@ -20,6 +20,7 @@ class BackendStatusCard extends React.Component {
     componentWillMount() {
 
         // Check if the connection to the backend is active
+        this.props.getStatus();
         this.refreshInterval = setInterval(() => this.props.getStatus(), 5000);
     }
 

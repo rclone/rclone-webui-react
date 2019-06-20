@@ -4,17 +4,17 @@ import {addColonAtLast, isLocalRemoteName} from "../utils/Tools";
 
 export const getFsInfo = (remoteName) => dispatch => {
 
-    let sentRemoteName = "/";
-    let setRemoteName = "";
+    let sentRemoteName;
+    let setRemoteName;
 
-    if (!isLocalRemoteName(remoteName)) {
-        sentRemoteName = addColonAtLast(remoteName);
-        setRemoteName = remoteName;
+    if (isLocalRemoteName(remoteName)) {
+        sentRemoteName = setRemoteName = "/";
+
     } else {
-        sentRemoteName = "/";
-        setRemoteName = "/";
+        setRemoteName = remoteName.split(':')[0];
+        sentRemoteName = addColonAtLast(setRemoteName);
     }
-    // console.log("Actual: ", remoteName);
+    // console.log("Actual: ", sentRemoteName);
     axiosInstance.post("operations/fsinfo", {fs: sentRemoteName})
         .then((res) => {
                 dispatch({
@@ -29,6 +29,7 @@ export const getFsInfo = (remoteName) => dispatch => {
                 status: REQUEST_ERROR,
                 payload: error
             }))
+
 };
 
 export const getRemoteNames = () => {

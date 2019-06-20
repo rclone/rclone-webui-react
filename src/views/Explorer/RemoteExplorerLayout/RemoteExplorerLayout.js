@@ -41,11 +41,16 @@ class RemoteExplorerLayout extends React.Component {
         const {backStacks, createPath} = this.props;
         // console.log("changing layout");
         if (mode === "side") {
-            for (let i = 0; i < nos; i++) {
-                if (!backStacks[i.toString()])
-                    createPath(i.toString())
-            }
-            this.setState({cols: nos});
+
+            this.setState((prevState) => {
+                for (let i = 0; i < nos; i++) {
+                    if (!backStacks[i.toString()] || i + 1 > prevState.cols)
+                        createPath(i.toString())
+                }
+                return {
+                    cols: nos
+                }
+            });
         }
 
     }

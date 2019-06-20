@@ -6,7 +6,6 @@ import {DragSource} from 'react-dnd'
 import {formatBytes} from "../../../utils/Tools";
 import {performCopyFile, performMoveFile} from "../../../utils/API/API";
 import {toast} from "react-toastify";
-import {compose} from "redux";
 import PropTypes from "prop-types";
 
 
@@ -21,15 +20,15 @@ const fileComponentSource = {
 
     async endDrag(props, monitor, component) {
         // console.log("EndDrag", monitor.getDropResult());
-        // console.log(props, "Component:", component);
+        console.log(props, "Component:", component);
         try {
-            if (monitor.getDropResult()) {
+            if (monitor.getDropResult() && component) {
 
 
                 const {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir, dropEffect, updateHandler} = monitor.getDropResult();
 
                 if (dropEffect === "move") { /*Default operation without holding alt is copy, named as move in react-dnd*/
-                    if (component.props.canCopy) {
+                    // if (component.props.canCopy) {
                         await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
                         updateHandler();
                         if (IsDir) {
@@ -37,12 +36,12 @@ const fileComponentSource = {
                         } else {
                             toast.info(`File copying started in background: ${Name}`);
                         }
-                    } else {
-                        toast.error("This remote does not support copying");
-                    }
+                    // } else {
+                    //     toast.error("This remote does not support copying");
+                    // }
 
                 } else {
-                    if (component.props.canMove) {
+                    // if (component.props.canMove) {
                         await performMoveFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
                         updateHandler();
                         if (IsDir) {
@@ -50,15 +49,15 @@ const fileComponentSource = {
                         } else {
                             toast.info(`Directory moving started in background: ${Name}`);
                         }
-                    } else {
-                        toast.error("This remote does not support moving");
-                    }
+                    // } else {
+                    //     toast.error("This remote does not support moving");
+                    // }
 
                 }
             }
         } catch (e) {
             const error = e.response ? e.response : e;
-            // console.log(JSON.stringify(error));
+            console.log(JSON.stringify(error));
 
             toast.error(`Error copying file(s). ${error}`, {
                 autoClose: false
@@ -204,9 +203,4 @@ FileComponent.propTypes = {
 
 }
 
-export default compose(
-    // connect(
-    //     null, {}
-    // ),
-    DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect)
-)(FileComponent)
+export default DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect)(FileComponent);

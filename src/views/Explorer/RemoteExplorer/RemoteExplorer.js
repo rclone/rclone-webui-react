@@ -125,8 +125,14 @@ const mapStateToProps = (state, ownProps) => {
     const currentPath = state.explorer.currentPaths[ownProps.containerID];
     let fsInfo = {};
 
-    if (currentPath && state.remote.configs && state.remote.configs[currentPath.remoteName]) {
-        fsInfo = state.remote.configs[currentPath.remoteName];
+    const {remoteName} = currentPath;
+
+    if (currentPath && state.remote.configs) {
+
+        const tempRemoteName = remoteName.split(':')[0];
+        if (state.remote.configs[tempRemoteName])
+
+            fsInfo = state.remote.configs[tempRemoteName];
     }
     return {
         configs: state.remote.configs,

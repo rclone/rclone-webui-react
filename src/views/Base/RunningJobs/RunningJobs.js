@@ -1,9 +1,18 @@
 import React from 'react';
 import {Card, CardBody, CardHeader, Col, Progress, Row} from "reactstrap";
-import {formatBytes, secondsToStr} from "../../../utils/Tools";
+import {bytesToMB, formatBytes, secondsToStr} from "../../../utils/Tools";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import {Line} from "react-chartjs-2";
+import {CustomTooltips} from "@coreui/coreui-plugin-chartjs-custom-tooltips";
 
+const options = {
+    tooltips: {
+        enabled: false,
+        custom: CustomTooltips
+    },
+    maintainAspectRatio: false
+}
 function JobCard({job}) {
     const {name, eta, percentage, speed, speedAvg, size, bytes} = job;
     return (<Card>
@@ -61,7 +70,6 @@ function GlobalStatus({stats}) {
 }
 
 function TransferringJobs({transferring}) {
-    // const {transferring} = this.state.jobs;
     if (transferring !== undefined) {
         return transferring.map((item, idx) => {
             return (<JobCard key={idx} job={item}/>);
@@ -71,7 +79,6 @@ function TransferringJobs({transferring}) {
 }
 
 function TransferringJobsRow({transferring}) {
-    // const {transferring} = this.state.jobs;
     if (transferring !== undefined) {
         return transferring.map((item, idx) => {
             return (<JobCardRow key={idx} job={item}/>);
@@ -83,19 +90,9 @@ function TransferringJobsRow({transferring}) {
 
 class RunningJobs extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            jobs: {},
-            isConnected: false
-
-        };
-    }
-
 
     render() {
-        const {jobs, isConnected} = this.props;
-        // const { isConnected} = this.state;
+        const {jobs, isConnected, lineChartData} = this.props;
         const {transferring} = jobs;
         const {mode} = this.props;
         if (mode === "full-status") {
@@ -108,7 +105,25 @@ class RunningJobs extends React.Component {
                         <Col sm={12} lg={4}>
                             <TransferringJobs transferring={transferring}/>
                         </Col>
-                    </Row>);
+                        <Col sm={12} lg={4}>
+                            <Card>
+                                <CardHeader>
+                                    Speed
+                                    <div className="card-header-actions">
+                                        <a href="http://www.chartjs.org" className="card-header-action">
+                                            <small className="text-muted">docs</small>
+                                        </a>
+                                    </div>
+                                </CardHeader>
+                                <CardBody>
+                                    <div className="chart-wrapper">
+                                        <Line data={lineChartData} options={options}/>
+                                    </div>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    </Row>
+                );
             } else {
                 return (<div>Not connected to rclone.</div>)
             }
@@ -136,7 +151,6 @@ class RunningJobs extends React.Component {
                 );
             return null;
         }
-
     }
 }
 
@@ -147,10 +161,58 @@ RunningJobs.propTypes = {
     error: PropTypes.object
 };
 
-const mapStateToProps = state => ({
-    jobs: state.status.jobs,
-    isConnected: state.status.isConnected,
-    error: state.status.error
-});
+const mapStateToProps = (state, ownProps) => {
+
+    const speedData = state.status.speed;
+    let lineChartData = {};
+    if (speedData) {
+        let labels = [];
+        let data = [];
+
+        const dataLength = speedData.length;
+        //
+        const limitedData = speedData.slice(dataLength - 100, dataLength - 1);
+        // console.log(limitedData.length);
+        limitedData.forEach((item, idx) => {
+            labels.push(Math.ceil(item.elapsedTime));
+            data.push(bytesToMB(item.speed).toFixed(2));
+        });
+
+        lineChartData = {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Average Speed (mbps)',
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: 'rgba(75,192,192,0.4)',
+                    borderColor: 'rgba(75,192,192,1)',
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: 'rgba(75,192,192,1)',
+                    pointBackgroundColor: '#fff',
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+                    pointHoverBorderColor: 'rgba(220,220,220,1)',
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: data,
+                },
+            ],
+        };
+    }
+
+
+    return {
+        jobs: state.status.jobs,
+        isConnected: state.status.isConnected,
+        error: state.status.error,
+        lineChartData
+    }
+};
 
 export default connect(mapStateToProps, {})(RunningJobs);

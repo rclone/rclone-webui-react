@@ -2,7 +2,8 @@ import {FETCH_STATUS, REQUEST_ERROR, REQUEST_SUCCESS} from "../actions/types";
 
 const initialState = {
     isConnected: false,
-    jobs: {}
+    jobs: {},
+    speed: []
 };
 
 export default function (state = initialState, action) {
@@ -14,6 +15,7 @@ export default function (state = initialState, action) {
                 return {
                     ...state,
                     jobs: action.payload,
+                    speed: [...state.speed, {elapsedTime: action.payload.elapsedTime, speed: action.payload.speed}],
                     isConnected: true
                 };
             }
