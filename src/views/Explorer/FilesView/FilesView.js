@@ -6,7 +6,7 @@ import {DropTarget} from "react-dnd";
 import FileComponent from "./FileComponent";
 import {ItemTypes} from "./Constants";
 import {toast} from "react-toastify";
-import {addColonAtLast, changeListVisibility, changeSearchFilter} from "../../../utils/Tools";
+import isEmpty, {addColonAtLast, changeListVisibility, changeSearchFilter} from "../../../utils/Tools";
 import {connect} from "react-redux";
 import {getFiles} from "../../../actions/explorerActions";
 import {compose} from "redux";
@@ -238,7 +238,7 @@ class FilesView extends React.PureComponent {
         const {files, containerID, gridMode, fsInfo} = this.props;
         const {remoteName} = this.props.currentPath;
 
-        if (fsInfo && fsInfo.Features) {
+        if (fsInfo && !isEmpty(fsInfo)) {
             return files.map((item, idx) => {
                 let {ID, Name} = item;
                 // Using fallback as fileName when the ID is not available (for local file system)
@@ -378,10 +378,6 @@ class FilesView extends React.PureComponent {
                     </Alert>
 
                     {renderElement}
-
-
-
-
                 </div>
             );
         }
@@ -425,11 +421,12 @@ const mapStateToProps = (state, ownProps) => {
 
     let fsInfo = {};
     const {remoteName, remotePath} = currentPath;
-    // console.log("Query:", currentPath.remoteName);
-
+    // console.log("Query:", currentPath.remoteName,  state.remote.configs);
     if (currentPath && state.remote.configs && state.remote.configs[currentPath.remoteName]) {
+
         fsInfo = state.remote.configs[currentPath.remoteName];
     }
+    // console.log(fsInfo)
     const pathKey = `${remoteName}-${remotePath}`;
 
     let files = state.remote.files[pathKey];
