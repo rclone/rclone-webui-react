@@ -29,26 +29,26 @@ const fileComponentSource = {
 
                 if (dropEffect === "move") { /*Default operation without holding alt is copy, named as move in react-dnd*/
                     // if (component.props.canCopy) {
-                        await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
-                        updateHandler();
-                        if (IsDir) {
-                            toast.info(`Directory copying started in background: ${Name}`);
-                        } else {
-                            toast.info(`File copying started in background: ${Name}`);
-                        }
+                    await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+                    updateHandler();
+                    if (IsDir) {
+                        toast.info(`Directory copying started in background: ${Name}`);
+                    } else {
+                        toast.info(`File copying started in background: ${Name}`);
+                    }
                     // } else {
                     //     toast.error("This remote does not support copying");
                     // }
 
                 } else {
                     // if (component.props.canMove) {
-                        await performMoveFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
-                        updateHandler();
-                        if (IsDir) {
-                            toast.info(`Directory moving started in background: ${Name}`);
-                        } else {
-                            toast.info(`Directory moving started in background: ${Name}`);
-                        }
+                    await performMoveFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+                    updateHandler();
+                    if (IsDir) {
+                        toast.info(`Directory moving started in background: ${Name}`);
+                    } else {
+                        toast.info(`Directory moving started in background: ${Name}`);
+                    }
                     // } else {
                     //     toast.error("This remote does not support moving");
                     // }
@@ -155,9 +155,11 @@ class FileComponent extends React.Component {
     * */
 
     render() {
-        const {item, clickHandler, downloadHandle, deleteHandle, connectDragSource, gridMode/*isDragging, remoteName*/} = this.props;
+        const {item, clickHandler, downloadHandle, deleteHandle, connectDragSource, gridMode, itemIdx/*isDragging, remoteName*/} = this.props;
 
-        const {IsDir, MimeType, ModTime, Name, Size} = item;
+        const {IsDir, MimeType, ModTime, Name, Size, Path} = item;
+
+        // console.log("item", item);
 
         let modTime = new Date(Date.parse(ModTime));
         // console.log("card", gridMode);
@@ -177,9 +179,17 @@ class FileComponent extends React.Component {
             )
         } else {
             return connectDragSource(
+
                 <tr className={"pointer-cursor"}>
                     <td><input type="checkbox"/></td>
-                    <td onClick={(e) => clickHandler(e, item)}><FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}</td>
+                    <td onClick={(e) => clickHandler(e, item)} id={"file" + itemIdx}>
+                        <FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}
+
+                        {/*<UncontrolledTooltip target={"file"+itemIdx} placement="right">*/}
+                        {/*    <p><strong>Mime Type: </strong>{MimeType}</p>*/}
+                        {/*    <p><strong>Path: </strong>{Path}</p>*/}
+                        {/*</UncontrolledTooltip>*/}
+                    </td>
                     <td>{Size === -1 ? "-" : formatBytes(Size, 2)}</td>
                     <td>{modTime.toLocaleDateString()}</td>
                     <td><Actions downloadHandle={downloadHandle} deleteHandle={deleteHandle} item={item}/></td>

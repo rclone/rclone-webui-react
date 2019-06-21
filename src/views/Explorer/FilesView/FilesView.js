@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import axiosInstance from "../../../utils/API/API";
-import {Alert, Button, Col, Container, Row, Table} from "reactstrap";
+import {Alert, Button, Col, Container, Row, Spinner, Table} from "reactstrap";
 import {DropTarget} from "react-dnd";
 import FileComponent from "./FileComponent";
 import {ItemTypes} from "./Constants";
@@ -251,7 +251,7 @@ class FilesView extends React.PureComponent {
                             <FileComponent item={item} clickHandler={this.handleFileClick}
                                            downloadHandle={this.downloadHandle} deleteHandle={this.deleteHandle}
                                            remoteName={remoteName} gridMode={gridMode} containerID={containerID}
-                                           canCopy={fsInfo.Features.Copy} canMove={fsInfo.Features.Move}
+                                           canCopy={fsInfo.Features.Copy} canMove={fsInfo.Features.Move} itemIdx={idx}
                             />
                         </React.Fragment>
                     )
@@ -270,7 +270,7 @@ class FilesView extends React.PureComponent {
         // console.log(this.props.searchQuery);
 
         if (isLoading || !files) {
-            return (<div><i className={"fa fa-circle-o-notch fa-lg"}/> Loading</div>);
+            return (<div><Spinner color="primary"/> Loading</div>);
         } else {
 
 
@@ -436,9 +436,12 @@ const mapStateToProps = (state, ownProps) => {
 
     if (files) {
         files = files.files;
+        // Filter according to visibility filters
         if (visibilityFilter) {
             files = changeListVisibility(files, visibilityFilter);
         }
+
+        //Filter according to search query, if ny
         if (searchQuery) {
             files = changeSearchFilter(files, searchQuery);
         }

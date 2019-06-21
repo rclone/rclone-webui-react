@@ -14,7 +14,8 @@ import {
     ModalBody,
     ModalFooter,
     ModalHeader,
-    Row
+    Row,
+    Spinner
 } from "reactstrap";
 import NewFolder from "../NewFolder/NewFolder";
 import PropTypes from "prop-types";
@@ -224,7 +225,8 @@ class FileOperations extends React.Component {
                                     <Col sm={12}>
                                         <div className="chart-wrapper">
                                             <p>Space Usage (in GB)</p>
-                                            {doughnutData ? <Doughnut data={doughnutData}/> : <p>Loading</p>}
+                                            {doughnutData ? <Doughnut data={doughnutData}/> :
+                                                <p><Spinner color="primary"/>Loading</p>}
                                         </div>
                                     </Col>
                                 </Row>

@@ -50,9 +50,7 @@ async function performCopyOrMoveFile(srcFs, srcRemote, dstFs, dstRemote, Name, I
             dstFs: dstFs + dstRemote + "/" + splitRes[splitRes.length - 1],
             _async: true
         };
-
-        // console.log("dirop:", data);
-
+        console.log("DirOp:", data);
         return await axiosInstance.post(url, data);
 
     } else {
