@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Remote Explorer renders should match snapshot 1`] = `
+<Fragment>
+  <Card
+    tag="div"
+  >
+    <CardHeader
+      tag="div"
+    >
+      Remotes
+    </CardHeader>
+    <CardBody
+      tag="div"
+    >
+      <Connect(RemotesList)
+        containerID="0"
+        remoteName="localdrive"
+      />
+    </CardBody>
+  </Card>
+  <Card
+    tag="div"
+  >
+    <CardHeader
+      tag="div"
+    >
+      <Connect(FileOperations)
+        containerID="0"
+      />
+    </CardHeader>
+    <CardBody
+      tag="div"
+    >
+      <ScrollableDiv
+        height="700px"
+      >
+        <Connect(DropTarget(FilesView))
+          containerID="0"
+        />
+      </ScrollableDiv>
+    </CardBody>
+  </Card>
+</Fragment>
+`;

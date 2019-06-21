@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Remote Explorer Layout renders should match snapshot 1`] = `
+<div
+  className="d-none d-md-block row"
+  data-test="remoteExplorerLayout"
+>
+  <Col
+    lg={12}
+    sm={12}
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    <Card
+      tag="div"
+    >
+      <CardHeader
+        tag="div"
+      >
+        Choose Layout
+      </CardHeader>
+      <CardBody
+        tag="div"
+      >
+        <Button
+          className="ml-2"
+          color="primary"
+          onClick={[Function]}
+          tag="button"
+        >
+          1 - side by side
+        </Button>
+        <Button
+          className="ml-2"
+          color="primary"
+          onClick={[Function]}
+          tag="button"
+        >
+          2 - side by side
+        </Button>
+        <Button
+          className="ml-2"
+          color="primary"
+          onClick={[Function]}
+          tag="button"
+        >
+          3 - side by side
+        </Button>
+        <Button
+          className="ml-2"
+          color="primary"
+          onClick={[Function]}
+          tag="button"
+        >
+          4 - side by side
+        </Button>
+      </CardBody>
+    </Card>
+  </Col>
+</div>
+`;

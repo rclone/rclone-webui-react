@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Backend Status Card renders should match snapshot 1`] = `
+<Card
+  className="text-center card-accent-warning"
+  tag="div"
+>
+  <CardHeader
+    tag="div"
+  >
+    rclone status
+  </CardHeader>
+  <CardBody
+    tag="div"
+  >
+    <StatusText
+      connectivityStatus={false}
+      ipAddress={null}
+      userName={null}
+    />
+  </CardBody>
+</Card>
+`;

@@ -1,0 +1,296 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`File Operations renders should match snapshot 1`] = `
+<nav
+  aria-label="breadcrumb"
+>
+  <ol
+    className="breadcrumb"
+  >
+    <li
+      className="breadcrumb-item active"
+    >
+      :/
+    </li>
+    <li
+      className="breadcrumb-menu"
+    >
+      <div
+        aria-label="Button group with nested dropdown"
+        className="btn-group"
+        role="group"
+      >
+        <Button
+          className="btn"
+          color="secondary"
+          onClick={[Function]}
+          tag="button"
+        >
+          <i
+            className="cui-settings"
+          />
+           Settings
+        </Button>
+      </div>
+    </li>
+  </ol>
+  <div>
+    <Button
+      className="mr-1 btn-outline-dark"
+      color="light"
+      onClick={[Function]}
+      tag="button"
+    >
+      <i
+        className="fa fa-lg fa-angle-left"
+      />
+    </Button>
+    <Button
+      className="mr-1 btn-outline-dark"
+      color="light"
+      onClick={[Function]}
+      tag="button"
+    >
+      <i
+        className="fa fa-lg fa-angle-right"
+      />
+    </Button>
+    <div
+      className="float-right mb-3 mt-1 form-inline"
+    >
+      <ButtonGroup
+        role="group"
+        tag="div"
+      >
+        <Button
+          className="mr-1 btn-outline-dark"
+          color="secondary"
+          onClick={[Function]}
+          tag="button"
+        >
+          <i
+            className="fa fa-lg fa-plus"
+          />
+           
+        </Button>
+        <Button
+          className="mr-1 btn-outline-dark"
+          color="secondary"
+          onClick={[Function]}
+          tag="button"
+        >
+          <i
+            className="fa fa-lg fa-repeat"
+          />
+        </Button>
+        <InputGroup
+          tag="div"
+        >
+          <InputGroupAddon
+            addonType="prepend"
+            tag="div"
+          >
+            <Button
+              color="primary"
+              tag="button"
+              type="button"
+            >
+              <i
+                className="fa fa-search"
+              />
+               Search
+            </Button>
+          </InputGroupAddon>
+          <Input
+            id="input1-group2"
+            onChange={[Function]}
+            placeholder="Search"
+            type="text"
+            value="abcd"
+          />
+        </InputGroup>
+        <ButtonDropdown
+          isOpen={false}
+          toggle={[Function]}
+        >
+          <DropdownToggle
+            aria-haspopup={true}
+            caret={true}
+            color="secondary"
+          >
+            More
+          </DropdownToggle>
+          <DropdownMenu
+            flip={true}
+            tag="div"
+          >
+            <DropdownItem
+              tag="button"
+              toggle={true}
+            >
+              View Type
+               
+              <Input
+                onChange={[Function]}
+                onClick={[Function]}
+                type="select"
+                value="card"
+              >
+                <option
+                  value="grid"
+                >
+                  Grid
+                </option>
+                <option
+                  value="card"
+                >
+                  Card
+                </option>
+              </Input>
+            </DropdownItem>
+            <DropdownItem
+              tag="button"
+              toggle={true}
+            >
+              File Filter
+               
+              <Input
+                className="ml-1 mr-1"
+                onChange={[Function]}
+                onClick={[Function]}
+                type="select"
+                value="Images"
+              >
+                <option
+                  key="0"
+                >
+                  None
+                </option>
+                <option
+                  key="Images"
+                  value="Images"
+                >
+                  Images
+                </option>
+                <option
+                  key="Pdf"
+                  value="Pdf"
+                >
+                  Pdf
+                </option>
+                <option
+                  key="Videos"
+                  value="Videos"
+                >
+                  Videos
+                </option>
+              </Input>
+            </DropdownItem>
+          </DropdownMenu>
+        </ButtonDropdown>
+      </ButtonGroup>
+      <Connect(NewFolder)
+        closeModal={[Function]}
+        containerID="1"
+        isVisible={false}
+      />
+      <Modal
+        autoFocus={true}
+        backdrop={true}
+        backdropTransition={
+          Object {
+            "mountOnEnter": true,
+            "timeout": 150,
+          }
+        }
+        centered={false}
+        fade={true}
+        isOpen={false}
+        keyboard={true}
+        modalTransition={
+          Object {
+            "timeout": 300,
+          }
+        }
+        onClosed={[Function]}
+        onOpened={[Function]}
+        role="dialog"
+        toggle={[Function]}
+        zIndex={1050}
+      >
+        <ModalHeader
+          charCode={215}
+          closeAriaLabel="Close"
+          tag="h5"
+          wrapTag="div"
+        >
+          Status for 
+        </ModalHeader>
+        <ModalBody
+          tag="div"
+        >
+          <Row
+            tag="div"
+          >
+            <Col
+              sm={12}
+              tag="div"
+              widths={
+                Array [
+                  "xs",
+                  "sm",
+                  "md",
+                  "lg",
+                  "xl",
+                ]
+              }
+            >
+              <div
+                className="chart-wrapper"
+              >
+                <p>
+                  Space Usage (in GB)
+                </p>
+                <Doughnut
+                  data={Object {}}
+                />
+              </div>
+            </Col>
+          </Row>
+          <Row
+            tag="div"
+          >
+            <Col
+              sm={12}
+              tag="div"
+              widths={
+                Array [
+                  "xs",
+                  "sm",
+                  "md",
+                  "lg",
+                  "xl",
+                ]
+              }
+            >
+              <Button
+                color="danger"
+                onClick={[Function]}
+                tag="button"
+              >
+                Clean Trash 
+                <i
+                  className="fa fa-lg fa-trash"
+                />
+              </Button>
+            </Col>
+          </Row>
+        </ModalBody>
+        <ModalFooter
+          tag="div"
+        />
+      </Modal>
+    </div>
+  </div>
+</nav>
+`;

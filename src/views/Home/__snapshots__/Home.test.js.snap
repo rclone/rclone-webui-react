@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home Component renders should match snapshot 1`] = `
+<div
+  data-test="homeComponent"
+>
+  <h2>
+    Welcome to Rclone dashboard. 
+  </h2>
+  <p>
+    Begin by creating a new remote config from the left sidebar.
+  </p>
+  <Row
+    tag="div"
+  >
+    <Col
+      lg={4}
+      sm={12}
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <Connect(BackendStatusCard)
+        mode="card"
+      />
+    </Col>
+  </Row>
+  <h2>
+    Jobs
+  </h2>
+  <Connect(RunningJobs)
+    mode="full-status"
+  />
+</div>
+`;

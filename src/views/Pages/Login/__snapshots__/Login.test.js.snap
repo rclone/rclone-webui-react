@@ -1,0 +1,211 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Remote Explorer Layout renders should match snapshot 1`] = `
+<div
+  className="app flex-row align-items-center"
+  data-test="loginComponent"
+>
+  <Container
+    tag="div"
+  >
+    <Row
+      className="justify-content-center"
+      tag="div"
+    >
+      <Col
+        md="8"
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <CardGroup
+          tag="div"
+        >
+          <Card
+            className="p-4"
+            tag="div"
+          >
+            <CardBody
+              tag="div"
+            >
+              <Form
+                onSubmit={[Function]}
+                tag="form"
+              >
+                <h1>
+                  Login
+                </h1>
+                <p
+                  className="text-muted"
+                >
+                  Sign In to your account
+                </p>
+                <InputGroup
+                  className="mb-3"
+                  tag="div"
+                >
+                  <InputGroupAddon
+                    addonType="prepend"
+                    tag="div"
+                  >
+                    <InputGroupText
+                      tag="span"
+                    >
+                      <i
+                        className="icon-user"
+                      />
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <Input
+                    autoComplete="ipAddress"
+                    onChange={[Function]}
+                    placeholder="IP Address"
+                    type="text"
+                    value="http://localhost:5572/"
+                  />
+                </InputGroup>
+                <InputGroup
+                  className="mb-3"
+                  tag="div"
+                >
+                  <InputGroupAddon
+                    addonType="prepend"
+                    tag="div"
+                  >
+                    <InputGroupText
+                      tag="span"
+                    >
+                      <i
+                        className="icon-user"
+                      />
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <Input
+                    autoComplete="username"
+                    onChange={[Function]}
+                    placeholder="Username"
+                    type="text"
+                    value=""
+                  />
+                </InputGroup>
+                <InputGroup
+                  className="mb-4"
+                  tag="div"
+                >
+                  <InputGroupAddon
+                    addonType="prepend"
+                    tag="div"
+                  >
+                    <InputGroupText
+                      tag="span"
+                    >
+                      <i
+                        className="icon-lock"
+                      />
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <Input
+                    autoComplete="current-password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value=""
+                  />
+                </InputGroup>
+                <Row
+                  tag="div"
+                >
+                  <Col
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                    xs="6"
+                  >
+                    <Button
+                      className="px-4"
+                      color="primary"
+                      tag="button"
+                    >
+                      Login
+                    </Button>
+                  </Col>
+                  <Col
+                    className="text-right"
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                    xs="6"
+                  >
+                    <Button
+                      className="px-0"
+                      color="link"
+                      tag="button"
+                    >
+                      Forgot password?
+                    </Button>
+                  </Col>
+                </Row>
+              </Form>
+            </CardBody>
+          </Card>
+          <Card
+            className="text-white bg-primary py-5 d-md-down-none"
+            style={
+              Object {
+                "width": "44%",
+              }
+            }
+            tag="div"
+          >
+            <CardBody
+              className="text-center"
+              tag="div"
+            >
+              <div>
+                <h2>
+                  Sign up
+                </h2>
+                <p />
+                <Link
+                  to="/register"
+                >
+                  <Button
+                    active={true}
+                    className="mt-3"
+                    color="primary"
+                    tabIndex={-1}
+                    tag="button"
+                  >
+                    Register Now!
+                  </Button>
+                </Link>
+              </div>
+            </CardBody>
+          </Card>
+        </CardGroup>
+      </Col>
+    </Row>
+  </Container>
+</div>
+`;

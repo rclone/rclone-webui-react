@@ -1,0 +1,433 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Remote Explorer renders should match snapshot 1`] = `
+<div
+  data-test="newDriveComponent"
+>
+  <p>
+    This 3 step process will guide you through creating a new config. For auto config, leave the parameters as is.
+  </p>
+  <Form
+    onSubmit={[Function]}
+    tag="form"
+  >
+    <Card
+      tag="div"
+    >
+      <CardHeader
+        tag="div"
+      >
+        <h5>
+          <Button
+            color="link"
+            name="colRconfig"
+            onClick={[Function]}
+            style={
+              Object {
+                "marginBottom": "1rem",
+              }
+            }
+            tag="button"
+          >
+            <strong>
+              Step 1:
+            </strong>
+             Remote Config
+          </Button>
+        </h5>
+      </CardHeader>
+      <Collapse
+        appear={false}
+        enter={true}
+        exit={true}
+        in={false}
+        isOpen={true}
+        mountOnEnter={false}
+        onEnter={[Function]}
+        onEntered={[Function]}
+        onEntering={[Function]}
+        onExit={[Function]}
+        onExited={[Function]}
+        onExiting={[Function]}
+        tag="div"
+        timeout={350}
+        unmountOnExit={false}
+      >
+        <CardBody
+          tag="div"
+        >
+          <CustomInput
+            changeHandler={[Function]}
+            id="driveName"
+            isValid={false}
+            label="Name of this drive (For your reference)"
+            name="name"
+            placeholder="Enter a name"
+            value=""
+          />
+          <FormGroup
+            row={true}
+            tag="div"
+          >
+            <Label
+              for="driveType"
+              sm={5}
+              tag="label"
+              widths={
+                Array [
+                  "xs",
+                  "sm",
+                  "md",
+                  "lg",
+                  "xl",
+                ]
+              }
+            >
+              Select
+            </Label>
+            <Col
+              sm={7}
+              tag="div"
+              widths={
+                Array [
+                  "xs",
+                  "sm",
+                  "md",
+                  "lg",
+                  "xl",
+                ]
+              }
+            >
+              <ProviderAutoSuggest
+                onChange={[Function]}
+                suggestions={
+                  Array [
+                    Object {
+                      "Description": "Alias for an existing remote",
+                      "Name": "alias",
+                      "Options": Array [
+                        Object {
+                          "Advanced": false,
+                          "Default": "",
+                          "DefaultStr": "",
+                          "Help": "Remote or path to alias.
+Can be \\"myremote:path/to/dir\\", \\"myremote:bucket\\", \\"myremote:\\" or \\"/local/path\\".",
+                          "Hide": 0,
+                          "IsPassword": false,
+                          "Name": "remote",
+                          "NoPrefix": false,
+                          "Provider": "",
+                          "Required": true,
+                          "ShortOpt": "",
+                          "Type": "string",
+                          "Value": null,
+                          "ValueStr": "",
+                        },
+                      ],
+                      "Prefix": "alias",
+                    },
+                  ]
+                }
+                value=""
+              />
+            </Col>
+          </FormGroup>
+          <FormGroup
+            row={true}
+            tag="div"
+          >
+            <Col
+              sm={3}
+              tag="div"
+              widths={
+                Array [
+                  "xs",
+                  "sm",
+                  "md",
+                  "lg",
+                  "xl",
+                ]
+              }
+            >
+              <Label
+                for="inputDriveName"
+                tag="label"
+                widths={
+                  Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+                }
+              >
+                Docs are available at 
+              </Label>
+               
+              <a
+                href="https://rclone.org/commands/rclone_config/"
+              >
+                Rclone Config
+              </a>
+            </Col>
+          </FormGroup>
+        </CardBody>
+        <CardFooter
+          tag="div"
+        >
+          <div
+            className="clearfix"
+          >
+            <Button
+              className="float-right"
+              color="success"
+              onClick={[Function]}
+              tag="button"
+            >
+              <i
+                className="fa fa-check fa-lg "
+              />
+            </Button>
+          </div>
+        </CardFooter>
+      </Collapse>
+    </Card>
+    <Card
+      tag="div"
+    >
+      <div />
+      <CardHeader
+        tag="div"
+      >
+        <h5>
+          <Button
+            color="link"
+            name="colSetup"
+            onClick={[Function]}
+            style={
+              Object {
+                "marginBottom": "1rem",
+              }
+            }
+            tag="button"
+          >
+            <strong>
+              Step 2:
+            </strong>
+             Setup Drive
+          </Button>
+        </h5>
+      </CardHeader>
+      <Collapse
+        appear={false}
+        enter={true}
+        exit={true}
+        in={false}
+        isOpen={false}
+        mountOnEnter={false}
+        onEnter={[Function]}
+        onEntered={[Function]}
+        onEntering={[Function]}
+        onExit={[Function]}
+        onExited={[Function]}
+        onExiting={[Function]}
+        tag="div"
+        timeout={350}
+        unmountOnExit={false}
+      >
+        <CardBody
+          tag="div"
+        >
+          <DriveParameters
+            changeHandler={[Function]}
+            config={
+              Array [
+                Object {
+                  "Description": "Alias for an existing remote",
+                  "Name": "alias",
+                  "Options": Array [
+                    Object {
+                      "Advanced": false,
+                      "Default": "",
+                      "DefaultStr": "",
+                      "Help": "Remote or path to alias.
+Can be \\"myremote:path/to/dir\\", \\"myremote:bucket\\", \\"myremote:\\" or \\"/local/path\\".",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "remote",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": true,
+                      "ShortOpt": "",
+                      "Type": "string",
+                      "Value": null,
+                      "ValueStr": "",
+                    },
+                  ],
+                  "Prefix": "alias",
+                },
+              ]
+            }
+            currentValues={Object {}}
+            drivePrefix=""
+            errorsMap={
+              Object {
+                "driveName": "",
+              }
+            }
+            isValidMap={Object {}}
+            loadAdvanced={false}
+          />
+        </CardBody>
+        <CardFooter
+          tag="div"
+        >
+          <div
+            className="clearfix"
+          >
+            <div
+              className="float-right"
+            >
+              <Input
+                onChange={[Function]}
+                type="checkbox"
+                value={false}
+              />
+              <span
+                className="mr-3"
+              >
+                Edit Advanced Options
+              </span>
+              <Button
+                color="success"
+                onClick={[Function]}
+                tag="button"
+              >
+                <i
+                  className="fa fa-check fa-lg "
+                />
+              </Button>
+            </div>
+          </div>
+        </CardFooter>
+      </Collapse>
+    </Card>
+    <Card
+      tag="div"
+    >
+      <CardHeader
+        tag="div"
+      >
+        <h5>
+          <Button
+            color="link"
+            name="colAdvanced"
+            onClick={[Function]}
+            style={
+              Object {
+                "marginBottom": "1rem",
+              }
+            }
+            tag="button"
+          >
+            <strong>
+              Step 3:
+            </strong>
+             Advanced (optional)
+          </Button>
+        </h5>
+      </CardHeader>
+      <Collapse
+        appear={false}
+        enter={true}
+        exit={true}
+        in={false}
+        isOpen={false}
+        mountOnEnter={false}
+        onEnter={[Function]}
+        onEntered={[Function]}
+        onEntering={[Function]}
+        onExit={[Function]}
+        onExited={[Function]}
+        onExiting={[Function]}
+        tag="div"
+        timeout={350}
+        unmountOnExit={false}
+      >
+        <CardBody
+          tag="div"
+        >
+          <DriveParameters
+            changeHandler={[Function]}
+            config={
+              Array [
+                Object {
+                  "Description": "Alias for an existing remote",
+                  "Name": "alias",
+                  "Options": Array [
+                    Object {
+                      "Advanced": false,
+                      "Default": "",
+                      "DefaultStr": "",
+                      "Help": "Remote or path to alias.
+Can be \\"myremote:path/to/dir\\", \\"myremote:bucket\\", \\"myremote:\\" or \\"/local/path\\".",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "remote",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": true,
+                      "ShortOpt": "",
+                      "Type": "string",
+                      "Value": null,
+                      "ValueStr": "",
+                    },
+                  ],
+                  "Prefix": "alias",
+                },
+              ]
+            }
+            currentValues={Object {}}
+            drivePrefix=""
+            errorsMap={
+              Object {
+                "driveName": "",
+              }
+            }
+            isValidMap={Object {}}
+            loadAdvanced={true}
+          />
+        </CardBody>
+      </Collapse>
+    </Card>
+    <div
+      className="clearfix"
+    >
+      <div
+        className="float-right mb-3"
+      >
+        <Button
+          color="info"
+          onClick={[Function]}
+          tag="button"
+          type="reset"
+        >
+          Clear
+        </Button>
+        <Button
+          color="success"
+          tag="button"
+          type="submit"
+        >
+          Create Config
+        </Button>
+      </div>
+    </div>
+  </Form>
+  <NewDriveAuthModal
+    closeModal={[Function]}
+    isVisible={false}
+  />
+</div>
+`;

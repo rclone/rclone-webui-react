@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App Component should match snapshot 1`] = `
+<div
+  data-test="appComponent"
+>
+  <ToastContainer
+    autoClose={5000}
+    bodyClassName={null}
+    className={null}
+    closeButton={
+      <CloseButton
+        ariaLabel="close"
+      />
+    }
+    closeOnClick={true}
+    draggable={true}
+    draggablePercent={80}
+    hideProgressBar={false}
+    newestOnTop={false}
+    pauseOnFocusLoss={true}
+    pauseOnHover={true}
+    position="top-right"
+    progressClassName={null}
+    progressStyle={null}
+    role="alert"
+    rtl={false}
+    style={null}
+    toastClassName={null}
+    transition={[Function]}
+  />
+  <HashRouter>
+    <Suspense
+      fallback={
+        <div
+          className="animated fadeIn pt-3 text-center"
+        >
+          Loading...
+        </div>
+      }
+    >
+      <Switch>
+        <Route
+          exact={true}
+          name="Login Page"
+          path="/login"
+          render={[Function]}
+        />
+        <Route
+          exact={true}
+          name="Register Page"
+          path="/register"
+          render={[Function]}
+        />
+        <Route
+          exact={true}
+          name="Page 404"
+          path="/404"
+          render={[Function]}
+        />
+        <Route
+          exact={true}
+          name="Page 500"
+          path="/500"
+          render={[Function]}
+        />
+        <Route
+          name="Home"
+          path="/"
+          render={[Function]}
+        />
+      </Switch>
+    </Suspense>
+  </HashRouter>
+</div>
+`;

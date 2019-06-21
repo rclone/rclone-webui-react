@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Running Jobs renders should match snapshot 1`] = `
+<Row
+  tag="div"
+>
+  <Col
+    lg={4}
+    sm={12}
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    <GlobalStatus
+      stats={
+        Object {
+          "transferring": Object {},
+        }
+      }
+    />
+  </Col>
+  <Col
+    lg={4}
+    sm={12}
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    <TransferringJobs
+      transferring={Object {}}
+    />
+  </Col>
+  <Col
+    lg={4}
+    sm={12}
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    <Card
+      tag="div"
+    >
+      <CardHeader
+        tag="div"
+      >
+        Speed
+        <div
+          className="card-header-actions"
+        >
+          <a
+            className="card-header-action"
+            href="http://www.chartjs.org"
+          >
+            <small
+              className="text-muted"
+            >
+              docs
+            </small>
+          </a>
+        </div>
+      </CardHeader>
+      <CardBody
+        tag="div"
+      >
+        <div
+          className="chart-wrapper"
+        >
+          <Line
+            data={Object {}}
+            options={
+              Object {
+                "maintainAspectRatio": false,
+                "tooltips": Object {
+                  "custom": [Function],
+                  "enabled": false,
+                },
+              }
+            }
+          />
+        </div>
+      </CardBody>
+    </Card>
+  </Col>
+</Row>
+`;
