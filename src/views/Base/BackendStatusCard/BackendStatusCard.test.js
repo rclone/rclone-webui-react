@@ -2,6 +2,7 @@ import React from "react";
 import {shallow} from "enzyme";
 import {checkProps, testStore} from "../../../../Utils";
 import BackendStatusCard from "./BackendStatusCard";
+import toJson from "enzyme-to-json";
 
 const setUp = (intialState = {}, props = {}) => {
     const store = testStore(intialState);
@@ -40,8 +41,14 @@ describe('Backend Status Card', function () {
             expect(wrapper).toHaveLength(1)
         });
 
-    });
+        it('should match Snapshot', function () {
 
+        });
+
+        it('should match snapshot', function () {
+            expect(toJson(wrapper)).toMatchSnapshot()
+        });
+    });
 
 
 

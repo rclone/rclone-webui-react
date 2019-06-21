@@ -2,6 +2,7 @@ import React from "react";
 import {shallow} from "enzyme";
 import {findByTestAtrr, testStore} from "../../../Utils";
 import Home from "./Home";
+import toJson from "enzyme-to-json";
 
 const setUp = (intialState = {}, props = {}) => {
     const store = testStore(intialState);
@@ -24,6 +25,10 @@ describe('Home Component', function () {
         it('should render without crashing', function () {
             const component = findByTestAtrr(wrapper, "homeComponent");
             expect(component).toHaveLength(1);
+        });
+
+        it('should match snapshot', function () {
+            expect(toJson(wrapper)).toMatchSnapshot()
         });
     });
 

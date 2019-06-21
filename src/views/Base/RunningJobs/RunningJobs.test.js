@@ -2,6 +2,7 @@ import React from "react";
 import {shallow} from "enzyme";
 import {testStore} from "../../../../Utils";
 import RunningJobs from "./RunningJobs";
+import toJson from "enzyme-to-json";
 
 const setUp = (intialState = {}, props = {}) => {
     const store = testStore(intialState);
@@ -36,6 +37,9 @@ describe('Running Jobs', function () {
             expect(wrapper).toHaveLength(1)
         });
 
+        it('should match snapshot', function () {
+            expect(toJson(wrapper)).toMatchSnapshot()
+        });
 
     });
 

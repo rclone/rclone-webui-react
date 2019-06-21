@@ -2,6 +2,7 @@ import React from "react";
 import {shallow} from "enzyme";
 import {findByTestAtrr, testStore} from "../../../../Utils";
 import NewDrive from "./NewDrive";
+import toJson from "enzyme-to-json";
 
 const setUp = (intialState = {}, props = {}) => {
     const store = testStore(intialState);
@@ -64,7 +65,9 @@ describe('Remote Explorer', function () {
             const component = findByTestAtrr(wrapper, "newDriveComponent");
             expect(component).toHaveLength(1);
         });
-
+        it('should match snapshot', function () {
+            expect(toJson(wrapper)).toMatchSnapshot()
+        });
     });
 
 });

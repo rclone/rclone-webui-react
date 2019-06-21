@@ -3,7 +3,7 @@ import {shallow} from 'enzyme/build';
 import App from './App';
 import {findByTestAtrr, testStore} from "../Utils";
 import {Provider} from "react-redux";
-
+import toJson from 'enzyme-to-json';
 
 const setUp = (initialState = {}) => {
     const store = testStore(initialState);
@@ -49,5 +49,9 @@ describe('App Component', function () {
         const component = findByTestAtrr(wrapper, 'appComponent');
         expect(component).toHaveLength(1);
 
+    });
+
+    it('should match snapshot', function () {
+        expect(toJson(wrapper)).toMatchSnapshot()
     });
 });

@@ -2,6 +2,7 @@ import React from "react";
 import {shallow} from "enzyme";
 import {findByTestAtrr, testStore} from "../../../../Utils";
 import ShowConfig from "./ShowConfig";
+import toJson from "enzyme-to-json";
 
 const setUp = (intialState = {}, props = {}) => {
     const store = testStore(intialState);
@@ -66,6 +67,10 @@ describe('Show Config', function () {
         it('should render without crashing', function () {
             const component = findByTestAtrr(wrapper, "showConfigComponent")
             expect(component).toHaveLength(1);
+        });
+
+        it('should match snapshot', function () {
+            expect(toJson(wrapper)).toMatchSnapshot()
         });
 
     });

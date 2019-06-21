@@ -3,6 +3,7 @@ import {shallow} from "enzyme";
 import {Provider} from "react-redux";
 import {testStore} from "../../../../Utils";
 import BandwidthStatusCard from "./BandwidthStatusCard";
+import toJson from "enzyme-to-json";
 
 const setUp = (props = {}) => {
     const component = shallow(
@@ -23,5 +24,8 @@ describe('Bandwidth Status Card', function () {
 
     it('should render without crashing', function () {
         expect(wrapper).toHaveLength(1)
+    });
+    it('should match snapshot', function () {
+        expect(toJson(wrapper)).toMatchSnapshot()
     });
 });

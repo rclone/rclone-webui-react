@@ -3,6 +3,7 @@ import {shallow} from "enzyme";
 import {findByTestAtrr, testStore} from "../../../../Utils";
 import Login from "./Login";
 import {MemoryRouter} from "react-router-dom";
+import toJson from "enzyme-to-json";
 
 const setUp = (intialState = {}, props = {}) => {
     const store = testStore(intialState);
@@ -29,7 +30,9 @@ describe('Remote Explorer Layout', function () {
             const component = findByTestAtrr(wrapper, "loginComponent");
             expect(component).toHaveLength(1);
         });
-
+        it('should match snapshot', function () {
+            expect(toJson(wrapper)).toMatchSnapshot()
+        });
     });
 
 

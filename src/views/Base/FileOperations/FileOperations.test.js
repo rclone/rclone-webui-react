@@ -2,6 +2,7 @@ import React from "react";
 import {shallow} from "enzyme";
 import {testStore} from "../../../../Utils";
 import FileOperations from "./FileOperations";
+import toJson from "enzyme-to-json";
 
 const setUp = (intialState = {}, props = {}) => {
     const store = testStore(intialState);
@@ -46,6 +47,10 @@ describe('File Operations', function () {
 
         it('should render without crashing', function () {
             expect(wrapper).toHaveLength(1)
+        });
+
+        it('should match snapshot', function () {
+            expect(toJson(wrapper)).toMatchSnapshot()
         });
     });
 });

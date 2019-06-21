@@ -3,6 +3,7 @@ import {testStore} from "../../../../Utils";
 import {shallow} from "enzyme";
 import {Provider} from "react-redux";
 import RemotesList from "./RemotesList";
+import toJson from "enzyme-to-json";
 
 
 const setUp = (props = {}) => {
@@ -24,5 +25,8 @@ describe('Bandwidth Status Card', function () {
 
     it('should render without crashing', function () {
         expect(wrapper).toHaveLength(1)
+    });
+    it('should match snapshot', function () {
+        expect(toJson(wrapper)).toMatchSnapshot()
     });
 });
