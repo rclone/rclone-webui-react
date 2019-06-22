@@ -14,6 +14,7 @@ console.error = message => {
 };
 
 if (global.document) {
+    document.queryCommandSupported = jest.fn().mockImplementation((e) => true);
     document.createRange = () => ({
         setStart: () => {
         },
@@ -26,7 +27,3 @@ if (global.document) {
     });
 }
 
-Object.defineProperty(global.document, 'queryCommandSupported', {
-    value: true,
-    writable: false
-});

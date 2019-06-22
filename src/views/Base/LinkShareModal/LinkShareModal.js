@@ -32,6 +32,8 @@ class LinkShareModal extends React.Component {
     render() {
         const {isVisible, linkUrl} = this.props;
         const {copySuccess} = this.state;
+        let isCopyAllowed = (document && document.queryCommandSupported) ? document.queryCommandSupported('copy') : true;
+
         return (
             <div>
                 <Modal isOpen={isVisible} toggle={this.toggle}>
@@ -39,9 +41,10 @@ class LinkShareModal extends React.Component {
                     <ModalBody data-test="modalBody">
                         <Input readOnly value={linkUrl} onFocus={this.handleFocus}/>
                         {
+
                             /* Logical shortcut for only displaying the
                                button if the copy command exists */
-                            document.queryCommandSupported('copy') &&
+                            isCopyAllowed &&
                             <div>
                                 <Button color="link" onClick={this.copyToClipboard}><i
                                     className="fa fa-clipboard fa-2x"/></Button>
