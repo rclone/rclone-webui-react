@@ -8,10 +8,7 @@ export const getStatus = () => async dispatch => {
     axiosInstance.post('/core/stats').then(res => dispatch({
         type: FETCH_STATUS,
         status: REQUEST_SUCCESS,
-        payload: res.data,
-        meta: {
-            throttle: 5000
-        }
+        payload: res.data
     }), error => dispatch({
         type: FETCH_STATUS,
         status: REQUEST_ERROR,

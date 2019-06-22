@@ -157,7 +157,7 @@ class FileComponent extends React.Component {
     render() {
         const {item, clickHandler, downloadHandle, deleteHandle, connectDragSource, gridMode, itemIdx/*isDragging, remoteName*/} = this.props;
 
-        const {IsDir, MimeType, ModTime, Name, Size, Path} = item;
+        const {IsDir, MimeType, ModTime, Name, Size} = item;
 
         // console.log("item", item);
 

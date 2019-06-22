@@ -16,6 +16,13 @@ export function bytesToMB(bytes) {
     return mb;
 }
 
+export function bytesToKB(bytes) {
+    if (bytes === 0) return 0;
+    const kb = bytes / 1024;
+
+    return kb;
+}
+
 export function bytesToGB(bytes) {
     if (bytes === 0) return 0;
     const mb = bytes / 1024 / 1024 / 1024;

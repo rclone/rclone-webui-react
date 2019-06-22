@@ -3,7 +3,8 @@ import {FETCH_STATUS, REQUEST_ERROR, REQUEST_SUCCESS} from "../actions/types";
 const initialState = {
     isConnected: false,
     jobs: {},
-    speed: []
+    speed: [],
+    runningAvgSpeed: 0
 };
 
 export default function (state = initialState, action) {
@@ -11,11 +12,22 @@ export default function (state = initialState, action) {
         case FETCH_STATUS:
 
             if (action.status === REQUEST_SUCCESS) {
+                const curSpeed = action.payload.speed;
+                let cma = state.runningAvgSpeed;
+                let totalElements = state.speed.length;
+                if (!totalElements) totalElements = 1;
+                let runningAvgSpeed = cma + ((curSpeed - cma) / 50);
+
 
                 return {
                     ...state,
                     jobs: action.payload,
-                    speed: [...state.speed, {elapsedTime: action.payload.elapsedTime, speed: action.payload.speed}],
+                    runningAvgSpeed,
+                    speed: [...state.speed, {
+                        elapsedTime: action.payload.elapsedTime,
+                        speed: action.payload.speed,
+                        speedAvg: runningAvgSpeed
+                    }],
                     isConnected: true
                 };
             }

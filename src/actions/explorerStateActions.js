@@ -7,7 +7,8 @@ import {
     CHANGE_VISIBILITY_FILTER,
     CREATE_PATH,
     NAVIGATE_BACK,
-    NAVIGATE_FWD
+    NAVIGATE_FWD,
+    NAVIGATE_UP
 } from "./types";
 import {getFiles} from "./explorerActions";
 
@@ -70,7 +71,7 @@ export const createPath = (containerID) => dispatch => {
 export const navigateUp = (containerID) => dispatch => {
 
     dispatch({
-        type: NAVIGATE_BACK,
+        type: NAVIGATE_UP,
         id: containerID
     });
     dispatch(getFilesForContainerID(containerID))

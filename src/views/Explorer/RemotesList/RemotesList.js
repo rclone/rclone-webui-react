@@ -77,7 +77,7 @@ class RemotesList extends React.Component {
                             <RemoteListAutoSuggest value={remoteName} onChange={this.shouldUpdateRemoteName}
                                                    suggestions={remotes}/>
                         </Col>
-                        <Col xs={12} sm={2} lg={2}>
+                        <Col xs={12} sm={2} lg={4}>
 
                             <Button className={"btn-lg"} color="success"
                                     type="submit">{this.state.openButtonText}</Button>

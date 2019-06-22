@@ -1,4 +1,5 @@
 import axios from "axios";
+import {isLocalRemoteName} from "../Tools";
 
 
 let axiosInstance = axios.create({
@@ -41,6 +42,15 @@ async function performCopyOrMoveFile(srcFs, srcRemote, dstFs, dstRemote, Name, I
             url = "/operations/copyfile";
         }
     }
+
+    if (isLocalRemoteName(srcFs)) {
+        srcFs = "";
+    }
+
+    if (isLocalRemoteName(dstFs)) {
+        dstFs = "";
+    }
+
     if (IsDir) {
 
         const splitRes = srcRemote.split('/');

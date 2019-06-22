@@ -85,15 +85,18 @@ export default function (state = initialState, action) {
 
             case NAVIGATE_UP:
                 // TODO: Write logic for up, which will navigate one directory up
-                let current = backStack.pop();
+                let current = backStack.peek();
+                console.log(current);
+
                 if (current.remotePath && current.remotePath !== "") {
                     const splitPath = current.remotePath.split('/');
                     current.remotePath = "";
                     if (splitPath.length > 1)
                         for (let i = 0; i < splitPath.length - 1; i++) {
-                            current.remotePath = current.remotePath + '/' + splitPath[i];
+                            current.remotePath = current.remotePath + ((i !== 0) ? '/' : '') + splitPath[i];
                         }
                 }
+                console.log(current);
                 backStack.push(current);
                 break;
 

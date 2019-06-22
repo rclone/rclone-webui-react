@@ -1,6 +1,6 @@
 import React from 'react';
 import {Card, CardBody, CardHeader, Col, Progress, Row} from "reactstrap";
-import {bytesToMB, formatBytes, secondsToStr} from "../../../utils/Tools";
+import {bytesToKB, formatBytes, secondsToStr} from "../../../utils/Tools";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Line} from "react-chartjs-2";
@@ -11,23 +11,34 @@ const options = {
         enabled: false,
         custom: CustomTooltips
     },
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
+    }
 }
 function JobCard({job}) {
     const {name, eta, percentage, speed, speedAvg, size, bytes} = job;
-    return (<Card>
-        <CardHeader>Running Jobs</CardHeader>
-        <CardBody>
-            <p>{name}</p> {/*Name of the file*/}
-            <Progress value={percentage} className={"mb-2"}>{percentage} %</Progress> {/*percentage*/}
-            <p><strong>Speed: </strong>{formatBytes(speed)}PS</p> {/*speed*/}
-            <p><strong>Average Speed: </strong>{formatBytes(speedAvg)}PS</p> {/*speedAvg*/}
-            <p><strong>Total transferred: </strong>{formatBytes(bytes)}</p> {/*bytes: convert to mb*/}
-            <p><strong>Size: </strong>{formatBytes(size)}</p>
-            <p><strong>ETA: </strong>{secondsToStr(eta)} seconds</p>
-        </CardBody>
+    if (name && !isNaN(speed)) {
 
-    </Card>);
+        return (<Card>
+            <CardHeader>Running Jobs</CardHeader>
+            <CardBody>
+                <p>{name}</p> {/*Name of the file*/}
+                <Progress value={percentage} className={"mb-2"}>{percentage} %</Progress> {/*percentage*/}
+                <p><strong>Speed: </strong>{formatBytes(speed)}PS</p> {/*speed*/}
+                <p><strong>Average Speed: </strong>{formatBytes(speedAvg)}PS</p> {/*speedAvg*/}
+                <p><strong>Total transferred: </strong>{formatBytes(bytes)}</p> {/*bytes: convert to mb*/}
+                <p><strong>Size: </strong>{formatBytes(size)}</p>
+                <p><strong>ETA: </strong>{secondsToStr(eta)} seconds</p>
+            </CardBody>
+
+        </Card>);
+    }
+    return null;
 }
 
 function JobCardRow({job}) {
@@ -45,6 +56,7 @@ function JobCardRow({job}) {
 
         </React.Fragment>
     );
+
 
 }
 
@@ -102,16 +114,13 @@ class RunningJobs extends React.Component {
                         <Col sm={12} lg={4}>
                             <GlobalStatus stats={jobs}/>
                         </Col>
-                        <Col sm={12} lg={4}>
-                            <TransferringJobs transferring={transferring}/>
-                        </Col>
+
                         <Col sm={12} lg={4}>
                             <Card>
                                 <CardHeader>
                                     Speed
                                     <div className="card-header-actions">
                                         <a href="http://www.chartjs.org" className="card-header-action">
-                                            <small className="text-muted">docs</small>
                                         </a>
                                     </div>
                                 </CardHeader>
@@ -121,6 +130,9 @@ class RunningJobs extends React.Component {
                                     </div>
                                 </CardBody>
                             </Card>
+                        </Col>
+                        <Col sm={12} lg={4}>
+                            <TransferringJobs transferring={transferring}/>
                         </Col>
                     </Row>
                 );
@@ -167,22 +179,25 @@ const mapStateToProps = (state, ownProps) => {
     let lineChartData = {};
     if (speedData) {
         let labels = [];
-        let data = [];
+        let data1 = [];
+        let data2 = [];
 
         const dataLength = speedData.length;
         //
-        const limitedData = speedData.slice(dataLength - 100, dataLength - 1);
+        const limitedData = speedData.slice(dataLength - 50, dataLength - 1);
         // console.log(limitedData.length);
         limitedData.forEach((item, idx) => {
             labels.push(Math.ceil(item.elapsedTime));
-            data.push(bytesToMB(item.speed).toFixed(2));
+            data1.push(bytesToKB(item.speed).toFixed(2));
+            data2.push(bytesToKB(item.speedAvg).toFixed(2));
         });
 
+        // console.log(data1, data2);
         lineChartData = {
             labels: labels,
             datasets: [
                 {
-                    label: 'Average Speed (mbps)',
+                    label: 'Speed (kbps)',
                     fill: false,
                     lineTension: 0.1,
                     backgroundColor: 'rgba(75,192,192,0.4)',
@@ -200,8 +215,29 @@ const mapStateToProps = (state, ownProps) => {
                     pointHoverBorderWidth: 2,
                     pointRadius: 1,
                     pointHitRadius: 10,
-                    data: data,
+                    data: data1,
                 },
+                {
+                    label: 'Average Speed (kbps)',
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: 'rgba(187,69,14,0.4)',
+                    borderColor: 'rgb(192,76,58)',
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: 'rgb(187,69,14)',
+                    pointBackgroundColor: '#ff7459',
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+                    pointHoverBorderColor: 'rgba(220,220,220,1)',
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: data2,
+                }
             ],
         };
     }
