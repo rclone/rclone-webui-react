@@ -26,3 +26,7 @@ if (global.document) {
     });
 }
 
+Object.defineProperty(global.document, 'queryCommandSupported', {
+    value: true,
+    writable: false
+});

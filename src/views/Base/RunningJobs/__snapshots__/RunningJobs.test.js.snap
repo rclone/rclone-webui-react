@@ -40,9 +40,59 @@ exports[`Running Jobs renders should match snapshot 1`] = `
       ]
     }
   >
-    <TransferringJobs
-      transferring={Object {}}
-    />
+    <Card
+      tag="div"
+    >
+      <CardHeader
+        tag="div"
+      >
+        Speed
+        <div
+          className="card-header-actions"
+        >
+          <a
+            className="card-header-action"
+            href="http://www.chartjs.org"
+          />
+        </div>
+      </CardHeader>
+      <CardBody
+        tag="div"
+      >
+        <div
+          className="chart-wrapper"
+        >
+          <Line
+            data={Object {}}
+            options={
+              Object {
+                "maintainAspectRatio": false,
+                "scales": Object {
+                  "xAxes": Array [
+                    Object {
+                      "ticks": Object {
+                        "display": false,
+                      },
+                    },
+                  ],
+                  "yAxes": Array [
+                    Object {
+                      "ticks": Object {
+                        "beginAtZero": true,
+                      },
+                    },
+                  ],
+                },
+                "tooltips": Object {
+                  "custom": [Function],
+                  "enabled": false,
+                },
+              }
+            }
+          />
+        </div>
+      </CardBody>
+    </Card>
   </Col>
   <Col
     lg={4}
@@ -58,49 +108,9 @@ exports[`Running Jobs renders should match snapshot 1`] = `
       ]
     }
   >
-    <Card
-      tag="div"
-    >
-      <CardHeader
-        tag="div"
-      >
-        Speed
-        <div
-          className="card-header-actions"
-        >
-          <a
-            className="card-header-action"
-            href="http://www.chartjs.org"
-          >
-            <small
-              className="text-muted"
-            >
-              docs
-            </small>
-          </a>
-        </div>
-      </CardHeader>
-      <CardBody
-        tag="div"
-      >
-        <div
-          className="chart-wrapper"
-        >
-          <Line
-            data={Object {}}
-            options={
-              Object {
-                "maintainAspectRatio": false,
-                "tooltips": Object {
-                  "custom": [Function],
-                  "enabled": false,
-                },
-              }
-            }
-          />
-        </div>
-      </CardBody>
-    </Card>
+    <TransferringJobs
+      transferring={Object {}}
+    />
   </Col>
 </Row>
 `;

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card, CardBody, CardHeader, Col, Progress, Row} from "reactstrap";
 import {bytesToKB, formatBytes, secondsToStr} from "../../../utils/Tools";
-import PropTypes from "prop-types";
+import * as PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Line} from "react-chartjs-2";
 import {CustomTooltips} from "@coreui/coreui-plugin-chartjs-custom-tooltips";
@@ -17,9 +17,14 @@ const options = {
             ticks: {
                 beginAtZero: true
             }
+        }],
+        xAxes: [{
+            ticks: {
+                display: false
+            }
         }]
     }
-}
+};
 function JobCard({job}) {
     const {name, eta, percentage, speed, speedAvg, size, bytes} = job;
     if (name && !isNaN(speed)) {

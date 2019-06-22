@@ -11,6 +11,7 @@ import {connect} from "react-redux";
 import {getFiles} from "../../../actions/explorerActions";
 import {compose} from "redux";
 import {changePath, navigateUp} from "../../../actions/explorerStateActions";
+import LinkShareModal from "../../Base/LinkShareModal/LinkShareModal";
 
 
 /*
@@ -83,11 +84,8 @@ function UpButtonComponent({upButtonHandle, gridMode}) {
     } else {
         return (
             <tr onClick={() => upButtonHandle()} className={"pointer-cursor"}>
-                <td></td>
-                <td><i className={"fa fa-file-o"}/> Go Up...</td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td colSpan={1}/>
+                <td colSpan={4}><i className={"fa fa-file-o"}/> Go Up...</td>
             </tr>);
     }
 }
@@ -103,12 +101,27 @@ class FilesView extends React.PureComponent {
             isDownloadProgress: false,
             downloadingItems: 0,
             shouldUpdate: true,
+            showLinkShareModal: false,
+            generatedLink: "",
 
         };
         this.handleFileClick = this.handleFileClick.bind(this);
         this.downloadHandle = this.downloadHandle.bind(this);
         this.deleteHandle = this.deleteHandle.bind(this);
     }
+
+    closeLinkShareModal = () => {
+        this.setState({
+            showLinkShareModal: false
+        })
+    };
+
+    showLinkShareModal = () => {
+        this.setState({
+            showLinkShareModal: true
+
+        })
+    };
 
 
     handleFileClick(e, item) {
@@ -234,6 +247,30 @@ class FilesView extends React.PureComponent {
         this.setState({isDownloadProgress: false});
     };
 
+    linkShareHandle = (item) => {
+        const {fsInfo} = this.props;
+        if (fsInfo.Features.PublicLink) {
+            console.log("Sharing link" + item.Name);
+            const {remoteName} = this.props.currentPath;
+            axiosInstance.post("operations/publiclink", {
+                fs: addColonAtLast(remoteName),
+                remote: item.Path
+            }).then((res) => {
+                // console.log("Public Link: " + res.data.url);
+
+                this.setState({
+                    generatedLink: res.data.url,
+                    showLinkShareModal: true
+                })
+            }, (error) => {
+                toast.error("Error Generating link: " + error)
+            })
+        } else {
+            toast.error("This remote does not support public link");
+        }
+
+    };
+
     getFileComponents = (isDir) => {
         const {files, containerID, gridMode, fsInfo} = this.props;
         const {remoteName} = this.props.currentPath;
@@ -251,6 +288,7 @@ class FilesView extends React.PureComponent {
                             <FileComponent item={item} clickHandler={this.handleFileClick}
                                            downloadHandle={this.downloadHandle} deleteHandle={this.deleteHandle}
                                            remoteName={remoteName} gridMode={gridMode} containerID={containerID}
+                                           linkShareHandle={this.linkShareHandle}
                                            canCopy={fsInfo.Features.Copy} canMove={fsInfo.Features.Move} itemIdx={idx}
                             />
                         </React.Fragment>
@@ -263,7 +301,7 @@ class FilesView extends React.PureComponent {
 
 
     render() {
-        const {isLoading, isDownloadProgress, downloadingItems} = this.state;
+        const {isLoading, isDownloadProgress, downloadingItems, generatedLink, showLinkShareModal} = this.state;
         const {connectDropTarget, isOver, files, navigateUp, containerID, gridMode} = this.props;
         const {remoteName} = this.props.currentPath;
 
@@ -317,13 +355,13 @@ class FilesView extends React.PureComponent {
 
                     <Container fluid={true} className={"pd-0"}>
 
-                        <Table>
+                        <Table className="table-responsive-sm">
                             <thead>
                             <tr>
-                                <th/>
+                                <th className="d-none d-md-block">x</th>
                                 <th>Name</th>
                                 <th>Size</th>
-                                <th>Modified</th>
+                                <th className="d-none d-md-block">Modified</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -332,17 +370,14 @@ class FilesView extends React.PureComponent {
                             {files.length > 0 ? (
                                     <React.Fragment>
                                         <tr>
-                                            <td/>
-                                            <th>Directories</th>
-                                            <td/>
-                                            <td/>
-                                            <td/>
+                                            <td colSpan={1} className="d-none d-md-block"/>
+                                            <th colSpan={4}>Directories</th>
                                         </tr>
                                         {dirComponentMap}
                                         <tr>
-                                            <td/>
+                                            <td className="d-none d-md-block"/>
                                             <th>Files</th>
-                                            <td/>
+                                            <td className="d-none d-md-block"/>
                                             <td/>
                                             <td/>
                                         </tr>
@@ -350,11 +385,8 @@ class FilesView extends React.PureComponent {
                                     </React.Fragment>
                                 ) :
                                 <tr>
-                                    <td/>
-                                    <td>No files</td>
-                                    <td/>
-                                    <td/>
-                                    <td/>
+                                    <td colSpan={1} className="d-none d-md-block"/>
+                                    <th colSpan={4}>Files</th>
                                 </tr>
                             }
                             </tbody>
@@ -378,6 +410,9 @@ class FilesView extends React.PureComponent {
                     </Alert>
 
                     {renderElement}
+
+                    <LinkShareModal closeModal={this.closeLinkShareModal} isVisible={showLinkShareModal}
+                                    linkUrl={generatedLink}/>
                 </div>
             );
         }
