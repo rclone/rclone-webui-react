@@ -16,9 +16,15 @@ export default {
             icon: 'icon-screen-desktop'
         },
         {
-            name: 'Log Out',
-            url: '/login',
+            name: 'Backend',
+            url: '/rcloneBackend',
             icon: 'icon-star',
         },
+        {
+            name: 'Log Out',
+            url: '/login',
+            icon: 'icon-logout',
+        },
+
     ],
 };

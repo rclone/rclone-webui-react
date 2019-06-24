@@ -47,14 +47,6 @@ exports[`Running Jobs renders should match snapshot 1`] = `
         tag="div"
       >
         Speed
-        <div
-          className="card-header-actions"
-        >
-          <a
-            className="card-header-action"
-            href="http://www.chartjs.org"
-          />
-        </div>
       </CardHeader>
       <CardBody
         tag="div"
