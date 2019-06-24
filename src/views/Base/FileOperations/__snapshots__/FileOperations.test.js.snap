@@ -251,9 +251,14 @@ exports[`File Operations renders should match snapshot 1`] = `
                 <p>
                   Space Usage (in GB)
                 </p>
-                <Doughnut
-                  data={Object {}}
-                />
+                <Spinner
+                  color="primary"
+                  tag="div"
+                  type="border"
+                >
+                  Loading...
+                </Spinner>
+                Loading
               </div>
             </Col>
           </Row>
