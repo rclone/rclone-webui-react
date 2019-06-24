@@ -61,7 +61,7 @@ class NewFolder extends React.Component {
             this.disableForm(false);
 
             this.toggle();
-            toast.info(`Folder created: ${remotePath}`)
+            toast.info(`Folder created: ${remotePath}`);
             this.props.getFilesForContainerID(this.props.containerID);
         } catch (error) {
             this.disableForm(false);

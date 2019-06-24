@@ -42,13 +42,24 @@ const filesTarget = {
             updateHandler: component.updateHandler
         }
 
+    },
+    canDrop(props, monitor) {
+        const {remoteName, remotePath} = monitor.getItem();
+        console.log(remoteName, props.currentPath.remoteName, remotePath, props.currentPath.remotePath);
+        const destRemoteName = props.currentPath.remoteName;
+        const destRemotePath = props.currentPath.remotePath;
+        if (destRemoteName === remoteName) {
+            return destRemotePath !== remotePath;
+        }
+        return true;
     }
 };
 
 function collect(connect, monitor) {
     return {
         connectDropTarget: connect.dropTarget(),
-        isOver: monitor.isOver()
+        isOver: monitor.isOver(),
+        canDrop: monitor.canDrop()
     }
 }
 
@@ -275,7 +286,7 @@ class FilesView extends React.PureComponent {
 
     getFileComponents = (isDir) => {
         const {files, containerID, gridMode, fsInfo} = this.props;
-        const {remoteName} = this.props.currentPath;
+        const {remoteName, remotePath} = this.props.currentPath;
         // console.log(fsInfo, files);
         if (fsInfo && !isEmpty(fsInfo)) {
             return files.map((item, idx) => {
@@ -289,7 +300,8 @@ class FilesView extends React.PureComponent {
                         <React.Fragment key={ID}>
                             <FileComponent item={item} clickHandler={this.handleFileClick}
                                            downloadHandle={this.downloadHandle} deleteHandle={this.deleteHandle}
-                                           remoteName={remoteName} gridMode={gridMode} containerID={containerID}
+                                           remoteName={remoteName} remotePath={remotePath} gridMode={gridMode}
+                                           containerID={containerID}
                                            linkShareHandle={this.linkShareHandle}
                                            canCopy={fsInfo.Features.Copy} canMove={fsInfo.Features.Move} itemIdx={idx}
                             />
@@ -304,7 +316,7 @@ class FilesView extends React.PureComponent {
 
     render() {
         const {isLoading, isDownloadProgress, downloadingItems, generatedLink, showLinkShareModal} = this.state;
-        const {connectDropTarget, isOver, files, navigateUp, containerID, gridMode} = this.props;
+        const {connectDropTarget, isOver, files, navigateUp, containerID, gridMode, canDrop} = this.props;
         const {remoteName} = this.props.currentPath;
 
         // console.log(this.props.searchQuery);
@@ -360,10 +372,10 @@ class FilesView extends React.PureComponent {
                         <Table className="table-responsive-sm">
                             <thead>
                             <tr>
-                                <th className="d-none d-md-block">x</th>
+                                <th className="d-none d-md-table-cell">x</th>
                                 <th>Name</th>
                                 <th>Size</th>
-                                <th className="d-none d-md-block">Modified</th>
+                                <th className="d-none d-md-table-cell">Modified</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -377,9 +389,9 @@ class FilesView extends React.PureComponent {
                                         </tr>
                                         {dirComponentMap}
                                         <tr>
-                                            <td className="d-none d-md-block"/>
+                                            <td className="d-none d-md-table-cell"/>
                                             <th>Files</th>
-                                            <td className="d-none d-md-block"/>
+                                            <td className="d-none d-md-table-cell"/>
                                             <td/>
                                             <td/>
                                         </tr>
@@ -387,7 +399,7 @@ class FilesView extends React.PureComponent {
                                     </React.Fragment>
                                 ) :
                                 <tr>
-                                    <td colSpan={1} className="d-none d-md-block"/>
+                                    <td colSpan={1} className="d-none d-md-table-cell"/>
                                     <th colSpan={4}>Files</th>
                                 </tr>
                             }
@@ -402,7 +414,7 @@ class FilesView extends React.PureComponent {
 
             return connectDropTarget(
                 <div className={"row"}>
-                    {isOver && renderOverlay()}
+                    {isOver && canDrop && renderOverlay()}
                     {/*<Col sm={12}>*/}
                     {/*</Col>*/}
 

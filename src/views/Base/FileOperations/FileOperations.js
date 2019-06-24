@@ -31,7 +31,7 @@ import {
 import {visibilityFilteringOptions} from "../../../utils/Constants";
 import {getAbout} from "../../../actions/providerStatusActions";
 import {Doughnut} from "react-chartjs-2";
-import {addColonAtLast, bytesToGB, isLocalRemoteName} from "../../../utils/Tools";
+import isEmpty, {addColonAtLast, bytesToGB, isLocalRemoteName} from "../../../utils/Tools";
 import axiosInstance from "../../../utils/API/API";
 import {toast} from "react-toastify";
 
@@ -47,7 +47,12 @@ class FileOperations extends React.Component {
     }
 
     openNewFolderModal = () => {
-        this.setState({newFolderModalIsVisible: true});
+        const {fsInfo} = this.props;
+        if (fsInfo && fsInfo.Features && fsInfo.Features.CanHaveEmptyDirectories) {
+            this.setState({newFolderModalIsVisible: true});
+        } else {
+            toast.error("This remote cannot have empty directories");
+        }
     };
 
     closeNewFolderModal = () => {
@@ -92,26 +97,33 @@ class FileOperations extends React.Component {
     };
 
     toggleAboutModal = () => {
-        this.setState((prevState) => {
-            return {
-                isAboutModalOpen: !prevState.isAboutModalOpen
-            }
-        }, () => {
-            if (this.state.isAboutModalOpen) {
-                const {containerID} = this.props;
-                this.props.getAbout(containerID);
-            }
-        });
+        const {fsInfo} = this.props;
+        if (fsInfo && fsInfo.Features && fsInfo.Features.About) {
+            this.setState((prevState) => {
+                return {
+                    isAboutModalOpen: !prevState.isAboutModalOpen
+                }
+            }, () => {
+                if (this.state.isAboutModalOpen) {
+                    const {containerID} = this.props;
+                    this.props.getAbout(containerID);
+                }
+            });
+        } else {
+            toast.error("This remote does not support About");
+        }
 
     };
 
     handleCleanTrash = () => {
+        const {fsInfo} = this.props;
+        if (fsInfo && fsInfo.Features && fsInfo.Features.CleanUp) {
 
-        if (window.confirm("Are you sure you want to clear the trash. This operation cannot be undone")) {
+            if (window.confirm("Are you sure you want to clear the trash. This operation cannot be undone")) {
 
-            const {currentPath, containerID, fsInfo} = this.props;
-            let {remoteName} = currentPath;
-            if (fsInfo && fsInfo.Features && fsInfo.Features.CleanUp) {
+                const {currentPath, containerID} = this.props;
+                let {remoteName} = currentPath;
+
                 if (!isLocalRemoteName(remoteName)) {
                     remoteName = addColonAtLast(remoteName);
                 }
@@ -129,10 +141,10 @@ class FileOperations extends React.Component {
                         toast.error("Error clearing trash");
                     }
                 )
-            } else {
-                // Cleanup is not allowed
-                toast.error("Clearing trash is not allowed on this drive");
             }
+        } else {
+            // Cleanup is not allowed
+            toast.error("Clearing trash is not allowed on this remote");
         }
     };
 
@@ -225,8 +237,8 @@ class FileOperations extends React.Component {
                                     <Col sm={12}>
                                         <div className="chart-wrapper">
                                             <p>Space Usage (in GB)</p>
-                                            {doughnutData ? <Doughnut data={doughnutData}/> :
-                                                <p><Spinner color="primary"/>Loading</p>}
+                                            {doughnutData && !isEmpty(doughnutData) ? <Doughnut data={doughnutData}/> :
+                                                <React.Fragment><Spinner color="primary"/>Loading</React.Fragment>}
                                         </div>
                                     </Col>
                                 </Row>
@@ -261,6 +273,7 @@ FileOperations.propTypes = {
     setSearchQuery: PropTypes.func.isRequired,
     searchQuery: PropTypes.string,
     remoteAbout: PropTypes.object,
+    fsInfo: PropTypes.object.isRequired,
     doughnutData: PropTypes.object
 };
 
@@ -285,25 +298,27 @@ const mapStateToProps = (state, ownProps) => {
                 data.push(bytesToGB(value).toFixed(2));
             }
         }
-        doughnutData = {
-            labels: labels, datasets: [
-                {
-                    data: data,
-                    backgroundColor: [
-                        '#FF6384',
-                        '#36A2EB',
-                        '#FFCE56',
-                        '#ff7459',
-                    ],
-                    hoverBackgroundColor: [
-                        '#FF6384',
-                        '#36A2EB',
-                        '#FFCE56',
-                        '#ff7459',
-                    ],
-                }
-            ]
-        };
+        if (labels.length > 1 && data.length > 1) {
+            doughnutData = {
+                labels: labels, datasets: [
+                    {
+                        data: data,
+                        backgroundColor: [
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+                            '#ff7459',
+                        ],
+                        hoverBackgroundColor: [
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+                            '#ff7459',
+                        ],
+                    }
+                ]
+            };
+        }
     }
 
     return {

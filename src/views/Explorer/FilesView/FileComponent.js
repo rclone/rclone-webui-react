@@ -23,7 +23,7 @@ const fileComponentSource = {
         // console.log("props", props, props.remoteName);
         const {Name, Path, IsDir} = props.item;
         return {
-            Name: Name, Path: Path, IsDir: IsDir, remoteName: props.remoteName
+            Name: Name, Path: Path, IsDir: IsDir, remoteName: props.remoteName, remotePath: props.remotePath
         }
     },
 
@@ -38,7 +38,8 @@ const fileComponentSource = {
 
                 if (dropEffect === "move") { /*Default operation without holding alt is copy, named as move in react-dnd*/
                     // if (component.props.canCopy) {
-                    await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+                    let res = await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+                    console.log("Copy", res);
                     updateHandler();
                     if (IsDir) {
                         toast.info(`Directory copying started in background: ${Name}`);
@@ -120,18 +121,17 @@ function Actions({downloadHandle, deleteHandle, item, linkShareHandle}) {
                 <Button color="link" onClick={() => downloadHandle(item)}>
                     <i className={"fa fa-cloud-download fa-lg d-inline"}/>
                 </Button>
-                <Button color="link" className="text-danger" onClick={() => confirmDelete(deleteHandle, item)}>
-                    <i className={"fa fa-remove fa-lg d-inline"}/>
-                </Button>
                 <UncontrolledButtonDropdown>
                     <DropdownToggle color="link">
                         <i className="fa fa-ellipsis-v"/>
                     </DropdownToggle>
                     <DropdownMenu>
                         <DropdownItem header>Actions</DropdownItem>
-                        <DropdownItem onClick={() => linkShareHandle(item)}>Share with link</DropdownItem>
+                        <DropdownItem onClick={() => linkShareHandle(item)}><i
+                            className="fa fa-share fa-lg d-inline"/> Share with link</DropdownItem>
                         <DropdownItem divider/>
-                        <DropdownItem>Delete</DropdownItem>
+                        <DropdownItem onClick={() => confirmDelete(deleteHandle, item)}><i
+                            className="fa fa-remove fa-lg d-inline text-danger"/> Delete </DropdownItem>
                     </DropdownMenu>
                 </UncontrolledButtonDropdown>
             </React.Fragment>
@@ -140,18 +140,18 @@ function Actions({downloadHandle, deleteHandle, item, linkShareHandle}) {
     } else {
         return (
             <React.Fragment>
-                <Button color="link" className="text-danger" onClick={() => confirmDelete(deleteHandle, item)}>
-                    <i className={"fa fa-remove fa-lg d-inline"}/>
-                </Button>
+
                 <UncontrolledButtonDropdown>
                     <DropdownToggle color="link">
                         <i className="fa fa-ellipsis-v"/>
                     </DropdownToggle>
                     <DropdownMenu>
                         <DropdownItem header>Actions</DropdownItem>
-                        <DropdownItem onClick={() => linkShareHandle(item)}>Share with link</DropdownItem>
+                        <DropdownItem onClick={() => linkShareHandle(item)}><i
+                            className="fa fa-share fa-lg d-inline"/> Share with link</DropdownItem>
                         <DropdownItem divider/>
-                        <DropdownItem>Delete</DropdownItem>
+                        <DropdownItem onClick={() => confirmDelete(deleteHandle, item)}><i
+                            className="fa fa-remove fa-lg d-inline text-danger"/> Delete </DropdownItem>
                     </DropdownMenu>
                 </UncontrolledButtonDropdown>
             </React.Fragment>
@@ -215,7 +215,7 @@ class FileComponent extends React.Component {
         } else {
             return connectDragSource(
                 <tr className={"pointer-cursor"}>
-                    <td className="d-none d-md-block"><input type="checkbox"/></td>
+                    <td className="d-none d-md-table-cell"><input type="checkbox"/></td>
                     <td onClick={(e) => clickHandler(e, item)} id={"file" + itemIdx}>
                         <FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}
 
@@ -225,7 +225,7 @@ class FileComponent extends React.Component {
                         {/*</UncontrolledTooltip>*/}
                     </td>
                     <td>{Size === -1 ? "-" : formatBytes(Size, 2)}</td>
-                    <td className="d-none d-md-block">{modTime.toLocaleDateString()}</td>
+                    <td className="d-none d-md-table-cell">{modTime.toLocaleDateString()}</td>
                     <td><Actions downloadHandle={downloadHandle} linkShareHandle={linkShareHandle}
                                  deleteHandle={deleteHandle} item={item}/></td>
                 </tr>
@@ -242,6 +242,7 @@ FileComponent.propTypes = {
     deleteHandle: PropTypes.func.isRequired,
     linkShareHandle: PropTypes.func.isRequired,
     remoteName: PropTypes.string.isRequired,
+    remotePath: PropTypes.string.isRequired,
     gridMode: PropTypes.string,
     containerID: PropTypes.string.isRequired,
     canMove: PropTypes.bool.isRequired,
