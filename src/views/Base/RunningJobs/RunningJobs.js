@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CardBody, CardHeader, Col, Progress, Row} from "reactstrap";
+import {Button, Card, CardBody, CardHeader, Col, Progress, Row} from "reactstrap";
 import {bytesToKB, formatBytes, secondsToStr} from "../../../utils/Tools";
 import * as PropTypes from "prop-types";
 import {connect} from "react-redux";
@@ -107,6 +107,22 @@ function TransferringJobsRow({transferring}) {
 
 class RunningJobs extends React.Component {
 
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            isShowing: true
+        }
+    }
+
+    toggleShowing = () => {
+        this.setState((prevState) => {
+            return {
+                isShowing: !prevState.isShowing
+            }
+        })
+    };
+
+
 
     render() {
         const {jobs, isConnected, lineChartData} = this.props;
@@ -124,10 +140,6 @@ class RunningJobs extends React.Component {
                             <Card>
                                 <CardHeader>
                                     Speed
-                                    <div className="card-header-actions">
-                                        <a href="http://www.chartjs.org" className="card-header-action">
-                                        </a>
-                                    </div>
                                 </CardHeader>
                                 <CardBody>
                                     <div className="chart-wrapper">
@@ -158,9 +170,15 @@ class RunningJobs extends React.Component {
         } else if (mode === "modal") {
             if (transferring && transferring.length > 0)
                 return (
-                    <Card className={"progress-modal"}>
-                        <CardHeader>Progress</CardHeader>
-                        <CardBody>
+                    <Card className="progress-modal d-none d-sm-block">
+                        <CardHeader onClick={() => this.toggleShowing()}>Progress
+                            <div className="card-header-actions">
+                                <Button color="link">
+                                    <i className="fa fa-close fa-lg"/>
+                                </Button>
+                            </div>
+                        </CardHeader>
+                        <CardBody className={!this.state.isShowing && "d-none"}>
                             <TransferringJobsRow transferring={transferring}/>
 
                         </CardBody>
@@ -224,7 +242,7 @@ const mapStateToProps = (state, ownProps) => {
                 },
                 {
                     label: 'Average Speed (kbps)',
-                    fill: false,
+                    fill: true,
                     lineTension: 0.1,
                     backgroundColor: 'rgba(187,69,14,0.4)',
                     borderColor: 'rgb(192,76,58)',

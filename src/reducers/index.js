@@ -22,6 +22,7 @@ const appReducer = combineReducers({
     remote: explorerReducer,
     explorer: explorerState,
     providerStatus: providerStatusReducer,
+    // remoteOps: remoteOpsReducer
 });
 
 export default rootReducer;
