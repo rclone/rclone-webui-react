@@ -90,7 +90,9 @@ function UpButtonComponent({upButtonHandle, gridMode}) {
     }
 }
 
-
+/**
+ * FilesView component renders files in the file explorer.
+ */
 class FilesView extends React.PureComponent {
 
 
