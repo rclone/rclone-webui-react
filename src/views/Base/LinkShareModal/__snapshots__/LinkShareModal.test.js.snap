@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Link Share Modal renders should match snapshot 1`] = `
+<Portal
+  node={
+    <div
+      style="position: relative; z-index: 1050;"
+      tabindex="-1"
+    />
+  }
+>
+  <div
+    className=""
+  >
+    <Fade
+      appear={true}
+      baseClass="fade"
+      baseClassActive="show"
+      className="modal"
+      enter={true}
+      exit={true}
+      in={true}
+      mountOnEnter={false}
+      onClick={[Function]}
+      onEnter={[Function]}
+      onEntered={[Function]}
+      onEntering={[Function]}
+      onExit={[Function]}
+      onExited={[Function]}
+      onExiting={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      role="dialog"
+      style={
+        Object {
+          "display": "block",
+        }
+      }
+      tabIndex="-1"
+      tag="div"
+      timeout={300}
+      unmountOnExit={false}
+    >
+      <div
+        className="modal-dialog"
+        role="document"
+      >
+        <div
+          className="modal-content"
+        >
+          <ModalHeader
+            charCode={215}
+            closeAriaLabel="Close"
+            data-test="modalHeader"
+            tag="h5"
+            toggle={[Function]}
+            wrapTag="div"
+          >
+            Public link generated.
+          </ModalHeader>
+          <ModalBody
+            data-test="modalBody"
+            tag="div"
+          >
+            <Input
+              onFocus={[Function]}
+              readOnly={true}
+              type="text"
+              value=""
+            />
+            <div>
+              <Button
+                color="link"
+                onClick={[Function]}
+                tag="button"
+              >
+                <i
+                  className="fa fa-clipboard fa-2x"
+                />
+              </Button>
+            </div>
+          </ModalBody>
+          <ModalFooter
+            data-test="modalFooter"
+            tag="div"
+          >
+            <Button
+              color="primary"
+              onClick={[Function]}
+              tag="button"
+            >
+              Done
+            </Button>
+             
+          </ModalFooter>
+        </div>
+      </div>
+    </Fade>
+    <Fade
+      appear={true}
+      baseClass="fade"
+      baseClassActive="show"
+      className="modal-backdrop"
+      enter={true}
+      exit={true}
+      in={true}
+      mountOnEnter={true}
+      onEnter={[Function]}
+      onEntered={[Function]}
+      onEntering={[Function]}
+      onExit={[Function]}
+      onExited={[Function]}
+      onExiting={[Function]}
+      tag="div"
+      timeout={150}
+      unmountOnExit={false}
+    />
+  </div>
+</Portal>
+`;
