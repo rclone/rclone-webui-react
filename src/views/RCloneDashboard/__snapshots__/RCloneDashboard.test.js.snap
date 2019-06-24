@@ -11,6 +11,10 @@ exports[`RClone Backend Component renders should match snapshot 1`] = `
       data={Object {}}
       hasError={false}
     />
+    <OptionsView
+      data={Object {}}
+      hasError={false}
+    />
   </Row>
 </div>
 `;

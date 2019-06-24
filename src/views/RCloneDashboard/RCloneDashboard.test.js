@@ -11,8 +11,6 @@ const setUp = (intialState = {}, props = {}) => {
 
 
 describe('RClone Backend Component', function () {
-
-
     describe('renders', function () {
         let wrapper;
         beforeEach(() => {

@@ -29,7 +29,6 @@ function OptionsView({data, hasError}) {
         <Card sm={12} lg={4} md={6}>
             <CardHeader>Options</CardHeader>
             <CardBody>
-                {}
             </CardBody>
         </Card>
     )
@@ -86,6 +85,7 @@ class RCloneDashboard extends React.Component {
             <div data-test="backendComponent">
                 <Row>
                     <RCloneVersion data={this.state.version} hasError={this.state.hasError}/>
+                    <OptionsView data={this.state.options} hasError={this.state.hasError}/>
                 </Row>
             </div>);
     }
