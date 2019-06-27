@@ -20,7 +20,12 @@ const initialState = {
     searchQueries: {},
 };
 
-
+/**
+ * Specifies the reducers for explorer state manipulation.
+ * @param state {$ObjMap}
+ * @param action {$ObjMap}
+ * @returns {{currentPaths: {}, visibilityFilters: {}, gridMode: {}, searchQueries: {}, backStacks: {}}|({currentPaths, visibilityFilters, gridMode, searchQueries, backStacks}&{currentPaths: (initialState.currentPaths|{}), visibilityFilters: (initialState.visibilityFilters|{}), gridMode: (initialState.gridMode|{}), searchQueries: (initialState.searchQueries|{}), backStacks: (initialState.backStacks|{})})}
+ */
 export default function (state = initialState, action) {
 
     const id = action.id;

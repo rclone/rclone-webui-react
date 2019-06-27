@@ -5,7 +5,12 @@ const initialState = {
     configDump: {},
     hasError: false,
 };
-
+/**
+ * Specifies redux reduce operations for the config module.
+ * @param state {$ObjMap}
+ * @param action {$ObjMap}
+ * @returns {({hasError, providers, configDump}&{providers: *})|({hasError, providers, configDump}&{hasError: boolean, error: *})|({hasError, providers, configDump}&{hasError: boolean, configDump: *})|{hasError: boolean, providers: Array, configDump: {}}}
+ */
 export default function (state = initialState, action) {
     switch (action.type) {
         case GET_PROVIDERS:

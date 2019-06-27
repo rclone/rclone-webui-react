@@ -2,6 +2,11 @@ import axiosInstance from "../utils/API/API";
 import {addColonAtLast, isLocalRemoteName} from "../utils/Tools";
 import {GET_REMOTE_ABOUT, REQUEST_ERROR, REQUEST_SUCCESS} from "../actions/types";
 
+/**
+ * Gets the information of a provider
+ * @param containerID
+ * @returns {Function}
+ */
 export const getAbout = (containerID) => {
     return (dispatch, getState) => {
 

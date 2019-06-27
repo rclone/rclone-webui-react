@@ -6,6 +6,12 @@ const initialState = {
     jobStatus: {}
 };
 
+/**
+ * Specifies the reducers for the job status and other remote ops.
+ * @param state
+ * @param action
+ * @returns {{jobStatus: {}, runningJobs: Array, runningJobsFetchError: {}}|({jobStatus, runningJobs, runningJobsFetchError}&{runningJobs: *, runningJobsFetchError: undefined})|({jobStatus, runningJobs, runningJobsFetchError}&{runningJobsFetchError: *})|({jobStatus, runningJobs, runningJobsFetchError}&{jobStatus: (initialState.jobStatus|{})})}
+ */
 export default function (state = initialState, action) {
     switch (action.type) {
         case GET_RUNNING_JOBS:

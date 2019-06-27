@@ -2,6 +2,11 @@ import axiosInstance from "../utils/API/API";
 import {GET_CONFIG_FOR_REMOTE, GET_FILES_LIST, GET_REMOTE_LIST, REQUEST_ERROR, REQUEST_SUCCESS} from "./types";
 import {addColonAtLast, isLocalRemoteName} from "../utils/Tools";
 
+/**
+ * Gets the information regarding features, hashes from the rclone backend.
+ * @param remoteName {string} The name of the remote
+ * @returns {Function}
+ */
 export const getFsInfo = (remoteName) => dispatch => {
 
     let sentRemoteName;
@@ -32,6 +37,11 @@ export const getFsInfo = (remoteName) => dispatch => {
 
 };
 
+/**
+ * Get only remote names from the rclone backend.
+ * @returns {Function}
+ */
+
 export const getRemoteNames = () => {
     return (dispatch, getState) => {
         const state = getState();
@@ -51,7 +61,12 @@ export const getRemoteNames = () => {
     }
 };
 
-
+/**
+ * Gets the files for a specified remote path (remoteName + remotePath).
+ * @param remoteName {string} Name of the remote config/ ("/" for local path). May contain abc:bucketName for bucket based remotes
+ * @param remotePath {string} Name of the path in the remote
+ * @returns {Function}
+ */
 export const getFiles = (remoteName, remotePath) => dispatch => {
     let newRemoteName = "";
     if (remoteName !== "") {

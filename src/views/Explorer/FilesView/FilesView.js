@@ -6,7 +6,7 @@ import {DropTarget} from "react-dnd";
 import FileComponent from "./FileComponent";
 import {ItemTypes} from "./Constants";
 import {toast} from "react-toastify";
-import isEmpty, {addColonAtLast, changeListVisibility, changeSearchFilter} from "../../../utils/Tools";
+import {addColonAtLast, changeListVisibility, changeSearchFilter, isEmpty} from "../../../utils/Tools";
 import {connect} from "react-redux";
 import {getFiles} from "../../../actions/explorerActions";
 import {compose} from "redux";

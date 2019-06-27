@@ -1,19 +1,27 @@
 import React from "react";
 import {Button, Card, CardBody, CardHeader} from "reactstrap";
-import PropTypes from "prop-types";
+import * as PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import RunningJobs from "../RunningJobs";
 import {connect} from "react-redux";
 import {enableCheckStatus, getStatus} from "../../../actions/statusActions";
+import {MODAL_ROOT_ELEMENT, STATUS_REFRESH_TIMEOUT} from "../../../utils/Constants";
 
-
+/**
+ * Functional component Modal which is placed in the element with id "modal-root" in index.html using React.createPortal
+ * @returns {{children, implementation, containerInfo, $$typeof, key}}
+ * @constructor
+ */
 function TaskModal() {
     return ReactDOM.createPortal((
         <RunningJobs mode={"modal"}/>
 
-    ), document.getElementById("modal-root"));
+    ), document.getElementById(MODAL_ROOT_ELEMENT));
 }
 
+/**
+ * Component for display and monitoring of backend rclone status. Auto refresh status in redux store every 5 seconds.
+ */
 class BackendStatusCard extends React.Component {
 
 
@@ -21,7 +29,7 @@ class BackendStatusCard extends React.Component {
 
         // Check if the connection to the backend is active
         this.props.getStatus();
-        this.refreshInterval = setInterval(() => this.props.getStatus(), 5000);
+        this.refreshInterval = setInterval(() => this.props.getStatus(), STATUS_REFRESH_TIMEOUT);
     }
 
 
@@ -30,12 +38,21 @@ class BackendStatusCard extends React.Component {
         clearInterval(this.refreshInterval);
     }
 
+    /**
+     * Enable or disable checking of status request by http request to the backend.
+     */
     toggleCheckStatus = () => {
         const {checkStatus, enableCheckStatus} = this.props;
         console.log(checkStatus, enableCheckStatus);
         enableCheckStatus(!checkStatus);
     };
 
+    /**
+     * Renders the component with mode.
+     * Card: Enables the card mode.
+     * Default: Table mode (Grid)
+     * @returns {*}
+     */
     render() {
         const {isConnected, mode, checkStatus} = this.props;
 
@@ -47,7 +64,7 @@ class BackendStatusCard extends React.Component {
             return (
 
                 <Card
-                      className={"text-center " + (isConnected ? "card-accent-info" : "card-accent-warning")}>
+                    className={"text-center " + (isConnected ? "card-accent-info" : "card-accent-warning")}>
                     <CardHeader>
                         rclone status
                     </CardHeader>
@@ -70,6 +87,15 @@ class BackendStatusCard extends React.Component {
     }
 }
 
+/**
+ *
+ * @param connectivityStatus    {boolean} Current connectivity status to the backend.
+ * @param checkStatus           {boolean} Specify whether to check the status or skip.
+ * @param ipAddress             {string} IP Address of the backend
+ * @param userName              {string} User name of the currently logged in user.
+ * @returns {*}
+ * @constructor
+ */
 function StatusText({connectivityStatus, checkStatus, ipAddress, userName}) {
     if (!checkStatus) {
         return <p>Not monitoring connectivity status. Tap the icon in navbar to start.</p>
@@ -88,6 +114,9 @@ function StatusText({connectivityStatus, checkStatus, ipAddress, userName}) {
 }
 
 const propTypes = {
+    /**
+     * Used to specify mode of render : card/ grid.
+     */
     mode: PropTypes.string.isRequired,
     isConnected: PropTypes.bool.isRequired,
     checkStatus: PropTypes.bool.isRequired,

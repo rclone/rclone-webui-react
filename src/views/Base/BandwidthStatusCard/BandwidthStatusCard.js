@@ -19,14 +19,21 @@ class BandwidthStatusCard extends React.Component {
         };
     }
 
+    /**
+     * Get the current bandwidth from the backend
+     */
     getBandwidth = () => {
         const {getBandwidth} = this.props;
         getBandwidth();
     };
 
+    /**
+     * Set the new bandwidth specified in state.bandwidthText
+     * Check if text is valid, before sending.
+     */
     setBandwidth = () => {
         const {bandwidthText, hasError} = this.state;
-        console.log(bandwidthText, hasError);
+        // console.log(bandwidthText, hasError);
         if (bandwidthText && !hasError) {
             const {setBandwidth} = this.props;
             setBandwidth(bandwidthText);
@@ -35,6 +42,11 @@ class BandwidthStatusCard extends React.Component {
         }
     };
 
+    /**
+     * Change the state.bandwidthText
+     * Validate input before setting, if the input text is invalid, set the hasError in the state.
+     * @param e
+     */
     changeBandwidthInput = (e) => {
         const inputValue = e.target.value;
         const validateInput = validateSizeSuffix(inputValue);
@@ -45,17 +57,23 @@ class BandwidthStatusCard extends React.Component {
         })
     };
 
+    /**
+     * Upon first mount, get the current bandwidth
+     */
     componentDidMount() {
         this.getBandwidth();
     }
 
-
+    /**
+     * Show or hide the right side modal with the form to change the current bandwidth.
+     */
     toggleShowChangeBandwidth = () => {
         this.setState((prevState) => ({
 
             showChangeBandwidth: !prevState.showChangeBandwidth
         }))
-    }
+    };
+
     render() {
         const {bandwidthText, hasError, showChangeBandwidth} = this.state;
         const {bandwidth} = this.props;
@@ -104,12 +122,24 @@ class BandwidthStatusCard extends React.Component {
 }
 
 const mapStateToProps = state => ({
+    /**
+     * Connectivity status with backend
+     */
     isConnected: state.status.isConnected,
+    /**
+     * Map with {bytesPerSecond, rate}
+     */
     bandwidth: state.status.bandwidth
 });
 
 BandwidthStatusCard.propTypes = {
+    /**
+     * Redux function to get the current bandwidth.
+     */
     getBandwidth: PropTypes.func.isRequired,
+    /**
+     * Redux function to set the new bandwidth in rclone backend.
+     */
     setBandwidth: PropTypes.func.isRequired,
 
 };

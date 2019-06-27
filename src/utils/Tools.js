@@ -1,3 +1,8 @@
+/**
+ * Returns whether the passed in object (obj) is empty or it contains some entries.
+ * @param obj {$ObjMap} An object to check if it is empty: it can be an array or a map.
+ * @returns {boolean}
+ */
 export function isEmpty(obj) {
     if (Array.isArray(obj)) return obj.length === 0;
     for (let key in obj) {
@@ -7,8 +12,11 @@ export function isEmpty(obj) {
     return true;
 }
 
-export default isEmpty;
-
+/**
+ * Converts bytes into MB.
+ * @param bytes {number} bytes to be converted.
+ * @returns {number}
+ */
 export function bytesToMB(bytes) {
     if (bytes === 0) return 0;
     const mb = bytes / 1024 / 1024;
@@ -16,6 +24,11 @@ export function bytesToMB(bytes) {
     return mb;
 }
 
+/**
+ * Converts bytes to KB.
+ * @param bytes {number} bytes to be converted
+ * @returns {number}
+ */
 export function bytesToKB(bytes) {
     if (bytes === 0) return 0;
     const kb = bytes / 1024;
@@ -23,6 +36,11 @@ export function bytesToKB(bytes) {
     return kb;
 }
 
+/**
+ * Converts bytes to GB.
+ * @param bytes {number} bytes to be converted
+ * @returns {number}
+ */
 export function bytesToGB(bytes) {
     if (bytes === 0) return 0;
     const mb = bytes / 1024 / 1024 / 1024;
@@ -30,12 +48,23 @@ export function bytesToGB(bytes) {
     return mb;
 }
 
+/**
+ * Converts bytes per second to Megabytes per second.
+ * @param bps {number} bytes per second.
+ * @returns {number}
+ */
 export function bpsToMbps(bps) {
     if (bps === 0) return 0;
     const mbps = bytesToMB(bps);
     return mbps;
 }
 
+/**
+ * Format bytes to a human readable format.
+ * @param bytes {number} bytes to be formatted.
+ * @param decimals {number} specifies the precision of numbers after the decimal point.
+ * @returns {string}
+ */
 export function formatBytes(bytes, decimals = 2) {
     if (bytes < 1) return '0 B';
 
@@ -48,6 +77,11 @@ export function formatBytes(bytes, decimals = 2) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
+/**
+ * Converts time in seconds to a minute and hour string of the format "HH:MM:SS hrs"
+ * @param seconds {number} Number of seconds since 00:00:00
+ * @returns {string}
+ */
 export function secondsToMinutesHourString(seconds) {
     if (seconds === 0) {
         return `00:00:00 S`;
@@ -60,6 +94,11 @@ export function secondsToMinutesHourString(seconds) {
     return `${Math.round(hours)}:${Math.round(minutes)}:${Math.round(seconds)} hrs`;
 }
 
+/**
+ * Converts seconds to a human readable string with support for year, day, week, minute, seconds.
+ * @param seconds
+ * @returns {string}
+ */
 export function secondsToStr(seconds) {
     // TIP: to find current time in milliseconds, use:
     // var  current_time_milliseconds = new Date().getTime();
@@ -92,34 +131,64 @@ export function secondsToStr(seconds) {
     return 'Just now'; //'just now' //or other string you like;
 }
 
+/**
+ * Base validator takes in a regex exp and tests an input str against that regex.
+ * @param regex
+ * @param str
+ * @returns {boolean | * | never}
+ */
 export function baseValidator(regex, str) {
 
     return regex.test(str);
 }
 
-
+/**
+ * Validate Size Suffix of the format (off | 1K | 1M | 100G | 10P ) etc
+ * @param str {string} String to be validated
+ * @returns {boolean|*|never}
+ */
 export function validateSizeSuffix(str) {
     const regex = /^(off|(([0-9]+[.][0-9]+|[0-9]+)([KMGTP])))$/i;
 
     return baseValidator(regex, str);
 }
 
+/**
+ * Validate integer without decimal points (0-9)
+ * @param str {number|string} The string to be validated.
+ * @returns {boolean|*|never}
+ */
 export function validateInt(str) {
     const regex = /^([0-9]+)$/;
     return baseValidator(regex, str);
 }
 
+/**
+ * Validate duration hours, minutes, seconds, milliseconds etc.
+ * @param str {number|string} The duration to be validated.
+ * @returns {boolean|*|never}
+ */
 export function validateDuration(str) {
     const regex = /^(\d+[h])?(\d+[m])?(\d+[s])?(\d+ms)??$/i;
     return baseValidator(regex, str);
 }
 
+/**
+ * Opens the specified URL in a new tab and focus on it.
+ * @param url {string} URL to be opened.
+ */
 export function openInNewTab(url) {
     let win = window.open(url, '_blank');
     win.focus();
 }
 
-/*Returns object of config if found, else returns undefined*/
+/**
+ * Helper function for finding the provider with a given prefix.
+ * @param config {$ObjMap} Array of remote configs
+ * @param name {string} Specifies the name of the provider to find.
+ * @returns {*}
+ */
+
 export function findFromConfig(config, name) {
     const currentConfig = config.find((ele, idx, array) => {
         return (name === ele.Prefix);
@@ -127,6 +196,14 @@ export function findFromConfig(config, name) {
     return currentConfig;
 }
 
+
+/**
+ * Helper function to add semicolon to the last.
+ * Behaviour: if the passed in string does not have a semicolon at last, then insert it.
+ * If there is a semicolon in the middle, skip insertion.
+ * @param name
+ * @returns {string}
+ */
 export function addColonAtLast(name) {
     if (name.indexOf(':') === -1) {
         if (name[name.length - 1] !== ":") {
@@ -137,12 +214,22 @@ export function addColonAtLast(name) {
     return name;
 }
 
+/**
+ * Allowed types for visibility Status modification in file explorer.
+ * @type {{Pdf: string, Images: string}}
+ */
 const visibilityAssociation = {
     Images: "image/jpeg",
     Pdf: "application/pdf",
 };
 
-
+/**
+ * Function to filter the list of files based on the provided visibility status.
+ * @param list {$ObjMap}
+ * @param filter {string} Specifies the type of files to display eg: Images, Pdf etc.
+ * @param checkList {$ObjMap} Provides mimeType matches for every string visibility operation eg: Images: "image/jpeg"
+ * @returns {$ObjMap}
+ */
 export function changeListVisibility(list, filter, checkList = visibilityAssociation) {
     let acceptType = checkList[filter];
     // console.log(list);
@@ -156,6 +243,13 @@ export function changeListVisibility(list, filter, checkList = visibilityAssocia
 
 }
 
+/**
+ * Function to filter the list of files based on the provided search query.
+ * Uses linear search for filtering the relevant files.
+ * @param list
+ * @param searchQuery
+ * @returns {*}
+ */
 export function changeSearchFilter(list, searchQuery = "") {
     searchQuery = searchQuery.toLowerCase();
     if (searchQuery) {
@@ -168,7 +262,12 @@ export function changeSearchFilter(list, searchQuery = "") {
 
 }
 
-
+/**
+ * Checks whether the remoteName is local or not. Returns true if it is a remote local path, false otherwise.
+ * Behaviour: if the name starts with "/" it is a local name.
+ * @param remoteName {string} Name of the remote to check for.
+ * @returns {boolean}
+ */
 export function isLocalRemoteName(remoteName) {
     return (remoteName && remoteName !== "" && remoteName[0] === "/");
 }

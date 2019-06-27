@@ -6,7 +6,12 @@ const initialState = {
     files: {},
     hasError: false
 };
-
+/**
+ * Specifies the explorer specific reducers for the redux actions.
+ * @param state
+ * @param action
+ * @returns {{configs: {}, remotes: Array, files: {}, hasError: boolean}|({configs, remotes, files, hasError}&{files: (initialState.files|{})})|({configs, remotes, files, hasError}&{files: (initialState.files|{}), hasError: boolean})|({configs, remotes, files, hasError}&{hasError: boolean, error: *})|({configs, remotes, files, hasError}&{configs: ((initialState.configs&*)|({}&*)), hasError: boolean})|({configs, remotes, files, hasError}&{remotes: *, hasError: boolean})}
+ */
 export default function (state = initialState, action) {
     switch (action.type) {
         case GET_CONFIG_FOR_REMOTE:

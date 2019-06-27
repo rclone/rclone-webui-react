@@ -15,7 +15,12 @@ const initialState = {
     checkStatus: true,
     bandwidth: {}
 };
-
+/**
+ * Specifies reducers for status check of the rclone backend.
+ * @param state
+ * @param action
+ * @returns {({checkStatus, bandwidth, jobs, isConnected, runningAvgSpeed, speed}&{isConnected: boolean, error: *})|{checkStatus: boolean, bandwidth: {}, jobs: {}, isConnected: boolean, runningAvgSpeed: number, speed: Array}|({checkStatus, bandwidth, jobs, isConnected, runningAvgSpeed, speed}&{bandwidth: *})|({checkStatus, bandwidth, jobs, isConnected, runningAvgSpeed, speed}&{jobs: *, isConnected: boolean, runningAvgSpeed: number, speed: *[]})|({checkStatus, bandwidth, jobs, isConnected, runningAvgSpeed, speed}&{checkStatus: *})}
+ */
 export default function (state = initialState, action) {
     switch (action.type) {
         case FETCH_STATUS:

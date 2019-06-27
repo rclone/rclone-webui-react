@@ -31,7 +31,7 @@ import {
 import {visibilityFilteringOptions} from "../../../utils/Constants";
 import {getAbout} from "../../../actions/providerStatusActions";
 import {Doughnut} from "react-chartjs-2";
-import isEmpty, {addColonAtLast, bytesToGB, isLocalRemoteName} from "../../../utils/Tools";
+import {addColonAtLast, bytesToGB, isEmpty, isLocalRemoteName} from "../../../utils/Tools";
 import axiosInstance from "../../../utils/API/API";
 import {toast} from "react-toastify";
 

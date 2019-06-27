@@ -8,6 +8,12 @@ import {
 import axiosInstance from "../utils/API/API";
 import {toast} from "react-toastify";
 
+/**
+ * Create a public link for a supported remote
+ * @param remoteName {string}
+ * @param remotePath {string}
+ * @returns {Function}
+ */
 export const createPublicLink = (remoteName, remotePath) => {
     return (dispatch) => {
         axiosInstance.post("operations/publiclink", {fs: remoteName, remote: remotePath}).then((res) =>
@@ -29,6 +35,11 @@ export const createPublicLink = (remoteName, remotePath) => {
 
 };
 
+/**
+ * Gets the running jobs status from job/list on the rclone ui backend
+ * @returns {Function}
+ */
+
 export const getRunningJobs = () => dispatch => {
     axiosInstance.post("job/list").then((res) => {
             dispatch({
@@ -46,6 +57,11 @@ export const getRunningJobs = () => dispatch => {
         })
 };
 
+/**
+ * Gets the current status for a running job given a valid jobID
+ * @param jobId {number}
+ * @returns {Function}
+ */
 export const getStatusForRunningJob = (jobId) => dispatch => {
     axiosInstance.post("job/status", {jobid: jobId}).then((res) => {
             dispatch({

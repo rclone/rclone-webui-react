@@ -1,4 +1,4 @@
-import isEmpty, {baseValidator, bytesToMB, formatBytes, secondsToStr, validateInt, validateSizeSuffix} from './Tools';
+import {baseValidator, bytesToMB, formatBytes, isEmpty, secondsToStr, validateInt, validateSizeSuffix} from './Tools';
 
 describe('String Formats are as expected', function () {
     it('should return correct representation in MB', function () {

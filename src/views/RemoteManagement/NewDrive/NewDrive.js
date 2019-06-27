@@ -16,10 +16,10 @@ import {
 // import {config} from "./config.js";
 import NewDriveAuthModal from "../../Base/NewDriveAuthModal";
 import axiosInstance from "../../../utils/API/API";
-import isEmpty, {findFromConfig, validateDuration, validateInt, validateSizeSuffix} from "../../../utils/Tools";
+import {findFromConfig, isEmpty, validateDuration, validateInt, validateSizeSuffix} from "../../../utils/Tools";
 import ProviderAutoSuggest from "./ProviderAutoSuggest";
 import {toast} from "react-toastify";
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import {getProviders} from "../../../actions/configActions";
 import {connect} from "react-redux";
 
