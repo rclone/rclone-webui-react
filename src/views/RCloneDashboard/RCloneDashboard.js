@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CardBody, CardHeader, Row} from "reactstrap";
+import {Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label, Row} from "reactstrap";
 import axiosInstance from "../../utils/API/API";
 
 
@@ -8,33 +8,21 @@ function RCloneVersion({data, hasError}) {
         return (<p>Error loading.</p>);
     }
     return (
-        <Card sm={12} lg={4} md={6}>
-            <CardHeader>Version</CardHeader>
-            <CardBody>
-                <p><strong>Arch:</strong>{data.arch}</p>
-                <p><strong>goVersion:</strong>{data.goVersion}</p>
-                <p><strong>OS:</strong>{data.os}</p>
-                <p><strong>Rclone version:</strong>{data.version}</p>
-                <p><strong>isGit:</strong>{data.isGit}</p>
-            </CardBody>
-        </Card>
+        <Col sm={12} lg={4} md={6}>
+            <Card>
+                <CardHeader>Version</CardHeader>
+                <CardBody>
+                    <p><strong>Arch:</strong>{data.arch}</p>
+                    <p><strong>goVersion:</strong>{data.goVersion}</p>
+                    <p><strong>OS:</strong>{data.os}</p>
+                    <p><strong>Rclone version:</strong>{data.version}</p>
+                    <p><strong>isGit:</strong>{data.isGit}</p>
+                </CardBody>
+            </Card>
+        </Col>
     )
 }
 
-function OptionsView({data, hasError}) {
-    if (hasError) {
-        return (<p>Error loading.</p>);
-    }
-    return (
-        <Card sm={12} lg={4} md={6}>
-            <CardHeader>Options</CardHeader>
-            <CardBody>
-            </CardBody>
-        </Card>
-    )
-
-
-}
 
 class RCloneDashboard extends React.Component {
 
@@ -55,6 +43,8 @@ class RCloneDashboard extends React.Component {
             this.setState({
                 memStats: res.data
             })
+        }).catch((e) => {
+            console.log("Rejected" + e);
         })
     };
     getOptions = () => {
@@ -62,11 +52,76 @@ class RCloneDashboard extends React.Component {
             this.setState({
                 options: res.data
             })
+        }).catch((e) => {
+            console.log("Rejected" + e);
+        })
+    };
+    getOptionViewCards = (head, value) => {
+        const elements = [];
+        for (const [ele, val] of Object.entries(value)) {
+            elements.push((
+                <FormGroup key={head + "$" + ele} row>
+                    <Label for="driveType" sm={5}>{ele}</Label>
+                    <Col sm={7}>
+                        <Input onChange={this.handleInputChange} type="text" value={val !== null ? val : ""}
+                               name={head + "$" + ele}/>
+                    </Col>
+                </FormGroup>
+            ))
+        }
+        return elements;
+    };
+
+    getOptionsView = () => {
+        const {hasError, options} = this.state;
+        if (hasError) {
+            return (<p>Error loading.</p>);
+        }
+
+        const elements = [];
+        for (const [head, value] of Object.entries(options)) {
+            elements.push((
+                <Col sm={12} lg={4} md={6} key={head}>
+                    <Card>
+                        <CardHeader>
+                            {head}
+                        </CardHeader>
+                        <CardBody>
+                            {this.getOptionViewCards(head, value)}
+                        </CardBody>
+                    </Card>
+                </Col>
+
+            ));
+
+        }
+        return (
+            <Form onSubmit={(e) => e.preventDefault() && console.log("Hey")}>
+                <Row lg={12}>
+                    {
+                        elements
+                    }
+                </Row>
+            </Form>
+        )
+
+    };
+
+    handleInputChange = (e) => {
+
+        let inputName = e.target.name;
+        let inputValue = e.target.value;
+
+        const split = inputName.split('$');
+
+        this.setState({
+            options: {...this.state.options, [split[0]]: {[split[1]]: inputValue}}
         })
     };
 
-    componentWillMount() {
+    componentDidMount() {
         this.getRcloneStatus();
+        this.getOptions();
     }
 
     constructor(props, context) {
@@ -83,10 +138,13 @@ class RCloneDashboard extends React.Component {
     render() {
         return (
             <div data-test="backendComponent">
-                <Row>
-                    <RCloneVersion data={this.state.version} hasError={this.state.hasError}/>
-                    <OptionsView data={this.state.options} hasError={this.state.hasError}/>
-                </Row>
+                <Container fluid={true}>
+                    <Row>
+                        <RCloneVersion data={this.state.version} hasError={this.state.hasError}/>
+
+                    </Row>
+                    {this.getOptionsView()}
+                </Container>
             </div>);
     }
 }

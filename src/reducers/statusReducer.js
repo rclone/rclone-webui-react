@@ -1,10 +1,19 @@
-import {FETCH_STATUS, REQUEST_ERROR, REQUEST_SUCCESS} from "../actions/types";
+import {
+    ENABLE_STATUS_CHECK,
+    FETCH_STATUS,
+    GET_BANDWIDTH,
+    REQUEST_ERROR,
+    REQUEST_SUCCESS,
+    SET_BANDWIDTH
+} from "../actions/types";
 
 const initialState = {
     isConnected: false,
     jobs: {},
     speed: [],
-    runningAvgSpeed: 0
+    runningAvgSpeed: 0,
+    checkStatus: true,
+    bandwidth: {}
 };
 
 export default function (state = initialState, action) {
@@ -39,7 +48,17 @@ export default function (state = initialState, action) {
                 };
             }
             break;
-
+        case ENABLE_STATUS_CHECK:
+            return {
+                ...state,
+                checkStatus: action.payload
+            };
+        case SET_BANDWIDTH:
+        case GET_BANDWIDTH:
+            return {
+                ...state,
+                bandwidth: action.payload
+            };
         default:
             return state;
     }

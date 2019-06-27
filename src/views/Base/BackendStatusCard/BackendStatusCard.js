@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import RunningJobs from "../RunningJobs";
 import {connect} from "react-redux";
-import {getStatus} from "../../../actions/statusActions";
+import {enableCheckStatus, getStatus} from "../../../actions/statusActions";
 
 
 function TaskModal() {
@@ -30,8 +30,14 @@ class BackendStatusCard extends React.Component {
         clearInterval(this.refreshInterval);
     }
 
+    toggleCheckStatus = () => {
+        const {checkStatus, enableCheckStatus} = this.props;
+        console.log(checkStatus, enableCheckStatus);
+        enableCheckStatus(!checkStatus);
+    };
+
     render() {
-        const {isConnected, mode} = this.props;
+        const {isConnected, mode, checkStatus} = this.props;
 
         const ipAddress = localStorage.getItem('ipAddress');
         const username = localStorage.getItem("username");
@@ -46,7 +52,8 @@ class BackendStatusCard extends React.Component {
                         rclone status
                     </CardHeader>
                     <CardBody>
-                        <StatusText connectivityStatus={isConnected} ipAddress={ipAddress} userName={username}/>
+                        <StatusText checkStatus={checkStatus} connectivityStatus={isConnected} ipAddress={ipAddress}
+                                    userName={username}/>
 
                     </CardBody>
                 </Card>
@@ -54,16 +61,19 @@ class BackendStatusCard extends React.Component {
         else /*Default*/
             return (
                 <React.Fragment>
-                    <Button type="primary"
-                            className={isConnected ? "bg-info  d-none d-lg-block" : "bg-warning d-none d-lg-block"}> {isConnected ? "CONNECTED" : "DISCONNECTED"}</Button>
+                    <Button type="primary" onClick={this.toggleCheckStatus}
+                            className={isConnected ? "bg-info  d-none d-lg-block" : "bg-warning d-none d-lg-block"}> {checkStatus ? isConnected ? "CONNECTED" : "DISCONNECTED" : "DISABLED"}</Button>
                     {/*Show current tasks in the side modal*/}
                     <TaskModal/>
                 </React.Fragment>
-            )
+            );
     }
 }
 
-function StatusText({connectivityStatus, ipAddress, userName}) {
+function StatusText({connectivityStatus, checkStatus, ipAddress, userName}) {
+    if (!checkStatus) {
+        return <p>Not monitoring connectivity status. Tap the icon in navbar to start.</p>
+    }
     if (connectivityStatus) {
         return (
             <p>The rclone backend is connected and working as expected.<br/>Current IP address is {ipAddress}
@@ -80,6 +90,9 @@ function StatusText({connectivityStatus, ipAddress, userName}) {
 const propTypes = {
     mode: PropTypes.string.isRequired,
     isConnected: PropTypes.bool.isRequired,
+    checkStatus: PropTypes.bool.isRequired,
+    enableCheckStatus: PropTypes.func.isRequired,
+    getStatus: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -91,7 +104,9 @@ BackendStatusCard.propTypes = propTypes;
 BackendStatusCard.defaultProps = defaultProps;
 
 const mapStateToProps = state => ({
-    isConnected: state.status.isConnected
+    isConnected: state.status.isConnected,
+    isDisabled: state.status.isDisabled,
+    checkStatus: state.status.checkStatus
 });
 
-export default connect(mapStateToProps, {getStatus})(BackendStatusCard);
+export default connect(mapStateToProps, {getStatus, enableCheckStatus})(BackendStatusCard);
