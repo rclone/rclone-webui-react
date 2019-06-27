@@ -31,6 +31,22 @@ exports[`Home Component renders should match snapshot 1`] = `
         mode="card"
       />
     </Col>
+    <Col
+      lg={4}
+      sm={12}
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <Connect(BandwidthStatusCard) />
+    </Col>
   </Row>
   <h2>
     Jobs

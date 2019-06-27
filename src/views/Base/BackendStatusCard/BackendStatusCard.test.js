@@ -1,6 +1,6 @@
 import React from "react";
 import {shallow} from "enzyme";
-import {checkProps, testStore} from "../../../../Utils";
+import {testStore} from "../../../../Utils";
 import BackendStatusCard from "./BackendStatusCard";
 import toJson from "enzyme-to-json";
 
@@ -12,18 +12,6 @@ const setUp = (intialState = {}, props = {}) => {
 
 describe('Backend Status Card', function () {
 
-    describe('Checking propTypes', function () {
-        const expectedProps = {
-            isConnected: false,
-            mode: "card"
-        };
-        it('should not throw a warning', function () {
-            const propsError = checkProps(BackendStatusCard, expectedProps);
-            expect(propsError).toBeUndefined();
-        });
-
-
-    });
     describe('renders', function () {
         let wrapper;
         beforeEach(() => {
@@ -31,7 +19,8 @@ describe('Backend Status Card', function () {
             const initialState = {
                 status: {
                     isConnected: false,
-                    jobs: {}
+                    jobs: {},
+                    checkStatus: true
                 },
             };
             wrapper = setUp(initialState, props)

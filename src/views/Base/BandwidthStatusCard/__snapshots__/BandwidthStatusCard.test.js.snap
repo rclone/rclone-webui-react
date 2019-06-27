@@ -1,38 +1,139 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Bandwidth Status Card should match snapshot 1`] = `
-<ContextProvider
-  value={
-    Object {
-      "store": Object {
-        "dispatch": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
-        Symbol(observable): [Function],
-      },
-      "subscription": Subscription {
-        "handleChangeWrapper": [Function],
-        "listeners": Object {
-          "clear": [Function],
-          "get": [Function],
-          "notify": [Function],
-          "subscribe": [Function],
-        },
-        "onStateChange": [Function],
-        "parentSub": undefined,
-        "store": Object {
-          "dispatch": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-          Symbol(observable): [Function],
-        },
-        "unsubscribe": [Function],
-      },
-    }
-  }
+<Row
+  tag="div"
 >
-  <BandwidthStatusCard />
-</ContextProvider>
+  <Col
+    lg={12}
+    sm={12}
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    <BandwidthWidget
+      color="danger"
+      header="1M"
+      icon="icon-speedometer"
+      invert={false}
+      lg={6}
+      sm={12}
+      value="25"
+    >
+      Current bandwidth 
+      <Button
+        color="link"
+        onClick={[Function]}
+        tag="button"
+      >
+        <i
+          className="fa fa-lg fa-angle-right"
+        />
+      </Button>
+    </BandwidthWidget>
+  </Col>
+  <Col
+    className="d-none"
+    lg={6}
+    sm={12}
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    <Card
+      tag="div"
+    >
+      <CardHeader
+        tag="div"
+      >
+        Change bandwidth
+      </CardHeader>
+      <CardBody
+        tag="div"
+      >
+        <Form
+          onSubmit={[Function]}
+          tag="form"
+        >
+          <FormGroup
+            row={true}
+            tag="div"
+          >
+            <Label
+              for="bandwidthValue"
+              sm={5}
+              tag="label"
+              widths={
+                Array [
+                  "xs",
+                  "sm",
+                  "md",
+                  "lg",
+                  "xl",
+                ]
+              }
+            >
+              New Bandwidth
+            </Label>
+            <Col
+              sm={7}
+              tag="div"
+              widths={
+                Array [
+                  "xs",
+                  "sm",
+                  "md",
+                  "lg",
+                  "xl",
+                ]
+              }
+            >
+              <Input
+                id="bandwidthValue"
+                invalid={false}
+                onChange={[Function]}
+                type="text"
+                valid={true}
+                value=""
+              />
+              <FormFeedback
+                tag="div"
+                valid={true}
+              >
+                Keep empty to reset.
+              </FormFeedback>
+              <FormFeedback
+                tag="div"
+              >
+                The bandwidth should be of the form 1M|2M|1G|1K|1.1K etc
+              </FormFeedback>
+            </Col>
+          </FormGroup>
+          <Button
+            className="float-right"
+            color="success"
+            tag="button"
+            type="submit"
+          >
+            Set
+          </Button>
+        </Form>
+      </CardBody>
+    </Card>
+  </Col>
+</Row>
 `;

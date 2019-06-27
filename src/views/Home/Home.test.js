@@ -6,7 +6,9 @@ import toJson from "enzyme-to-json";
 
 const setUp = (intialState = {}, props = {}) => {
     const store = testStore(intialState);
-    return shallow(<Home {...props} store={store}/>);
+
+    const component = shallow(<Home {...props} store={store}/>);
+    return component.childAt(0).dive();
 };
 
 
@@ -16,7 +18,11 @@ describe('Home Component', function () {
     describe('renders', function () {
         let wrapper;
         beforeEach(() => {
-            const initialState = {};
+            const initialState = {
+                status: {
+                    checkStatus: true
+                }
+            };
 
             const props = {};
             wrapper = setUp(initialState, props)

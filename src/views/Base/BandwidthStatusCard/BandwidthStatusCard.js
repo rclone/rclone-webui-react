@@ -1,10 +1,8 @@
 import React from "react";
 import BandwidthWidget from "../Widgets/BandwidthWidget";
 import {validateSizeSuffix} from "../../../utils/Tools";
-import Form from "reactstrap/es/Form";
 import {toast} from "react-toastify";
-import FormGroup from "reactstrap/es/FormGroup";
-import {Button, Card, CardBody, CardHeader, Col, FormFeedback, Input, Label, Row} from "reactstrap";
+import {Button, Card, CardBody, CardHeader, Col, Form, FormFeedback, FormGroup, Input, Label, Row} from "reactstrap";
 import {connect} from "react-redux";
 import {getBandwidth, setBandwidth} from "../../../actions/statusActions";
 import * as PropTypes from "prop-types";

@@ -6,7 +6,7 @@ export const getStatus = () => async (dispatch, getState) => {
     // console.log("get Status");
     const {status} = getState();
     if (status.checkStatus) {
-        axiosInstance.post('/core/stats').then(res => dispatch({
+        axiosInstance.post('core/stats').then(res => dispatch({
             type: FETCH_STATUS,
             status: REQUEST_SUCCESS,
             payload: res.data
