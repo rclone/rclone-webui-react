@@ -5,7 +5,7 @@ import ReactDOM from "react-dom";
 import RunningJobs from "../RunningJobs";
 import {connect} from "react-redux";
 import {enableCheckStatus, getStatus} from "../../../actions/statusActions";
-import {MODAL_ROOT_ELEMENT, STATUS_REFRESH_TIMEOUT} from "../../../utils/Constants";
+import {IP_ADDRESS_KEY, MODAL_ROOT_ELEMENT, STATUS_REFRESH_TIMEOUT, USER_NAME_KEY} from "../../../utils/Constants";
 
 /**
  * Functional component Modal which is placed in the element with id "modal-root" in index.html using React.createPortal
@@ -56,8 +56,8 @@ class BackendStatusCard extends React.Component {
     render() {
         const {isConnected, mode, checkStatus} = this.props;
 
-        const ipAddress = localStorage.getItem('ipAddress');
-        const username = localStorage.getItem("username");
+        const ipAddress = localStorage.getItem(IP_ADDRESS_KEY);
+        const username = localStorage.getItem(USER_NAME_KEY);
 
 
         if (mode === "card")

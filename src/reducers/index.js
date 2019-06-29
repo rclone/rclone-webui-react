@@ -6,6 +6,7 @@ import explorerReducer from "./explorerReducer";
 import explorerState from "./explorerStateReducer";
 import {SIGNOUT_REQUEST} from "../actions/types";
 import providerStatusReducer from "./providerStatusReducer";
+import userActionsReducer from "./userActionsReducer";
 
 /**
  * Configures the root reducer to be executed before any other reducers configured in the system.
@@ -23,12 +24,17 @@ const rootReducer = (state, action) => {
     return appReducer(state, action);
 };
 
+/**
+ * List of reducers to be configured. The reducers are called one by one from top to bottom.
+ * @type {Reducer<any>}
+ */
 const appReducer = combineReducers({
     status: statusReducer,
     config: configReducer,
     remote: explorerReducer,
     explorer: explorerState,
     providerStatus: providerStatusReducer,
+    user: userActionsReducer
     // remoteOps: remoteOpsReducer
 });
 

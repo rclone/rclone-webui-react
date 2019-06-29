@@ -19,6 +19,7 @@ import navigation from '../../_nav';
 // routes config
 import routes from '../../routes';
 import {connect} from "react-redux";
+import {PASSWORD_KEY, USER_NAME_KEY} from "../../utils/Constants";
 
 const DefaultAside = React.lazy(() => import('./DefaultAside'));
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
@@ -28,15 +29,9 @@ class DefaultLayout extends Component {
 
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
-    // signOut(e) {
-    //     e.preventDefault();
-    //     this.props.signOut();
-    //     this.props.history.push('/login')
-    // }
-
 
     componentWillMount() {
-        if (!localStorage.getItem('username') || !localStorage.getItem('password')) {
+        if (!localStorage.getItem(USER_NAME_KEY) || !localStorage.getItem(PASSWORD_KEY)) {
             this.props.history.push('/login');
         }
     }

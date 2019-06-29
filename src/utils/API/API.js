@@ -1,22 +1,24 @@
 import axios from "axios";
 import {isLocalRemoteName} from "../Tools";
 
-// Global level axios configuration. These settings are automatically used in other places by using an axiosInstance instead of axios directly
+/**
+ * Global level axios configuration. These settings are automatically used in other places by using an axiosInstance instead of axios directly
+ */
 let axiosInstance = axios.create({
-    baseURL: localStorage.getItem('ipAddress'),
     headers: {'Content-Type': 'application/json'},
     responseType: "json"
 });
 
-
-axiosInstance.interceptors.request.use(
-    config => {
-        config.headers.Authorization = 'Basic ' + btoa(localStorage.getItem('username') + ":" + localStorage.getItem('password'));
-        // console.log(config, localStorage.getItem('username'), localStorage.getItem('password'));
-        return config;
-    },
-    error => Promise.reject(error)
-);
+/**
+ * Interceptor adds basic authentication to every axios request.
+ */
+// axiosInstance.interceptors.request.use(
+//     config => {
+//         config.headers.Authorization = 'Basic ' + btoa(localStorage.getItem(USER_NAME_KEY) + ":" + localStorage.getItem(PASSWORD_KEY));
+//         return config;
+//     },
+//     error => Promise.reject(error)
+// );
 
 /**
  * Helper Method for moving a file/directory.

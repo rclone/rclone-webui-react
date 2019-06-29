@@ -28,6 +28,7 @@ exports[`Home Component renders should match snapshot 1`] = `
       }
     >
       <Connect(BackendStatusCard)
+        ipAddress={null}
         mode="card"
       />
     </Col>

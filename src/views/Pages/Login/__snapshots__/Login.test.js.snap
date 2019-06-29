@@ -66,7 +66,7 @@ exports[`Remote Explorer Layout renders should match snapshot 1`] = `
                   <Input
                     autoComplete="ipAddress"
                     onChange={[Function]}
-                    placeholder="IP Address"
+                    placeholder="IP Address / URL"
                     type="text"
                     value="http://localhost:5572/"
                   />
@@ -138,6 +138,7 @@ exports[`Remote Explorer Layout renders should match snapshot 1`] = `
                     <Button
                       className="px-4"
                       color="primary"
+                      disabled={true}
                       tag="button"
                     >
                       Login
@@ -158,11 +159,12 @@ exports[`Remote Explorer Layout renders should match snapshot 1`] = `
                     xs="6"
                   >
                     <Button
-                      className="px-0"
-                      color="link"
+                      className="px-4"
+                      color="primary"
+                      onClick={[Function]}
                       tag="button"
                     >
-                      Forgot password?
+                      Verify
                     </Button>
                   </Col>
                 </Row>
@@ -182,25 +184,7 @@ exports[`Remote Explorer Layout renders should match snapshot 1`] = `
               className="text-center"
               tag="div"
             >
-              <div>
-                <h2>
-                  Sign up
-                </h2>
-                <p />
-                <Link
-                  to="/register"
-                >
-                  <Button
-                    active={true}
-                    className="mt-3"
-                    color="primary"
-                    tabIndex={-1}
-                    tag="button"
-                  >
-                    Register Now!
-                  </Button>
-                </Link>
-              </div>
+              <div />
             </CardBody>
           </Card>
         </CardGroup>

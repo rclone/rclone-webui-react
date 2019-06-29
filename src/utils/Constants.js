@@ -10,4 +10,14 @@ export const visibilityFilteringOptions = ["Images", "Pdf", "Videos"];
  * @type {number}
  */
 export const STATUS_REFRESH_TIMEOUT = 1000 * 5;
+/**
+ * Refresh timeout for checking if the config is created.
+ * In milliseconds.
+ * @type {number}
+ */
+export const NEW_DRIVE_CONFIG_REFRESH_TIMEOUT = 1000;
 export const MODAL_ROOT_ELEMENT = "modal-root";
+
+export const USER_NAME_KEY = "userName";
+export const PASSWORD_KEY = "password";
+export const IP_ADDRESS_KEY = "ipAddress";

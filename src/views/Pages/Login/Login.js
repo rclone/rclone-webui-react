@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
 import {
     Button,
     Card,
@@ -12,43 +11,94 @@ import {
     InputGroup,
     InputGroupAddon,
     InputGroupText,
-    Row
+    Row,
+    UncontrolledAlert
 } from 'reactstrap';
 import {connect} from "react-redux";
-import {signOut} from "../../../actions/userActions";
+import {changeIPAddress, changeUserNamePassword, signOut} from "../../../actions/userActions";
+import axiosInstance from "../../../utils/API/API";
+import {IP_ADDRESS_KEY} from "../../../utils/Constants";
 
 class Login extends Component {
 
     constructor(props) {
         super(props);
         let ipAddress = "http://localhost:5572/";
-        if(localStorage.getItem('ipAddress'))
-            ipAddress = localStorage.getItem('ipAddress');
+        if (localStorage.getItem(IP_ADDRESS_KEY))
+            ipAddress = localStorage.getItem(IP_ADDRESS_KEY);
         this.state = {
             username: "",
             password: "",
-            ipAddress: ipAddress
+            ipAddress,
+            connectionSuccess: false,
+            error: ""
         };
     }
 
     changeUserName = e => {
-        this.setState({username: e.target.value});
+        this.setState({
+            username: e.target.value,
+            connectionSuccess: false
+        });
     };
     changePassword = e => {
-        this.setState({password: e.target.value})
+        this.setState({
+            password: e.target.value,
+            connectionSuccess: false
+
+        })
     };
     changeIPAddress = e => {
 
-        this.setState({ipAddress: e.target.value});
+        this.setState({
+            ipAddress: e.target.value,
+            connectionSuccess: false
+        });
     };
 
     onSubmit = e => {
         e.preventDefault();
-        localStorage.setItem('username', this.state.username);
-        localStorage.setItem('password', this.state.password);
-        localStorage.setItem('ipAddress', this.state.ipAddress);
+        const {ipAddress, username, password} = this.state;
 
-        this.props.history.push('/dashboard')
+        Promise.all([
+            changeUserNamePassword(username, password),
+            changeIPAddress(ipAddress)
+        ]).then(() => {
+            this.props.history.push('/dashboard');
+        });
+        // localStorage.setItem('username', username);
+        // localStorage.setItem('password', password);
+        // localStorage.setItem('ipAddress', ipAddress);
+
+    };
+
+    checkConnection = (e) => {
+        e.preventDefault();
+
+        // Set the localStorage parameters temporarily.
+        const {ipAddress, username, password} = this.state;
+        const {changeUserNamePassword, changeIPAddress} = this.props;
+
+        Promise.all([
+            changeUserNamePassword(username, password),
+            changeIPAddress(ipAddress)
+        ]).then(() => {
+            axiosInstance.post("rc/noopauth").then((data) => {
+                console.log("Connection successful.");
+                this.setState({
+                    connectionSuccess: true,
+                    error: ""
+                })
+            }, (error) => {
+                console.log(error);
+                this.setState({
+                    connectionSuccess: false,
+                    error: "Error connecting. Please check username password and verify if rclone is working at the specified IP."
+                })
+            })
+        })
+
+
     };
 
     componentDidMount() {
@@ -58,7 +108,7 @@ class Login extends Component {
 
 
     render() {
-        const {username, password, ipAddress} = this.state;
+        const {username, password, ipAddress, connectionSuccess, error} = this.state;
 
         return (
             <div className="app flex-row align-items-center" data-test="loginComponent">
@@ -71,13 +121,17 @@ class Login extends Component {
                                         <Form onSubmit={this.onSubmit}>
                                             <h1>Login</h1>
                                             <p className="text-muted">Sign In to your account</p>
+                                            {error && <UncontrolledAlert color="danger" children={error}/>}
+                                            {connectionSuccess && <UncontrolledAlert color="success"
+                                                                                     children={"Connection verified. You may now login."}/>}
                                             <InputGroup className="mb-3">
                                                 <InputGroupAddon addonType="prepend">
                                                     <InputGroupText>
                                                         <i className="icon-user"></i>
                                                     </InputGroupText>
                                                 </InputGroupAddon>
-                                                <Input type="text" placeholder="IP Address" autoComplete="ipAddress"
+                                                <Input type="text" placeholder="IP Address / URL"
+                                                       autoComplete="ipAddress"
                                                        onChange={this.changeIPAddress} value={ipAddress}/>
                                             </InputGroup>
                                             <InputGroup className="mb-3">
@@ -101,10 +155,12 @@ class Login extends Component {
                                             </InputGroup>
                                             <Row>
                                                 <Col xs="6">
-                                                    <Button color="primary" className="px-4">Login</Button>
+                                                    <Button color="primary" className="px-4"
+                                                            disabled={!connectionSuccess}>Login</Button>
                                                 </Col>
                                                 <Col xs="6" className="text-right">
-                                                    <Button color="link" className="px-0">Forgot password?</Button>
+                                                    <Button onClick={this.checkConnection} color="primary"
+                                                            className="px-4">Verify</Button>
                                                 </Col>
                                             </Row>
                                         </Form>
@@ -113,14 +169,6 @@ class Login extends Component {
                                 <Card className="text-white bg-primary py-5 d-md-down-none" style={{width: '44%'}}>
                                     <CardBody className="text-center">
                                         <div>
-                                            <h2>Sign up</h2>
-                                            <p>
-
-                                            </p>
-                                            <Link to="/register">
-                                                <Button color="primary" className="mt-3" active tabIndex={-1}>Register
-                                                    Now!</Button>
-                                            </Link>
                                         </div>
                                     </CardBody>
                                 </Card>
@@ -134,4 +182,4 @@ class Login extends Component {
 }
 
 
-export default connect(null, {signOut})(Login);
+export default connect(null, {signOut, changeUserNamePassword, changeIPAddress})(Login);

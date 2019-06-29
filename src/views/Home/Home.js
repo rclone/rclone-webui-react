@@ -5,12 +5,14 @@ import RunningJobs from "../Base/RunningJobs";
 import BandwidthStatusCard from "../Base/BandwidthStatusCard/BandwidthStatusCard";
 import {connect} from "react-redux";
 import * as PropTypes from 'prop-types';
+import {IP_ADDRESS_KEY} from "../../utils/Constants";
 
 class Home extends React.Component {
 
 
     render() {
         const {checkStatus} = this.props;
+        const ipAddress = localStorage.getItem(IP_ADDRESS_KEY);
         return (
             <div data-test="homeComponent">
                 <h2>Welcome to Rclone dashboard. </h2>
@@ -19,7 +21,7 @@ class Home extends React.Component {
 
                 <Row>
                     <Col lg={4} sm={12}>
-                        <BackendStatusCard ipAddress={global.ipAddress} mode={"card"}/>
+                        <BackendStatusCard ipAddress={ipAddress} mode={"card"}/>
                     </Col>
                     <Col lg={4} sm={12}>
                         <BandwidthStatusCard/>
