@@ -1,5 +1,6 @@
 import axios from "axios";
 import {isLocalRemoteName} from "../Tools";
+import {IP_ADDRESS_KEY, PASSWORD_KEY, USER_NAME_KEY} from "../Constants";
 
 /**
  * Global level axios configuration. These settings are automatically used in other places by using an axiosInstance instead of axios directly
@@ -12,13 +13,14 @@ let axiosInstance = axios.create({
 /**
  * Interceptor adds basic authentication to every axios request.
  */
-// axiosInstance.interceptors.request.use(
-//     config => {
-//         config.headers.Authorization = 'Basic ' + btoa(localStorage.getItem(USER_NAME_KEY) + ":" + localStorage.getItem(PASSWORD_KEY));
-//         return config;
-//     },
-//     error => Promise.reject(error)
-// );
+axiosInstance.interceptors.request.use(
+    config => {
+        config.baseURL = localStorage.getItem(IP_ADDRESS_KEY);
+        config.headers.Authorization = 'Basic ' + btoa(localStorage.getItem(USER_NAME_KEY) + ":" + localStorage.getItem(PASSWORD_KEY));
+        return config;
+    },
+    error => Promise.reject(error)
+);
 
 /**
  * Helper Method for moving a file/directory.
