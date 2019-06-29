@@ -176,7 +176,7 @@ class NewDrive extends React.Component {
             colSetup: false,
             colAdvanced: false,
             driveName: "",
-
+            driveNameIsEditable: true,
 
             advancedOptions: false,
             formValues: {},
@@ -448,14 +448,21 @@ class NewDrive extends React.Component {
 
                     for (const [key, value] of Object.entries(formValues)) {
 
+                        if (key === "token") {
+                            finalParameterValues[key] = value;
+                            continue;
+                        }
                         const defaultValueObj = defaults.find((ele, idx, array) => {
+                            // console.log(key, ele.Name, key === ele.Name);
                             return (key === ele.Name);
                         });
+                        if (defaultValueObj) {
 
-                        const {DefaultStr} = defaultValueObj;
-                        if (value !== DefaultStr) {
-                            // console.log(`${value} !== ${DefaultStr}`);
-                            finalParameterValues[key] = value;
+                            const {DefaultStr} = defaultValueObj;
+                            if (value !== DefaultStr) {
+                                // console.log(`${value} !== ${DefaultStr}`);
+                                finalParameterValues[key] = value;
+                            }
                         }
 
                     }
@@ -472,8 +479,16 @@ class NewDrive extends React.Component {
                     // console.log("Validated form");
                     this.startAuthentication();
                     try {
-                        await axiosInstance.post('/config/create', data);
-                        toast.info("Config created");
+                        const {drivePrefix} = this.props.match.params;
+
+                        if (!drivePrefix) {
+
+                            await axiosInstance.post('/config/create', data);
+                            toast.info("Config created");
+                        } else {
+                            await axiosInstance.post("config/update", data);
+                            toast.info("Config Updated");
+                        }
 
                     } catch (err) {
                         toast.error(`Error creating config. ${err}`, {
@@ -511,28 +526,34 @@ class NewDrive extends React.Component {
      * Change the name of the drive. Check if it already exists, if not, allow to be changes, else set error.
      * */
     changeName = e => {
-        const value = e.target.value;
+        const {driveNameIsEditable} = this.state;
+        console.log("changeName");
+        if (driveNameIsEditable) {
+            const value = e.target.value;
 
-        this.setState({driveName: value}, () => {
+            this.setState({driveName: value}, () => {
 
-            if (value === undefined || value === "") {
-                this.setState({driveNameIsValid: false});
-            } else {
+                if (value === undefined || value === "") {
+                    this.setState({driveNameIsValid: false});
+                } else {
 
-                axiosInstance.post('/config/get', {name: value}).then((response) => {
-                    let errors = this.state.formErrors;
-                    let isValid = isEmpty(response.data);
-                    if (isValid) {
-                        errors["driveName"] = "";
-                    } else {
-                        errors["driveName"] = "Duplicate";
+                    axiosInstance.post('/config/get', {name: value}).then((response) => {
+                        let errors = this.state.formErrors;
+                        let isValid = isEmpty(response.data);
+                        if (isValid) {
+                            errors["driveName"] = "";
+                        } else {
+                            errors["driveName"] = "Duplicate";
 
-                    }
-                    this.setState({formErrors: errors, driveNameIsValid: isValid});
-                });
-            }
+                        }
+                        this.setState({formErrors: errors, driveNameIsValid: isValid});
+                    });
+                }
 
-        });
+            });
+        } else {
+            this.setState((prevState) => ({formErrors: {...prevState.formErrors, "driveName": "Cannot edit name"}}))
+        }
     };
 
     /**
@@ -553,8 +574,28 @@ class NewDrive extends React.Component {
      * */
 
     componentDidMount() {
+        const {drivePrefix} = this.props.match.params;
+
+
+
         if (!this.props.providers || this.props.providers.length < 1)
             this.props.getProviders();
+
+        if (drivePrefix) {
+            //Edit Mode
+            this.setState({driveName: drivePrefix, driveNameIsValid: true, driveNameIsEditable: false});
+            axiosInstance.post("config/get", {name: drivePrefix}).then(
+                (res) => {
+                    console.log(res);
+                    this.changeDriveType(undefined, {newValue: res.data.type});
+
+                    this.setState((prevState) => ({
+                        formValues: {...prevState.formValues, ...res.data}
+                    }))
+
+                }
+            )
+        }
     }
 
     /**
@@ -694,7 +735,13 @@ const mapStateToProps = state => ({
 
 NewDrive.propTypes = {
     providers: PropTypes.array.isRequired,
-    getProviders: PropTypes.func.isRequired
+    getProviders: PropTypes.func.isRequired,
+    isEdit: PropTypes.bool.isRequired,
+    driveName: PropTypes.string
+};
+
+NewDrive.defaultProps = {
+    isEdit: false,
 };
 
 export default connect(mapStateToProps, {getProviders})(NewDrive);

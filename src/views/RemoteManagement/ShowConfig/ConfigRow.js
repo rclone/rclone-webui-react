@@ -3,6 +3,7 @@ import axiosInstance from "../../../utils/API/API";
 import {Button} from "reactstrap";
 import PropTypes from "prop-types";
 import {toast} from "react-toastify";
+import {withRouter} from "react-router-dom";
 
 const propTypes = {
     remote: PropTypes.object.isRequired, // Name of the remote to perform operations
@@ -23,10 +24,12 @@ class ConfigRow extends React.Component {
     }
 
 
-    // TODO: Update config functionality
-    onUpdateClicked() {
+    onUpdateClicked = () => {
+        const {name} = this.state.remote;
+        this.props.history.push("/newdrive/edit/" + name);
+
         console.log("Update Clicked")
-    }
+    };
 
     // TODO: Delete config functionality
     onDeleteClicked() {
@@ -59,7 +62,10 @@ class ConfigRow extends React.Component {
                 <th scope="row">{sequenceNumber}</th>
                 <td>{name}</td>
                 <td>{type}</td>
-                <td><Button className={"bg-info"} onClick={this.onUpdateClicked}>Update</Button></td>
+                <td>
+
+                    <Button className={"bg-info"} onClick={this.onUpdateClicked}>Update</Button>
+                </td>
                 <td><Button className={"bg-danger"} onClick={this.onDeleteClicked}>Delete</Button></td>
             </tr>
         );
@@ -68,4 +74,4 @@ class ConfigRow extends React.Component {
 
 ConfigRow.propTypes = propTypes;
 
-export default ConfigRow;
+export default withRouter(ConfigRow);
