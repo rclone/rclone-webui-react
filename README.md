@@ -20,7 +20,7 @@ The project currently requires you to install and configure react and npm to run
 ![Login](screenshots/login.png)
 
 ### Remote Explorer
-![Explorer](screenshots/explorer.png)
+![Explorer](screenshots/remoteexplorer.png)
 
 ### Creating config
 ![New Config](screenshots/newRemote.png)
