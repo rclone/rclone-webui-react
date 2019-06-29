@@ -266,14 +266,41 @@ class FileOperations extends React.Component {
 }
 
 FileOperations.propTypes = {
+    /**
+     * Container ID of the current remote explorer
+     */
     containerID: PropTypes.string.isRequired,
+    /**
+     * Redux function to change the visibility of images/ pdf etc.
+     */
     changeVisibilityFilter: PropTypes.func.isRequired,
+    /**
+     * The current visibility filter setting
+     */
     visibilityFilter: PropTypes.string,
+    /**
+     * Render mode: Grid/Card
+     */
     gridMode: PropTypes.string,
+    /**
+     * Redux function to set the search query as typed by user.
+     */
     setSearchQuery: PropTypes.func.isRequired,
+    /**
+     * Currently set search Query from redux
+     */
     searchQuery: PropTypes.string,
+    /**
+     * A map which gives the information about the remote about.
+     */
     remoteAbout: PropTypes.object,
+    /**
+     * File system information and features about the current remote
+     */
     fsInfo: PropTypes.object.isRequired,
+    /**
+     * Map of data to be passed to the doughnutChart.
+     */
     doughnutData: PropTypes.object
 };
 

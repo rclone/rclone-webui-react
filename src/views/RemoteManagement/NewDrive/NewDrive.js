@@ -22,7 +22,21 @@ import {toast} from "react-toastify";
 import * as PropTypes from 'prop-types';
 import {getProviders} from "../../../actions/configActions";
 import {connect} from "react-redux";
+import {NEW_DRIVE_CONFIG_REFRESH_TIMEOUT} from "../../../utils/Constants";
 
+/**
+ * Returns a component with set of input, error for the drivePrefix.
+ * The input type changes based on config.Options.Type parameter. see code for details.
+ * @param drivePrefix   {string}    Name of the remote in the config.
+ * @param loadAdvanced  {boolean}   Load or skip the advanced options from the config options.
+ * @param changeHandler {function}  This function is called once the value changes
+ * @param currentValues {$ObjMap}   This map denotes current updated values for the parameters.
+ * @param isValidMap    {$ObjMap}   This map denotes whether the parameter value is valid. This should be set by the changeHandler.
+ * @param errorsMap     {$ObjMap}   This map contains string errors of each parameters.
+ * @param config        {$ObjMap}   This map contains the actual parameter list and Options for all the providers.
+ * @returns             {Array|*}   JSX array with parameter formGroups.
+ * @constructor
+ */
 function DriveParameters({drivePrefix, loadAdvanced, changeHandler, currentValues, isValidMap, errorsMap, config}) {
     if (drivePrefix !== undefined && drivePrefix !== "") {
         const currentProvider = findFromConfig(config, drivePrefix);
@@ -121,6 +135,21 @@ function DriveParameters({drivePrefix, loadAdvanced, changeHandler, currentValue
 //     return configMap;
 // }
 
+
+/**
+ * Functional Component. Custom input for selecting a new name for the current config.
+ * @param key           {string}    Contains the key to be used as the react key parameter in an array
+ * @param id            {string}    Id to be used as a HTML id.
+ * @param label         {string}    Label of the form input
+ * @param changeHandler {function}  Called when the input changes.
+ * @param type          {string}    Type of the input (ReactStrap supported). Eg: select, text etc.
+ * @param value         {string}    The current value of the input.
+ * @param name          {string}    The html name for the input.
+ * @param placeholder   {string}    Placeholder text for input.
+ * @param isValid       {boolean}   If set, displays positive message, else displays error message.
+ * @returns             {*}         Functional component.
+ * @constructor
+ */
 function CustomInput({key, id, label, changeHandler, type, value, name, placeholder, isValid = false}) {
     return (
         <FormGroup key={key} row>
@@ -134,7 +163,9 @@ function CustomInput({key, id, label, changeHandler, type, value, name, placehol
         </FormGroup>);
 }
 
-
+/**
+ * Component to create a new remote configuration.
+ */
 class NewDrive extends React.Component {
 
     constructor(props, context) {
@@ -167,6 +198,10 @@ class NewDrive extends React.Component {
         this.checkConfigStatus = this.checkConfigStatus.bind(this);
     }
 
+    /**
+     *
+     * @param e {$ObjMap} Event of the toggle event.
+     */
     toggle = (e) => {
         let name = e.target.name;
 
@@ -197,6 +232,10 @@ class NewDrive extends React.Component {
         }
     }
 
+    /**
+     * Handle inoit change and set appropriate errors.
+     * @param e
+     */
     handleInputChange = (e) => {
 
         let inputName = e.target.name;
@@ -249,10 +288,13 @@ class NewDrive extends React.Component {
         });
 
 
-
     };
 
-    // Update the driveType and then load the equivalent input parameters for that drive
+    /**
+     * Update the driveType and then load the equivalent input parameters for that drive.
+     * @param event     {$ObjMap} Event to be handled.
+     * @param newValue  {string} new Value of the drive type.
+     */
     changeDriveType = (event, {newValue}) => {
 
         const {providers} = this.props;
@@ -280,10 +322,8 @@ class NewDrive extends React.Component {
                         optionTypes[Name] = Type;
                         required[Name] = Required;
 
-                        if (Required && (!DefaultStr || DefaultStr === ""))
-                            isValid[Name] = false;
-                        else
-                            isValid[Name] = true;
+                        isValid[Name] = !(Required && (!DefaultStr || DefaultStr === ""));
+
                         formErrors[Name] = "";
                     }
                 });
@@ -300,24 +340,28 @@ class NewDrive extends React.Component {
             this.setState({drivePrefix: val})
 
         }
-
-
-
-
     };
 
-    // Open second step of setting up the drive
+    /**
+     * Open second step of setting up the drive and scroll into view.
+     */
     openSetupDrive = (e) => {
         if (e) e.preventDefault();
         this.setState({'colSetup': true});
         this.setupDriveDiv.scrollIntoView({behavior: "smooth"});
     };
 
-    // Decide whether to use advanced options
+    /**
+     *  toggle the step 3: advanced options
+     */
     editAdvancedOptions = (e) => {
         this.setState({advancedOptions: !this.state.advancedOptions});
     };
 
+    /**
+     * Validate the form and set the appropriate errors in the state.
+     * @returns {boolean}
+     */
     validateForm() {
         //    Validate driveName and other parameters
         const {driveNameIsValid, drivePrefix, isValid} = this.state;
@@ -342,23 +386,32 @@ class NewDrive extends React.Component {
         return flag;
     }
 
+    /**
+     *  Show or hide the auth modal.
+     */
     toggleAuthModal() {
         this.setState((state, props) => {
             return {authModalIsVisible: !state.authModalIsVisible}
         });
     }
 
+    /**
+     *  Show or hide the authentication modal and start timer for checking if the new config is created.
+     */
     startAuthentication() {
         this.toggleAuthModal();
         // Check every second if the config is created
         if (this.configCheckInterval === null) {
-            this.configCheckInterval = setInterval(this.checkConfigStatus, 1000);
+            this.configCheckInterval = setInterval(this.checkConfigStatus, NEW_DRIVE_CONFIG_REFRESH_TIMEOUT);
         } else {
             console.error("Interval already running. Should not start a new one");
         }
 
     }
 
+    /**
+     *  Called when the config is successfully created. Clears the timout and hides the authentication modal.
+     */
     stopAuthentication() {
         this.setState((state, props) => {
             return {authModalIsVisible: false}
@@ -367,7 +420,10 @@ class NewDrive extends React.Component {
 
     }
 
-
+    /**
+     * Called when form action submit is to be handled.
+     * Validate form and submit request.
+     * */
     async handleSubmit(e) {
         e.preventDefault();
         // console.log("Submitted form");
@@ -442,12 +498,18 @@ class NewDrive extends React.Component {
         }
     }
 
+    /**
+     * Clears the entire form.
+     * Clearing the driveName and drivePrefix automatically clears the inputs as well.
+     * */
     clearForm = e => {
         this.setState({driveName: "", drivePrefix: ""})
     };
 
 
-
+    /**
+     * Change the name of the drive. Check if it already exists, if not, allow to be changes, else set error.
+     * */
     changeName = e => {
         const value = e.target.value;
 
@@ -473,6 +535,10 @@ class NewDrive extends React.Component {
         });
     };
 
+    /**
+     * Open the advanced settings card and scroll into view.
+     * @param e
+     */
     openAdvancedSettings = e => {
         if (this.state.advancedOptions) {
             this.setState({colAdvanced: true});
@@ -482,12 +548,18 @@ class NewDrive extends React.Component {
     };
 
 
+    /**
+     * Check if the provider list is empty else request new providers list.
+     * */
 
     componentDidMount() {
         if (!this.props.providers || this.props.providers.length < 1)
             this.props.getProviders();
     }
 
+    /**
+     * Clear the intervals.
+     * */
 
     componentWillUnmount() {
         clearInterval(this.configCheckInterval);
@@ -614,6 +686,9 @@ class NewDrive extends React.Component {
 }
 
 const mapStateToProps = state => ({
+    /**
+     * The list of all providers.
+     */
     providers: state.config.providers
 });
 
