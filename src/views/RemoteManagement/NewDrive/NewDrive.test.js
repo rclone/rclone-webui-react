@@ -57,7 +57,13 @@ describe('Remote Explorer', function () {
             };
 
 
-            const props = {};
+            const props = {
+                match: {
+                    params: {
+                        drivePrefix: ""
+                    }
+                }
+            };
             wrapper = setUp(initialState, props)
         });
 

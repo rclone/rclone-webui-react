@@ -192,6 +192,7 @@ class NewDrive extends React.Component {
 
         };
         this.configCheckInterval = null;
+        // console.log("Params", this.props.match.params);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.toggleAuthModal = this.toggleAuthModal.bind(this);
         this.startAuthentication = this.startAuthentication.bind(this);
