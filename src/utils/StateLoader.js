@@ -25,8 +25,12 @@ export class StateLoader {
      * @param state {$ObjMap} The current state to be saved.
      */
     saveState(state) {
+        const newState = {
+            ...state,
+            imageLoader: undefined
+        };
         try {
-            let serializedState = JSON.stringify(state);
+            let serializedState = JSON.stringify(newState);
             localStorage.setItem("curState", serializedState);
 
         } catch (err) {

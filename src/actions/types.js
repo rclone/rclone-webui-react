@@ -26,10 +26,9 @@ export const CHANGE_USER_NAME_PASSWORD = 'CHANGE_USER_NAME_PASSWORD';
 export const CHANGE_IP_ADDRESS = 'CHANGE_IP_ADDRESS';
 export const CHANGE_AXIOS_INTERCEPTOR = 'CHANGE_AXIOS_INTERCEPTOR';
 export const CHANGE_LOAD_IMAGES = 'CHANGE_LOAD_IMAGES';
+export const LOAD_IMAGE = 'LOAD_IMAGE';
 
 
-
-
-
-export const REQUEST_ERROR = 'error';
-export const REQUEST_SUCCESS = 'success';
+export const REQUEST_ERROR = 'ERROR';
+export const REQUEST_SUCCESS = 'SUCCESS';
+export const REQUEST_LOADING = 'LOADING';

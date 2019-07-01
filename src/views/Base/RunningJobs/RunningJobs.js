@@ -178,7 +178,7 @@ class RunningJobs extends React.Component {
                                 </Button>
                             </div>
                         </CardHeader>
-                        <CardBody className={!this.state.isShowing && "d-none"}>
+                        <CardBody className={!this.state.isShowing ? "d-none" : ""}>
                             <TransferringJobsRow transferring={transferring}/>
 
                         </CardBody>

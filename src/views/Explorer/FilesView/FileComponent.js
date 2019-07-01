@@ -18,6 +18,9 @@ import axiosInstance, {performCopyFile, performMoveFile} from "../../../utils/AP
 import {toast} from "react-toastify";
 import * as PropTypes from "prop-types";
 import {IP_ADDRESS_KEY} from "../../../utils/Constants";
+import {connect} from "react-redux";
+import {compose} from "redux";
+import {downloadImage} from "../../../actions/imagesActions";
 
 
 const fileComponentSource = {
@@ -114,11 +117,11 @@ function confirmDelete(deleteHandle, item) {
 function Actions({downloadHandle, deleteHandle, item, linkShareHandle}) {
 
     const {IsDir} = item;
-    let {ID, Name} = item;
-    // Using fallback as fileName when the ID is not available (for local file system)
-    if (ID === undefined) {
-        ID = Name;
-    }
+    // let {ID, Name} = item;
+    // // Using fallback as fileName when the ID is not available (for local file system)
+    // if (ID === undefined) {
+    //     ID = Name;
+    // }
 
 
     if (!IsDir) {
@@ -226,31 +229,22 @@ class FileComponent extends React.Component {
     * */
 
     componentDidMount() {
-        const {item, isBucketBased, /*isDragging, remoteName*/} = this.props;
+        // const {item, isBucketBased, /*isDragging, remoteName*/} = this.props;
 
-        const {MimeType} = item;
-        let isImage = MimeType === "image/jpeg";
+        const {isImage, imageData, downloadImage, imgUrl} = this.props;
 
-        const ipAddress = localStorage.getItem(IP_ADDRESS_KEY);
-        let url;
-        if (isImage) {
-            const {remoteName, remotePath} = this.props;
-            if (isBucketBased) {
-                url = ipAddress + `[${remoteName}]/${remotePath}/${item.Name}`;
-
-            } else {
-                url = ipAddress + `[${remoteName}:${remotePath}]/${item.Name}`;
-            }
+        if (isImage && imgUrl && (!imageData || !imageData.data)) {
+            downloadImage(imgUrl);
         }
-        this.loadImage(url);
+
+
     }
 
     render() {
-        const {item, loadImages, clickHandler, downloadHandle, linkShareHandle, deleteHandle, connectDragSource, gridMode, itemIdx/*isDragging, remoteName*/} = this.props;
+        const {item, imageData, loadImages, clickHandler, downloadHandle, linkShareHandle, deleteHandle, connectDragSource, gridMode, itemIdx/*isDragging, remoteName*/} = this.props;
 
         const {IsDir, MimeType, ModTime, Name, Size} = item;
 
-        const {isLoading, imgUrl} = this.state;
 
         // console.log("item", item);
 
@@ -260,7 +254,7 @@ class FileComponent extends React.Component {
 
         let isImage = MimeType === "image/jpeg";
 
-
+        console.log(Name, imageData);
 
         if (gridMode === "card") {
             return connectDragSource(
@@ -269,8 +263,8 @@ class FileComponent extends React.Component {
                         <CardBody onClick={(e) => clickHandler(e, item)}>
 
                             {loadImages && isImage ?
-                                isLoading ? <Spinner>Loading...</Spinner> :
-                                    <img className="img-thumbnail pd-0 m-0" src={imgUrl} alt=""/>
+                                !imageData || imageData.isLoading ? <Spinner>Loading...</Spinner> :
+                                    <img className="img-thumbnail pd-0 m-0" src={imageData.data} alt=""/>
                                 : <FileIcon IsDir={IsDir} MimeType={MimeType}/>} {Name}
                         </CardBody>
                         <CardFooter>
@@ -320,4 +314,31 @@ FileComponent.propTypes = {
 
 };
 
-export default DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect)(FileComponent);
+const mapStateToProps = (state, ownProps) => {
+    const {item, isBucketBased, loadImages} = ownProps;
+
+    const {MimeType} = item;
+    let isImage = MimeType === "image/jpeg";
+
+    const ipAddress = localStorage.getItem(IP_ADDRESS_KEY);
+    let imgUrl = "";
+    if (isImage && loadImages) {
+        const {remoteName, remotePath} = ownProps;
+        if (isBucketBased) {
+            imgUrl = ipAddress + `[${remoteName}]/${remotePath}/${item.Name}`;
+
+        } else {
+            imgUrl = ipAddress + `[${remoteName}:${remotePath}]/${item.Name}`;
+        }
+    }
+
+    return {
+        isImage,
+        imgUrl,
+        imageData: state.imageLoader[imgUrl]
+    }
+};
+
+export default compose(
+    connect(mapStateToProps, {downloadImage}),
+    DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect))(FileComponent);
