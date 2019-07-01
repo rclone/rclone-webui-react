@@ -95,7 +95,10 @@ describe('Files View', function () {
                     },
                     visibilityFilters: {},
                     gridMode: {},
-                    searchQueries: {}
+                    searchQueries: {},
+                    loadImages: {
+                        '0': false
+                    }
                 }
 
 

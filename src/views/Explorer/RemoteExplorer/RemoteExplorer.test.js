@@ -53,7 +53,7 @@ describe('Remote Explorer', function () {
                         }
                     },
                     visibilityFilters: {},
-                    gridMode: {}
+                    gridMode: {},
                 }
 
 
@@ -61,7 +61,8 @@ describe('Remote Explorer', function () {
 
             const props = {
                 containerID: '0',
-                createPath: jest.fn()
+                createPath: jest.fn(),
+                distractionFreeMode: false
             };
             wrapper = setUp(initialState, props)
         });

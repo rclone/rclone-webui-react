@@ -1,5 +1,6 @@
 import {
     CHANGE_GRID_MODE,
+    CHANGE_LOAD_IMAGES,
     CHANGE_PATH,
     CHANGE_REMOTE_NAME,
     CHANGE_REMOTE_PATH,
@@ -170,6 +171,7 @@ export const changeGridMode = (containerID, mode) => dispatch => {
     dispatch({
         type: CHANGE_GRID_MODE,
         id: containerID,
+        loadImages: true,
         mode
     })
 };
@@ -185,6 +187,14 @@ export const setSearchQuery = (containerID, searchQuery) => dispatch => {
         type: CHANGE_SEARCH_QUERY,
         id: containerID,
         searchQuery
+    })
+};
+
+export const setLoadImages = (containerID, shouldLoad) => dispatch => {
+    dispatch({
+        type: CHANGE_LOAD_IMAGES,
+        id: containerID,
+        payload: shouldLoad
     })
 };
 

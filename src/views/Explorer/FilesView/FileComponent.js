@@ -7,15 +7,17 @@ import {
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
+    Spinner,
     UncontrolledButtonDropdown
 } from "reactstrap";
 
 import {ItemTypes} from './Constants'
 import {DragSource} from 'react-dnd'
 import {formatBytes} from "../../../utils/Tools";
-import {performCopyFile, performMoveFile} from "../../../utils/API/API";
+import axiosInstance, {performCopyFile, performMoveFile} from "../../../utils/API/API";
 import {toast} from "react-toastify";
-import PropTypes from "prop-types";
+import * as PropTypes from "prop-types";
+import {IP_ADDRESS_KEY} from "../../../utils/Constants";
 
 
 const fileComponentSource = {
@@ -85,7 +87,7 @@ function collect(connect, monitor) {
     }
 }
 
-function FileIcon({IsDir, MimeType}) {
+function FileIcon({IsDir, MimeType}, ...props) {
     let className = "fa-file";
     if (IsDir) {
         className = "fa-folder";
@@ -112,6 +114,11 @@ function confirmDelete(deleteHandle, item) {
 function Actions({downloadHandle, deleteHandle, item, linkShareHandle}) {
 
     const {IsDir} = item;
+    let {ID, Name} = item;
+    // Using fallback as fileName when the ID is not available (for local file system)
+    if (ID === undefined) {
+        ID = Name;
+    }
 
 
     if (!IsDir) {
@@ -121,6 +128,14 @@ function Actions({downloadHandle, deleteHandle, item, linkShareHandle}) {
                 <Button color="link" onClick={() => downloadHandle(item)}>
                     <i className={"fa fa-cloud-download fa-lg d-inline"}/>
                 </Button>
+                <Button color="link">
+                    <i className="fa fa-info-circle"/>
+                </Button>
+                {/* TODO: Find a way to make this work*/}
+                {/*<UncontrolledTooltip placement="right" target={"#tooltip"+ID}>*/}
+                {/*    {item}*/}
+                {/*</UncontrolledTooltip>*/}
+
                 <UncontrolledButtonDropdown>
                     <DropdownToggle color="link">
                         <i className="fa fa-ellipsis-v"/>
@@ -162,6 +177,28 @@ function Actions({downloadHandle, deleteHandle, item, linkShareHandle}) {
 // Non used props are required for drag-and-drop functionality
 class FileComponent extends React.Component {
 
+    async loadImage(url) {
+        this.setState({isLoading: true});
+
+        const res = await axiosInstance.get(url, {
+            responseType: 'arraybuffer'
+        });
+        const imgFile = new Blob([res.data]);
+        const imgUrl = URL.createObjectURL(imgFile);
+        this.setState({imgUrl: imgUrl, isLoading: false});
+
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: false,
+            imgUrl: ""
+        };
+        this.loadImage = this.loadImage.bind(this);
+    }
+
+
     /*
     MimeTypes: https://www.freeformatter.com/mime-types-list.html
     * {
@@ -188,22 +225,53 @@ class FileComponent extends React.Component {
 
     * */
 
+    componentDidMount() {
+        const {item, isBucketBased, /*isDragging, remoteName*/} = this.props;
+
+        const {MimeType} = item;
+        let isImage = MimeType === "image/jpeg";
+
+        const ipAddress = localStorage.getItem(IP_ADDRESS_KEY);
+        let url;
+        if (isImage) {
+            const {remoteName, remotePath} = this.props;
+            if (isBucketBased) {
+                url = ipAddress + `[${remoteName}]/${remotePath}/${item.Name}`;
+
+            } else {
+                url = ipAddress + `[${remoteName}:${remotePath}]/${item.Name}`;
+            }
+        }
+        this.loadImage(url);
+    }
+
     render() {
-        const {item, clickHandler, downloadHandle, linkShareHandle, deleteHandle, connectDragSource, gridMode, itemIdx/*isDragging, remoteName*/} = this.props;
+        const {item, loadImages, clickHandler, downloadHandle, linkShareHandle, deleteHandle, connectDragSource, gridMode, itemIdx/*isDragging, remoteName*/} = this.props;
 
         const {IsDir, MimeType, ModTime, Name, Size} = item;
+
+        const {isLoading, imgUrl} = this.state;
 
         // console.log("item", item);
 
         let modTime = new Date(Date.parse(ModTime));
         // console.log("card", gridMode);
 
+
+        let isImage = MimeType === "image/jpeg";
+
+
+
         if (gridMode === "card") {
             return connectDragSource(
-                <div className={"col-lg-3"}>
+                <div className={IsDir ? "" : "col-md-4"}>
                     <Card>
                         <CardBody onClick={(e) => clickHandler(e, item)}>
-                            <FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}
+
+                            {loadImages && isImage ?
+                                isLoading ? <Spinner>Loading...</Spinner> :
+                                    <img className="img-thumbnail pd-0 m-0" src={imgUrl} alt=""/>
+                                : <FileIcon IsDir={IsDir} MimeType={MimeType}/>} {Name}
                         </CardBody>
                         <CardFooter>
                             <Actions downloadHandle={downloadHandle} linkShareHandle={linkShareHandle}
@@ -247,6 +315,8 @@ FileComponent.propTypes = {
     containerID: PropTypes.string.isRequired,
     canMove: PropTypes.bool.isRequired,
     canCopy: PropTypes.bool.isRequired,
+    loadImages: PropTypes.bool.isRequired,
+    isBucketBased: PropTypes.bool.isRequired
 
 };
 

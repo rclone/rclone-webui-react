@@ -32,6 +32,9 @@ describe('File Operations', function () {
                             remoteName: "",
                             remotePath: ""
                         }
+                    },
+                    loadImages: {
+                        "1": false
                     }
 
                 }

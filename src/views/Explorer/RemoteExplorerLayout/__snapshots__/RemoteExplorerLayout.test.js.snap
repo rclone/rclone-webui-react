@@ -62,6 +62,16 @@ exports[`Remote Explorer Layout renders should match snapshot 1`] = `
         >
           4 - side by side
         </Button>
+        <Button
+          className="ml-2"
+          color="success"
+          onClick={[Function]}
+          tag="button"
+        >
+          <i
+            className="fa fa-arrows"
+          />
+        </Button>
       </CardBody>
     </Card>
   </Col>

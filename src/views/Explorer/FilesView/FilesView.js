@@ -12,6 +12,8 @@ import {getFiles} from "../../../actions/explorerActions";
 import {compose} from "redux";
 import {changePath, navigateUp} from "../../../actions/explorerStateActions";
 import LinkShareModal from "../../Base/LinkShareModal/LinkShareModal";
+import ScrollableDiv from "../../Base/ScrollableDiv/ScrollableDiv";
+import {FILES_VIEW_HEIGHT} from "../../../utils/Constants";
 
 
 /*
@@ -285,7 +287,7 @@ class FilesView extends React.PureComponent {
     };
 
     getFileComponents = (isDir) => {
-        const {files, containerID, gridMode, fsInfo} = this.props;
+        const {files, containerID, gridMode, fsInfo, loadImages} = this.props;
         const {remoteName, remotePath} = this.props.currentPath;
         // console.log(fsInfo, files);
         if (fsInfo && !isEmpty(fsInfo)) {
@@ -303,6 +305,8 @@ class FilesView extends React.PureComponent {
                                            remoteName={remoteName} remotePath={remotePath} gridMode={gridMode}
                                            containerID={containerID}
                                            linkShareHandle={this.linkShareHandle}
+                                           loadImages={loadImages}
+                                           isBucketBased={fsInfo.Features.BucketBased}
                                            canCopy={fsInfo.Features.Copy} canMove={fsInfo.Features.Move} itemIdx={idx}
                             />
                         </React.Fragment>
@@ -340,71 +344,79 @@ class FilesView extends React.PureComponent {
             if (gridMode === "card") {
 
                 renderElement = (
+
                     <Container fluid={true}>
                         <Row>
                             <UpButtonComponent upButtonHandle={() => navigateUp(containerID)} gridMode={gridMode}/>
                         </Row>
                         <Row>
-                            <h3>Directories</h3>
-                        </Row>
-                        <Row>
-                            {dirComponentMap}
-                        </Row>
+                            <Col lg={3}>
+                                <h3>Directories</h3>
+                                <ScrollableDiv height={FILES_VIEW_HEIGHT}>
+                                    {dirComponentMap}
+                                </ScrollableDiv>
+                            </Col>
+                            <Col lg={9}>
+                                <h3>Files</h3>
+                                <ScrollableDiv height={FILES_VIEW_HEIGHT}>
+                                    <Row>
+                                        {fileComponentMap}
+                                    </Row>
+                                </ScrollableDiv>
+                            </Col>
 
-
-                        <Row>
-                            <h3>Files</h3>
-                        </Row>
-                        <Row>
-                            {fileComponentMap}
                         </Row>
 
 
                     </Container>
+
                 )
             } else {
 
 
                 renderElement = (
 
-                    <Container fluid={true} className={"pd-0"}>
 
-                        <Table className="table-responsive-sm">
-                            <thead>
-                            <tr>
-                                <th className="d-none d-md-table-cell">x</th>
-                                <th>Name</th>
-                                <th>Size</th>
-                                <th className="d-none d-md-table-cell">Modified</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <UpButtonComponent upButtonHandle={() => navigateUp(containerID)} gridMode={gridMode}/>
-                            {files.length > 0 ? (
-                                    <React.Fragment>
-                                        <tr>
-                                            <td colSpan={1} className="d-none d-md-block"/>
-                                            <th colSpan={4}>Directories</th>
-                                        </tr>
-                                        {dirComponentMap}
-                                        <tr>
-                                            <td className="d-none d-md-table-cell"/>
-                                            <th>Files</th>
-                                            <td className="d-none d-md-table-cell"/>
-                                            <td/>
-                                            <td/>
-                                        </tr>
-                                        {fileComponentMap}
-                                    </React.Fragment>
-                                ) :
+                    <Container fluid={true} className={"pd-0"}>
+                        <ScrollableDiv height={FILES_VIEW_HEIGHT}>
+
+                            <Table className="table-responsive-sm">
+                                <thead>
                                 <tr>
-                                    <td colSpan={1} className="d-none d-md-table-cell"/>
-                                    <th colSpan={4}>Files</th>
+                                    <th className="d-none d-md-table-cell">x</th>
+                                    <th>Name</th>
+                                    <th>Size</th>
+                                    <th className="d-none d-md-table-cell">Modified</th>
+                                    <th>Actions</th>
                                 </tr>
-                            }
-                            </tbody>
-                        </Table>
+                                </thead>
+                                <tbody>
+                                <UpButtonComponent upButtonHandle={() => navigateUp(containerID)} gridMode={gridMode}/>
+                                {files.length > 0 ? (
+                                        <React.Fragment>
+                                            <tr>
+                                                <td colSpan={1} className="d-none d-md-block"/>
+                                                <th colSpan={4}>Directories</th>
+                                            </tr>
+                                            {dirComponentMap}
+                                            <tr>
+                                                <td className="d-none d-md-table-cell"/>
+                                                <th>Files</th>
+                                                <td className="d-none d-md-table-cell"/>
+                                                <td/>
+                                                <td/>
+                                            </tr>
+                                            {fileComponentMap}
+                                        </React.Fragment>
+                                    ) :
+                                    <tr>
+                                        <td colSpan={1} className="d-none d-md-table-cell"/>
+                                        <th colSpan={4}>Files</th>
+                                    </tr>
+                                }
+                                </tbody>
+                            </Table>
+                        </ScrollableDiv>
                     </Container>
 
 
@@ -467,6 +479,7 @@ const mapStateToProps = (state, ownProps) => {
     const visibilityFilter = state.explorer.visibilityFilters[ownProps.containerID];
     const gridMode = state.explorer.gridMode[ownProps.containerID];
     const searchQuery = state.explorer.searchQueries[ownProps.containerID];
+    const loadImages = state.explorer.loadImages[ownProps.containerID];
 
     let fsInfo = {};
     const {remoteName, remotePath} = currentPath;
@@ -501,7 +514,8 @@ const mapStateToProps = (state, ownProps) => {
         currentPath,
         fsInfo,
         gridMode,
-        searchQuery
+        searchQuery,
+        loadImages
     }
 };
 

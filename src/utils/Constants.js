@@ -21,3 +21,5 @@ export const MODAL_ROOT_ELEMENT = "modal-root";
 export const USER_NAME_KEY = "userName";
 export const PASSWORD_KEY = "password";
 export const IP_ADDRESS_KEY = "ipAddress";
+
+export const FILES_VIEW_HEIGHT = "75vh";

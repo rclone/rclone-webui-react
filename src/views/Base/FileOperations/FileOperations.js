@@ -26,6 +26,7 @@ import {
     getFilesForContainerID,
     navigateBack,
     navigateFwd,
+    setLoadImages,
     setSearchQuery
 } from "../../../actions/explorerStateActions";
 import {visibilityFilteringOptions} from "../../../utils/Constants";
@@ -35,6 +36,9 @@ import {addColonAtLast, bytesToGB, isEmpty, isLocalRemoteName} from "../../../ut
 import axiosInstance from "../../../utils/API/API";
 import {toast} from "react-toastify";
 
+/**
+ * File Operations component which handles user actions for files in the remote.( Visibility, gridmode, back, forward etc)
+ */
 class FileOperations extends React.Component {
     constructor(props) {
         super(props);
@@ -148,9 +152,16 @@ class FileOperations extends React.Component {
         }
     };
 
+    changeLoadImages = (e) => {
+        e.stopPropagation();
+        // console.log(e);
+        const {setLoadImages, containerID, loadImages} = this.props;
+        setLoadImages(containerID, !loadImages);
+    };
+
 
     render() {
-        const {containerID, getFilesForContainerID, visibilityFilter, gridMode, navigateFwd, navigateBack, searchQuery, currentPath, doughnutData} = this.props;
+        const {containerID, loadImages, getFilesForContainerID, visibilityFilter, gridMode, navigateFwd, navigateBack, searchQuery, currentPath, doughnutData} = this.props;
         const {newFolderModalIsVisible, dropdownOpen, isAboutModalOpen} = this.state;
 
         const {remoteName, remotePath} = currentPath;
@@ -203,13 +214,14 @@ class FileOperations extends React.Component {
                                     <DropdownItem>View Type{' '}
                                         <Input type={"select"} onClick={(e) => e.stopPropagation()}
                                                onChange={this.handleChangeGridMode} value={gridMode}>
-                                            <option value={"grid"}>Grid</option>
+                                            <option value={"grid"}>Table</option>
                                             <option value={"card"}>Card</option>
                                         </Input>
 
                                     </DropdownItem>
                                     <DropdownItem>File Filter{' '}
-                                        <Input type={"select"} onClick={(e) => e.stopPropagation()}
+                                        <Input type={"select"}
+                                               onClick={(e) => e.stopPropagation()/*Stop propagation is required to prevent parent dropdown from closing.*/}
                                                onChange={this.handleChangeFilter} value={visibilityFilter}
                                                className="ml-1 mr-1">
                                             <option key={0}>None</option>
@@ -220,7 +232,18 @@ class FileOperations extends React.Component {
                                             }
                                         </Input>
                                     </DropdownItem>
+                                    {gridMode !== "grid" &&
+                                    <DropdownItem onClick={this.changeLoadImages}>Load Images{' '}
+
+                                        <Input id={"loadImg" + containerID} checked={loadImages} type="checkbox"
+                                               onClick={this.changeLoadImages}
+                                               onChange={this.changeLoadImages/*Stop propagation is required to prevent parent dropdown from closing.*/}
+                                               className="ml-1 mr-1">
+                                        </Input>
+                                    </DropdownItem>
+                                    }
                                 </DropdownMenu>
+
                             </ButtonDropdown>
                         </ButtonGroup>
 
@@ -350,6 +373,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         visibilityFilter: state.explorer.visibilityFilters[ownProps.containerID],
+        loadImages: state.explorer.loadImages[ownProps.containerID],
         currentPath: state.explorer.currentPaths[ownProps.containerID],
         gridMode: state.explorer.gridMode[ownProps.containerID],
         searchQuery: state.explorer.searchQueries[ownProps.containerID],
@@ -367,5 +391,6 @@ export default connect(mapStateToProps, {
     navigateFwd,
     getFilesForContainerID,
     setSearchQuery,
-    getAbout
+    getAbout,
+    setLoadImages
 })(FileOperations);

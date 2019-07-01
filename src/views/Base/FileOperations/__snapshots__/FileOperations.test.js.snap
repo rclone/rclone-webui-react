@@ -139,7 +139,7 @@ exports[`File Operations renders should match snapshot 1`] = `
                 <option
                   value="grid"
                 >
-                  Grid
+                  Table
                 </option>
                 <option
                   value="card"
@@ -185,6 +185,22 @@ exports[`File Operations renders should match snapshot 1`] = `
                   Videos
                 </option>
               </Input>
+            </DropdownItem>
+            <DropdownItem
+              onClick={[Function]}
+              tag="button"
+              toggle={true}
+            >
+              Load Images
+               
+              <Input
+                checked={false}
+                className="ml-1 mr-1"
+                id="loadImg1"
+                onChange={[Function]}
+                onClick={[Function]}
+                type="checkbox"
+              />
             </DropdownItem>
           </DropdownMenu>
         </ButtonDropdown>

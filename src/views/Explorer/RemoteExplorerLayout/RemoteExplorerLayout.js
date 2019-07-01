@@ -10,14 +10,15 @@ import {createPath} from "../../../actions/explorerStateActions";
 import * as PropTypes from 'prop-types';
 
 
-function RemoteExplorerList({cols}) {
+function RemoteExplorerList({cols, distractionFreeMode}) {
     let remoteExplorers = [];
     const lgSize = 12 / cols;
     for (let i = 0; i < cols; i++) {
 
         remoteExplorers.push((
             <Col xs={12} sm={12} md={lgSize} lg={lgSize} key={i}>
-                <RemoteExplorer containerID={i.toString()}/>
+
+                <RemoteExplorer containerID={i.toString()} distractionFreeMode={distractionFreeMode}/>
             </Col>
         ));
     }
@@ -30,7 +31,8 @@ class RemoteExplorerLayout extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            cols: 1
+            cols: 1,
+            distractionFreeMode: false
         };
 
         this.props.createPath("0");
@@ -55,17 +57,31 @@ class RemoteExplorerLayout extends React.Component {
 
     }
 
+    toggleDistractionFreeMode = (e) => {
+        this.setState((prevState) => ({
+            distractionFreeMode: !prevState.distractionFreeMode
+        }));
+    };
+
     render() {
 
         /*Divide the 12 bootstrap columns to fit number of explorers*/
-        const {cols} = this.state;
+        const {cols, distractionFreeMode} = this.state;
         const {backStacks} = this.props;
 
         return (
             <React.Fragment>
                 <Row className={"d-none d-md-block"} data-test="remoteExplorerLayout">
+
+                    {distractionFreeMode && <div className="clearfix float-right">
+                        <Button color={"success"} className={"ml-2"}
+                                onClick={this.toggleDistractionFreeMode}><i className="fa fa-arrows"/></Button>
+                    </div>}
+
+                    {(!distractionFreeMode) &&
                     <Col sm={12} lg={12}>
                         <Card>
+
                             <CardHeader>
                                 Choose Layout
                             </CardHeader>
@@ -78,14 +94,18 @@ class RemoteExplorerLayout extends React.Component {
                                         onClick={() => this.changeLayout(3, "side")}>3 - side by side</Button>
                                 <Button color={"primary"} className={"ml-2"}
                                         onClick={() => this.changeLayout(4, "side")}>4 - side by side</Button>
+                                <Button color={"success"} className={"ml-2"}
+                                        onClick={this.toggleDistractionFreeMode}><i className="fa fa-arrows"/></Button>
                                 {/*<Button onClick={this.changeLayout(4,"grid")}>4 - grid</Button>*/}
                             </CardBody>
                         </Card>
                     </Col>
+                    }
                 </Row>
 
+
                 <Row>
-                    <RemoteExplorerList cols={cols} backStacks={backStacks}/>
+                    <RemoteExplorerList cols={cols} backStacks={backStacks} distractionFreeMode={distractionFreeMode}/>
                 </Row>
 
 

@@ -2,7 +2,6 @@ import React from 'react';
 import {Card, CardBody, CardHeader} from "reactstrap";
 import RemotesList from "../RemotesList";
 import FilesView from "../FilesView/FilesView";
-import ScrollableDiv from "../../Base/ScrollableDiv/ScrollableDiv";
 import {addColonAtLast} from "../../../utils/Tools";
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
@@ -55,26 +54,24 @@ class RemoteExplorer extends React.Component {
 
 
         const {remoteName} = this.props.currentPath;
-        const {containerID} = this.props;
+        const {containerID, distractionFreeMode} = this.props;
 
         const isValidPath = remoteName && remoteName !== "";
 
         return (
             <React.Fragment>
                 {/*Render remotes array*/}
-
+                {(!distractionFreeMode) &&
                 <Card>
                     <CardHeader>Remotes</CardHeader>
                     <CardBody>
-
-
                         <RemotesList
                             remoteName={remoteName}
                             containerID={containerID}
                         />
-
                     </CardBody>
                 </Card>
+                }
 
                 {/*Render the files in the selected remote*/}
                 {isValidPath && <Card>
@@ -82,9 +79,7 @@ class RemoteExplorer extends React.Component {
                         <FileOperations containerID={containerID}/>
                     </CardHeader>
                     <CardBody>
-                        <ScrollableDiv height={"700px"}>
-                            <FilesView containerID={containerID}/>
-                        </ScrollableDiv>
+                        <FilesView containerID={containerID}/>
                     </CardBody>
                 </Card>}
 
@@ -115,6 +110,7 @@ const propTypes = {
         PropTypes.object
     ]),
     hasError: PropTypes.bool,
+    distractionFreeMode: PropTypes.bool.isRequired
 
 };
 

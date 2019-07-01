@@ -32,13 +32,9 @@ exports[`Remote Explorer renders should match snapshot 1`] = `
     <CardBody
       tag="div"
     >
-      <ScrollableDiv
-        height="700px"
-      >
-        <Connect(DropTarget(FilesView))
-          containerID="0"
-        />
-      </ScrollableDiv>
+      <Connect(DropTarget(FilesView))
+        containerID="0"
+      />
     </CardBody>
   </Card>
 </Fragment>
