@@ -1,6 +1,15 @@
 import axiosInstance from "../utils/API/API";
-import {GET_CONFIG_FOR_REMOTE, GET_FILES_LIST, GET_REMOTE_LIST, REQUEST_ERROR, REQUEST_SUCCESS} from "./types";
+import {
+    CHANGE_DISTRACTION_FREE_MODE,
+    CHANGE_LAYOUT_COLS,
+    GET_CONFIG_FOR_REMOTE,
+    GET_FILES_LIST,
+    GET_REMOTE_LIST,
+    REQUEST_ERROR,
+    REQUEST_SUCCESS
+} from "./types";
 import {addColonAtLast, isLocalRemoteName} from "../utils/Tools";
+import {createPath} from "./explorerStateActions";
 
 /**
  * Gets the information regarding features, hashes from the rclone backend.
@@ -98,3 +107,35 @@ export const getFiles = (remoteName, remotePath) => dispatch => {
 
 };
 
+/**
+ * Changes the number of columns in current layout view.
+ * @param numCols       {number} Number of columns to create
+ * @returns {Function}
+ */
+export const changeNumCols = (numCols) => (dispatch) => {
+    if (!numCols || numCols < 0) throw `Invalid number of cols:${numCols}`;
+
+
+    for (let i = 0; i < numCols; i++) {
+        dispatch(createPath(i.toString()))
+    }
+
+    dispatch({
+        type: CHANGE_LAYOUT_COLS,
+        payload: {
+            numCols
+        }
+    })
+};
+
+/**
+ * Enter or exit distraction free mode
+ * @param shouldEnable  {boolean} Number of columns to create
+ * @returns {Function}
+ */
+export const changeDistractionFreeMode = (shouldEnable) => dispatch => {
+    dispatch({
+        type: CHANGE_DISTRACTION_FREE_MODE,
+        payload: shouldEnable
+    })
+};

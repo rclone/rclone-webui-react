@@ -246,15 +246,12 @@ class FileComponent extends React.Component {
         const {IsDir, MimeType, ModTime, Name, Size} = item;
 
 
-        // console.log("item", item);
 
         let modTime = new Date(Date.parse(ModTime));
-        // console.log("card", gridMode);
 
 
         let isImage = MimeType === "image/jpeg";
 
-        console.log(Name, imageData);
 
         if (gridMode === "card") {
             return connectDragSource(

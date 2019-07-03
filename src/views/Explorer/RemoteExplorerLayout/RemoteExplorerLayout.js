@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import {compose} from "redux";
 import {createPath} from "../../../actions/explorerStateActions";
 import * as PropTypes from 'prop-types';
+import {changeDistractionFreeMode, changeNumCols} from "../../../actions/explorerActions";
 
 
 function RemoteExplorerList({cols, distractionFreeMode}) {
@@ -30,44 +31,39 @@ class RemoteExplorerLayout extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            cols: 1,
-            distractionFreeMode: false
-        };
-
-        this.props.createPath("0");
         this.changeLayout = this.changeLayout.bind(this);
     }
 
-    changeLayout(nos, mode) {
-        const {backStacks, createPath} = this.props;
+    changeLayout = (nos, mode) => {
+        const {changeNumCols} = this.props;
         // console.log("changing layout");
-        if (mode === "side") {
-
-            this.setState((prevState) => {
-                for (let i = 0; i < nos; i++) {
-                    if (!backStacks[i.toString()] || i + 1 > prevState.cols)
-                        createPath(i.toString())
-                }
-                return {
-                    cols: nos
-                }
-            });
+        if (mode === "side" && nos !== changeNumCols) {
+            changeNumCols(nos);
         }
+    };
 
+    componentDidMount() {
+        //Load one explorer layout
+        const {numCols, changeNumCols} = this.props;
+
+        if (numCols < 1) {
+            changeNumCols(1);
+        }
     }
 
     toggleDistractionFreeMode = (e) => {
-        this.setState((prevState) => ({
-            distractionFreeMode: !prevState.distractionFreeMode
-        }));
+        const {distractionFreeMode, changeDistractionFreeMode} = this.props;
+        // this.setState((prevState) => ({
+        //     distractionFreeMode: !prevState.distractionFreeMode
+        // }));
+        changeDistractionFreeMode(!distractionFreeMode);
+
     };
 
     render() {
 
         /*Divide the 12 bootstrap columns to fit number of explorers*/
-        const {cols, distractionFreeMode} = this.state;
-        const {backStacks} = this.props;
+        const {numCols, backStacks, distractionFreeMode} = this.props;
 
         return (
             <React.Fragment>
@@ -87,15 +83,24 @@ class RemoteExplorerLayout extends React.Component {
                             </CardHeader>
                             <CardBody>
                                 <Button color={"primary"} className={"ml-2"}
-                                        onClick={() => this.changeLayout(1, "side")}>1 - side by side</Button>
+                                        onClick={() => this.changeLayout(1, "side")}>
+                                    1 - side by side
+                                </Button>
                                 <Button color={"primary"} className={"ml-2"}
-                                        onClick={() => this.changeLayout(2, "side")}>2 - side by side</Button>
+                                        onClick={() => this.changeLayout(2, "side")}>
+                                    2 - side by side
+                                </Button>
                                 <Button color={"primary"} className={"ml-2"}
-                                        onClick={() => this.changeLayout(3, "side")}>3 - side by side</Button>
+                                        onClick={() => this.changeLayout(3, "side")}>
+                                    3 - side by side
+                                </Button>
                                 <Button color={"primary"} className={"ml-2"}
-                                        onClick={() => this.changeLayout(4, "side")}>4 - side by side</Button>
+                                        onClick={() => this.changeLayout(4, "side")}>
+                                    4 - side by side
+                                </Button>
                                 <Button color={"success"} className={"ml-2"}
-                                        onClick={this.toggleDistractionFreeMode}><i className="fa fa-arrows"/></Button>
+                                        onClick={this.toggleDistractionFreeMode}><i className="fa fa-arrows"/>
+                                </Button>
                                 {/*<Button onClick={this.changeLayout(4,"grid")}>4 - grid</Button>*/}
                             </CardBody>
                         </Card>
@@ -105,7 +110,8 @@ class RemoteExplorerLayout extends React.Component {
 
 
                 <Row>
-                    <RemoteExplorerList cols={cols} backStacks={backStacks} distractionFreeMode={distractionFreeMode}/>
+                    <RemoteExplorerList cols={numCols} backStacks={backStacks}
+                                        distractionFreeMode={distractionFreeMode}/>
                 </Row>
 
 
@@ -116,15 +122,18 @@ class RemoteExplorerLayout extends React.Component {
 
 const mapStateToProps = (state) => ({
     backStacks: state.explorer.backStacks,
-
+    numCols: state.remote.numCols,
+    distractionFreeMode: state.remote.distractionFreeMode
 });
 
 RemoteExplorerLayout.propTypes = {
     backStacks: PropTypes.object.isRequired,
-    createPath: PropTypes.func.isRequired
+    createPath: PropTypes.func.isRequired,
+    changeNumCols: PropTypes.func.isRequired,
+    distractionFreeMode: PropTypes.bool.isRequired
 };
 
 export default compose(
-    connect(mapStateToProps, {createPath}),
+    connect(mapStateToProps, {createPath, changeNumCols, changeDistractionFreeMode}),
     DragDropContext(HTML5Backend)
 )(RemoteExplorerLayout);

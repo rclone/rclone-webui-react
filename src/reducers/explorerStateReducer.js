@@ -62,7 +62,6 @@ export default function (state = initialState, action) {
         if (!loadImages) loadImages = false;
 
 
-
         switch (action.type) {
             case CHANGE_PATH:
                 backStack.push(data);
@@ -90,7 +89,8 @@ export default function (state = initialState, action) {
                 break;
 
             case CREATE_PATH:
-                backStack = new BackStack();
+                if (!backStack || !(backStack instanceof BackStack))
+                    backStack = new BackStack();
                 break;
 
             case NAVIGATE_UP:

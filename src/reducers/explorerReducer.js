@@ -1,10 +1,20 @@
-import {GET_CONFIG_FOR_REMOTE, GET_FILES_LIST, GET_REMOTE_LIST, REQUEST_ERROR, REQUEST_SUCCESS} from "../actions/types";
+import {
+    CHANGE_DISTRACTION_FREE_MODE,
+    CHANGE_LAYOUT_COLS,
+    GET_CONFIG_FOR_REMOTE,
+    GET_FILES_LIST,
+    GET_REMOTE_LIST,
+    REQUEST_ERROR,
+    REQUEST_SUCCESS
+} from "../actions/types";
 
 const initialState = {
     configs: {},
     remotes: [],
     files: {},
-    hasError: false
+    hasError: false,
+    numCols: 0,
+    distractionFreeMode: false
 };
 /**
  * Specifies the explorer specific reducers for the redux actions.
@@ -63,6 +73,16 @@ export default function (state = initialState, action) {
                     }
                 };
             break;
+        case CHANGE_LAYOUT_COLS:
+            return {
+                ...state,
+                numCols: action.payload.numCols
+            };
+        case CHANGE_DISTRACTION_FREE_MODE:
+            return {
+                ...state,
+                distractionFreeMode: action.payload
+            };
         default:
             return state;
     }
