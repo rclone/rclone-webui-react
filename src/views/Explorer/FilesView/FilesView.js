@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import axiosInstance from "../../../utils/API/API";
 import {Alert, Button, Col, Container, Row, Spinner, Table} from "reactstrap";
 import {DropTarget} from "react-dnd";
@@ -14,6 +13,8 @@ import {changePath, navigateUp} from "../../../actions/explorerStateActions";
 import LinkShareModal from "../../Base/LinkShareModal/LinkShareModal";
 import ScrollableDiv from "../../Base/ScrollableDiv/ScrollableDiv";
 import {FILES_VIEW_HEIGHT} from "../../../utils/Constants";
+import {PROP_CURRENT_PATH, PROP_FS_INFO} from "../../../utils/RclonePropTypes";
+import * as PropTypes from 'prop-types';
 
 
 /*
@@ -448,22 +449,11 @@ class FilesView extends React.PureComponent {
 
 const propTypes = {
     containerID: PropTypes.string.isRequired,
-    currentPath: PropTypes.shape({
-        remoteName: PropTypes.string.isRequired,
-        remotePath: PropTypes.string.isRequired
-    }).isRequired,
-    fsInfo: PropTypes.oneOfType([
-        PropTypes.shape({
-            Features: PropTypes.object.isRequired,
-            Hashes: PropTypes.array.isRequired,
-            Name: PropTypes.string.isRequired,
-            Precision: PropTypes.number.isRequired,
-            String: PropTypes.string.isRequired
-        }),
-        PropTypes.object
-    ]),
+    currentPath: PROP_CURRENT_PATH.isRequired,
+    fsInfo: PROP_FS_INFO,
     gridMode: PropTypes.string,
-    searchQuery: PropTypes.string
+    searchQuery: PropTypes.string,
+    loadImages: PropTypes.bool.isRequired
 };
 
 const defaultProps = {

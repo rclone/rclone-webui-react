@@ -8,7 +8,9 @@ describe('Explorer Reducer', function () {
             configs: {},
             remotes: [],
             files: {},
-            hasError: false
+            hasError: false,
+            numCols: 0,
+            distractionFreeMode: false,
         });
     });
 
