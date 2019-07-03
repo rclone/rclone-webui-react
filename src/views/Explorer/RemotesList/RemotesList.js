@@ -5,6 +5,7 @@ import {getFsInfo, getRemoteNames} from "../../../actions/explorerActions";
 import PropTypes from 'prop-types'
 import {changeRemoteName} from "../../../actions/explorerStateActions";
 import {Button, Col, Form, Row} from "reactstrap";
+import {PROP_CURRENT_PATH} from "../../../utils/RclonePropTypes";
 
 class RemotesList extends React.Component {
 
@@ -104,10 +105,7 @@ const propTypes = {
     hasError: PropTypes.bool,
     containerID: PropTypes.string.isRequired,
 
-    currentPath: PropTypes.shape({
-        remoteName: PropTypes.string.isRequired,
-        remotePath: PropTypes.string.isRequired
-    })
+    currentPath: PROP_CURRENT_PATH
 
 };
 

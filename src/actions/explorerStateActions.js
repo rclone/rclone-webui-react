@@ -171,7 +171,6 @@ export const changeGridMode = (containerID, mode) => dispatch => {
     dispatch({
         type: CHANGE_GRID_MODE,
         id: containerID,
-        loadImages: true,
         mode
     })
 };

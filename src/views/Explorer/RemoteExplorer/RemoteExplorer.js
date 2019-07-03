@@ -15,6 +15,7 @@ import {
     navigateUp
 } from "../../../actions/explorerStateActions";
 import FileOperations from "../../Base/FileOperations/FileOperations";
+import {PROP_CURRENT_PATH, PROP_FS_INFO} from "../../../utils/RclonePropTypes";
 
 
 class RemoteExplorer extends React.Component {
@@ -95,20 +96,8 @@ const propTypes = {
 
     containerID: PropTypes.string.isRequired,
     createPath: PropTypes.func.isRequired,
-    currentPath: PropTypes.shape({
-        remoteName: PropTypes.string.isRequired,
-        remotePath: PropTypes.string.isRequired
-    }),
-    fsInfo: PropTypes.oneOfType([
-        PropTypes.shape({
-            Features: PropTypes.object.isRequired,
-            Hashes: PropTypes.array.isRequired,
-            Name: PropTypes.string.isRequired,
-            Precision: PropTypes.number.isRequired,
-            String: PropTypes.string.isRequired
-        }),
-        PropTypes.object
-    ]),
+    currentPath: PROP_CURRENT_PATH,
+    fsInfo: PROP_FS_INFO,
     hasError: PropTypes.bool,
     distractionFreeMode: PropTypes.bool.isRequired
 

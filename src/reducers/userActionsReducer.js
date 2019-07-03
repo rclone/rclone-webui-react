@@ -30,6 +30,7 @@ export default function (state = initialState, action) {
 
             const interceptorID = axiosInstance.interceptors.request.use(
                 config => {
+                    // Setup the configuration of authentication headers
                     config.headers.Authorization = 'Basic ' + btoa(localStorage.getItem(USER_NAME_KEY) + ":" + localStorage.getItem(PASSWORD_KEY));
                     config.baseURL = localStorage.getItem("ipAddress");
                     return config;

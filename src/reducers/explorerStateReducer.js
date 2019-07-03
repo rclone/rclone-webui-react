@@ -37,8 +37,16 @@ export default function (state = initialState, action) {
         let backStack = state.backStacks[id];
         // console.log(backStack, backStack instanceof BackStack);
         if (!backStack || !(backStack instanceof BackStack)) {
-            // console.log("Creating new backstack");
-            backStack = new BackStack();
+
+
+            if (!(backStack instanceof BackStack)) {
+                // Redux dosen't store the internal functions of class objects when serialized. So as a work around,
+                // if the backstack is not an instance of backStack, i.e. its methods are missing,
+                // create a new backstack with current data
+                backStack = new BackStack(backStack)
+            } else {
+                backStack = new BackStack();
+            }
         }
 
 

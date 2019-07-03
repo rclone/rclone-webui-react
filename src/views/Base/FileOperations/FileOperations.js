@@ -35,6 +35,7 @@ import {Doughnut} from "react-chartjs-2";
 import {addColonAtLast, bytesToGB, isEmpty, isLocalRemoteName} from "../../../utils/Tools";
 import axiosInstance from "../../../utils/API/API";
 import {toast} from "react-toastify";
+import {PROP_FS_INFO} from "../../../utils/RclonePropTypes";
 
 /**
  * File Operations component which handles user actions for files in the remote.( Visibility, gridmode, back, forward etc)
@@ -236,7 +237,7 @@ class FileOperations extends React.Component {
                                     <DropdownItem onClick={this.changeLoadImages}>Load Images{' '}
 
                                         <Input id={"loadImg" + containerID} checked={loadImages} type="checkbox"
-                                               onClick={this.changeLoadImages}
+                                               onClick={(e) => e.stopPropagation()}
                                                onChange={this.changeLoadImages/*Stop propagation is required to prevent parent dropdown from closing.*/}
                                                className="ml-1 mr-1">
                                         </Input>
@@ -320,7 +321,7 @@ FileOperations.propTypes = {
     /**
      * File system information and features about the current remote
      */
-    fsInfo: PropTypes.object.isRequired,
+    fsInfo: PROP_FS_INFO,
     /**
      * Map of data to be passed to the doughnutChart.
      */

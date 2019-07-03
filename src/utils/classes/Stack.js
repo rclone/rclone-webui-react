@@ -1,6 +1,11 @@
 // A very simple stack implementation to handle back links in remote explorer
 class Stack  {
-    constructor() {
+    constructor(items = undefined, count = undefined) {
+        if (items && count) {
+            this.items = items;
+            this.count = count;
+            return;
+        }
         this.items = [{remoteName: "", remotePath: ""}];
         this.count = 1;
     }

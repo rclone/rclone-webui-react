@@ -2,10 +2,16 @@ import Stack from './Stack'
 
 // A very simple stack implementation to handle back links in remote explorer
 class BackStack {
-    constructor() {
+    constructor(backStack = undefined) {
+        if (backStack) {
+            this.backStack = new Stack(backStack.backStack.items, backStack.backStack.count);
+            this.forwardStack = new Stack(backStack.forwardStack.items, backStack.forwardStack.count);
+            return;
+        }
         this.backStack = new Stack();
         this.forwardStack = new Stack();
     }
+
 
     getLength() {
         return this.backStack.getLength();
