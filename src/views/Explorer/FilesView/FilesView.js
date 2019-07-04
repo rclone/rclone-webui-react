@@ -428,8 +428,6 @@ class FilesView extends React.PureComponent {
             return connectDropTarget(
                 <div className={"row"}>
                     {isOver && canDrop && renderOverlay()}
-                    {/*<Col sm={12}>*/}
-                    {/*</Col>*/}
 
                     <Alert color="info" isOpen={isDownloadProgress} toggle={this.dismissAlert} sm={12}
                            lg={12}>

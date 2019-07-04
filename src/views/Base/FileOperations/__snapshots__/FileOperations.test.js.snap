@@ -230,8 +230,11 @@ exports[`File Operations renders should match snapshot 1`] = `
         }
         onClosed={[Function]}
         onOpened={[Function]}
+        returnFocusAfterClose={true}
         role="dialog"
+        scrollable={false}
         toggle={[Function]}
+        unmountOnClose={true}
         zIndex={1050}
       >
         <ModalHeader
