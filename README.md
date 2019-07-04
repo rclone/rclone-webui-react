@@ -6,7 +6,7 @@ This project can be unstable and is being actively developed. Feel free to creat
 
 ## Build Status
 
-[![Build Status](https://travis-ci.com/negative0/rclone-webui-react.svg?branch=master)](https://travis-ci.com/negative0/rclone-webui-react)
+[![Build Status](https://travis-ci.com/negative0/rclone-webui-react.svg?branch=master)](https://travis-ci.com/negative0/rclone-webui-react) [![Greenkeeper badge](https://badges.greenkeeper.io/negative0/rclone-webui-react.svg)](https://greenkeeper.io/)
 
 ## Getting Started
 
