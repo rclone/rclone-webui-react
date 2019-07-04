@@ -1,0 +1,23 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "package.json",
+        "src/containers/DefaultLayout/package.json",
+        "src/views/Base/NewDriveAuthModal/package.json",
+        "src/views/Base/RunningJobs/package.json",
+        "src/views/Explorer/RemoteExplorer/package.json",
+        "src/views/Explorer/RemoteExplorerLayout/package.json",
+        "src/views/Explorer/RemotesList/package.json",
+        "src/views/Home/package.json",
+        "src/views/Pages/Login/package.json",
+        "src/views/Pages/Page404/package.json",
+        "src/views/Pages/Page500/package.json",
+        "src/views/Pages/Register/package.json",
+        "src/views/RCloneDashboard/package.json",
+        "src/views/RemoteManagement/NewDrive/package.json",
+        "src/views/RemoteManagement/ShowConfig/package.json"
+      ]
+    }
+  }
+}
