@@ -5,7 +5,7 @@
   "author": "Chaitanya Bankanhal",
   "copyright": "",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "homepage": "https://negative0.github.io/rclone-webui-react/",
   "repository": {
     "type": "git",
@@ -34,15 +34,16 @@
     "react-dnd": "^7.4.5",
     "react-dnd-html5-backend": "^7.4.4",
     "react-dom": "^16.8.6",
+    "react-in-viewport": "0.0.38",
+    "react-redux": "^7.1.0",
     "react-router-config": "^5.0.1",
     "react-router-dom": "~5.0.1",
     "react-test-renderer": "^16.8.6",
-    "reactstrap": "^7.1.0",
-    "simple-line-icons": "^2.4.1",
     "react-toastify": "^5.2.1",
+    "reactstrap": "^8.0.0",
     "redux": "^4.0.1",
-    "react-redux": "^7.1.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "simple-line-icons": "^2.4.1"
   },
   "devDependencies": {
     "check-prop-types": "^1.1.2",
@@ -70,7 +71,7 @@
   "browserslist": [
     ">0.2%",
     "not dead",
-    "not ie <= 9",
+    "not ie <= 11",
     "not op_mini all"
   ],
   "resolutions": {

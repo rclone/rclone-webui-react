@@ -4,7 +4,7 @@ exports[`New Drive Auth Modal renders should match snapshot 1`] = `
 <Portal
   node={
     <div
-      style="position: relative; z-index: 1050;"
+      style="position: relative; z-index: 1050; display: block;"
       tabindex="-1"
     />
   }

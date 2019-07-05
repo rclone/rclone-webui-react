@@ -21,6 +21,7 @@ import {IP_ADDRESS_KEY} from "../../../utils/Constants";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {downloadImage} from "../../../actions/imagesActions";
+import handleViewport from 'react-in-viewport';
 
 
 const fileComponentSource = {
@@ -228,23 +229,33 @@ class FileComponent extends React.Component {
 
     * */
 
-    componentDidMount() {
-        // const {item, isBucketBased, /*isDragging, remoteName*/} = this.props;
+    // componentDidMount() {
+    //     // const {item, isBucketBased, /*isDragging, remoteName*/} = this.props;
+    //
+    //     // const {isImage, imageData, downloadImage, imgUrl} = this.props;
+    //     //
+    //     // if (isImage && imgUrl && (!imageData || !imageData.data)) {
+    //     //     downloadImage(imgUrl);
+    //     // }
+    //
+    //
+    // }
 
-        const {isImage, imageData, downloadImage, imgUrl} = this.props;
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        //Check if the component has entered the viewport, if it has, then lazy load the images.
+        if (prevProps.inViewport) {
+            const {isImage, imageData, downloadImage, imgUrl} = this.props;
 
-        if (isImage && imgUrl && (!imageData || !imageData.data)) {
-            downloadImage(imgUrl);
+            if (isImage && imgUrl && (!imageData || !imageData.data)) {
+                downloadImage(imgUrl);
+            }
         }
-
-
     }
 
     render() {
         const {item, imageData, loadImages, clickHandler, downloadHandle, linkShareHandle, deleteHandle, connectDragSource, gridMode, itemIdx/*isDragging, remoteName*/} = this.props;
 
         const {IsDir, MimeType, ModTime, Name, Size} = item;
-
 
 
         let modTime = new Date(Date.parse(ModTime));
@@ -335,7 +346,9 @@ const mapStateToProps = (state, ownProps) => {
         imageData: state.imageLoader[imgUrl]
     }
 };
+const MyViewPort = handleViewport(FileComponent, {rootMargin: '-1.0px'});
 
 export default compose(
     connect(mapStateToProps, {downloadImage}),
-    DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect))(FileComponent);
+    DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect)
+)(MyViewPort);
