@@ -2,7 +2,7 @@ import {LOAD_IMAGE, REQUEST_ERROR, REQUEST_LOADING, REQUEST_SUCCESS} from "./typ
 import axiosInstance from "../utils/API/API";
 
 export const downloadImage = (url) => dispatch => {
-    if (!url) throw "Cannot have null url";
+    if (!url) throw new Error("Cannot have null url");
     dispatch({
         type: LOAD_IMAGE,
         status: REQUEST_LOADING,
