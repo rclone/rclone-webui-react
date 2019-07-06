@@ -229,26 +229,25 @@ class FileComponent extends React.Component {
 
     * */
 
-    // componentDidMount() {
-    //     // const {item, isBucketBased, /*isDragging, remoteName*/} = this.props;
-    //
-    //     // const {isImage, imageData, downloadImage, imgUrl} = this.props;
-    //     //
-    //     // if (isImage && imgUrl && (!imageData || !imageData.data)) {
-    //     //     downloadImage(imgUrl);
-    //     // }
-    //
-    //
-    // }
+    shouldDownloadImage = () => {
+        const {isImage, imageData, downloadImage, imgUrl, inViewport} = this.props;
+
+        if (inViewport && isImage && imgUrl && (!imageData || !imageData.data)) {
+            // console.log("Loading image", imgUrl);
+            downloadImage(imgUrl);
+        }
+    };
+
+    componentDidMount() {
+
+        this.shouldDownloadImage();
+
+    }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         //Check if the component has entered the viewport, if it has, then lazy load the images.
-        if (prevProps.inViewport) {
-            const {isImage, imageData, downloadImage, imgUrl} = this.props;
-
-            if (isImage && imgUrl && (!imageData || !imageData.data)) {
-                downloadImage(imgUrl);
-            }
+        if (prevProps.inViewport !== this.props.inViewport) {
+            this.shouldDownloadImage();
         }
     }
 
