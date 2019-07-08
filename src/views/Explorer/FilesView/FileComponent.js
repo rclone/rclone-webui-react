@@ -7,21 +7,17 @@ import {
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
-    Spinner,
     UncontrolledButtonDropdown
 } from "reactstrap";
 
 import {ItemTypes} from './Constants'
 import {DragSource} from 'react-dnd'
 import {formatBytes} from "../../../utils/Tools";
-import axiosInstance, {performCopyFile, performMoveFile} from "../../../utils/API/API";
+import {performCopyFile, performMoveFile} from "../../../utils/API/API";
 import {toast} from "react-toastify";
 import * as PropTypes from "prop-types";
-import {IP_ADDRESS_KEY} from "../../../utils/Constants";
-import {connect} from "react-redux";
-import {compose} from "redux";
-import {downloadImage} from "../../../actions/imagesActions";
 import handleViewport from 'react-in-viewport';
+import MediaWidget, {isMedia} from "../../Base/MediaWidget/MediaWidget";
 
 
 const fileComponentSource = {
@@ -181,28 +177,6 @@ function Actions({downloadHandle, deleteHandle, item, linkShareHandle}) {
 // Non used props are required for drag-and-drop functionality
 class FileComponent extends React.Component {
 
-    async loadImage(url) {
-        this.setState({isLoading: true});
-
-        const res = await axiosInstance.get(url, {
-            responseType: 'arraybuffer'
-        });
-        const imgFile = new Blob([res.data]);
-        const imgUrl = URL.createObjectURL(imgFile);
-        this.setState({imgUrl: imgUrl, isLoading: false});
-
-    }
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLoading: false,
-            imgUrl: ""
-        };
-        this.loadImage = this.loadImage.bind(this);
-    }
-
-
     /*
     MimeTypes: https://www.freeformatter.com/mime-types-list.html
     * {
@@ -228,40 +202,13 @@ class FileComponent extends React.Component {
 		},
 
     * */
-
-    shouldDownloadImage = () => {
-        const {isImage, imageData, downloadImage, imgUrl, inViewport} = this.props;
-
-        if (inViewport && isImage && imgUrl && (!imageData || !imageData.data)) {
-            // console.log("Loading image", imgUrl);
-            downloadImage(imgUrl);
-        }
-    };
-
-    componentDidMount() {
-
-        this.shouldDownloadImage();
-
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        //Check if the component has entered the viewport, if it has, then lazy load the images.
-        if (prevProps.inViewport !== this.props.inViewport) {
-            this.shouldDownloadImage();
-        }
-    }
-
     render() {
-        const {item, imageData, loadImages, clickHandler, downloadHandle, linkShareHandle, deleteHandle, connectDragSource, gridMode, itemIdx/*isDragging, remoteName*/} = this.props;
+        const {containerID, inViewport, item, loadImages, clickHandler, downloadHandle, linkShareHandle, deleteHandle, connectDragSource, gridMode, itemIdx /*isDragging, remoteName*/} = this.props;
 
         const {IsDir, MimeType, ModTime, Name, Size} = item;
 
 
         let modTime = new Date(Date.parse(ModTime));
-
-
-        let isImage = MimeType === "image/jpeg";
-
 
         if (gridMode === "card") {
             return connectDragSource(
@@ -269,10 +216,13 @@ class FileComponent extends React.Component {
                     <Card>
                         <CardBody onClick={(e) => clickHandler(e, item)}>
 
-                            {loadImages && isImage ?
-                                !imageData || imageData.isLoading ? <Spinner>Loading...</Spinner> :
-                                    <img className="img-thumbnail pd-0 m-0" src={imageData.data} alt=""/>
-                                : <FileIcon IsDir={IsDir} MimeType={MimeType}/>} {Name}
+                            {loadImages && isMedia(MimeType) ?
+                                <MediaWidget containerID={containerID} item={item} inViewport={inViewport}/> :
+                                <FileIcon IsDir={IsDir} MimeType={MimeType}/>
+                            }
+
+
+                            {Name}
                         </CardBody>
                         <CardFooter>
                             <Actions downloadHandle={downloadHandle} linkShareHandle={linkShareHandle}
@@ -288,10 +238,7 @@ class FileComponent extends React.Component {
                     <td onClick={(e) => clickHandler(e, item)} id={"file" + itemIdx}>
                         <FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}
 
-                        {/*<UncontrolledTooltip target={"file"+itemIdx} placement="right">*/}
-                        {/*    <p><strong>Mime Type: </strong>{MimeType}</p>*/}
-                        {/*    <p><strong>Path: </strong>{Path}</p>*/}
-                        {/*</UncontrolledTooltip>*/}
+
                     </td>
                     <td>{Size === -1 ? "-" : formatBytes(Size, 2)}</td>
                     <td className="d-none d-md-table-cell">{modTime.toLocaleDateString()}</td>
@@ -321,33 +268,6 @@ FileComponent.propTypes = {
 
 };
 
-const mapStateToProps = (state, ownProps) => {
-    const {item, isBucketBased, loadImages} = ownProps;
-
-    const {MimeType} = item;
-    let isImage = MimeType === "image/jpeg";
-
-    const ipAddress = localStorage.getItem(IP_ADDRESS_KEY);
-    let imgUrl = "";
-    if (isImage && loadImages) {
-        const {remoteName, remotePath} = ownProps;
-        if (isBucketBased) {
-            imgUrl = ipAddress + `[${remoteName}]/${remotePath}/${item.Name}`;
-
-        } else {
-            imgUrl = ipAddress + `[${remoteName}:${remotePath}]/${item.Name}`;
-        }
-    }
-
-    return {
-        isImage,
-        imgUrl,
-        imageData: state.imageLoader[imgUrl]
-    }
-};
 const MyViewPort = handleViewport(FileComponent, {rootMargin: '-1.0px'});
 
-export default compose(
-    connect(mapStateToProps, {downloadImage}),
-    DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect)
-)(MyViewPort);
+export default DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect)(MyViewPort);
