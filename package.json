@@ -52,7 +52,8 @@
     "enzyme-to-json": "^3.3.5",
     "fetch-mock": "^7.3.3",
     "react-scripts": "^3.0.1",
-    "redux-mock-store": "^1.5.3"
+    "redux-mock-store": "^1.5.3",
+    "coveralls": "^3.0.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -60,6 +61,7 @@
     "test": "react-scripts test",
     "test:cov": "react-scripts test --coverage",
     "test:debug": "react-scripts --inspect-brk test --runInBand",
+    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "eject": "react-scripts eject"
   },
   "bugs": {
