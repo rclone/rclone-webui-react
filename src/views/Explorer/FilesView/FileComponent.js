@@ -19,8 +19,45 @@ import * as PropTypes from "prop-types";
 import handleViewport from 'react-in-viewport';
 import MediaWidget, {isMedia} from "../../Base/MediaWidget/MediaWidget";
 
+async function performCopyMoveOperation(params) {
+    const {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir, dropEffect, updateHandler} = params;
+    if (dropEffect === "move") { /*Default operation without holding alt is copy, named as move in react-dnd*/
+        // if (component.props.canCopy) {
+        let res = await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+        console.log("Copy", res);
+        updateHandler();
+        if (IsDir) {
+            toast.info(`Directory copying started in background: ${Name}`);
+        } else {
+            toast.info(`File copying started in background: ${Name}`);
+        }
+        // } else {
+        //     toast.error("This remote does not support copying");
+        // }
+
+    } else {
+        // if (component.props.canMove) {
+        await performMoveFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
+        updateHandler();
+        if (IsDir) {
+            toast.info(`Directory moving started in background: ${Name}`);
+        } else {
+            toast.info(`Directory moving started in background: ${Name}`);
+        }
+        // } else {
+        //     toast.error("This remote does not support moving");
+        // }
+
+    }
+}
+
 
 const fileComponentSource = {
+    canDrag(props) {
+
+        // You can disallow drag based on props
+        return true;
+    },
     beginDrag(props) {
         // console.log("props", props, props.remoteName);
         const {Name, Path, IsDir} = props.item;
@@ -29,43 +66,12 @@ const fileComponentSource = {
         }
     },
 
-    async endDrag(props, monitor, component) {
+    endDrag(props, monitor, component) {
         // console.log("EndDrag", monitor.getDropResult());
         console.log(props, "Component:", component);
         try {
             if (monitor.getDropResult() && component) {
-
-
-                const {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir, dropEffect, updateHandler} = monitor.getDropResult();
-
-                if (dropEffect === "move") { /*Default operation without holding alt is copy, named as move in react-dnd*/
-                    // if (component.props.canCopy) {
-                    let res = await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
-                    console.log("Copy", res);
-                    updateHandler();
-                    if (IsDir) {
-                        toast.info(`Directory copying started in background: ${Name}`);
-                    } else {
-                        toast.info(`File copying started in background: ${Name}`);
-                    }
-                    // } else {
-                    //     toast.error("This remote does not support copying");
-                    // }
-
-                } else {
-                    // if (component.props.canMove) {
-                    await performMoveFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
-                    updateHandler();
-                    if (IsDir) {
-                        toast.info(`Directory moving started in background: ${Name}`);
-                    } else {
-                        toast.info(`Directory moving started in background: ${Name}`);
-                    }
-                    // } else {
-                    //     toast.error("This remote does not support moving");
-                    // }
-
-                }
+                performCopyMoveOperation(monitor.getDropResult());
             }
         } catch (e) {
             const error = e.response ? e.response : e;
