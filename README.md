@@ -1,4 +1,5 @@
-# Rclone Web UI - Google Summer of Code '19 
+# Rclone Web UI  [![Google Summer of Code 19](https://img.shields.io/badge/Google%20Summer%20of%20Code-2019-blue.svg)](https://summerofcode.withgoogle.com/projects/#5104629795258368)
+
 
 This is a reactjs based web UI for the rclone cli project @ [Rclone Website](rclone.org)  
 
