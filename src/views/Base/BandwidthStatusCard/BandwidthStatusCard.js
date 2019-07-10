@@ -50,7 +50,6 @@ class BandwidthStatusCard extends React.Component {
     changeBandwidthInput = (e) => {
         const inputValue = e.target.value;
         const validateInput = validateSizeSuffix(inputValue);
-        console.log(validateInput);
         this.setState({
             bandwidthText: inputValue,
             hasError: !validateInput

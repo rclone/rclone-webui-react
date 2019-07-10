@@ -34,15 +34,16 @@
     "react-dnd": "^7.4.5",
     "react-dnd-html5-backend": "^7.4.4",
     "react-dom": "^16.8.6",
+    "react-in-viewport": "0.0.38",
+    "react-redux": "^7.1.0",
     "react-router-config": "^5.0.1",
     "react-router-dom": "~5.0.1",
     "react-test-renderer": "^16.8.6",
-    "reactstrap": "^8.0.0",
-    "simple-line-icons": "^2.4.1",
     "react-toastify": "^5.2.1",
+    "reactstrap": "^8.0.0",
     "redux": "^4.0.1",
-    "react-redux": "^7.1.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "simple-line-icons": "^2.4.1"
   },
   "devDependencies": {
     "check-prop-types": "^1.1.2",

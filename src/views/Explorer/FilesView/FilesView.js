@@ -309,9 +309,11 @@ class FilesView extends React.PureComponent {
                                            loadImages={loadImages}
                                            isBucketBased={fsInfo.Features.BucketBased}
                                            canCopy={fsInfo.Features.Copy} canMove={fsInfo.Features.Move} itemIdx={idx}
-                            />
+                            >
+
+                            </FileComponent>
                         </React.Fragment>
-                    )
+                    );
                 }
                 return null;
             });

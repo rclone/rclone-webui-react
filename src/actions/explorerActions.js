@@ -113,7 +113,7 @@ export const getFiles = (remoteName, remotePath) => dispatch => {
  * @returns {Function}
  */
 export const changeNumCols = (numCols) => (dispatch) => {
-    if (!numCols || numCols < 0) throw `Invalid number of cols:${numCols}`;
+    if (!numCols || numCols < 0) throw new Error(`Invalid number of cols:${numCols}`);
 
 
     for (let i = 0; i < numCols; i++) {
@@ -130,7 +130,7 @@ export const changeNumCols = (numCols) => (dispatch) => {
 
 /**
  * Enter or exit distraction free mode
- * @param shouldEnable  {boolean} Number of columns to create
+ * @param shouldEnable  {boolean} Enable or disable distraction free mode.
  * @returns {Function}
  */
 export const changeDistractionFreeMode = (shouldEnable) => dispatch => {
