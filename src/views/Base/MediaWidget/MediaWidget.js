@@ -36,13 +36,20 @@ class MediaWidget extends React.Component {
 
         }
 
+        const extraProps = {
+            onClick: function (e) {
+                e.stopPropagation();
+            }
+        };
+
         switch (MimeType) {
 
 
             case "image/jpeg":
-                return (<ImageLoader item={item} downloadURL={downloadURL} inViewport={inViewport}/>);
+                return (<ImageLoader item={item} downloadURL={downloadURL} inViewport={inViewport} {...extraProps}/>);
             case "video/mp4":
-                return (<VideoPlayer playbackURL={downloadURL} MimeType={MimeType} currentPath={currentPath}/>);
+                return (<VideoPlayer playbackURL={downloadURL} MimeType={MimeType}
+                                     currentPath={currentPath} {...extraProps}/>);
 
             default:
                 return null;

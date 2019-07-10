@@ -214,7 +214,7 @@ class FileComponent extends React.Component {
             return connectDragSource(
                 <div className={IsDir ? "" : "col-md-4"}>
                     <Card>
-                        <CardBody onClick={(e) => clickHandler(e, item)}>
+                        <CardBody>
 
                             {loadImages && isMedia(MimeType) ?
                                 <MediaWidget containerID={containerID} item={item} inViewport={inViewport}/> :

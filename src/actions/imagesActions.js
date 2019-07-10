@@ -14,7 +14,6 @@ export const downloadImage = (url) => dispatch => {
     axiosInstance.get(url, {
         responseType: 'arraybuffer'
     }).then((res) => {
-        console.log(res);
         const imgFile = new Blob([res.data]);
         const imgUrl = URL.createObjectURL(imgFile);
         dispatch({

@@ -18,7 +18,7 @@ import {
     Spinner
 } from "reactstrap";
 import NewFolder from "../NewFolder/NewFolder";
-import PropTypes from "prop-types";
+import * as PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {
     changeGridMode,
@@ -234,7 +234,7 @@ class FileOperations extends React.Component {
                                         </Input>
                                     </DropdownItem>
                                     {gridMode !== "grid" &&
-                                    <DropdownItem onClick={this.changeLoadImages}>Load Images{' '}
+                                    <DropdownItem onClick={this.changeLoadImages}>Load Media{' '}
 
                                         <Input id={"loadImg" + containerID} checked={loadImages} type="checkbox"
                                                onClick={(e) => e.stopPropagation()}

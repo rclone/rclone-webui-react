@@ -16,6 +16,7 @@
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.3.1",
     "@coreui/icons": "0.3.0",
     "@coreui/react": "~2.5.1",
+    "@toast-ui/react-image-editor": "^1.0.0",
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.8.0",
@@ -60,7 +61,8 @@
     "test": "react-scripts test",
     "test:cov": "react-scripts test --coverage",
     "test:debug": "react-scripts --inspect-brk test --runInBand",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postInstall": "npm install --no-save --no-optional fabric@^1.6.7"
   },
   "bugs": {
     "url": "https://github.com/negative0/rclone-webui-react/issues"
