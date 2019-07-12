@@ -3,10 +3,14 @@ import {shallow} from "enzyme";
 import {testStore} from "../../../../Utils";
 import FilesView from "./FilesView";
 import toJson from "enzyme-to-json";
+import {wrapInTestContext} from "react-dnd-test-utils";
 
 const setUp = (intialState = {}, props = {}) => {
     const store = testStore(intialState);
-    const component = shallow(<FilesView {...props} store={store}/>);
+    const MyFiles = wrapInTestContext(FilesView);
+    const component = shallow(<MyFiles {...props} store={store}/>);
+    const manager = component.instance().getManager();
+    const backend = manager.getBackend()
     return component.childAt(0).dive();
 };
 
