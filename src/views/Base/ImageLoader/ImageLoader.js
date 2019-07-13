@@ -36,7 +36,7 @@ function ImageLoader({downloadURL, inViewport, imageData, downloadImage, current
 
     if (preview) {
         return (
-            <div onClick={hideFull}>
+            <div onClick={hideFull} data-test="toggleModal">
 
                 {
                     !imageData || imageData.isLoading ? <Spinner>Loading...</Spinner> :

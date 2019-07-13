@@ -23,8 +23,6 @@ class ConfigRow extends React.Component {
     onUpdateClicked = () => {
         const {name} = this.state.remote;
         this.props.history.push("/newdrive/edit/" + name);
-
-        console.log("Update Clicked")
     };
 
     // TODO: Delete config functionality
@@ -54,7 +52,7 @@ class ConfigRow extends React.Component {
         const {name, type} = this.state.remote;
         const {sequenceNumber} = this.props;
         return (
-            <tr data-test="configRow">
+            <tr data-test="configRowComponent">
                 <th scope="row">{sequenceNumber}</th>
                 <td>{name}</td>
                 <td>{type}</td>

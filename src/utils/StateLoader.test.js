@@ -35,5 +35,14 @@ describe('check state loading ', function () {
 
 
     });
+
+    it('should empty state if error occurs', function () {
+        localStorage.setItem("curState", 'asas');
+        expect(stateLoader.loadState()).toEqual(stateLoader.initializeState());
+    });
+
+    // it('should empty state if error occurs', function () {
+    //     expect(() => stateLoader.saveState('{}{{{}{{}')).toThrow(Error);
+    // });
 });
 

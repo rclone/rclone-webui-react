@@ -4,6 +4,8 @@ import {testStore} from "../../../../Utils";
 import FilesView from "./FilesView";
 import toJson from "enzyme-to-json";
 import {wrapInTestContext} from "react-dnd-test-utils";
+import {TEST_REDUX_PROPS} from "../../../utils/testData";
+import {PROP_CONTAINER_ID} from "../../../utils/RclonePropTypes";
 
 const setUp = (intialState = {}, props = {}) => {
     const store = testStore(intialState);
@@ -23,93 +25,11 @@ describe('Files View', function () {
         beforeEach(() => {
             const initialState = {
 
-                remote: {
-                    configs: {
-                        localdrive: {
-                            Features: {
-                                About: true,
-                                BucketBased: false,
-                                CanHaveEmptyDirectories: true,
-                                CaseInsensitive: false,
-                                ChangeNotify: false,
-                                CleanUp: false,
-                                Copy: false,
-                                DirCacheFlush: false,
-                                DirMove: true,
-                                DuplicateFiles: false,
-                                GetTier: false,
-                                ListR: false,
-                                MergeDirs: false,
-                                Move: true,
-                                OpenWriterAt: true,
-                                PublicLink: false,
-                                Purge: true,
-                                PutStream: true,
-                                PutUnchecked: false,
-                                ReadMimeType: false,
-                                ServerSideAcrossConfigs: false,
-                                SetTier: false,
-                                SetWrapper: false,
-                                UnWrap: false,
-                                WrapFs: false,
-                                WriteMimeType: false
-                            },
-                            Hashes: [
-                                'MD5',
-                                'SHA-1',
-                                'DropboxHash',
-                                'QuickXorHash'
-                            ],
-                            Name: 'localdrive',
-                            Precision: 1,
-                            Root: '/home/negative0/Projects/rclone/rclone',
-                            String: 'Local file system at /home/negative0/Projects/rclone/rclone'
-                        }
-                    },
-                    files: {
-                        'localdrive-': {
-                            time: '2019-06-18T06:49:00.107Z',
-                            files: []
-                        }
-                    }
-                },
-                explorer: {
-                    backStacks: {
-                        '0': {
-                            backStack: {
-                                items: [
-                                    {
-                                        remoteName: 'localdrive',
-                                        remotePath: ''
-                                    }
-                                ],
-                                count: 1
-                            },
-                            forwardStack: {
-                                items: [],
-                                count: 0
-                            }
-                        }
-                    },
-                    currentPaths: {
-                        '0': {
-                            remoteName: 'localdrive',
-                            remotePath: ''
-                        }
-                    },
-                    visibilityFilters: {},
-                    gridMode: {},
-                    searchQueries: {},
-                    loadImages: {
-                        '0': false
-                    }
-                }
-
-
+                ...TEST_REDUX_PROPS
             };
 
             const props = {
-                containerID: '0',
+                containerID: PROP_CONTAINER_ID,
             };
             wrapper = setUp(initialState, props)
         });

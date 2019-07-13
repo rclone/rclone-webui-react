@@ -18,6 +18,7 @@ import {toast} from "react-toastify";
 import * as PropTypes from "prop-types";
 import handleViewport from 'react-in-viewport';
 import MediaWidget, {isMedia} from "../../Base/MediaWidget/MediaWidget";
+import {PROP_ITEM} from "../../../utils/RclonePropTypes";
 
 async function performCopyMoveOperation(params) {
     const {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir, dropEffect, updateHandler} = params;
@@ -258,7 +259,7 @@ class FileComponent extends React.Component {
 
 
 FileComponent.propTypes = {
-    item: PropTypes.object.isRequired,
+    item: PROP_ITEM.isRequired,
     clickHandler: PropTypes.func.isRequired,
     downloadHandle: PropTypes.func.isRequired,
     deleteHandle: PropTypes.func.isRequired,

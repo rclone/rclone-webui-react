@@ -1,7 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Image Loader renders should match snapshot 1`] = `
+exports[`Image Loader renders Image should match snapshot 1`] = `
 <div
+  data-test="toggleModal"
+  onClick={[Function]}
+>
+  <img
+    alt=""
+    className="img-thumbnail pd-0 m-0 -rotate-90"
+    src="blob://abc"
+  />
+</div>
+`;
+
+exports[`Image Loader renders Loader should match snapshot 1`] = `
+<div
+  data-test="toggleModal"
   onClick={[Function]}
 >
   <Spinner

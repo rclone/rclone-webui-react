@@ -15,12 +15,17 @@ const setUp = (intialState = {}, props = {}) => {
 describe('Image Loader', function () {
 
 
-    describe('renders', function () {
+    describe('renders Loader', function () {
         let wrapper;
+        const setState = jest.fn();
+        const useStateSpy = jest.spyOn(React, 'useState');
+        useStateSpy.mockImplementation((init) => [init, setState]);
+
+
         beforeEach(() => {
             const initialState = {
 
-                ...TEST_REDUX_PROPS
+                ...TEST_REDUX_PROPS,
 
             };
 
@@ -38,5 +43,49 @@ describe('Image Loader', function () {
         it('should match snapshot', function () {
             expect(toJson(wrapper)).toMatchSnapshot()
         });
+        // it('should render full mode', function () {
+        //     const e = { stopPropagation: jest.fn() };
+        //     const result = findByTestAttr(wrapper, 'toggleModal').props().onClick(e);
+        //     expect(result.length).toBe(1);
+        // });
     });
+
+    describe('renders Image', function () {
+        let wrapper;
+
+        beforeEach(() => {
+            const initialState = {
+
+                ...TEST_REDUX_PROPS,
+
+                imageLoader: {
+                    'http://testurl.com/1.jpg': {
+                        data: 'blob://abc'
+                    }
+                }
+
+            };
+
+            const props = {
+                containerID: TEST_FILE_CONTAINER_ID,
+                changeVisibilityFilter: jest.fn(),
+                downloadURL: 'http://testurl.com/1.jpg'
+            };
+            wrapper = setUp(initialState, props)
+        });
+
+        it('should render without crashing', function () {
+            expect(wrapper).toHaveLength(1)
+        });
+
+        it('should match snapshot', function () {
+            expect(toJson(wrapper)).toMatchSnapshot()
+        });
+        // it('should render full mode', function () {
+        //     const e = { stopPropagation: jest.fn() };
+        //     const result = findByTestAttr(wrapper, 'toggleModal').props().onClick(e);
+        //     expect(result.length).toBe(1);
+        // });
+    });
+
 });

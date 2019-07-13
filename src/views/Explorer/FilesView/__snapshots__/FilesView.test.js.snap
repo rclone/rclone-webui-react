@@ -2,7 +2,7 @@
 
 exports[`Files View renders should match snapshot 1`] = `
 <Connect(DropTarget(FilesView))
-  containerID="0"
+  containerID={[Function]}
   store={
     Object {
       "dispatch": [Function],
