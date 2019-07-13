@@ -6,6 +6,7 @@ import {Button, Card, CardBody, CardHeader, Col, Form, FormFeedback, FormGroup, 
 import {connect} from "react-redux";
 import {getBandwidth, setBandwidth} from "../../../actions/statusActions";
 import * as PropTypes from "prop-types";
+import {PROP_BANDWIDTH} from "../../../utils/RclonePropTypes";
 
 
 class BandwidthStatusCard extends React.Component {
@@ -132,6 +133,11 @@ const mapStateToProps = state => ({
 });
 
 BandwidthStatusCard.propTypes = {
+    isConnected: PropTypes.bool.isRequired,
+    /**
+     * Determines currently set bandwidth
+     */
+    bandwidth: PROP_BANDWIDTH,
     /**
      * Redux function to get the current bandwidth.
      */

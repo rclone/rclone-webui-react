@@ -1,41 +1,42 @@
 import React from "react";
 import {shallow} from "enzyme";
-import {findByTestAttr, testStore} from "../../../Utils";
-import Home from "./Home";
+import {testStore} from "../../../../Utils";
 import toJson from "enzyme-to-json";
+import {TEST_FILE_CONTAINER_ID, TEST_REDUX_PROPS} from "../../../utils/testData";
+import ImageLoader from "./ImageLoader";
 
 const setUp = (intialState = {}, props = {}) => {
     const store = testStore(intialState);
-
-    const component = shallow(<Home {...props} store={store}/>);
+    const component = shallow(<ImageLoader {...props} store={store}/>);
     return component.childAt(0).dive();
 };
 
 
-describe('Home Component', function () {
+describe('Image Loader', function () {
 
 
     describe('renders', function () {
         let wrapper;
         beforeEach(() => {
             const initialState = {
-                status: {
-                    checkStatus: true
-                }
+
+                ...TEST_REDUX_PROPS
+
             };
 
-            const props = {};
+            const props = {
+                containerID: TEST_FILE_CONTAINER_ID,
+                changeVisibilityFilter: jest.fn()
+            };
             wrapper = setUp(initialState, props)
         });
 
         it('should render without crashing', function () {
-            const component = findByTestAttr(wrapper, "homeComponent");
-            expect(component).toHaveLength(1);
+            expect(wrapper).toHaveLength(1)
         });
 
         it('should match snapshot', function () {
             expect(toJson(wrapper)).toMatchSnapshot()
         });
     });
-
 });

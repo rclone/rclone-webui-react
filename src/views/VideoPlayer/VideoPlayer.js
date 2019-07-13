@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Button, Modal} from "reactstrap";
 import * as ReactDOM from "react-dom";
 import {MODAL_ROOT_ELEMENT} from "../../utils/Constants";
+import * as PropTypes from "prop-types";
 
 function VideoPlayer({playbackURL, MimeType}) {
 
@@ -15,7 +16,7 @@ function VideoPlayer({playbackURL, MimeType}) {
 
     if (preview) {
         return (
-            <div className="img-thumbnail w-100 text-center">
+            <div className="img-thumbnail w-100 text-center" data-test="videoPlayerWidget">
                 <Button color="link" onClick={hideFull}>
                     <i className="fa fa-play-circle fa-4x"/>
                 </Button>
@@ -27,7 +28,8 @@ function VideoPlayer({playbackURL, MimeType}) {
 
 
         return ReactDOM.createPortal((
-            <Modal className="task-modal d-none d-sm-block" isOpen={!preview} toggle={hideFull}>
+            <Modal className="task-modal d-none d-sm-block" data-test="videoPlayerWidget" isOpen={!preview}
+                   toggle={hideFull}>
 
                 <video controls width="600">
                     <source src={playbackURL} type={MimeType}/>
@@ -39,5 +41,10 @@ function VideoPlayer({playbackURL, MimeType}) {
 
 
 }
+
+VideoPlayer.propTypes = {
+    playbackURL: PropTypes.string.isRequired,
+    MimeType: PropTypes.string.isRequired
+};
 
 export default VideoPlayer;

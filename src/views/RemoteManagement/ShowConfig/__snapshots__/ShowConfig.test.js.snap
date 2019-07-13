@@ -73,7 +73,13 @@ exports[`Show Config renders should match snapshot 1`] = `
         refreshHandle={[Function]}
         remotes={
           Object {
-            "eventsfunk": Object {},
+            "local": Object {
+              "type": "local",
+            },
+            "mydrive": Object {
+              "token": "",
+              "type": "drive",
+            },
           }
         }
       />

@@ -1,6 +1,6 @@
 import React from "react";
 import {shallow} from "enzyme";
-import {findByTestAtrr, testStore} from "../../../../Utils";
+import {findByTestAttr, testStore} from "../../../../Utils";
 import NewFolder from "./NewFolder";
 import toJson from "enzyme-to-json";
 
@@ -32,7 +32,7 @@ describe('New Folder', function () {
         });
 
         it('should render without crashing', function () {
-            const component = findByTestAtrr(wrapper, "newFolderComponent");
+            const component = findByTestAttr(wrapper, "newFolderComponent");
             expect(component).toHaveLength(1);
         });
 

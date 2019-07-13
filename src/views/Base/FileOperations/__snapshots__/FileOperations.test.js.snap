@@ -10,6 +10,7 @@ exports[`File Operations renders should match snapshot 1`] = `
     <li
       className="breadcrumb-item active"
     >
+      local
       :/
     </li>
     <li
@@ -106,7 +107,7 @@ exports[`File Operations renders should match snapshot 1`] = `
             onChange={[Function]}
             placeholder="Search"
             type="text"
-            value="abcd"
+            value=""
           />
         </InputGroup>
         <ButtonDropdown
@@ -134,7 +135,6 @@ exports[`File Operations renders should match snapshot 1`] = `
                 onChange={[Function]}
                 onClick={[Function]}
                 type="select"
-                value="card"
               >
                 <option
                   value="grid"
@@ -159,7 +159,6 @@ exports[`File Operations renders should match snapshot 1`] = `
                 onChange={[Function]}
                 onClick={[Function]}
                 type="select"
-                value="Images"
               >
                 <option
                   key="0"
@@ -196,7 +195,7 @@ exports[`File Operations renders should match snapshot 1`] = `
               <Input
                 checked={false}
                 className="ml-1 mr-1"
-                id="loadImg1"
+                id="loadImg0"
                 onChange={[Function]}
                 onClick={[Function]}
                 type="checkbox"
@@ -207,7 +206,7 @@ exports[`File Operations renders should match snapshot 1`] = `
       </ButtonGroup>
       <Connect(NewFolder)
         closeModal={[Function]}
-        containerID="1"
+        containerID="0"
         isVisible={false}
       />
       <Modal
@@ -244,6 +243,7 @@ exports[`File Operations renders should match snapshot 1`] = `
           wrapTag="div"
         >
           Status for 
+          local
         </ModalHeader>
         <ModalBody
           tag="div"

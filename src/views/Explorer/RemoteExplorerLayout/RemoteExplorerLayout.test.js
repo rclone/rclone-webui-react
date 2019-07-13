@@ -1,6 +1,6 @@
 import React from "react";
 import {shallow} from "enzyme";
-import {checkProps, findByTestAtrr, testStore} from "../../../../Utils";
+import {checkProps, findByTestAttr, testStore} from "../../../../Utils";
 import RemoteExplorerLayout from "./RemoteExplorerLayout";
 import toJson from "enzyme-to-json";
 
@@ -37,7 +37,7 @@ describe('Remote Explorer Layout', function () {
         });
 
         it('should render without crashing', function () {
-            const component = findByTestAtrr(wrapper, "remoteExplorerLayout");
+            const component = findByTestAttr(wrapper, "remoteExplorerLayout");
             expect(component).toHaveLength(1);
         });
 

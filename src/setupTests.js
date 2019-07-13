@@ -13,6 +13,15 @@ console.error = message => {
     originalConsoleError(message);
 };
 
+// const originalConsoleLog = console.log;
+
+console.log = message => {
+
+    throw new Error(`Not allowed to print to console from components. Remove any console.log() statements. console.error still works.->${message}`);
+
+    // originalConsoleLog(message);
+};
+
 if (global.document) {
     document.queryCommandSupported = jest.fn().mockImplementation((e) => true);
     document.createRange = () => ({

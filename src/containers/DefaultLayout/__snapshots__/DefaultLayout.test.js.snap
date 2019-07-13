@@ -1,0 +1,325 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Remote Explorer renders should match snapshot 1`] = `
+<div
+  className="app"
+  data-test="defaultLayout"
+>
+  <AppHeader
+    fixed={true}
+    tag="header"
+  >
+    <Suspense
+      fallback={
+        <div
+          className="animated fadeIn pt-1 text-center"
+        >
+          Loading...
+        </div>
+      }
+    >
+      <lazy
+        onLogout={[Function]}
+      />
+    </Suspense>
+  </AppHeader>
+  <div
+    className="app-body"
+  >
+    <AppSidebar
+      compact={false}
+      display="lg"
+      fixed={true}
+      isOpen={false}
+      minimized={false}
+      offCanvas={false}
+      tag="div"
+    >
+      <AppSidebarHeader
+        tag="div"
+      />
+      <AppSidebarForm
+        tag="div"
+      />
+      <Suspense>
+        <AppSidebarNav
+          history={
+            Object {
+              "push": [MockFunction] {
+                "calls": Array [
+                  Array [
+                    "/login",
+                  ],
+                ],
+                "results": Array [
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                ],
+              },
+            }
+          }
+          isConnected={true}
+          isOpen={false}
+          navConfig={
+            Object {
+              "items": Array [
+                Object {
+                  "icon": "icon-speedometer",
+                  "name": "Dashboard",
+                  "url": "/dashboard",
+                },
+                Object {
+                  "icon": "icon-note",
+                  "name": "Configs",
+                  "url": "/showconfig",
+                },
+                Object {
+                  "icon": "icon-screen-desktop",
+                  "name": "Explorer",
+                  "url": "/remoteExplorer",
+                },
+                Object {
+                  "icon": "icon-star",
+                  "name": "Backend",
+                  "url": "/rcloneBackend",
+                },
+                Object {
+                  "icon": "icon-logout",
+                  "name": "Log Out",
+                  "url": "/login",
+                },
+              ],
+            }
+          }
+          store={
+            Object {
+              "dispatch": [Function],
+              "getState": [Function],
+              "replaceReducer": [Function],
+              "subscribe": [Function],
+              Symbol(observable): [Function],
+            }
+          }
+          tag="nav"
+        />
+      </Suspense>
+      <AppSidebarFooter
+        tag="div"
+      />
+      <AppSidebarMinimizer
+        tag="button"
+        type="button"
+      />
+    </AppSidebar>
+    <main
+      className="main"
+    >
+      <AppBreadcrumb
+        appRoutes={
+          Array [
+            Object {
+              "exact": true,
+              "name": "Home",
+              "path": "/",
+            },
+            Object {
+              "component": Object {
+                "$$typeof": Symbol(react.lazy),
+                "_ctor": [Function],
+                "_result": null,
+                "_status": -1,
+              },
+              "name": "New Drive",
+              "path": "/newdrive/edit/:drivePrefix",
+            },
+            Object {
+              "component": Object {
+                "$$typeof": Symbol(react.lazy),
+                "_ctor": [Function],
+                "_result": null,
+                "_status": -1,
+              },
+              "exact": true,
+              "name": "New Drive",
+              "path": "/newdrive",
+            },
+            Object {
+              "component": Object {
+                "$$typeof": Symbol(react.lazy),
+                "_ctor": [Function],
+                "_result": null,
+                "_status": -1,
+              },
+              "exact": true,
+              "name": "New Drive",
+              "path": "/login",
+            },
+            Object {
+              "component": Object {
+                "$$typeof": Symbol(react.lazy),
+                "_ctor": [Function],
+                "_result": null,
+                "_status": -1,
+              },
+              "name": "Dashboard",
+              "path": "/dashboard",
+            },
+            Object {
+              "component": Object {
+                "$$typeof": Symbol(react.lazy),
+                "_ctor": [Function],
+                "_result": null,
+                "_status": -1,
+              },
+              "name": "Configs",
+              "path": "/showconfig",
+            },
+            Object {
+              "component": Object {
+                "$$typeof": Symbol(react.lazy),
+                "_ctor": [Function],
+                "_result": null,
+                "_status": -1,
+              },
+              "exact": true,
+              "name": "Explorer",
+              "path": "/remoteExplorer/:remoteName/:remotePath",
+            },
+            Object {
+              "component": Object {
+                "$$typeof": Symbol(react.lazy),
+                "_ctor": [Function],
+                "_result": null,
+                "_status": -1,
+              },
+              "name": "Explorer",
+              "path": "/remoteExplorer",
+            },
+            Object {
+              "component": Object {
+                "$$typeof": Symbol(react.lazy),
+                "_ctor": [Function],
+                "_result": null,
+                "_status": -1,
+              },
+              "name": "Rclone Backend",
+              "path": "/rcloneBackend",
+            },
+          ]
+        }
+        className=""
+        tag="div"
+      />
+      <Container
+        fluid={true}
+        tag="div"
+      >
+        <Suspense
+          fallback={
+            <div
+              className="animated fadeIn pt-1 text-center"
+            >
+              Loading...
+            </div>
+          }
+        >
+          <Switch>
+            <Route
+              key="1"
+              name="New Drive"
+              path="/newdrive/edit/:drivePrefix"
+              render={[Function]}
+            />
+            <Route
+              exact={true}
+              key="2"
+              name="New Drive"
+              path="/newdrive"
+              render={[Function]}
+            />
+            <Route
+              exact={true}
+              key="3"
+              name="New Drive"
+              path="/login"
+              render={[Function]}
+            />
+            <Route
+              key="4"
+              name="Dashboard"
+              path="/dashboard"
+              render={[Function]}
+            />
+            <Route
+              key="5"
+              name="Configs"
+              path="/showconfig"
+              render={[Function]}
+            />
+            <Route
+              exact={true}
+              key="6"
+              name="Explorer"
+              path="/remoteExplorer/:remoteName/:remotePath"
+              render={[Function]}
+            />
+            <Route
+              key="7"
+              name="Explorer"
+              path="/remoteExplorer"
+              render={[Function]}
+            />
+            <Route
+              key="8"
+              name="Rclone Backend"
+              path="/rcloneBackend"
+              render={[Function]}
+            />
+            <Redirect
+              from="/"
+              to="/login"
+            />
+          </Switch>
+        </Suspense>
+      </Container>
+    </main>
+    <AppAside
+      display=""
+      fixed={true}
+      isOpen={false}
+      offCanvas={true}
+      tag="aside"
+    >
+      <Suspense
+        fallback={
+          <div
+            className="animated fadeIn pt-1 text-center"
+          >
+            Loading...
+          </div>
+        }
+      >
+        <lazy />
+      </Suspense>
+    </AppAside>
+  </div>
+  <AppFooter
+    fixed={false}
+    tag="footer"
+  >
+    <Suspense
+      fallback={
+        <div
+          className="animated fadeIn pt-1 text-center"
+        >
+          Loading...
+        </div>
+      }
+    >
+      <lazy />
+    </Suspense>
+  </AppFooter>
+</div>
+`;

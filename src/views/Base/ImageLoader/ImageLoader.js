@@ -35,7 +35,6 @@ function ImageLoader({downloadURL, inViewport, imageData, downloadImage, current
     }
 
     if (preview) {
-        console.log(imageData, downloadURL);
         return (
             <div onClick={hideFull}>
 

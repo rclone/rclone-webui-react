@@ -3,6 +3,7 @@ import {shallow} from "enzyme";
 import {testStore} from "../../../../Utils";
 import BandwidthStatusCard from "./BandwidthStatusCard";
 import toJson from "enzyme-to-json";
+import {TEST_REDUX_PROPS} from "../../../utils/testData";
 
 const setUp = (intialState = {}, props = {}) => {
     const store = testStore(intialState);
@@ -16,12 +17,7 @@ describe('Bandwidth Status Card', function () {
     let wrapper;
     beforeEach(() => {
         const initialState = {
-            status: {
-                checkStatus: true,
-                bandwidth: {
-                    rate: '1M'
-                }
-            }
+            ...TEST_REDUX_PROPS
         };
 
         const props = {};

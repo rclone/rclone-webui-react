@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
-import PropTypes from "prop-types";
+import * as  PropTypes from "prop-types";
 
 
 class NewDriveAuthModal extends React.Component {

@@ -3,6 +3,7 @@ import {shallow} from "enzyme";
 import {testStore} from "../../../../Utils";
 import FileOperations from "./FileOperations";
 import toJson from "enzyme-to-json";
+import {TEST_FILE_CONTAINER_ID, TEST_REDUX_PROPS} from "../../../utils/testData";
 
 const setUp = (intialState = {}, props = {}) => {
     const store = testStore(intialState);
@@ -19,30 +20,12 @@ describe('File Operations', function () {
         beforeEach(() => {
             const initialState = {
 
-                explorer: {
-                    visibilityFilters: {"1": "Images"},
-                    gridMode: {
-                        "1": "card"
-                    },
-                    searchQueries: {
-                        "1": "abcd"
-                    },
-                    currentPaths: {
-                        "1": {
-                            remoteName: "",
-                            remotePath: ""
-                        }
-                    },
-                    loadImages: {
-                        "1": false
-                    }
-
-                }
+                ...TEST_REDUX_PROPS
 
             };
 
             const props = {
-                containerID: "1",
+                containerID: TEST_FILE_CONTAINER_ID,
                 changeVisibilityFilter: jest.fn()
             };
             wrapper = setUp(initialState, props)

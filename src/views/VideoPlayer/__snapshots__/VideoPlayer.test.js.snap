@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Video Player Widget renders should match snapshot 1`] = `
+<div
+  className="img-thumbnail w-100 text-center"
+  data-test="videoPlayerWidget"
+>
+  <Button
+    color="link"
+    onClick={[Function]}
+    tag="button"
+  >
+    <i
+      className="fa fa-play-circle fa-4x"
+    />
+  </Button>
+</div>
+`;

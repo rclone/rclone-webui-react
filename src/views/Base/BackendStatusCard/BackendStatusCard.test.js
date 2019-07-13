@@ -12,10 +12,12 @@ const setUp = (intialState = {}, props = {}) => {
 
 describe('Backend Status Card', function () {
 
-    describe('renders', function () {
+    describe('renders showChangeBandwidth: true', function () {
         let wrapper;
         beforeEach(() => {
-            const props = {};
+            const props = {
+                showChangeBandwidth: true
+            };
             const initialState = {
                 status: {
                     isConnected: false,
@@ -30,8 +32,29 @@ describe('Backend Status Card', function () {
             expect(wrapper).toHaveLength(1)
         });
 
-        it('should match Snapshot', function () {
+        it('should match snapshot', function () {
+            expect(toJson(wrapper)).toMatchSnapshot()
+        });
+    });
 
+    describe('renders showChangeBandwidth: false', function () {
+        let wrapper;
+        beforeEach(() => {
+            const props = {
+                showChangeBandwidth: false
+            };
+            const initialState = {
+                status: {
+                    isConnected: false,
+                    jobs: {},
+                    checkStatus: true
+                },
+            };
+            wrapper = setUp(initialState, props)
+        });
+
+        it('should render without crashing', function () {
+            expect(wrapper).toHaveLength(1)
         });
 
         it('should match snapshot', function () {

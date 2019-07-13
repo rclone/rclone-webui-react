@@ -118,9 +118,23 @@ const propTypes = {
      * Used to specify mode of render : card/ grid.
      */
     mode: PropTypes.string.isRequired,
+    /**
+     * Boolean to represent internet connectivity
+     */
     isConnected: PropTypes.bool.isRequired,
+    /**
+     * Boolean to represent whether checking for status at interval is allowed
+     */
     checkStatus: PropTypes.bool.isRequired,
+
+
+    /**
+     * Function to enable or disable status check
+     */
     enableCheckStatus: PropTypes.func.isRequired,
+    /**
+     * Get the current status
+     */
     getStatus: PropTypes.func.isRequired
 };
 

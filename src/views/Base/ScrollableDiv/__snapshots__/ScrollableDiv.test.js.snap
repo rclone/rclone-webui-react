@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Running Jobs renders should match snapshot 1`] = `
+<div
+  style={
+    Object {
+      "height": "700px",
+      "overflow": "auto",
+    }
+  }
+>
+  <div />
+</div>
+`;

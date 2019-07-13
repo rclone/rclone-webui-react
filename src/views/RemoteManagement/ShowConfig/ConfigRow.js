@@ -1,14 +1,10 @@
 import React from "react";
 import axiosInstance from "../../../utils/API/API";
 import {Button} from "reactstrap";
-import PropTypes from "prop-types";
+import * as  PropTypes from "prop-types";
 import {toast} from "react-toastify";
 import {withRouter} from "react-router-dom";
 
-const propTypes = {
-    remote: PropTypes.object.isRequired, // Name of the remote to perform operations
-    refreshHandle: PropTypes.func.isRequired // Used to refresh the parent component upon change
-};
 
 class ConfigRow extends React.Component {
     constructor(props, context) {
@@ -58,7 +54,7 @@ class ConfigRow extends React.Component {
         const {name, type} = this.state.remote;
         const {sequenceNumber} = this.props;
         return (
-            <tr>
+            <tr data-test="configRow">
                 <th scope="row">{sequenceNumber}</th>
                 <td>{name}</td>
                 <td>{type}</td>
@@ -71,6 +67,14 @@ class ConfigRow extends React.Component {
         );
     }
 }
+
+const propTypes = {
+    remote: PropTypes.object.isRequired, // Name of the remote to perform operations
+    refreshHandle: PropTypes.func.isRequired, // Used to refresh the parent component upon change
+    sequenceNumber: PropTypes.number.isRequired,
+    remoteName: PropTypes.string.isRequired,
+
+};
 
 ConfigRow.propTypes = propTypes;
 

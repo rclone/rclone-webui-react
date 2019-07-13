@@ -1,7 +1,7 @@
 import React from 'react';
 import {shallow} from 'enzyme/build';
 import App from './App';
-import {findByTestAtrr, testStore} from "../Utils";
+import {findByTestAttr, testStore} from "../Utils";
 import {Provider} from "react-redux";
 import toJson from 'enzyme-to-json';
 
@@ -46,7 +46,7 @@ describe('App Component', function () {
     });
 
     it('should render without errors', function () {
-        const component = findByTestAtrr(wrapper, 'appComponent');
+        const component = findByTestAttr(wrapper, 'appComponent');
         expect(component).toHaveLength(1);
 
     });

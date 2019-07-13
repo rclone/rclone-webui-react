@@ -34,6 +34,8 @@ export class StateLoader {
             localStorage.setItem("curState", serializedState);
 
         } catch (err) {
+            console.log("Error occurred while saving state");
+            throw new Error(`Cannot Save State ${err}`);
         }
     }
 

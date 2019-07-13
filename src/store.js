@@ -4,7 +4,6 @@ import rootReducer from './reducers';
 import {StateLoader} from "./utils/StateLoader";
 import throttledMiddleware from './throttled';
 
-// const initalState = {};
 
 export const middleware = [thunk, throttledMiddleware];
 

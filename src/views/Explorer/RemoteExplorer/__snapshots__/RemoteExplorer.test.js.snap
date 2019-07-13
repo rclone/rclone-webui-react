@@ -15,7 +15,7 @@ exports[`Remote Explorer renders should match snapshot 1`] = `
     >
       <Connect(RemotesList)
         containerID="0"
-        remoteName="localdrive"
+        remoteName="local"
       />
     </CardBody>
   </Card>

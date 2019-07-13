@@ -1,13 +1,13 @@
 import React from "react";
 import {shallow} from "enzyme";
-import {testStore} from "../../../../Utils";
-import RemoteExplorer from "./RemoteExplorer";
 import toJson from "enzyme-to-json";
-import {TEST_FILE_CONTAINER_ID, TEST_REDUX_PROPS} from "../../../utils/testData";
+import DefaultLayout from "./DefaultLayout";
+import {TEST_REDUX_PROPS} from "../../utils/testData";
+import {findByTestAttr, testStore} from "../../../Utils";
 
-const setUp = (intialState = {}, props = {}) => {
-    const store = testStore(intialState);
-    const component = shallow(<RemoteExplorer {...props} store={store}/>);
+const setUp = (initialState = {}, props = {}) => {
+    const store = testStore(initialState);
+    const component = shallow(<DefaultLayout {...props} store={store}/>);
     return component.childAt(0).dive();
 };
 
@@ -22,22 +22,24 @@ describe('Remote Explorer', function () {
                 ...TEST_REDUX_PROPS
             };
 
+
             const props = {
-                containerID: TEST_FILE_CONTAINER_ID,
-                createPath: jest.fn(),
-                distractionFreeMode: false
+
+                history: {
+                    push: jest.fn()
+                }
+
             };
             wrapper = setUp(initialState, props)
         });
 
         it('should render without crashing', function () {
-            expect(wrapper).toHaveLength(1)
+            const component = findByTestAttr(wrapper, "defaultLayout");
+            expect(component).toHaveLength(1);
         });
-
         it('should match snapshot', function () {
             expect(toJson(wrapper)).toMatchSnapshot()
         });
-
     });
 
 });

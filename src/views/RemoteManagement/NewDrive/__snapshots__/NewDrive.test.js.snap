@@ -103,18 +103,17 @@ exports[`Remote Explorer renders should match snapshot 1`] = `
                 suggestions={
                   Array [
                     Object {
-                      "Description": "Alias for an existing remote",
-                      "Name": "alias",
+                      "Description": "Backblaze B2",
+                      "Name": "b2",
                       "Options": Array [
                         Object {
                           "Advanced": false,
                           "Default": "",
                           "DefaultStr": "",
-                          "Help": "Remote or path to alias.
-Can be \\"myremote:path/to/dir\\", \\"myremote:bucket\\", \\"myremote:\\" or \\"/local/path\\".",
+                          "Help": "Account ID or Application Key ID",
                           "Hide": 0,
                           "IsPassword": false,
-                          "Name": "remote",
+                          "Name": "account",
                           "NoPrefix": false,
                           "Provider": "",
                           "Required": true,
@@ -123,8 +122,198 @@ Can be \\"myremote:path/to/dir\\", \\"myremote:bucket\\", \\"myremote:\\" or \\"
                           "Value": null,
                           "ValueStr": "",
                         },
+                        Object {
+                          "Advanced": false,
+                          "Default": "",
+                          "DefaultStr": "",
+                          "Help": "Application Key",
+                          "Hide": 0,
+                          "IsPassword": false,
+                          "Name": "key",
+                          "NoPrefix": false,
+                          "Provider": "",
+                          "Required": true,
+                          "ShortOpt": "",
+                          "Type": "string",
+                          "Value": null,
+                          "ValueStr": "",
+                        },
+                        Object {
+                          "Advanced": true,
+                          "Default": "",
+                          "DefaultStr": "",
+                          "Help": "Endpoint for the service.
+Leave blank normally.",
+                          "Hide": 0,
+                          "IsPassword": false,
+                          "Name": "endpoint",
+                          "NoPrefix": false,
+                          "Provider": "",
+                          "Required": false,
+                          "ShortOpt": "",
+                          "Type": "string",
+                          "Value": null,
+                          "ValueStr": "",
+                        },
+                        Object {
+                          "Advanced": true,
+                          "Default": "",
+                          "DefaultStr": "",
+                          "Help": "A flag string for X-Bz-Test-Mode header for debugging.
+
+This is for debugging purposes only. Setting it to one of the strings
+below will cause b2 to return specific errors:
+
+  * \\"fail_some_uploads\\"
+  * \\"expire_some_account_authorization_tokens\\"
+  * \\"force_cap_exceeded\\"
+
+These will be set in the \\"X-Bz-Test-Mode\\" header which is documented
+in the [b2 integrations checklist](https://www.backblaze.com/b2/docs/integration_checklist.html).",
+                          "Hide": 2,
+                          "IsPassword": false,
+                          "Name": "test_mode",
+                          "NoPrefix": false,
+                          "Provider": "",
+                          "Required": false,
+                          "ShortOpt": "",
+                          "Type": "string",
+                          "Value": null,
+                          "ValueStr": "",
+                        },
+                        Object {
+                          "Advanced": true,
+                          "Default": false,
+                          "DefaultStr": "false",
+                          "Help": "Include old versions in directory listings.
+Note that when using this no file write operations are permitted,
+so you can't upload files or delete them.",
+                          "Hide": 0,
+                          "IsPassword": false,
+                          "Name": "versions",
+                          "NoPrefix": false,
+                          "Provider": "",
+                          "Required": false,
+                          "ShortOpt": "",
+                          "Type": "bool",
+                          "Value": null,
+                          "ValueStr": "false",
+                        },
+                        Object {
+                          "Advanced": false,
+                          "Default": false,
+                          "DefaultStr": "false",
+                          "Help": "Permanently delete files on remote removal, otherwise hide files.",
+                          "Hide": 0,
+                          "IsPassword": false,
+                          "Name": "hard_delete",
+                          "NoPrefix": false,
+                          "Provider": "",
+                          "Required": false,
+                          "ShortOpt": "",
+                          "Type": "bool",
+                          "Value": null,
+                          "ValueStr": "false",
+                        },
+                        Object {
+                          "Advanced": true,
+                          "Default": 209715200,
+                          "DefaultStr": "200M",
+                          "Help": "Cutoff for switching to chunked upload.
+
+Files above this size will be uploaded in chunks of \\"--b2-chunk-size\\".
+
+This value should be set no larger than 4.657GiB (== 5GB).",
+                          "Hide": 0,
+                          "IsPassword": false,
+                          "Name": "upload_cutoff",
+                          "NoPrefix": false,
+                          "Provider": "",
+                          "Required": false,
+                          "ShortOpt": "",
+                          "Type": "SizeSuffix",
+                          "Value": null,
+                          "ValueStr": "200M",
+                        },
+                        Object {
+                          "Advanced": true,
+                          "Default": 100663296,
+                          "DefaultStr": "96M",
+                          "Help": "Upload chunk size. Must fit in memory.
+
+When uploading large files, chunk the file into this size.  Note that
+these chunks are buffered in memory and there might a maximum of
+\\"--transfers\\" chunks in progress at once.  5,000,000 Bytes is the
+minimum size.",
+                          "Hide": 0,
+                          "IsPassword": false,
+                          "Name": "chunk_size",
+                          "NoPrefix": false,
+                          "Provider": "",
+                          "Required": false,
+                          "ShortOpt": "",
+                          "Type": "SizeSuffix",
+                          "Value": null,
+                          "ValueStr": "96M",
+                        },
+                        Object {
+                          "Advanced": true,
+                          "Default": false,
+                          "DefaultStr": "false",
+                          "Help": "Disable checksums for large (> upload cutoff) files",
+                          "Hide": 0,
+                          "IsPassword": false,
+                          "Name": "disable_checksum",
+                          "NoPrefix": false,
+                          "Provider": "",
+                          "Required": false,
+                          "ShortOpt": "",
+                          "Type": "bool",
+                          "Value": null,
+                          "ValueStr": "false",
+                        },
+                        Object {
+                          "Advanced": true,
+                          "Default": "",
+                          "DefaultStr": "",
+                          "Help": "Custom endpoint for downloads.
+
+This is usually set to a Cloudflare CDN URL as Backblaze offers
+free egress for data downloaded through the Cloudflare network.
+This is probably only useful for a public bucket.
+Leave blank if you want to use the endpoint provided by Backblaze.",
+                          "Hide": 0,
+                          "IsPassword": false,
+                          "Name": "download_url",
+                          "NoPrefix": false,
+                          "Provider": "",
+                          "Required": false,
+                          "ShortOpt": "",
+                          "Type": "string",
+                          "Value": null,
+                          "ValueStr": "",
+                        },
+                        Object {
+                          "Advanced": true,
+                          "Default": 604800000000000,
+                          "DefaultStr": "1w",
+                          "Help": "Time before the authorization token will expire in s or suffix ms|s|m|h|d.
+
+The duration before the download authorization token will expire.
+The minimum value is 1 second. The maximum value is one week.",
+                          "Hide": 0,
+                          "IsPassword": false,
+                          "Name": "download_auth_duration",
+                          "NoPrefix": false,
+                          "Provider": "",
+                          "Required": false,
+                          "ShortOpt": "",
+                          "Type": "Duration",
+                          "Value": null,
+                          "ValueStr": "1w",
+                        },
                       ],
-                      "Prefix": "alias",
+                      "Prefix": "b2",
                     },
                   ]
                 }
@@ -244,18 +433,17 @@ Can be \\"myremote:path/to/dir\\", \\"myremote:bucket\\", \\"myremote:\\" or \\"
             config={
               Array [
                 Object {
-                  "Description": "Alias for an existing remote",
-                  "Name": "alias",
+                  "Description": "Backblaze B2",
+                  "Name": "b2",
                   "Options": Array [
                     Object {
                       "Advanced": false,
                       "Default": "",
                       "DefaultStr": "",
-                      "Help": "Remote or path to alias.
-Can be \\"myremote:path/to/dir\\", \\"myremote:bucket\\", \\"myremote:\\" or \\"/local/path\\".",
+                      "Help": "Account ID or Application Key ID",
                       "Hide": 0,
                       "IsPassword": false,
-                      "Name": "remote",
+                      "Name": "account",
                       "NoPrefix": false,
                       "Provider": "",
                       "Required": true,
@@ -264,8 +452,198 @@ Can be \\"myremote:path/to/dir\\", \\"myremote:bucket\\", \\"myremote:\\" or \\"
                       "Value": null,
                       "ValueStr": "",
                     },
+                    Object {
+                      "Advanced": false,
+                      "Default": "",
+                      "DefaultStr": "",
+                      "Help": "Application Key",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "key",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": true,
+                      "ShortOpt": "",
+                      "Type": "string",
+                      "Value": null,
+                      "ValueStr": "",
+                    },
+                    Object {
+                      "Advanced": true,
+                      "Default": "",
+                      "DefaultStr": "",
+                      "Help": "Endpoint for the service.
+Leave blank normally.",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "endpoint",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "string",
+                      "Value": null,
+                      "ValueStr": "",
+                    },
+                    Object {
+                      "Advanced": true,
+                      "Default": "",
+                      "DefaultStr": "",
+                      "Help": "A flag string for X-Bz-Test-Mode header for debugging.
+
+This is for debugging purposes only. Setting it to one of the strings
+below will cause b2 to return specific errors:
+
+  * \\"fail_some_uploads\\"
+  * \\"expire_some_account_authorization_tokens\\"
+  * \\"force_cap_exceeded\\"
+
+These will be set in the \\"X-Bz-Test-Mode\\" header which is documented
+in the [b2 integrations checklist](https://www.backblaze.com/b2/docs/integration_checklist.html).",
+                      "Hide": 2,
+                      "IsPassword": false,
+                      "Name": "test_mode",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "string",
+                      "Value": null,
+                      "ValueStr": "",
+                    },
+                    Object {
+                      "Advanced": true,
+                      "Default": false,
+                      "DefaultStr": "false",
+                      "Help": "Include old versions in directory listings.
+Note that when using this no file write operations are permitted,
+so you can't upload files or delete them.",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "versions",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "bool",
+                      "Value": null,
+                      "ValueStr": "false",
+                    },
+                    Object {
+                      "Advanced": false,
+                      "Default": false,
+                      "DefaultStr": "false",
+                      "Help": "Permanently delete files on remote removal, otherwise hide files.",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "hard_delete",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "bool",
+                      "Value": null,
+                      "ValueStr": "false",
+                    },
+                    Object {
+                      "Advanced": true,
+                      "Default": 209715200,
+                      "DefaultStr": "200M",
+                      "Help": "Cutoff for switching to chunked upload.
+
+Files above this size will be uploaded in chunks of \\"--b2-chunk-size\\".
+
+This value should be set no larger than 4.657GiB (== 5GB).",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "upload_cutoff",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "SizeSuffix",
+                      "Value": null,
+                      "ValueStr": "200M",
+                    },
+                    Object {
+                      "Advanced": true,
+                      "Default": 100663296,
+                      "DefaultStr": "96M",
+                      "Help": "Upload chunk size. Must fit in memory.
+
+When uploading large files, chunk the file into this size.  Note that
+these chunks are buffered in memory and there might a maximum of
+\\"--transfers\\" chunks in progress at once.  5,000,000 Bytes is the
+minimum size.",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "chunk_size",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "SizeSuffix",
+                      "Value": null,
+                      "ValueStr": "96M",
+                    },
+                    Object {
+                      "Advanced": true,
+                      "Default": false,
+                      "DefaultStr": "false",
+                      "Help": "Disable checksums for large (> upload cutoff) files",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "disable_checksum",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "bool",
+                      "Value": null,
+                      "ValueStr": "false",
+                    },
+                    Object {
+                      "Advanced": true,
+                      "Default": "",
+                      "DefaultStr": "",
+                      "Help": "Custom endpoint for downloads.
+
+This is usually set to a Cloudflare CDN URL as Backblaze offers
+free egress for data downloaded through the Cloudflare network.
+This is probably only useful for a public bucket.
+Leave blank if you want to use the endpoint provided by Backblaze.",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "download_url",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "string",
+                      "Value": null,
+                      "ValueStr": "",
+                    },
+                    Object {
+                      "Advanced": true,
+                      "Default": 604800000000000,
+                      "DefaultStr": "1w",
+                      "Help": "Time before the authorization token will expire in s or suffix ms|s|m|h|d.
+
+The duration before the download authorization token will expire.
+The minimum value is 1 second. The maximum value is one week.",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "download_auth_duration",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "Duration",
+                      "Value": null,
+                      "ValueStr": "1w",
+                    },
                   ],
-                  "Prefix": "alias",
+                  "Prefix": "b2",
                 },
               ]
             }
@@ -363,18 +741,17 @@ Can be \\"myremote:path/to/dir\\", \\"myremote:bucket\\", \\"myremote:\\" or \\"
             config={
               Array [
                 Object {
-                  "Description": "Alias for an existing remote",
-                  "Name": "alias",
+                  "Description": "Backblaze B2",
+                  "Name": "b2",
                   "Options": Array [
                     Object {
                       "Advanced": false,
                       "Default": "",
                       "DefaultStr": "",
-                      "Help": "Remote or path to alias.
-Can be \\"myremote:path/to/dir\\", \\"myremote:bucket\\", \\"myremote:\\" or \\"/local/path\\".",
+                      "Help": "Account ID or Application Key ID",
                       "Hide": 0,
                       "IsPassword": false,
-                      "Name": "remote",
+                      "Name": "account",
                       "NoPrefix": false,
                       "Provider": "",
                       "Required": true,
@@ -383,8 +760,198 @@ Can be \\"myremote:path/to/dir\\", \\"myremote:bucket\\", \\"myremote:\\" or \\"
                       "Value": null,
                       "ValueStr": "",
                     },
+                    Object {
+                      "Advanced": false,
+                      "Default": "",
+                      "DefaultStr": "",
+                      "Help": "Application Key",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "key",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": true,
+                      "ShortOpt": "",
+                      "Type": "string",
+                      "Value": null,
+                      "ValueStr": "",
+                    },
+                    Object {
+                      "Advanced": true,
+                      "Default": "",
+                      "DefaultStr": "",
+                      "Help": "Endpoint for the service.
+Leave blank normally.",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "endpoint",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "string",
+                      "Value": null,
+                      "ValueStr": "",
+                    },
+                    Object {
+                      "Advanced": true,
+                      "Default": "",
+                      "DefaultStr": "",
+                      "Help": "A flag string for X-Bz-Test-Mode header for debugging.
+
+This is for debugging purposes only. Setting it to one of the strings
+below will cause b2 to return specific errors:
+
+  * \\"fail_some_uploads\\"
+  * \\"expire_some_account_authorization_tokens\\"
+  * \\"force_cap_exceeded\\"
+
+These will be set in the \\"X-Bz-Test-Mode\\" header which is documented
+in the [b2 integrations checklist](https://www.backblaze.com/b2/docs/integration_checklist.html).",
+                      "Hide": 2,
+                      "IsPassword": false,
+                      "Name": "test_mode",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "string",
+                      "Value": null,
+                      "ValueStr": "",
+                    },
+                    Object {
+                      "Advanced": true,
+                      "Default": false,
+                      "DefaultStr": "false",
+                      "Help": "Include old versions in directory listings.
+Note that when using this no file write operations are permitted,
+so you can't upload files or delete them.",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "versions",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "bool",
+                      "Value": null,
+                      "ValueStr": "false",
+                    },
+                    Object {
+                      "Advanced": false,
+                      "Default": false,
+                      "DefaultStr": "false",
+                      "Help": "Permanently delete files on remote removal, otherwise hide files.",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "hard_delete",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "bool",
+                      "Value": null,
+                      "ValueStr": "false",
+                    },
+                    Object {
+                      "Advanced": true,
+                      "Default": 209715200,
+                      "DefaultStr": "200M",
+                      "Help": "Cutoff for switching to chunked upload.
+
+Files above this size will be uploaded in chunks of \\"--b2-chunk-size\\".
+
+This value should be set no larger than 4.657GiB (== 5GB).",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "upload_cutoff",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "SizeSuffix",
+                      "Value": null,
+                      "ValueStr": "200M",
+                    },
+                    Object {
+                      "Advanced": true,
+                      "Default": 100663296,
+                      "DefaultStr": "96M",
+                      "Help": "Upload chunk size. Must fit in memory.
+
+When uploading large files, chunk the file into this size.  Note that
+these chunks are buffered in memory and there might a maximum of
+\\"--transfers\\" chunks in progress at once.  5,000,000 Bytes is the
+minimum size.",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "chunk_size",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "SizeSuffix",
+                      "Value": null,
+                      "ValueStr": "96M",
+                    },
+                    Object {
+                      "Advanced": true,
+                      "Default": false,
+                      "DefaultStr": "false",
+                      "Help": "Disable checksums for large (> upload cutoff) files",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "disable_checksum",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "bool",
+                      "Value": null,
+                      "ValueStr": "false",
+                    },
+                    Object {
+                      "Advanced": true,
+                      "Default": "",
+                      "DefaultStr": "",
+                      "Help": "Custom endpoint for downloads.
+
+This is usually set to a Cloudflare CDN URL as Backblaze offers
+free egress for data downloaded through the Cloudflare network.
+This is probably only useful for a public bucket.
+Leave blank if you want to use the endpoint provided by Backblaze.",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "download_url",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "string",
+                      "Value": null,
+                      "ValueStr": "",
+                    },
+                    Object {
+                      "Advanced": true,
+                      "Default": 604800000000000,
+                      "DefaultStr": "1w",
+                      "Help": "Time before the authorization token will expire in s or suffix ms|s|m|h|d.
+
+The duration before the download authorization token will expire.
+The minimum value is 1 second. The maximum value is one week.",
+                      "Hide": 0,
+                      "IsPassword": false,
+                      "Name": "download_auth_duration",
+                      "NoPrefix": false,
+                      "Provider": "",
+                      "Required": false,
+                      "ShortOpt": "",
+                      "Type": "Duration",
+                      "Value": null,
+                      "ValueStr": "1w",
+                    },
                   ],
-                  "Prefix": "alias",
+                  "Prefix": "b2",
                 },
               ]
             }
