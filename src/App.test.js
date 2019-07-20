@@ -1,9 +1,9 @@
 import React from 'react';
-import {shallow} from 'enzyme/build';
 import App from './App';
 import {findByTestAttr, testStore} from "../Utils";
 import {Provider} from "react-redux";
 import toJson from 'enzyme-to-json';
+import {shallow} from "enzyme";
 
 const setUp = (initialState = {}) => {
     const store = testStore(initialState);

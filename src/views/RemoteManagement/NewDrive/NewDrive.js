@@ -23,6 +23,7 @@ import * as PropTypes from 'prop-types';
 import {getProviders} from "../../../actions/configActions";
 import {connect} from "react-redux";
 import {NEW_DRIVE_CONFIG_REFRESH_TIMEOUT} from "../../../utils/Constants";
+import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 
 /**
  * Returns a component with set of input, error for the drivePrefix.
@@ -614,115 +615,118 @@ class NewDrive extends React.Component {
         // console.log("config", config);
         return (
             <div data-test="newDriveComponent">
-                <p>This 3 step process will guide you through creating a new config. For auto config, leave the
-                    parameters as is.</p>
-                <Form onSubmit={this.handleSubmit}>
-                    <Card>
-                        <CardHeader>
-                            <h5>
-                                <Button color="link" name="colRconfig" onClick={this.toggle}
-                                        style={{marginBottom: '1rem'}}><strong>Step 1:</strong> Remote Config</Button>
-                            </h5>
+                <ErrorBoundary>
+                    <p>This 3 step process will guide you through creating a new config. For auto config, leave the
+                        parameters as is.</p>
+                    <Form onSubmit={this.handleSubmit}>
+                        <Card>
+                            <CardHeader>
+                                <h5>
+                                    <Button color="link" name="colRconfig" onClick={this.toggle}
+                                            style={{marginBottom: '1rem'}}><strong>Step 1:</strong> Remote
+                                        Config</Button>
+                                </h5>
 
-                        </CardHeader>
-                        <Collapse isOpen={colRconfig}>
+                            </CardHeader>
+                            <Collapse isOpen={colRconfig}>
 
-                            <CardBody>
-                                <CustomInput label="Name of this drive (For your reference)"
-                                             changeHandler={this.changeName} value={driveName}
-                                             placeholder={"Enter a name"} name="name" id="driveName"
-                                             isValid={driveNameIsValid}/>
+                                <CardBody>
+                                    <CustomInput label="Name of this drive (For your reference)"
+                                                 changeHandler={this.changeName} value={driveName}
+                                                 placeholder={"Enter a name"} name="name" id="driveName"
+                                                 isValid={driveNameIsValid}/>
 
-                                <FormGroup row>
-                                    <Label for="driveType" sm={5}>Select</Label>
-                                    <Col sm={7}>
-                                        <ProviderAutoSuggest suggestions={providers} value={drivePrefix}
-                                                             onChange={this.changeDriveType}/>
-                                    </Col>
-                                </FormGroup>
-                                <FormGroup row>
-                                    <Col sm={3}>
-                                        <Label for="inputDriveName">Docs are available at </Label>{' '}
-                                        <a href="https://rclone.org/commands/rclone_config/">Rclone Config</a>
-                                    </Col>
-                                </FormGroup>
-                            </CardBody>
+                                    <FormGroup row>
+                                        <Label for="driveType" sm={5}>Select</Label>
+                                        <Col sm={7}>
+                                            <ProviderAutoSuggest suggestions={providers} value={drivePrefix}
+                                                                 onChange={this.changeDriveType}/>
+                                        </Col>
+                                    </FormGroup>
+                                    <FormGroup row>
+                                        <Col sm={3}>
+                                            <Label for="inputDriveName">Docs are available at </Label>{' '}
+                                            <a href="https://rclone.org/commands/rclone_config/">Rclone Config</a>
+                                        </Col>
+                                    </FormGroup>
+                                </CardBody>
 
-                            <CardFooter>
-                                <div className="clearfix">
-                                    <Button color="success" className="float-right" onClick={this.openSetupDrive}><i
-                                        className="fa fa-check fa-lg "/></Button>
-                                </div>
-                            </CardFooter>
-
-                        </Collapse>
-                    </Card>
-                    <Card>
-                        {/*div for Scrolling to here*/}
-                        <div ref={(el) => this.setupDriveDiv = el}/>
-                        <CardHeader>
-                            <h5>
-                                <Button color="link" name="colSetup" onClick={this.toggle}
-                                        style={{marginBottom: '1rem'}}><strong>Step 2:</strong> Setup Drive</Button>
-                            </h5>
-
-                        </CardHeader>
-                        <Collapse isOpen={colSetup}>
-
-                            <CardBody>
-                                <DriveParameters drivePrefix={drivePrefix} loadAdvanced={false}
-                                                 changeHandler={this.handleInputChange}
-                                                 errorsMap={this.state.formErrors}
-                                                 isValidMap={this.state.isValid}
-                                                 currentValues={this.state.formValues} config={providers}/>
-                            </CardBody>
-                            <CardFooter>
-                                <div className="clearfix">
-                                    <div className="float-right">
-                                        <Input type="checkbox" value={advancedOptions}
-                                               onChange={this.editAdvancedOptions}/><span className="mr-3">Edit Advanced Options</span>
-                                        <Button color="success" onClick={this.openAdvancedSettings}><i
+                                <CardFooter>
+                                    <div className="clearfix">
+                                        <Button color="success" className="float-right" onClick={this.openSetupDrive}><i
                                             className="fa fa-check fa-lg "/></Button>
-
                                     </div>
-                                </div>
-                            </CardFooter>
+                                </CardFooter>
 
-                        </Collapse>
-                    </Card>
-                    <Card>
-                        <CardHeader>
-                            <h5>
-                                <Button color="link" name="colAdvanced" onClick={this.toggle}
-                                        style={{marginBottom: '1rem'}}><strong>Step 3:</strong> Advanced
-                                    (optional)</Button>
+                            </Collapse>
+                        </Card>
+                        <Card>
+                            {/*div for Scrolling to here*/}
+                            <div ref={(el) => this.setupDriveDiv = el}/>
+                            <CardHeader>
+                                <h5>
+                                    <Button color="link" name="colSetup" onClick={this.toggle}
+                                            style={{marginBottom: '1rem'}}><strong>Step 2:</strong> Setup Drive</Button>
+                                </h5>
 
-                            </h5>
+                            </CardHeader>
+                            <Collapse isOpen={colSetup}>
 
-                        </CardHeader>
-                        <Collapse isOpen={colAdvanced}>
+                                <CardBody>
+                                    <DriveParameters drivePrefix={drivePrefix} loadAdvanced={false}
+                                                     changeHandler={this.handleInputChange}
+                                                     errorsMap={this.state.formErrors}
+                                                     isValidMap={this.state.isValid}
+                                                     currentValues={this.state.formValues} config={providers}/>
+                                </CardBody>
+                                <CardFooter>
+                                    <div className="clearfix">
+                                        <div className="float-right">
+                                            <Input type="checkbox" value={advancedOptions}
+                                                   onChange={this.editAdvancedOptions}/><span className="mr-3">Edit Advanced Options</span>
+                                            <Button color="success" onClick={this.openAdvancedSettings}><i
+                                                className="fa fa-check fa-lg "/></Button>
 
-                            <CardBody>
-                                <DriveParameters drivePrefix={drivePrefix} loadAdvanced={true}
-                                                 changeHandler={this.handleInputChange}
-                                                 errorsMap={this.state.formErrors}
-                                                 isValidMap={this.state.isValid}
-                                                 currentValues={this.state.formValues} config={providers}/>
-                            </CardBody>
+                                        </div>
+                                    </div>
+                                </CardFooter>
 
-                        </Collapse>
-                    </Card>
-                    <div className="clearfix" ref={(el) => {
-                        this.configEndDiv = el
-                    }}>
-                        <div className="float-right mb-3">
-                            <Button color="info" type="reset" onClick={() => this.clearForm()}>Clear</Button>
-                            <Button color="success" type="submit">Create Config</Button>
+                            </Collapse>
+                        </Card>
+                        <Card>
+                            <CardHeader>
+                                <h5>
+                                    <Button color="link" name="colAdvanced" onClick={this.toggle}
+                                            style={{marginBottom: '1rem'}}><strong>Step 3:</strong> Advanced
+                                        (optional)</Button>
 
+                                </h5>
+
+                            </CardHeader>
+                            <Collapse isOpen={colAdvanced}>
+
+                                <CardBody>
+                                    <DriveParameters drivePrefix={drivePrefix} loadAdvanced={true}
+                                                     changeHandler={this.handleInputChange}
+                                                     errorsMap={this.state.formErrors}
+                                                     isValidMap={this.state.isValid}
+                                                     currentValues={this.state.formValues} config={providers}/>
+                                </CardBody>
+
+                            </Collapse>
+                        </Card>
+                        <div className="clearfix" ref={(el) => {
+                            this.configEndDiv = el
+                        }}>
+                            <div className="float-right mb-3">
+                                <Button color="info" type="reset" onClick={() => this.clearForm()}>Clear</Button>
+                                <Button color="success" type="submit">Create Config</Button>
+
+                            </div>
                         </div>
-                    </div>
-                </Form>
-                <NewDriveAuthModal isVisible={this.state.authModalIsVisible} closeModal={this.toggleAuthModal}/>
+                    </Form>
+                    <NewDriveAuthModal isVisible={this.state.authModalIsVisible} closeModal={this.toggleAuthModal}/>
+                </ErrorBoundary>
             </div>);
     }
 }

@@ -2,7 +2,6 @@
 
 [![CCExtractor](https://img.shields.io/badge/CCExtractor-org-blue.svg)](https://www.ccextractor.org/) [![RClone](https://img.shields.io/badge/RClone-org-blue.svg)](https://rclone.org/)
 
-
 This is a reactjs based web UI for the rclone cli project @ [Rclone Website](rclone.org)  
 
 This project can be unstable and is being actively developed. Feel free to create any issues, feature requests or enhancements as you encounter them. 
@@ -13,7 +12,8 @@ This project can be unstable and is being actively developed. Feel free to creat
 [![Coverage Status](https://coveralls.io/repos/github/negative0/rclone-webui-react/badge.svg?branch=master)](https://coveralls.io/github/negative0/rclone-webui-react?branch=master)
 ## Getting Started
 
-The project currently requires you to install and configure react and npm to run correctly
+The project currently requires you to install and configure react and npm to run correctly.
+Read more about the project details at [good2be.me](http://good2be.me/blog)
 
 ## Screenshots
 ### Dashboard
@@ -36,22 +36,43 @@ The project currently requires you to install and configure react and npm to run
 OR download a zip from the option above.
 
 ### Install dependencies
+If you are using NPM:
+
+**Make sure that you are using the latest LTS version of NPM**
 ```
-  cd <cloned directory>
-  npm install 
+    cd <cloned directory>
+    npm install 
 ```
+
+Using yarn:
+```
+    cd <cloned directory>
+    yarn install
+```
+
 
 ### Run the project
 ```
-  npm start
+    npm start
 ```
+OR
+```
+    npm run start
+```
+
+### Run tests
+```npm test```OR ```yarn test``` if you want to run all jest tests. 
+Test specific environment can be set using setupTests.js
+
+**With Coverage**: ```npm run test:cov```
+
 
 ### Run Rclone
 You have to run rclone with the following flags:
 ```
     rclone rcd --rc-user=<username> --rc-pass=<password> --rc-serve
 ```
-Replace username and password with your custom username password. This will be required to login to rclone.
+Replace username and password with your custom username password. This will be required to login to rclone. rc-no-auth is not available due to security concerns.
 
 --rc-serve:  It serves the remote objects at localhost:5572/[remoteName:remotePath]/path/to/file. It enables us to download files via the RemoteExplorer through the browser.
 

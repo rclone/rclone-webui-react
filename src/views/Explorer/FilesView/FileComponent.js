@@ -19,6 +19,7 @@ import * as PropTypes from "prop-types";
 import handleViewport from 'react-in-viewport';
 import MediaWidget, {isMedia} from "../../Base/MediaWidget/MediaWidget";
 import {PROP_ITEM} from "../../../utils/RclonePropTypes";
+import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 
 async function performCopyMoveOperation(params) {
     const {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir, dropEffect, updateHandler} = params;
@@ -216,9 +217,9 @@ class FileComponent extends React.Component {
 
 
         let modTime = new Date(Date.parse(ModTime));
-
+        let element;
         if (gridMode === "card") {
-            return connectDragSource(
+            element = connectDragSource(
                 <div className={IsDir ? "" : "col-md-4"}>
                     <Card>
                         <CardBody onClick={(e) => clickHandler(e, item)}>
@@ -239,7 +240,7 @@ class FileComponent extends React.Component {
                 </div>
             )
         } else {
-            return connectDragSource(
+            element = connectDragSource(
                 <tr className={"pointer-cursor"}>
                     <td className="d-none d-md-table-cell"><input type="checkbox"/></td>
                     <td onClick={(e) => clickHandler(e, item)} id={"file" + itemIdx}>
@@ -254,6 +255,9 @@ class FileComponent extends React.Component {
                 </tr>
             )
         }
+        return <ErrorBoundary>
+            {element}
+        </ErrorBoundary>;
     }
 }
 

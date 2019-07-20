@@ -5,6 +5,7 @@ import VideoPlayer from "../../VideoPlayer/VideoPlayer";
 import {IP_ADDRESS_KEY} from "../../../utils/Constants";
 import {connect} from "react-redux";
 import ImageLoader from "../ImageLoader/ImageLoader";
+import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 
 export function isMedia(MimeType) {
     const mimeTypes = {
@@ -55,9 +56,14 @@ class MediaWidget extends React.Component {
         const {loadMedia, item} = this.props;
         const {MimeType} = item;
 
-        return isMedia(MimeType) && loadMedia ? (
+        let element = isMedia(MimeType) && loadMedia ? (
             this.getRenderForItem()
         ) : null;
+        return (
+            <ErrorBoundary>
+                {element}
+            </ErrorBoundary>
+        );
     }
 }
 

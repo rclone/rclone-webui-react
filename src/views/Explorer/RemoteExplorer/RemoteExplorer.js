@@ -16,6 +16,7 @@ import {
 } from "../../../actions/explorerStateActions";
 import FileOperations from "../../Base/FileOperations/FileOperations";
 import {PROP_CURRENT_PATH, PROP_FS_INFO} from "../../../utils/RclonePropTypes";
+import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 
 
 class RemoteExplorer extends React.Component {
@@ -60,7 +61,7 @@ class RemoteExplorer extends React.Component {
         const isValidPath = remoteName && remoteName !== "";
 
         return (
-            <React.Fragment>
+            <ErrorBoundary>
                 {/*Render remotes array*/}
                 {(!distractionFreeMode) &&
                 <Card>
@@ -84,7 +85,7 @@ class RemoteExplorer extends React.Component {
                     </CardBody>
                 </Card>}
 
-            </React.Fragment>
+            </ErrorBoundary>
         );
 
     }

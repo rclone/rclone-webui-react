@@ -9,6 +9,7 @@ import {compose} from "redux";
 import {createPath} from "../../../actions/explorerStateActions";
 import * as PropTypes from 'prop-types';
 import {changeDistractionFreeMode, changeNumCols} from "../../../actions/explorerActions";
+import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 
 
 function RemoteExplorerList({cols, distractionFreeMode}) {
@@ -66,7 +67,7 @@ class RemoteExplorerLayout extends React.Component {
         const {numCols, backStacks, distractionFreeMode} = this.props;
 
         return (
-            <React.Fragment>
+            <ErrorBoundary>
                 <Row className={"d-none d-md-block"} data-test="remoteExplorerLayout">
 
                     {distractionFreeMode && <div className="clearfix float-right">
@@ -115,7 +116,7 @@ class RemoteExplorerLayout extends React.Component {
                 </Row>
 
 
-            </React.Fragment>
+            </ErrorBoundary>
         );
     }
 }

@@ -3,6 +3,7 @@ import {Button, Modal} from "reactstrap";
 import * as ReactDOM from "react-dom";
 import {MODAL_ROOT_ELEMENT} from "../../utils/Constants";
 import * as PropTypes from "prop-types";
+import ErrorBoundary from "../../ErrorHandling/ErrorBoundary";
 
 function VideoPlayer({playbackURL, MimeType}) {
 
@@ -14,8 +15,9 @@ function VideoPlayer({playbackURL, MimeType}) {
 
     }
 
+    let element;
     if (preview) {
-        return (
+        element = (
             <div className="img-thumbnail w-100 text-center" data-test="videoPlayerWidget">
                 <Button color="link" onClick={hideFull}>
                     <i className="fa fa-play-circle fa-4x"/>
@@ -27,7 +29,7 @@ function VideoPlayer({playbackURL, MimeType}) {
         // Load the video
 
 
-        return ReactDOM.createPortal((
+        element = ReactDOM.createPortal((
             <Modal className="task-modal d-none d-sm-block" data-test="videoPlayerWidget" isOpen={!preview}
                    toggle={hideFull}>
 
@@ -38,6 +40,12 @@ function VideoPlayer({playbackURL, MimeType}) {
             </Modal>
         ), document.getElementById(MODAL_ROOT_ELEMENT));
     }
+
+    return (
+        <ErrorBoundary>
+            {element}
+        </ErrorBoundary>
+    )
 
 
 }

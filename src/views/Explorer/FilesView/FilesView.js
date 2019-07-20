@@ -15,6 +15,7 @@ import ScrollableDiv from "../../Base/ScrollableDiv/ScrollableDiv";
 import {FILES_VIEW_HEIGHT} from "../../../utils/Constants";
 import {PROP_CURRENT_PATH, PROP_FS_INFO} from "../../../utils/RclonePropTypes";
 import * as PropTypes from 'prop-types';
+import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 
 
 /*
@@ -430,16 +431,18 @@ class FilesView extends React.PureComponent {
             return connectDropTarget(
                 <div className={"row"}>
                     {isOver && canDrop && renderOverlay()}
+                    <ErrorBoundary>
 
-                    <Alert color="info" isOpen={isDownloadProgress} toggle={this.dismissAlert} sm={12}
-                           lg={12}>
-                        Downloading {downloadingItems} file(s). Please wait.
-                    </Alert>
+                        <Alert color="info" isOpen={isDownloadProgress} toggle={this.dismissAlert} sm={12}
+                               lg={12}>
+                            Downloading {downloadingItems} file(s). Please wait.
+                        </Alert>
 
-                    {renderElement}
+                        {renderElement}
 
-                    <LinkShareModal closeModal={this.closeLinkShareModal} isVisible={showLinkShareModal}
-                                    linkUrl={generatedLink}/>
+                        <LinkShareModal closeModal={this.closeLinkShareModal} isVisible={showLinkShareModal}
+                                        linkUrl={generatedLink}/>
+                    </ErrorBoundary>
                 </div>
             );
         }

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label, Row} from "reactstrap";
 import axiosInstance from "../../utils/API/API";
+import ErrorBoundary from "../../ErrorHandling/ErrorBoundary";
 
 
 function RCloneVersion({data, hasError}) {
@@ -138,13 +139,15 @@ class RCloneDashboard extends React.Component {
     render() {
         return (
             <div data-test="backendComponent">
-                <Container fluid={true}>
-                    <Row>
-                        <RCloneVersion data={this.state.version} hasError={this.state.hasError}/>
+                <ErrorBoundary>
+                    <Container fluid={true}>
+                        <Row>
+                            <RCloneVersion data={this.state.version} hasError={this.state.hasError}/>
 
-                    </Row>
-                    {this.getOptionsView()}
-                </Container>
+                        </Row>
+                        {this.getOptionsView()}
+                    </Container>
+                </ErrorBoundary>
             </div>);
     }
 }

@@ -58,7 +58,7 @@ class BandwidthStatusCard extends React.Component {
     };
 
     /**
-     * Upon first mount, get the current bandwidth
+     * Upon first shallow, get the current bandwidth
      */
     componentDidMount() {
         this.getBandwidth();

@@ -1,105 +1,61 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`New Drive Auth Modal renders should match snapshot 1`] = `
-<Portal
-  node={
-    <div
-      style="position: relative; z-index: 1050; display: block;"
-      tabindex="-1"
-    />
+<Modal
+  autoFocus={true}
+  backdrop={true}
+  backdropTransition={
+    Object {
+      "mountOnEnter": true,
+      "timeout": 150,
+    }
   }
+  centered={false}
+  fade={true}
+  isOpen={true}
+  keyboard={true}
+  modalTransition={
+    Object {
+      "timeout": 300,
+    }
+  }
+  onClosed={[Function]}
+  onOpened={[Function]}
+  returnFocusAfterClose={true}
+  role="dialog"
+  scrollable={false}
+  toggle={[Function]}
+  unmountOnClose={true}
+  zIndex={1050}
 >
-  <div
-    className=""
+  <ModalHeader
+    charCode={215}
+    closeAriaLabel="Close"
+    data-test="modalHeader"
+    tag="h5"
+    toggle={[Function]}
+    wrapTag="div"
   >
-    <Fade
-      appear={true}
-      baseClass="fade"
-      baseClassActive="show"
-      className="modal"
-      enter={true}
-      exit={true}
-      in={true}
-      mountOnEnter={false}
+    Configuring your drive.
+  </ModalHeader>
+  <ModalBody
+    data-test="modalBody"
+    tag="div"
+  >
+    A page will open for you with the authentication for your drive. This modal will automatically dismiss upon successful creation
+  </ModalBody>
+  <ModalFooter
+    data-test="modalFooter"
+    tag="div"
+  >
+    <Button
+      color="primary"
       onClick={[Function]}
-      onEnter={[Function]}
-      onEntered={[Function]}
-      onEntering={[Function]}
-      onExit={[Function]}
-      onExited={[Function]}
-      onExiting={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      role="dialog"
-      style={
-        Object {
-          "display": "block",
-        }
-      }
-      tabIndex="-1"
-      tag="div"
-      timeout={300}
-      unmountOnExit={false}
+      tag="button"
     >
-      <div
-        className="modal-dialog"
-        role="document"
-      >
-        <div
-          className="modal-content"
-        >
-          <ModalHeader
-            charCode={215}
-            closeAriaLabel="Close"
-            data-test="modalHeader"
-            tag="h5"
-            toggle={[Function]}
-            wrapTag="div"
-          >
-            Configuring your drive.
-          </ModalHeader>
-          <ModalBody
-            data-test="modalBody"
-            tag="div"
-          >
-            A page will open for you with the authentication for your drive. This modal will automatically dismiss upon successful creation
-          </ModalBody>
-          <ModalFooter
-            data-test="modalFooter"
-            tag="div"
-          >
-            <Button
-              color="primary"
-              onClick={[Function]}
-              tag="button"
-            >
-              Done
-            </Button>
-             
-          </ModalFooter>
-        </div>
-      </div>
-    </Fade>
-    <Fade
-      appear={true}
-      baseClass="fade"
-      baseClassActive="show"
-      className="modal-backdrop"
-      enter={true}
-      exit={true}
-      in={true}
-      mountOnEnter={true}
-      onEnter={[Function]}
-      onEntered={[Function]}
-      onEntering={[Function]}
-      onExit={[Function]}
-      onExited={[Function]}
-      onExiting={[Function]}
-      tag="div"
-      timeout={150}
-      unmountOnExit={false}
-    />
-  </div>
-</Portal>
+      Done
+    </Button>
+     
+  </ModalFooter>
+</Modal>
 `;
