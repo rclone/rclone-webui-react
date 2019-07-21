@@ -71,13 +71,39 @@ function GlobalStatus({stats}) {
         <Card>
             <CardHeader><strong>Global Stats</strong></CardHeader>
             <CardBody>
-                <p><strong>Bytes Transferred: </strong>{formatBytes(bytes)}</p>
-                <p><strong>Average Speed: </strong>{formatBytes(speed)}PS</p>
-                <p><strong>Checks: </strong>{checks}</p>
-                <p><strong>Deletes: </strong>{deletes}</p>
-                <p><strong>Running since: </strong>{secondsToStr(elapsedTime)}</p>
-                <p><strong>Errors: </strong>{errors}</p>
-                <p><strong>Transfers: </strong>{transfers}</p>
+                <table className="table">
+
+                    <tr>
+                        <td>Bytes Transferred:</td>
+                        <td>{formatBytes(bytes)}</td>
+                    </tr>
+                    <tr>
+                        <td>Average Speed:</td>
+                        <td>{formatBytes(speed)}PS</td>
+                    </tr>
+                    <tr>
+                        <td>Checks:</td>
+                        <td>{checks}</td>
+                    </tr>
+                    <tr>
+                        <td>Deletes:</td>
+                        <td>{deletes}</td>
+                    </tr>
+                    <tr>
+                        <td>Running since:</td>
+                        <td>{secondsToStr(elapsedTime)}</td>
+                    </tr>
+                    <tr className={errors > 0 ? "table-danger" : ""}>
+                        <td>Errors:</td>
+                        <td>{errors}</td>
+                    </tr>
+                    <tr>
+                        <td>Transfers:</td>
+                        <td>{transfers}</td>
+                    </tr>
+
+
+                </table>
 
             </CardBody>
             {/*<CardFooter></CardFooter>*/}
