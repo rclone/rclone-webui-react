@@ -16,7 +16,7 @@ import {FILES_VIEW_HEIGHT} from "../../../utils/Constants";
 import {PROP_CURRENT_PATH, PROP_FS_INFO} from "../../../utils/RclonePropTypes";
 import * as PropTypes from 'prop-types';
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
-import {urls} from "../../../utils/API/endpoint";
+import urls from "../../../utils/API/endpoint";
 
 
 /*

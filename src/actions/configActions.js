@@ -1,6 +1,6 @@
 import axiosInstance from "../utils/API/API";
 import {GET_CONFIG_DUMP, GET_PROVIDERS, REQUEST_ERROR, REQUEST_SUCCESS} from "./types";
-import {urls} from "../utils/API/endpoint";
+import urls from "../utils/API/endpoint";
 
 
 /**

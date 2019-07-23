@@ -6,7 +6,7 @@ import {toast} from "react-toastify";
 import {addColonAtLast} from "../../../utils/Tools";
 import {connect} from "react-redux";
 import {getFilesForContainerID} from "../../../actions/explorerStateActions";
-import {urls} from "../../../utils/API/endpoint";
+import urls from "../../../utils/API/endpoint";
 
 
 class NewFolder extends React.Component {

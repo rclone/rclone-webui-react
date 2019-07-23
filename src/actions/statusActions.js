@@ -1,6 +1,6 @@
 import axiosInstance from "../utils/API/API";
 import {ENABLE_STATUS_CHECK, FETCH_STATUS, GET_BANDWIDTH, REQUEST_ERROR, REQUEST_SUCCESS, SET_BANDWIDTH} from "./types";
-import {urls} from "../utils/API/endpoint";
+import urls from "../utils/API/endpoint";
 
 /**
  * Gets the current status of the rclone backend.

@@ -1,4 +1,4 @@
-export const urls = {
+const urls = {
     /**
      * Make Directory.
      */

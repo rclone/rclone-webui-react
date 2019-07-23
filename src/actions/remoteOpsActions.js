@@ -7,7 +7,7 @@ import {
 } from './types';
 import axiosInstance from "../utils/API/API";
 import {toast} from "react-toastify";
-import {urls} from "../utils/API/endpoint";
+import urls from "../utils/API/endpoint";
 
 /**
  * Create a public link for a supported remote

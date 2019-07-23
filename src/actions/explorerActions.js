@@ -10,7 +10,7 @@ import {
 } from "./types";
 import {addColonAtLast, isLocalRemoteName} from "../utils/Tools";
 import {createPath} from "./explorerStateActions";
-import {urls} from "../utils/API/endpoint";
+import urls from "../utils/API/endpoint";
 
 /**
  * Gets the information regarding features, hashes from the rclone backend. Stores into redux store.

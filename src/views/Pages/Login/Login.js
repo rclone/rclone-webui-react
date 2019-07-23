@@ -18,7 +18,7 @@ import {connect} from "react-redux";
 import {changeIPAddress, changeUserNamePassword, signOut} from "../../../actions/userActions";
 import axiosInstance from "../../../utils/API/API";
 import {IP_ADDRESS_KEY} from "../../../utils/Constants";
-import {urls} from "../../../utils/API/endpoint";
+import urls from "../../../utils/API/endpoint";
 
 class Login extends Component {
 

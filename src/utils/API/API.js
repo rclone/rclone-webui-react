@@ -1,7 +1,7 @@
 import axios from "axios";
 import {isLocalRemoteName} from "../Tools";
 import {IP_ADDRESS_KEY, PASSWORD_KEY, USER_NAME_KEY} from "../Constants";
-import {urls} from "./endpoint";
+import urls from "./endpoint";
 
 /**
  * Global level axios configuration. These settings are automatically used in other places by using an axiosInstance instead of axios directly

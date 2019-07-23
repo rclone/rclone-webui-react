@@ -4,7 +4,7 @@ import RemotesList from "../RemotesList";
 import FilesView from "../FilesView/FilesView";
 import {addColonAtLast} from "../../../utils/Tools";
 import {connect} from "react-redux";
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import {
     changePath,
     changeRemoteName,

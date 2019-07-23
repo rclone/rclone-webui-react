@@ -36,7 +36,7 @@ import {addColonAtLast, bytesToGB, isEmpty, isLocalRemoteName} from "../../../ut
 import axiosInstance from "../../../utils/API/API";
 import {toast} from "react-toastify";
 import {PROP_FS_INFO} from "../../../utils/RclonePropTypes";
-import {urls} from "../../../utils/API/endpoint";
+import urls from "../../../utils/API/endpoint";
 
 /**
  * File Operations component which handles user actions for files in the remote.( Visibility, gridmode, back, forward etc)

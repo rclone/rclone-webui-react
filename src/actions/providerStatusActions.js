@@ -1,7 +1,7 @@
 import axiosInstance from "../utils/API/API";
 import {addColonAtLast, isLocalRemoteName} from "../utils/Tools";
 import {GET_REMOTE_ABOUT, REQUEST_ERROR, REQUEST_SUCCESS} from "../actions/types";
-import {urls} from "../utils/API/endpoint";
+import urls from "../utils/API/endpoint";
 
 /**
  * Gets the information of a provider

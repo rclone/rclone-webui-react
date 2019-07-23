@@ -24,7 +24,7 @@ import {getProviders} from "../../../actions/configActions";
 import {connect} from "react-redux";
 import {NEW_DRIVE_CONFIG_REFRESH_TIMEOUT} from "../../../utils/Constants";
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
-import {urls} from "../../../utils/API/endpoint";
+import urls from "../../../utils/API/endpoint";
 
 /**
  * Returns a component with set of input, error for the drivePrefix.

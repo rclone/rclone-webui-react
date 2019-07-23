@@ -2,7 +2,7 @@ import React from 'react';
 import {Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label, Row} from "reactstrap";
 import axiosInstance from "../../utils/API/API";
 import ErrorBoundary from "../../ErrorHandling/ErrorBoundary";
-import {urls} from "../../utils/API/endpoint";
+import urls from "../../utils/API/endpoint";
 
 
 function RCloneVersion({data, hasError}) {
