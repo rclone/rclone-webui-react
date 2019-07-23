@@ -38,9 +38,8 @@ class MediaWidget extends React.Component {
         }
 
         switch (MimeType) {
-
-
             case "image/jpeg":
+
                 return (<ImageLoader item={item} downloadURL={downloadURL} inViewport={inViewport}/>);
             case "video/mp4":
                 return (<VideoPlayer playbackURL={downloadURL} MimeType={MimeType} currentPath={currentPath}/>);

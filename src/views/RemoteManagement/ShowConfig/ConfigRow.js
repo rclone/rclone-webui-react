@@ -4,6 +4,7 @@ import {Button} from "reactstrap";
 import * as  PropTypes from "prop-types";
 import {toast} from "react-toastify";
 import {withRouter} from "react-router-dom";
+import {urls} from "../../../utils/API/endpoint";
 
 
 class ConfigRow extends React.Component {
@@ -33,7 +34,7 @@ class ConfigRow extends React.Component {
         // Delete http request
         if (window.confirm(`Are you sure you wish to delete ${name}? You cannot restore it once it is deleted.`)) {
 
-            axiosInstance.post("/config/delete", {name: name}).then(
+            axiosInstance.post(urls.deleteConfig, {name: name}).then(
                 (res) => {
                     // console.log(res);
                     // Refresh the parent component

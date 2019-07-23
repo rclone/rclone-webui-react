@@ -24,6 +24,7 @@ import {getProviders} from "../../../actions/configActions";
 import {connect} from "react-redux";
 import {NEW_DRIVE_CONFIG_REFRESH_TIMEOUT} from "../../../utils/Constants";
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
+import {urls} from "../../../utils/API/endpoint";
 
 /**
  * Returns a component with set of input, error for the drivePrefix.
@@ -215,7 +216,7 @@ class NewDrive extends React.Component {
         const {driveName} = this.state;
 
         try {
-            let res = await axiosInstance.post("/config/get", {name: driveName});
+            let res = await axiosInstance.post(urls.getConfigForRemote, {name: driveName});
             // console.log(res);
 
             if (!isEmpty(res.data)) {
@@ -485,10 +486,10 @@ class NewDrive extends React.Component {
 
                         if (!drivePrefix) {
 
-                            await axiosInstance.post('/config/create', data);
+                            await axiosInstance.post(urls.createConfig, data);
                             toast.info("Config created");
                         } else {
-                            await axiosInstance.post("config/update", data);
+                            await axiosInstance.post(urls.updateConfig, data);
                             toast.info("Config Updated");
                         }
 
@@ -539,7 +540,7 @@ class NewDrive extends React.Component {
                     this.setState({driveNameIsValid: false});
                 } else {
 
-                    axiosInstance.post('/config/get', {name: value}).then((response) => {
+                    axiosInstance.post(urls.getConfigForRemote, {name: value}).then((response) => {
                         let errors = this.state.formErrors;
                         let isValid = isEmpty(response.data);
                         if (isValid) {
@@ -586,7 +587,7 @@ class NewDrive extends React.Component {
         if (drivePrefix) {
             //Edit Mode
             this.setState({driveName: drivePrefix, driveNameIsValid: true, driveNameIsEditable: false});
-            axiosInstance.post("config/get", {name: drivePrefix}).then(
+            axiosInstance.post(urls.getConfigForRemote, {name: drivePrefix}).then(
                 (res) => {
                     console.log(res);
                     this.changeDriveType(undefined, {newValue: res.data.type});

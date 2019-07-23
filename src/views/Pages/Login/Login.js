@@ -18,6 +18,7 @@ import {connect} from "react-redux";
 import {changeIPAddress, changeUserNamePassword, signOut} from "../../../actions/userActions";
 import axiosInstance from "../../../utils/API/API";
 import {IP_ADDRESS_KEY} from "../../../utils/Constants";
+import {urls} from "../../../utils/API/endpoint";
 
 class Login extends Component {
 
@@ -83,7 +84,7 @@ class Login extends Component {
             changeUserNamePassword(username, password),
             changeIPAddress(ipAddress)
         ]).then(() => {
-            axiosInstance.post("rc/noopauth").then((data) => {
+            axiosInstance.post(urls.noopAuth).then((data) => {
                 console.log("Connection successful.");
                 this.setState({
                     connectionSuccess: true,

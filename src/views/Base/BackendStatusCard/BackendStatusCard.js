@@ -89,10 +89,10 @@ class BackendStatusCard extends React.Component {
 
 /**
  *
- * @param connectivityStatus    {boolean} Current connectivity status to the backend.
- * @param checkStatus           {boolean} Specify whether to check the status or skip.
- * @param ipAddress             {string} IP Address of the backend
- * @param userName              {string} User name of the currently logged in user.
+ * @param connectivityStatus    {boolean}   Current connectivity status to the backend.
+ * @param checkStatus           {boolean}   Specify whether to check the status or skip.
+ * @param ipAddress             {string}    IP Address of the backend
+ * @param userName              {string}    User name of the currently logged in user.
  * @returns {*}
  * @constructor
  */

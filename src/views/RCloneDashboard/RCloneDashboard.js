@@ -2,6 +2,7 @@ import React from 'react';
 import {Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label, Row} from "reactstrap";
 import axiosInstance from "../../utils/API/API";
 import ErrorBoundary from "../../ErrorHandling/ErrorBoundary";
+import {urls} from "../../utils/API/endpoint";
 
 
 function RCloneVersion({data, hasError}) {
@@ -28,7 +29,7 @@ function RCloneVersion({data, hasError}) {
 class RCloneDashboard extends React.Component {
 
     getRcloneStatus = () => {
-        axiosInstance.post("core/version").then((res) => {
+        axiosInstance.post(urls.getRcloneVersion).then((res) => {
             this.setState({
                 version: res.data,
                 hasError: false
@@ -40,7 +41,7 @@ class RCloneDashboard extends React.Component {
         })
     };
     getMemStats = () => {
-        axiosInstance.post("core/memstats").then((res) => {
+        axiosInstance.post(urls.getRcloneMemStats).then((res) => {
             this.setState({
                 memStats: res.data
             })
@@ -49,7 +50,7 @@ class RCloneDashboard extends React.Component {
         })
     };
     getOptions = () => {
-        axiosInstance.post("options/get").then((res) => {
+        axiosInstance.post(urls.getOptions).then((res) => {
             this.setState({
                 options: res.data
             })

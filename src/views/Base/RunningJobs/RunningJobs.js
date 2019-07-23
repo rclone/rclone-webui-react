@@ -72,7 +72,6 @@ function GlobalStatus({stats}) {
             <CardHeader><strong>Global Stats</strong></CardHeader>
             <CardBody>
                 <table className="table">
-
                     <tr>
                         <td>Bytes Transferred:</td>
                         <td>{formatBytes(bytes)}</td>
@@ -101,15 +100,12 @@ function GlobalStatus({stats}) {
                         <td>Transfers:</td>
                         <td>{transfers}</td>
                     </tr>
-
-
                 </table>
 
             </CardBody>
             {/*<CardFooter></CardFooter>*/}
 
         </Card>);
-
 }
 
 function TransferringJobs({transferring}) {

@@ -7,6 +7,7 @@ import {
 } from './types';
 import axiosInstance from "../utils/API/API";
 import {toast} from "react-toastify";
+import {urls} from "../utils/API/endpoint";
 
 /**
  * Create a public link for a supported remote
@@ -16,7 +17,7 @@ import {toast} from "react-toastify";
  */
 export const createPublicLink = (remoteName, remotePath) => {
     return (dispatch) => {
-        axiosInstance.post("operations/publiclink", {fs: remoteName, remote: remotePath}).then((res) =>
+        axiosInstance.post(urls.createPublicLink, {fs: remoteName, remote: remotePath}).then((res) =>
                 dispatch({
                     type: CREATE_PUBLIC_LINK,
                     status: REQUEST_SUCCESS,
@@ -41,7 +42,7 @@ export const createPublicLink = (remoteName, remotePath) => {
  */
 
 export const getRunningJobs = () => dispatch => {
-    axiosInstance.post("job/list").then((res) => {
+    axiosInstance.post(urls.getRunningJobs).then((res) => {
             dispatch({
                 type: GET_RUNNING_JOBS,
                 status: REQUEST_SUCCESS,
@@ -63,7 +64,7 @@ export const getRunningJobs = () => dispatch => {
  * @returns {Function}
  */
 export const getStatusForRunningJob = (jobId) => dispatch => {
-    axiosInstance.post("job/status", {jobid: jobId}).then((res) => {
+    axiosInstance.post(urls.getStatusForJob, {jobid: jobId}).then((res) => {
             dispatch({
                 type: GET_STATUS_FOR_RUNNING_JOB,
                 status: REQUEST_SUCCESS,

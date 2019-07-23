@@ -10,9 +10,10 @@ import {
 } from "./types";
 import {addColonAtLast, isLocalRemoteName} from "../utils/Tools";
 import {createPath} from "./explorerStateActions";
+import {urls} from "../utils/API/endpoint";
 
 /**
- * Gets the information regarding features, hashes from the rclone backend.
+ * Gets the information regarding features, hashes from the rclone backend. Stores into redux store.
  * @param remoteName {string} The name of the remote
  * @returns {Function}
  */
@@ -29,7 +30,7 @@ export const getFsInfo = (remoteName) => dispatch => {
         sentRemoteName = addColonAtLast(setRemoteName);
     }
     // console.log("Actual: ", sentRemoteName);
-    axiosInstance.post("operations/fsinfo", {fs: sentRemoteName})
+    axiosInstance.post(urls.getFsInfo, {fs: sentRemoteName})
         .then((res) => {
                 dispatch({
                     type: GET_CONFIG_FOR_REMOTE,
@@ -47,7 +48,7 @@ export const getFsInfo = (remoteName) => dispatch => {
 };
 
 /**
- * Get only remote names from the rclone backend.
+ * Get only remote names from the rclone backend. Stores into redux store.
  * @returns {Function}
  */
 
@@ -57,7 +58,7 @@ export const getRemoteNames = () => {
         // console.log(state);
         if (!state.remote.remotes || state.remote.remotes.length < 1) {
 
-            axiosInstance.post("config/listremotes").then(res => dispatch({
+            axiosInstance.post(urls.listRemotes).then(res => dispatch({
                 type: GET_REMOTE_LIST,
                 status: REQUEST_SUCCESS,
                 payload: res.data.remotes
@@ -71,7 +72,7 @@ export const getRemoteNames = () => {
 };
 
 /**
- * Gets the files for a specified remote path (remoteName + remotePath).
+ * Gets the files for a specified remote path (remoteName + remotePath). Stores into redux store.
  * @param remoteName {string} Name of the remote config/ ("/" for local path). May contain abc:bucketName for bucket based remotes
  * @param remotePath {string} Name of the path in the remote
  * @returns {Function}
@@ -92,7 +93,7 @@ export const getFiles = (remoteName, remotePath) => dispatch => {
         };
 
         const path = `${remoteName}-${remotePath}`;
-        axiosInstance.post("operations/list", data).then(res => dispatch({
+        axiosInstance.post(urls.getFilesList, data).then(res => dispatch({
                 type: GET_FILES_LIST,
                 status: REQUEST_SUCCESS,
                 payload: {path: path, filesList: res.data.list}

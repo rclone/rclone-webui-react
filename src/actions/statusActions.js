@@ -1,5 +1,6 @@
 import axiosInstance from "../utils/API/API";
 import {ENABLE_STATUS_CHECK, FETCH_STATUS, GET_BANDWIDTH, REQUEST_ERROR, REQUEST_SUCCESS, SET_BANDWIDTH} from "./types";
+import {urls} from "../utils/API/endpoint";
 
 /**
  * Gets the current status of the rclone backend.
@@ -10,7 +11,7 @@ export const getStatus = () => async (dispatch, getState) => {
     // console.log("get Status");
     const {status} = getState();
     if (status.checkStatus) {
-        axiosInstance.post('core/stats').then(res => dispatch({
+        axiosInstance.post(urls.stats).then(res => dispatch({
             type: FETCH_STATUS,
             status: REQUEST_SUCCESS,
             payload: res.data
@@ -42,7 +43,7 @@ export const enableCheckStatus = (shouldEnable) => async dispatch => {
  */
 export const getBandwidth = () => async dispatch => {
     // console.log("get Status");
-    axiosInstance.post('core/bwlimit').then(res => dispatch({
+    axiosInstance.post(urls.bwlimit).then(res => dispatch({
         type: GET_BANDWIDTH,
         status: REQUEST_SUCCESS,
         payload: res.data
@@ -60,7 +61,7 @@ export const getBandwidth = () => async dispatch => {
  */
 export const setBandwidth = (newRate) => async dispatch => {
     // console.log("get Status");
-    axiosInstance.post('core/bwlimit', {rate: newRate}).then(res => dispatch({
+    axiosInstance.post(urls.bwlimit, {rate: newRate}).then(res => dispatch({
         type: SET_BANDWIDTH,
         status: REQUEST_SUCCESS,
         payload: res.data

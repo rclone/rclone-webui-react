@@ -1,5 +1,6 @@
 import axiosInstance from "../utils/API/API";
 import {GET_CONFIG_DUMP, GET_PROVIDERS, REQUEST_ERROR, REQUEST_SUCCESS} from "./types";
+import {urls} from "../utils/API/endpoint";
 
 
 /**
@@ -7,7 +8,7 @@ import {GET_CONFIG_DUMP, GET_PROVIDERS, REQUEST_ERROR, REQUEST_SUCCESS} from "./
  * @returns {Function}
  */
 export const getProviders = () => dispatch => {
-    axiosInstance.post("/config/providers").then(res => dispatch({
+    axiosInstance.post(urls.getProviders).then(res => dispatch({
         type: GET_PROVIDERS,
         payload: res.data.providers
     }))
@@ -17,7 +18,7 @@ export const getProviders = () => dispatch => {
  * @returns {Function}
  */
 export const getConfigDump = () => dispatch => {
-    axiosInstance.post("/config/dump").then(res => dispatch({
+    axiosInstance.post(urls.getConfigDump).then(res => dispatch({
         type: GET_CONFIG_DUMP,
         status: REQUEST_SUCCESS,
         payload: res.data

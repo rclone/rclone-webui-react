@@ -16,6 +16,7 @@ import {FILES_VIEW_HEIGHT} from "../../../utils/Constants";
 import {PROP_CURRENT_PATH, PROP_FS_INFO} from "../../../utils/RclonePropTypes";
 import * as PropTypes from 'prop-types';
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
+import {urls} from "../../../utils/API/endpoint";
 
 
 /*
@@ -232,14 +233,14 @@ class FilesView extends React.PureComponent {
         try {
             if (item.IsDir) {
 
-                await axiosInstance.post("/operations/purge", data);
+                await axiosInstance.post(urls.purge, data);
 
                 this.updateHandler();
                 toast.info(`${item.Name} deleted.`);
 
             } else {
 
-                await axiosInstance.post("/operations/deletefile", data);
+                await axiosInstance.post(urls.deleteFile, data);
                 this.updateHandler();
                 toast.info(`${item.Name} deleted.`, {
                     autoClose: false
@@ -269,7 +270,7 @@ class FilesView extends React.PureComponent {
         if (fsInfo.Features.PublicLink) {
             console.log("Sharing link" + item.Name);
             const {remoteName} = this.props.currentPath;
-            axiosInstance.post("operations/publiclink", {
+            axiosInstance.post(urls.createPublicLink, {
                 fs: addColonAtLast(remoteName),
                 remote: item.Path
             }).then((res) => {
@@ -309,8 +310,7 @@ class FilesView extends React.PureComponent {
                                            linkShareHandle={this.linkShareHandle}
                                            loadImages={loadImages}
                                            isBucketBased={fsInfo.Features.BucketBased}
-                                           canCopy={fsInfo.Features.Copy} canMove={fsInfo.Features.Move} itemIdx={idx}
-                            >
+                                           canCopy={fsInfo.Features.Copy} canMove={fsInfo.Features.Move} itemIdx={idx}>
 
                             </FileComponent>
                         </React.Fragment>

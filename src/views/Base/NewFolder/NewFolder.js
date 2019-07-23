@@ -6,6 +6,7 @@ import {toast} from "react-toastify";
 import {addColonAtLast} from "../../../utils/Tools";
 import {connect} from "react-redux";
 import {getFilesForContainerID} from "../../../actions/explorerStateActions";
+import {urls} from "../../../utils/API/endpoint";
 
 
 class NewFolder extends React.Component {
@@ -56,7 +57,7 @@ class NewFolder extends React.Component {
             this.disableForm(true);
 
             /*Network Request*/
-            await axiosInstance.post("operations/mkdir", data);
+            await axiosInstance.post(urls.mkdir, data);
 
             this.disableForm(false);
 

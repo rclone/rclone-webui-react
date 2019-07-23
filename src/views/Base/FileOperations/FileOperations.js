@@ -134,7 +134,7 @@ class FileOperations extends React.Component {
                     remoteName = addColonAtLast(remoteName);
                 }
 
-                axiosInstance.post("operations/cleanup", {
+                axiosInstance.post(urls.cleanUpRemote, {
                     fs: remoteName
                 }).then((res) => {
                         if (res.status === 200) {

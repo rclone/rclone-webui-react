@@ -25,8 +25,7 @@ async function performCopyMoveOperation(params) {
     const {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir, dropEffect, updateHandler} = params;
     if (dropEffect === "move") { /*Default operation without holding alt is copy, named as move in react-dnd*/
         // if (component.props.canCopy) {
-        let res = await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
-        console.log("Copy", res);
+        await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
         updateHandler();
         if (IsDir) {
             toast.info(`Directory copying started in background: ${Name}`);
@@ -139,10 +138,6 @@ function Actions({downloadHandle, deleteHandle, item, linkShareHandle}) {
                 <Button color="link">
                     <i className="fa fa-info-circle"/>
                 </Button>
-                {/* TODO: Find a way to make this work*/}
-                {/*<UncontrolledTooltip placement="right" target={"#tooltip"+ID}>*/}
-                {/*    {item}*/}
-                {/*</UncontrolledTooltip>*/}
 
                 <UncontrolledButtonDropdown>
                     <DropdownToggle color="link">
@@ -182,6 +177,9 @@ function Actions({downloadHandle, deleteHandle, item, linkShareHandle}) {
     }
 }
 
+/**
+ * Main class for individual render of file/directory in the files view.
+ */
 // Non used props are required for drag-and-drop functionality
 class FileComponent extends React.Component {
 
@@ -228,8 +226,6 @@ class FileComponent extends React.Component {
                                 <MediaWidget containerID={containerID} item={item} inViewport={inViewport}/> :
                                 <FileIcon IsDir={IsDir} MimeType={MimeType}/>
                             }
-
-
                             {Name}
                         </CardBody>
                         <CardFooter>
@@ -263,22 +259,65 @@ class FileComponent extends React.Component {
 
 
 FileComponent.propTypes = {
+    /**
+     * Item as returned from the rclone backend
+     */
     item: PROP_ITEM.isRequired,
+    /**
+     * Function which handles the clicks on the current item.
+     */
     clickHandler: PropTypes.func.isRequired,
+    /**
+     * Function to handle the download of the current file
+     */
     downloadHandle: PropTypes.func.isRequired,
+    /**
+     * Function to delete a file.
+     */
     deleteHandle: PropTypes.func.isRequired,
+    /**
+     * Function to share the link of a file.
+     */
     linkShareHandle: PropTypes.func.isRequired,
+    /**
+     * Name of the remote containing the {item}.
+     */
     remoteName: PropTypes.string.isRequired,
+    /**
+     * Remote path of the current item. remoteName + remotePath gives the full path.
+     */
     remotePath: PropTypes.string.isRequired,
+    /**
+     * Denotes the current grid mode:
+     * card: Card mode with Media support.
+     */
     gridMode: PropTypes.string,
+    /**
+     * Container ID of the FilesExplorer this component is contained in.
+     */
     containerID: PropTypes.string.isRequired,
+    /**
+     * Boolean value to represent if the current item can be moved to another destination.
+     */
     canMove: PropTypes.bool.isRequired,
+    /**
+     * Boolean value to represent if the current item can be copied to another destination.
+     */
     canCopy: PropTypes.bool.isRequired,
+    /**
+     * Boolean value to represent if loading media files is enabled by the user.
+     */
     loadImages: PropTypes.bool.isRequired,
+    /**
+     * Boolean value to represent if the current remote is bucketbased, the url of a bucket based remote is different.
+     */
     isBucketBased: PropTypes.bool.isRequired
 
 };
 
+/**
+ * Handles view port to check if the current item is visible on the screen.
+ */
 const MyViewPort = handleViewport(FileComponent, {rootMargin: '-1.0px'});
 
 export default DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect)(MyViewPort);
