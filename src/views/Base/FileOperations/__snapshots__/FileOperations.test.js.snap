@@ -93,6 +93,11 @@ exports[`File Operations renders should match snapshot 1`] = `
           >
             <Button
               color="primary"
+              style={
+                Object {
+                  "zIndex": 1,
+                }
+              }
               tag="button"
               type="button"
             >
