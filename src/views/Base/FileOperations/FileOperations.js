@@ -36,6 +36,7 @@ import {addColonAtLast, bytesToGB, isEmpty, isLocalRemoteName} from "../../../ut
 import axiosInstance from "../../../utils/API/API";
 import {toast} from "react-toastify";
 import {PROP_FS_INFO} from "../../../utils/RclonePropTypes";
+import {urls} from "../../../utils/API/endpoint";
 
 /**
  * File Operations component which handles user actions for files in the remote.( Visibility, gridmode, back, forward etc)
@@ -202,7 +203,8 @@ class FileOperations extends React.Component {
                                 className={"fa fa-lg fa-repeat"}/></Button>
                             <InputGroup>
                                 <InputGroupAddon addonType="prepend">
-                                    <Button type="button" color="primary"><i className="fa fa-search"/> Search</Button>
+                                    <Button style={{zIndex: 1}} type="button" color="primary"><i
+                                        className="fa fa-search"/> Search</Button>
                                 </InputGroupAddon>
                                 <Input type="text" id="input1-group2" placeholder="Search" value={searchQuery}
                                        onChange={this.changeSearch}/>
