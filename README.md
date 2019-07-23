@@ -28,6 +28,53 @@ Read more about the project details at [good2be.me](http://good2be.me/blog)
 ### Creating config
 ![New Config](screenshots/newRemote.png)
 
+## Get the automated script and get running
+
+**Bash users:**
+
+Download the sh file given here: 
+[webui.sh](https://raw.githubusercontent.com/negative0/rclone-webui-react/master/package.json)
+
+Copy the file to root folder of rclone.
+
+```
+cp webui.sh <root-of-rclone>/
+```
+First of all open the webui.sh
+
+You need to edit this code to the username and password you would like to use.
+```
+username='<your-username>'
+password='<your-password>'
+```
+Save this file.
+
+Now you can run the following commands:
+
+- Download the project:
+```
+./webui.sh get
+```
+
+- Build the webui app:
+```
+./webui.sh build
+```
+
+- Run the app with rclone backend:
+```
+./webui.sh run
+```
+
+- At any point, you can update the webui with new changes from the repo (optional):
+
+```
+./webui.sh update
+```
+
+
+**Windows:**
+Coming soon
 
 ### Get the Project
 ```
