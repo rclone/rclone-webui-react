@@ -6,7 +6,7 @@
   "copyright": "",
   "license": "MIT",
   "private": false,
-  "homepage": "https://negative0.github.io/rclone-webui-react/",
+  "homepage": "127.0.0.1:5572/",
   "repository": {
     "type": "git",
     "url": "git@github.com:negative0/rclone-webui-react.git"
