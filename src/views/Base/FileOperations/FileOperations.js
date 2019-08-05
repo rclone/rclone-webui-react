@@ -236,7 +236,7 @@ class FileOperations extends React.Component {
                                         </Input>
                                     </DropdownItem>
                                     {gridMode !== "grid" &&
-                                    <DropdownItem onClick={this.changeLoadImages}>Load Images{' '}
+                                    <DropdownItem onClick={this.changeLoadImages}>Load Media{' '}
 
                                         <Input id={"loadImg" + containerID} checked={loadImages} type="checkbox"
                                                onClick={(e) => e.stopPropagation()}
