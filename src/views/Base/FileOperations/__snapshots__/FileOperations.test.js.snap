@@ -195,7 +195,7 @@ exports[`File Operations renders should match snapshot 1`] = `
               tag="button"
               toggle={true}
             >
-              Load Images
+              Load Media
                
               <Input
                 checked={false}
