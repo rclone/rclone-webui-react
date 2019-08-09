@@ -33,6 +33,7 @@ exports[`Bandwidth Status Card should match snapshot 1`] = `
         onClick={[Function]}
         tag="button"
       >
+        Change 
         <i
           className="fa fa-lg fa-angle-right"
         />

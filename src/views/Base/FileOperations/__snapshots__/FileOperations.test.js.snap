@@ -84,6 +84,23 @@ exports[`File Operations renders should match snapshot 1`] = `
             className="fa fa-lg fa-repeat"
           />
         </Button>
+        <Button
+          className="mr-1 btn-outline-dark"
+          color="secondary"
+          onClick={[Function]}
+          tag="button"
+        >
+          <i
+            className="fa fa-lg fa-picture-o"
+            id="LoadMediaButton"
+          />
+        </Button>
+        <UncontrolledTooltip
+          placement="right"
+          target="LoadMediaButton"
+        >
+          Load Media
+        </UncontrolledTooltip>
         <InputGroup
           tag="div"
         >
@@ -189,22 +206,6 @@ exports[`File Operations renders should match snapshot 1`] = `
                   Videos
                 </option>
               </Input>
-            </DropdownItem>
-            <DropdownItem
-              onClick={[Function]}
-              tag="button"
-              toggle={true}
-            >
-              Load Media
-               
-              <Input
-                checked={false}
-                className="ml-1 mr-1"
-                id="loadImg0"
-                onChange={[Function]}
-                onClick={[Function]}
-                type="checkbox"
-              />
             </DropdownItem>
           </DropdownMenu>
         </ButtonDropdown>
