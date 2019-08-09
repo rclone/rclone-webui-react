@@ -15,7 +15,8 @@ import {
     ModalFooter,
     ModalHeader,
     Row,
-    Spinner
+    Spinner,
+    UncontrolledTooltip
 } from "reactstrap";
 import NewFolder from "../NewFolder/NewFolder";
 import PropTypes from "prop-types";
@@ -154,7 +155,7 @@ class FileOperations extends React.Component {
         }
     };
 
-    changeLoadImages = (e) => {
+    changeLoadMedia = (e) => {
         e.stopPropagation();
         // console.log(e);
         const {setLoadImages, containerID, loadImages} = this.props;
@@ -201,6 +202,12 @@ class FileOperations extends React.Component {
                             <Button className="mr-1 btn-outline-dark"
                                     onClick={() => getFilesForContainerID(containerID)}><i
                                 className={"fa fa-lg fa-repeat"}/></Button>
+                            <Button className={"mr-1 " + (loadImages ? "btn-dark" : "btn-outline-dark")}
+                                    onClick={this.changeLoadMedia}><i
+                                className={"fa fa-lg fa-picture-o"} id="LoadMediaButton"/></Button>
+                            <UncontrolledTooltip placement="right" target="LoadMediaButton">
+                                Load Media
+                            </UncontrolledTooltip>
                             <InputGroup>
                                 <InputGroupAddon addonType="prepend">
                                     <Button style={{zIndex: 1}} type="button" color="primary"><i
@@ -235,16 +242,16 @@ class FileOperations extends React.Component {
                                             }
                                         </Input>
                                     </DropdownItem>
-                                    {gridMode !== "grid" &&
-                                    <DropdownItem onClick={this.changeLoadImages}>Load Media{' '}
+                                    {/*{gridMode !== "grid" &&*/}
+                                    {/*<DropdownItem onClick={this.changeLoadMedia}>Load Media{' '}*/}
 
-                                        <Input id={"loadImg" + containerID} checked={loadImages} type="checkbox"
-                                               onClick={(e) => e.stopPropagation()}
-                                               onChange={this.changeLoadImages/*Stop propagation is required to prevent parent dropdown from closing.*/}
-                                               className="ml-1 mr-1">
-                                        </Input>
-                                    </DropdownItem>
-                                    }
+                                    {/*    <Input id={"loadImg" + containerID} checked={loadImages} type="checkbox"*/}
+                                    {/*           onClick={(e) => e.stopPropagation()}*/}
+                                    {/*           onChange={this.changeLoadMedia/*Stop propagation is required to prevent parent dropdown from closing.*!/*/}
+                                    {/*           className="ml-1 mr-1">*/}
+                                    {/*    </Input>*/}
+                                    {/*</DropdownItem>*/}
+                                    {/*}*/}
                                 </DropdownMenu>
 
                             </ButtonDropdown>
