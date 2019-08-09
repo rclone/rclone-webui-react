@@ -83,7 +83,7 @@ class BandwidthStatusCard extends React.Component {
             <Row>
                 <Col lg={showChangeBandwidth ? 6 : 12} sm={12}>
                     <BandwidthWidget icon="icon-speedometer" color="danger" header={bandwidth.rate} lg={6} sm={12}>
-                        Current bandwidth <Button color="link" onClick={this.toggleShowChangeBandwidth}><i
+                        Current bandwidth <Button color="link" onClick={this.toggleShowChangeBandwidth}>Change <i
                         className="fa fa-lg fa-angle-right"/></Button>
                     </BandwidthWidget>
                 </Col>
