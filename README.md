@@ -8,8 +8,10 @@ This project can be unstable and is being actively developed. Feel free to creat
 
 ## Build Status
 
-[![Build Status](https://travis-ci.com/negative0/rclone-webui-react.svg?branch=master)](https://travis-ci.com/negative0/rclone-webui-react) [![Greenkeeper badge](https://badges.greenkeeper.io/negative0/rclone-webui-react.svg)](https://greenkeeper.io/)
-[![Coverage Status](https://coveralls.io/repos/github/negative0/rclone-webui-react/badge.svg?branch=master)](https://coveralls.io/github/negative0/rclone-webui-react?branch=master)
+[![Build Status](https://travis-ci.com/rclone/rclone-webui-react.svg?branch=master)](https://travis-ci.com/rclone/rclone-webui-react) 
+[![Greenkeeper badge](https://badges.greenkeeper.io/rclone/rclone-webui-react.svg)](https://greenkeeper.io/)
+[![Coverage Status](https://coveralls.io/repos/github/rclone/rclone-webui-react/badge.svg?branch=master)](https://coveralls.io/github/rclone/rclone-webui-react?branch=master)
+
 ## Getting Started
 
 The project currently requires you to install and configure react and npm to run correctly.
