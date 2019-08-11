@@ -6,12 +6,24 @@ import {IP_ADDRESS_KEY} from "../../../utils/Constants";
 import {connect} from "react-redux";
 import ImageLoader from "../Widgets/ImageLoader/ImageLoader";
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
+import AudioPlayer from "../Widgets/AudioPlayer/AudioPlayer";
 
 export function isMedia(MimeType) {
     const mimeTypes = {
         "image/jpeg": "Image",
-        "video/mp4": "Video"
+
+        "video/mp4": "Video",
+        "video/webm": "Video",
+        "audio/webm": "Audio",
+        "video/ogg": "Video",
+        "application/ogg": "Unspecified",
+
+
+        "audio/mpeg": "Audio",
+        "audio/wav": "Audio",
+        "audio/mp4": "Audio",
     };
+
     return mimeTypes[MimeType];
 }
 
@@ -42,8 +54,18 @@ class MediaWidget extends React.Component {
 
                 return (<ImageLoader item={item} downloadURL={downloadURL} inViewport={inViewport}/>);
             case "video/mp4":
+            case "video/webm":
+            case "audio/webm":
+            case "video/ogg":
+            case "application/ogg":
+
+
                 return (<VideoPlayer playbackURL={downloadURL} MimeType={MimeType} currentPath={currentPath}/>);
 
+            case "audio/mpeg":
+            case "audio/wav":
+            case "audio/mp4":
+                return (<AudioPlayer playbackURL={downloadURL} MimeType={MimeType}/>);
             default:
                 return null;
 

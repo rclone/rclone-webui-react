@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Audio Player Widget renders should match snapshot 1`] = `
+<ErrorBoundary>
+  <div
+    className="img-thumbnail w-100 text-center"
+    data-test="audioPlayerWidget"
+  >
+    <Button
+      color="link"
+      onClick={[Function]}
+      tag="button"
+    >
+      <audio
+        controls={true}
+      >
+        <source
+          src=""
+          type=""
+        />
+        Your browser does not support the audio tag.
+      </audio>
+    </Button>
+  </div>
+</ErrorBoundary>
+`;

@@ -5,7 +5,7 @@ import {MODAL_ROOT_ELEMENT} from "../../../../utils/Constants";
 import * as PropTypes from "prop-types";
 import ErrorBoundary from "../../../../ErrorHandling/ErrorBoundary";
 
-function VideoPlayer({playbackURL, MimeType}) {
+function AudioPlayer({playbackURL, MimeType}) {
 
     const [preview, setPreview] = useState(true);
 
@@ -18,10 +18,13 @@ function VideoPlayer({playbackURL, MimeType}) {
     let element;
     if (preview) {
         element = (
-            <div className="img-thumbnail w-100 text-center" data-test="videoPlayerWidget">
+            <div className="img-thumbnail w-100 text-center" data-test="audioPlayerWidget">
                 <Button color="link" onClick={hideFull}>
-                    <i className="fa fa-play-circle fa-4x"/>
-                    {/*<ReactPlayer url={playbackURL} light={true} controls={true}/>*/}
+                    {/*<i className="fa fa-play-circle fa-4x"/>*/}
+                    <audio controls>
+                        <source src={playbackURL} type={MimeType}/>
+                        Your browser does not support the audio tag.
+                    </audio>
                 </Button>
             </div>
         )
@@ -34,10 +37,11 @@ function VideoPlayer({playbackURL, MimeType}) {
             <Modal className="task-modal d-none d-sm-block" data-test="videoPlayerWidget" isOpen={!preview}
                    toggle={hideFull}>
 
-                <video id="video" controls preload="metadata" width="600">
-                    <source src={playbackURL} type={MimeType}/>
-                </video>
 
+                <audio controls>
+                    <source src={playbackURL} type={MimeType}/>
+                    Your browser does not support the audio tag.
+                </audio>
 
             </Modal>
         ), document.getElementById(MODAL_ROOT_ELEMENT));
@@ -52,9 +56,9 @@ function VideoPlayer({playbackURL, MimeType}) {
 
 }
 
-VideoPlayer.propTypes = {
+AudioPlayer.propTypes = {
     playbackURL: PropTypes.string.isRequired,
     MimeType: PropTypes.string.isRequired
 };
 
-export default VideoPlayer;
+export default AudioPlayer;
