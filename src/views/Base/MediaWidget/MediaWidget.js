@@ -1,10 +1,10 @@
 import React from 'react';
 import * as PropTypes from "prop-types";
 import {PROP_CURRENT_PATH, PROP_FS_INFO} from "../../../utils/RclonePropTypes";
-import VideoPlayer from "../../VideoPlayer/VideoPlayer";
+import VideoPlayer from "../Widgets/VideoPlayer/VideoPlayer";
 import {IP_ADDRESS_KEY} from "../../../utils/Constants";
 import {connect} from "react-redux";
-import ImageLoader from "../ImageLoader/ImageLoader";
+import ImageLoader from "../Widgets/ImageLoader/ImageLoader";
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 
 export function isMedia(MimeType) {

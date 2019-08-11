@@ -1,8 +1,8 @@
 import React from "react";
 import {shallow} from "enzyme";
-import {testStore} from "../../../../Utils";
+import {testStore} from "../../../../../Utils";
 import toJson from "enzyme-to-json";
-import {TEST_FILE_CONTAINER_ID, TEST_REDUX_PROPS} from "../../../utils/testData";
+import {TEST_FILE_CONTAINER_ID, TEST_REDUX_PROPS} from "../../../../utils/testData";
 import ImageLoader from "./ImageLoader";
 
 const setUp = (intialState = {}, props = {}) => {

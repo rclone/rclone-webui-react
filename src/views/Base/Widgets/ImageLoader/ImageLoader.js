@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Card, CardBody, CardHeader, Col, Container, Modal, Row, Spinner} from "reactstrap";
 import * as ReactDOM from "react-dom";
-import {MODAL_ROOT_ELEMENT} from "../../../utils/Constants";
+import {MODAL_ROOT_ELEMENT} from "../../../../utils/Constants";
 import {connect} from "react-redux";
-import {downloadImage} from "../../../actions/imagesActions";
+import {downloadImage} from "../../../../actions/imagesActions";
 
 function ImageLoader({downloadURL, inViewport, imageData, downloadImage, currentPath}) {
 

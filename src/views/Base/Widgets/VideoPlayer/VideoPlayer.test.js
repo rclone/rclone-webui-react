@@ -1,6 +1,6 @@
 import React from "react";
 import {shallow} from "enzyme";
-import {findByTestAttr, testStore} from "../../../Utils";
+import {findByTestAttr, testStore} from "../../../../../Utils";
 import toJson from "enzyme-to-json";
 import VideoPlayer from "./VideoPlayer";
 
