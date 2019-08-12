@@ -24,7 +24,7 @@ class Login extends Component {
 
     constructor(props) {
         super(props);
-        let ipAddress = "http://localhost:5572/";
+        let ipAddress = window.location.href.split("/#")[0];
         if (localStorage.getItem(IP_ADDRESS_KEY))
             ipAddress = localStorage.getItem(IP_ADDRESS_KEY);
         this.state = {

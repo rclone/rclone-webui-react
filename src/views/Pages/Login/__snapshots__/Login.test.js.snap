@@ -68,7 +68,7 @@ exports[`Remote Explorer Layout renders should match snapshot 1`] = `
                     onChange={[Function]}
                     placeholder="IP Address / URL"
                     type="text"
-                    value="http://localhost:5572/"
+                    value="http://localhost/"
                   />
                 </InputGroup>
                 <InputGroup
