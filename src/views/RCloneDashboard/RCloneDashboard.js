@@ -60,6 +60,7 @@ class RCloneDashboard extends React.Component {
     };
     getOptionViewCards = (head, value) => {
         const elements = [];
+        if(value)
         for (const [ele, val] of Object.entries(value)) {
             elements.push((
                 <FormGroup key={head + "$" + ele} row>
@@ -81,6 +82,7 @@ class RCloneDashboard extends React.Component {
         }
 
         const elements = [];
+        if(!hasError &&  options)
         for (const [head, value] of Object.entries(options)) {
             elements.push((
                 <Col sm={12} lg={4} md={6} key={head}>
