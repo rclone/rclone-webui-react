@@ -20,7 +20,6 @@ export default function (state = initialState, action) {
                 ...state,
                 auth: {...state.auth, ...action.payload}
             };
-            console.log(state.auth.authKey);
             localStorage.setItem(AUTH_KEY, state.auth.authKey);
             // localStorage.setItem(USER_NAME_KEY, state.auth.userName);
             // localStorage.setItem(PASSWORD_KEY, state.auth.password);
