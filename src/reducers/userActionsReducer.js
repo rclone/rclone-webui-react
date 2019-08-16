@@ -20,7 +20,7 @@ export default function (state = initialState, action) {
                 ...state,
                 auth: {...state.auth, ...action.payload}
             };
-            localStorage.setItem(AUTH_KEY, btoa(state.auth.userName + ":" + state.auth.password));
+            localStorage.setItem(AUTH_KEY, state.auth.authKey);
             // localStorage.setItem(USER_NAME_KEY, state.auth.userName);
             // localStorage.setItem(PASSWORD_KEY, state.auth.password);
             localStorage.setItem(IP_ADDRESS_KEY, state.auth.ipAddress);
