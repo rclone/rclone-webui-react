@@ -1,4 +1,4 @@
-import {CHANGE_AXIOS_INTERCEPTOR, CHANGE_IP_ADDRESS, CHANGE_USER_NAME_PASSWORD, SIGNOUT_REQUEST} from "./types";
+import {CHANGE_AUTH_KEY, CHANGE_AXIOS_INTERCEPTOR, CHANGE_IP_ADDRESS, SIGNOUT_REQUEST} from "./types";
 
 /**
  * Sign out the current user and delete the redux cache
@@ -18,8 +18,18 @@ export const signOut = () => dispatch => {
  */
 export const changeUserNamePassword = (userName, password) => dispatch => {
     dispatch({
-        type: CHANGE_USER_NAME_PASSWORD,
-        payload: {userName, password}
+        type: CHANGE_AUTH_KEY,
+        payload: {authKey: btoa(userName + ":" + password)}
+    });
+    dispatch({
+        type: CHANGE_AXIOS_INTERCEPTOR
+    });
+};
+
+export const changeAuthKey = (authKey) => dispatch => {
+    dispatch({
+        type: CHANGE_AUTH_KEY,
+        payload: {authKey: authKey}
     });
     dispatch({
         type: CHANGE_AXIOS_INTERCEPTOR

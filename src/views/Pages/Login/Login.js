@@ -15,18 +15,43 @@ import {
     UncontrolledAlert
 } from 'reactstrap';
 import {connect} from "react-redux";
-import {changeIPAddress, changeUserNamePassword, signOut} from "../../../actions/userActions";
+import {changeAuthKey, changeIPAddress, changeUserNamePassword, signOut} from "../../../actions/userActions";
 import axiosInstance from "../../../utils/API/API";
-import {IP_ADDRESS_KEY} from "../../../utils/Constants";
 import urls from "../../../utils/API/endpoint";
+
+
+function removeParam(parameter) {
+    let url = document.location.href;
+    let urlparts = url.split('?');
+
+    if (urlparts.length >= 2) {
+        let urlBase = urlparts.shift();
+        let queryString = urlparts.join("?");
+
+        let prefix = encodeURIComponent(parameter) + '=';
+        let pars = queryString.split(/[&;]/g);
+        for (let i = pars.length; i-- > 0;)
+            if (pars[i].lastIndexOf(prefix, 0) !== -1)
+                pars.splice(i, 1);
+        if (pars.length > 0)
+            url = urlBase + '?' + pars.join('&');
+        else
+            url = urlBase;
+        window.history.pushState('', document.title, url); // added this line to push the new url directly to url bar .
+
+    }
+    return url;
+}
 
 class Login extends Component {
 
     constructor(props) {
         super(props);
-        let ipAddress = window.location.href.split("/#")[0];
-        if (localStorage.getItem(IP_ADDRESS_KEY))
-            ipAddress = localStorage.getItem(IP_ADDRESS_KEY);
+        let ipAddress = window.location.href.split("#/")[0];
+        if (ipAddress.indexOf("?") !== -1)
+            ipAddress = window.location.href.split("?")[0];
+        // if (localStorage.getItem(IP_ADDRESS_KEY))
+        //     ipAddress = localStorage.getItem(IP_ADDRESS_KEY);
         this.state = {
             username: "",
             password: "",
@@ -57,19 +82,23 @@ class Login extends Component {
         });
     };
 
+    redirectToDashboard = () => {
+        this.props.history.push('/dashboard');
+    };
+
+
     onSubmit = e => {
-        e.preventDefault();
+        if (e)
+            e.preventDefault();
+
         const {ipAddress, username, password} = this.state;
 
         Promise.all([
             changeUserNamePassword(username, password),
             changeIPAddress(ipAddress)
         ]).then(() => {
-            this.props.history.push('/dashboard');
+            this.redirectToDashboard()
         });
-        // localStorage.setItem('username', username);
-        // localStorage.setItem('password', password);
-        // localStorage.setItem('ipAddress', ipAddress);
 
     };
 
@@ -105,6 +134,25 @@ class Login extends Component {
     componentDidMount() {
         localStorage.clear();
         this.props.signOut();
+
+
+        let url_string = window.location.href;
+        let url = new URL(url_string);
+        let loginToken = url.searchParams.get("login_token");
+        let ipAddress = this.state.ipAddress;
+        if (url.searchParams.get("ip_address")) {
+            ipAddress = url.searchParams.get("ip_address");
+        }
+        // console.log(loginToken);
+        if (loginToken) {
+            Promise.all([
+                this.props.changeAuthKey(loginToken),
+                this.props.changeIPAddress(ipAddress)
+            ]);
+            removeParam("login_token");
+            removeParam("ip_address");
+            this.redirectToDashboard();
+        }
     }
 
 
@@ -183,4 +231,4 @@ class Login extends Component {
 }
 
 
-export default connect(null, {signOut, changeUserNamePassword, changeIPAddress})(Login);
+export default connect(null, {signOut, changeUserNamePassword, changeIPAddress, changeAuthKey})(Login);

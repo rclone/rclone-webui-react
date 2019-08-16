@@ -41,7 +41,8 @@ class RemotesList extends React.Component {
 
     };
 
-    openRemote = () => {
+    openRemote = (e) => {
+        e.preventDefault();
         const {changeRemoteName, containerID} = this.props;
         const {remoteName} = this.state;
         changeRemoteName(containerID, remoteName);
@@ -71,7 +72,7 @@ class RemotesList extends React.Component {
         } else {
 
             return (
-                <Form onSubmit={() => this.openRemote()}>
+                <Form onSubmit={this.openRemote}>
                     <Row>
 
                         <Col xs={12} sm={10} lg={8}>
@@ -80,8 +81,7 @@ class RemotesList extends React.Component {
                         </Col>
                         <Col xs={12} sm={2} lg={4}>
 
-                            <Button className={"btn-lg"} color="success"
-                                    type="submit">{this.state.openButtonText}</Button>
+                            <Button className={"btn-lg"} color="success">{this.state.openButtonText}</Button>
                         </Col>
 
                     </Row>

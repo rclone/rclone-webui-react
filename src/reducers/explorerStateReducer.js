@@ -31,11 +31,9 @@ const initialState = {
 export default function (state = initialState, action) {
 
     const id = action.id;
-    // console.log(action.type);
     if (id) {
 
         let backStack = state.backStacks[id];
-        // console.log(backStack, backStack instanceof BackStack);
         if (!backStack || !(backStack instanceof BackStack)) {
 
 
@@ -76,7 +74,6 @@ export default function (state = initialState, action) {
                 break;
 
             case CHANGE_REMOTE_NAME:
-                // console.log("CHange remote name", remoteName, remotePath)
                 if (remoteName.indexOf('/') === 0) {/*The name starts with a /: local Name*/
                     remotePath = remoteName;
                     remoteName = "/";
@@ -104,7 +101,6 @@ export default function (state = initialState, action) {
             case NAVIGATE_UP:
                 // TODO: Write logic for up, which will navigate one directory up
                 let current = backStack.peek();
-                console.log(current);
 
                 if (current.remotePath && current.remotePath !== "") {
                     const splitPath = current.remotePath.split('/');
@@ -114,19 +110,14 @@ export default function (state = initialState, action) {
                             current.remotePath = current.remotePath + ((i !== 0) ? '/' : '') + splitPath[i];
                         }
                 }
-                console.log(current);
                 backStack.push(current);
                 break;
 
             case NAVIGATE_FWD:
-                // if(ptr < array.length){
-                //     ptr--;
-                // }
                 backStack.moveForward();
                 break;
 
             case NAVIGATE_BACK:
-                // console.log(backStack);
                 backStack.moveBack();
                 break;
             case CHANGE_VISIBILITY_FILTER:
@@ -149,7 +140,6 @@ export default function (state = initialState, action) {
             default:
                 break;
         }
-        // currentPath = backStack.peek();
         return {
             ...state,
             backStacks: {...state.backStacks, [id]: backStack},

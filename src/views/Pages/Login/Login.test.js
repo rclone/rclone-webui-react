@@ -14,7 +14,7 @@ const setUp = (intialState = {}, props = {}) => {
 };
 
 
-describe('Remote Explorer Layout', function () {
+describe('Login Layout', function () {
 
 
     describe('renders', function () {
