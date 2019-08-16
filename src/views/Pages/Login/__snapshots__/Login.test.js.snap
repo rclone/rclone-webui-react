@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Remote Explorer Layout renders should match snapshot 1`] = `
+exports[`Login Layout renders should match snapshot 1`] = `
 <div
   className="app flex-row align-items-center"
   data-test="loginComponent"

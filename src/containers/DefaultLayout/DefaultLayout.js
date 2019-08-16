@@ -19,7 +19,7 @@ import navigation from '../../_nav';
 // routes config
 import routes from '../../routes';
 import {connect} from "react-redux";
-import {PASSWORD_KEY, USER_NAME_KEY} from "../../utils/Constants";
+import {AUTH_KEY} from "../../utils/Constants";
 import ErrorBoundary from "../../ErrorHandling/ErrorBoundary";
 
 const DefaultAside = React.lazy(() => import('./DefaultAside'));
@@ -32,7 +32,7 @@ class DefaultLayout extends Component {
 
 
     componentWillMount() {
-        if (!localStorage.getItem(USER_NAME_KEY) || !localStorage.getItem(PASSWORD_KEY)) {
+        if (!localStorage.getItem(AUTH_KEY)) {
             this.props.history.push('/login');
         }
     }

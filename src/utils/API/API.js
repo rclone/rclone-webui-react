@@ -1,6 +1,6 @@
 import axios from "axios";
 import {isLocalRemoteName} from "../Tools";
-import {IP_ADDRESS_KEY, PASSWORD_KEY, USER_NAME_KEY} from "../Constants";
+import {AUTH_KEY, IP_ADDRESS_KEY} from "../Constants";
 import urls from "./endpoint";
 
 /**
@@ -8,7 +8,8 @@ import urls from "./endpoint";
  */
 let axiosInstance = axios.create({
     headers: {'Content-Type': 'application/json'},
-    responseType: "json"
+    responseType: "json",
+    withCredentials: true
 });
 
 /**
@@ -17,7 +18,8 @@ let axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     config => {
         config.baseURL = localStorage.getItem(IP_ADDRESS_KEY);
-        config.headers.Authorization = 'Basic ' + btoa(localStorage.getItem(USER_NAME_KEY) + ":" + localStorage.getItem(PASSWORD_KEY));
+
+        config.headers.Authorization = 'Basic ' + localStorage.getItem(AUTH_KEY);
         return config;
     },
     error => Promise.reject(error)
