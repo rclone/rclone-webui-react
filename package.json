@@ -1,12 +1,12 @@
 {
   "name": "@rclone/rclone-webui",
-  "version": "1.0.0",
+  "version": "0.0.6",
   "description": "A web interface for r-clone",
   "author": "Chaitanya Bankanhal",
   "copyright": "",
   "license": "MIT",
   "private": false,
-  "homepage": "127.0.0.1:5572/",
+  "homepage": "./",
   "repository": {
     "type": "git",
     "url": "git@github.com:negative0/rclone-webui-react.git"
