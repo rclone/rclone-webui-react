@@ -38,7 +38,7 @@ function JobCard({job}) {
                 <p><strong>Average Speed: </strong>{formatBytes(speedAvg)}PS</p> {/*speedAvg*/}
                 <p><strong>Total transferred: </strong>{formatBytes(bytes)}</p> {/*bytes: convert to mb*/}
                 <p><strong>Size: </strong>{formatBytes(size)}</p>
-                <p><strong>ETA: </strong>{secondsToStr(eta)} seconds</p>
+                <p><strong>ETA: </strong>{secondsToStr(eta)}</p>
             </CardBody>
 
         </Card>);
@@ -72,6 +72,7 @@ function GlobalStatus({stats}) {
             <CardHeader><strong>Global Stats</strong></CardHeader>
             <CardBody>
                 <table className="table">
+                    <tbody>
                     <tr>
                         <td>Bytes Transferred:</td>
                         <td>{formatBytes(bytes)}</td>
@@ -100,6 +101,7 @@ function GlobalStatus({stats}) {
                         <td>Transfers:</td>
                         <td>{transfers}</td>
                     </tr>
+                    </tbody>
                 </table>
 
             </CardBody>
