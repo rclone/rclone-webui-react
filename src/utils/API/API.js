@@ -8,8 +8,7 @@ import urls from "./endpoint";
  */
 let axiosInstance = axios.create({
     headers: {'Content-Type': 'application/json'},
-    responseType: "json",
-    withCredentials: true
+    responseType: "json"
 });
 
 /**

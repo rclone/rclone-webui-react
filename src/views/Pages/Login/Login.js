@@ -144,6 +144,7 @@ class Login extends Component {
             ipAddress = url.searchParams.get("ip_address");
         }
         // console.log(loginToken);
+        // If login token is present in url, process that.
         if (loginToken) {
             Promise.all([
                 this.props.changeAuthKey(loginToken),
