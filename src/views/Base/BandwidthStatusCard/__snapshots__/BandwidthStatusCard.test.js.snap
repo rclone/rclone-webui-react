@@ -20,7 +20,7 @@ exports[`Bandwidth Status Card should match snapshot 1`] = `
   >
     <BandwidthWidget
       color="danger"
-      header="off"
+      header="Unlimited"
       icon="icon-speedometer"
       invert={false}
       lg={6}
@@ -33,7 +33,7 @@ exports[`Bandwidth Status Card should match snapshot 1`] = `
         onClick={[Function]}
         tag="button"
       >
-        Change 
+        Change
         <i
           className="fa fa-lg fa-angle-right"
         />
