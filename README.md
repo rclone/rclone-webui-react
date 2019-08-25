@@ -1,8 +1,13 @@
 # Rclone Web UI  [![Google Summer of Code 19](https://img.shields.io/badge/Google%20Summer%20of%20Code-2019-blue.svg)](https://summerofcode.withgoogle.com/projects/#5104629795258368)
 
 [![CCExtractor](https://img.shields.io/badge/CCExtractor-org-blue.svg)](https://www.ccextractor.org/) [![RClone](https://img.shields.io/badge/RClone-org-blue.svg)](https://rclone.org/)
+## About
+
+This project is developed as a part of Google Summer of Code '19 under ccextrator.org and rclone.org by [negative0](https://github.com/negative0).
 
 This is a reactjs based web UI for the rclone cli project @ [Rclone Website](rclone.org)  
+
+## Intro
 
 This project can be unstable and is being actively developed. Feel free to create any issues, feature requests or enhancements as you encounter them. 
 
@@ -16,6 +21,32 @@ This project can be unstable and is being actively developed. Feel free to creat
 
 The project currently requires you to install and configure react and npm to run correctly.
 Read more about the project details at [good2be.me](http://good2be.me/blog)
+
+## Running the project through rclone:
+
+If you have rclone installed, you can easily run this UI through rclone without any additional configuration.
+
+Note: The instructions for installing rclone can be found [here](https://rclone.org/install/).
+
+To run the web-gui, simply run the following command:
+
+```shell script
+    rclone rcd --rc-web-gui --rc-user=<user> --rc-pass=<pass> 
+```
+The web-gui should now be available at the url http://localhost:5572
+
+### Parameters:
+--rc-web-gui - run the web-gui
+
+--rc-user - username to be used for login (Optional) default is gui.
+
+--rc-pass - password to be used for login (Optional) if not provided, rclone will generate one for you.
+
+--rc-addr - useful if you are running rclone on a headless machine, specify the private/public IP of your VM for rclone to bind to. (Optional)
+
+--rc-web-gui-update - Force update web-gui to the latest version.
+
+
 
 ## Screenshots
 ### Dashboard
