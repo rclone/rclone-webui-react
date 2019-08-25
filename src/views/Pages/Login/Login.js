@@ -182,7 +182,8 @@ class Login extends Component {
                                                 </InputGroupAddon>
                                                 <Input type="text" placeholder="IP Address / URL"
                                                        autoComplete="ipAddress"
-                                                       onChange={this.changeIPAddress} value={ipAddress}/>
+                                                       onChange={this.changeIPAddress} value={ipAddress}
+                                                       data-testid="LoginForm-ipAddress"/>
                                             </InputGroup>
                                             <InputGroup className="mb-3">
                                                 <InputGroupAddon addonType="prepend">
@@ -191,6 +192,7 @@ class Login extends Component {
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input type="text" placeholder="Username" autoComplete="username"
+                                                       data-testid="LoginForm-userName"
                                                        onChange={this.changeUserName} value={username}/>
                                             </InputGroup>
                                             <InputGroup className="mb-4">
@@ -200,16 +202,19 @@ class Login extends Component {
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input type="password" placeholder="Password"
+                                                       data-testid="LoginForm-password"
                                                        autoComplete="current-password" onChange={this.changePassword}
                                                        value={password}/>
                                             </InputGroup>
                                             <Row>
                                                 <Col xs="6">
                                                     <Button color="primary" className="px-4"
+                                                            data-testid="LoginForm-BtnLogin"
                                                             disabled={!connectionSuccess}>Login</Button>
                                                 </Col>
                                                 <Col xs="6" className="text-right">
                                                     <Button onClick={this.checkConnection} color="primary"
+                                                            data-testid="LoginForm-BtnVerify"
                                                             className="px-4">Verify</Button>
                                                 </Col>
                                             </Row>

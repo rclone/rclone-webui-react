@@ -65,6 +65,7 @@ exports[`Login Layout renders should match snapshot 1`] = `
                   </InputGroupAddon>
                   <Input
                     autoComplete="ipAddress"
+                    data-testid="LoginForm-ipAddress"
                     onChange={[Function]}
                     placeholder="IP Address / URL"
                     type="text"
@@ -89,6 +90,7 @@ exports[`Login Layout renders should match snapshot 1`] = `
                   </InputGroupAddon>
                   <Input
                     autoComplete="username"
+                    data-testid="LoginForm-userName"
                     onChange={[Function]}
                     placeholder="Username"
                     type="text"
@@ -113,6 +115,7 @@ exports[`Login Layout renders should match snapshot 1`] = `
                   </InputGroupAddon>
                   <Input
                     autoComplete="current-password"
+                    data-testid="LoginForm-password"
                     onChange={[Function]}
                     placeholder="Password"
                     type="password"
@@ -138,6 +141,7 @@ exports[`Login Layout renders should match snapshot 1`] = `
                     <Button
                       className="px-4"
                       color="primary"
+                      data-testid="LoginForm-BtnLogin"
                       disabled={true}
                       tag="button"
                     >
@@ -161,6 +165,7 @@ exports[`Login Layout renders should match snapshot 1`] = `
                     <Button
                       className="px-4"
                       color="primary"
+                      data-testid="LoginForm-BtnVerify"
                       onClick={[Function]}
                       tag="button"
                     >
