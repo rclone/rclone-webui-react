@@ -34,10 +34,13 @@ class BandwidthStatusCard extends React.Component {
      */
     setBandwidth = () => {
         const {bandwidthText, hasError} = this.state;
-        // console.log(bandwidthText, hasError);
-        if (bandwidthText && !hasError) {
+        if (!hasError) {
             const {setBandwidth} = this.props;
-            setBandwidth(bandwidthText);
+            if (bandwidthText)
+                setBandwidth(bandwidthText);
+            else {
+                setBandwidth("0M");
+            }
         } else {
             toast.error("Error in form");
         }
@@ -53,7 +56,7 @@ class BandwidthStatusCard extends React.Component {
         const validateInput = validateSizeSuffix(inputValue);
         this.setState({
             bandwidthText: inputValue,
-            hasError: !validateInput
+            hasError: (inputValue !== "" ? !validateInput : false)
         })
     };
 
@@ -82,9 +85,12 @@ class BandwidthStatusCard extends React.Component {
 
             <Row>
                 <Col lg={showChangeBandwidth ? 6 : 12} sm={12}>
-                    <BandwidthWidget icon="icon-speedometer" color="danger" header={bandwidth.rate} lg={6} sm={12}>
-                        Current bandwidth <Button color="link" onClick={this.toggleShowChangeBandwidth}>Change <i
-                        className="fa fa-lg fa-angle-right"/></Button>
+                    <BandwidthWidget icon="icon-speedometer" color="danger"
+                                     header={(bandwidth.rate !== "off") ? bandwidth.rate : "Unlimited"} lg={6} sm={12}>
+                        Current bandwidth <Button color="link"
+                                                  onClick={this.toggleShowChangeBandwidth}>{!showChangeBandwidth ? "Change" : "Close"}
+                        <i
+                            className={"fa fa-lg fa-angle-" + (!showChangeBandwidth ? "right" : "left")}/></Button>
                     </BandwidthWidget>
                 </Col>
                 <Col lg={6} sm={12} className={showChangeBandwidth ? "" : "d-none"}>
@@ -93,8 +99,6 @@ class BandwidthStatusCard extends React.Component {
                         <CardBody>
                             <Form onSubmit={this.setBandwidth}>
                                 <FormGroup row>
-
-
                                     <Label for="bandwidthValue" sm={5}>New Bandwidth</Label>
                                     <Col sm={7}>
                                         <Input type="text" value={bandwidthText}
@@ -106,8 +110,6 @@ class BandwidthStatusCard extends React.Component {
                                             etc</FormFeedback>
 
                                     </Col>
-
-
                                 </FormGroup>
                                 <Button className="float-right" color="success" type="submit">Set</Button>
 

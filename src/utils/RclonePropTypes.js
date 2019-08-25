@@ -34,7 +34,7 @@ export const PROP_ITEM = PropTypes.shape({
 });
 
 export const PROP_BANDWIDTH = PropTypes.shape({
-    bytesPerSecond: PropTypes.number.isRequired,
+    // bytesPerSecond: PropTypes.number.isRequired,
     rate: PropTypes.string.isRequired
 
 });
