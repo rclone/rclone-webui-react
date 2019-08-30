@@ -268,7 +268,7 @@ class FilesView extends React.PureComponent {
     linkShareHandle = (item) => {
         const {fsInfo} = this.props;
         if (fsInfo.Features.PublicLink) {
-            console.log("Sharing link" + item.Name);
+            // console.log("Sharing link" + item.Name);
             const {remoteName} = this.props.currentPath;
             axiosInstance.post(urls.createPublicLink, {
                 fs: addColonAtLast(remoteName),

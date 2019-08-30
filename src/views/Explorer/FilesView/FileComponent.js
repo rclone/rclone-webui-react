@@ -208,6 +208,12 @@ class FileComponent extends React.Component {
 		},
 
     * */
+
+    handleClick(IsDir, clickHandler, e, item) {
+        if (IsDir) {
+            clickHandler(e, item)
+        }
+    }
     render() {
         const {containerID, inViewport, item, loadImages, clickHandler, downloadHandle, linkShareHandle, deleteHandle, connectDragSource, gridMode, itemIdx /*isDragging, remoteName*/} = this.props;
 
@@ -220,7 +226,7 @@ class FileComponent extends React.Component {
             element = connectDragSource(
                 <div className={IsDir ? "" : "col-md-4"}>
                     <Card>
-                        <CardBody onClick={(e) => clickHandler(e, item)}>
+                        <CardBody onClick={(e) => this.handleClick(IsDir, clickHandler, e, item)}>
 
                             {loadImages && isMedia(MimeType) ?
                                 <MediaWidget containerID={containerID} item={item} inViewport={inViewport}/> :
