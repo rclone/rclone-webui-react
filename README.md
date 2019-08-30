@@ -3,9 +3,16 @@
 [![CCExtractor](https://img.shields.io/badge/CCExtractor-org-blue.svg)](https://www.ccextractor.org/) [![RClone](https://img.shields.io/badge/RClone-org-blue.svg)](https://rclone.org/)
 ## About
 
-This project is developed as a part of Google Summer of Code '19 under ccextrator.org and rclone.org by [negative0](https://github.com/negative0).
+This project is developed as a part of Google Summer of Code '19 under [ccextractor.org](ccextractor.org) and [rclone.org](rclone.org) by [negative0](https://github.com/negative0).
 
 This is a reactjs based web UI for the rclone cli project @ [Rclone Website](rclone.org)  
+
+### Work Products (GSoC):
+
+- Proposal for developing this project: [here](https://docs.google.com/document/d/1l6OHrM2XemHP-l2_iBdYPdPNVgiSB5t1es_-0ogrty0/edit?usp=sharing)
+- The latest automated build can be found here: http://rclone.github.io/rclone-webui-react
+- GSoC phase I plan: [here](http://good2be.me/blog/gsoc-phase-i.html)
+- The thread for beta testing is here: https://forum.rclone.org/t/beta-testing-webgui-for-rclone/11156
 
 ## Intro
 
