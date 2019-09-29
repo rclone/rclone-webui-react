@@ -6,11 +6,11 @@ const urls = {
     /**
      * Purge a directory.
      */
-    purge: "/operations/purge",
+    purge: "operations/purge",
     /**
      * Delete a file.
      */
-    deleteFile: "/operations/deletefile",
+    deleteFile: "operations/deletefile",
     /**
      * Create public link.
      */
@@ -26,19 +26,19 @@ const urls = {
     /**
      * Move a directory.
      */
-    moveDir: "/sync/move",
+    moveDir: "sync/move",
     /**
      * Move a file.
      */
-    moveFile: "/operations/movefile",
+    moveFile: "operations/movefile",
     /**
      * Copy Directory
      */
-    copyDir: "/sync/copy",
+    copyDir: "sync/copy",
     /**
      * Copy Files.
      */
-    copyFile: "/operations/copyfile",
+    copyFile: "operations/copyfile",
     /**
      * Cleanup the remote recycle bin(trash).
      */
@@ -64,11 +64,11 @@ const urls = {
     /**
      * Get providers configuration in the rclone backend.
      */
-    getProviders: "/config/providers",
+    getProviders: "config/providers",
     /**
      * Get entire remote configuration dump from backend.
      */
-    getConfigDump: "/config/dump",
+    getConfigDump: "config/dump",
     /**
      * List the currently running jobs.
      */
@@ -84,7 +84,7 @@ const urls = {
     /**
      * Create a new config with parameters.
      */
-    createConfig: "/config/create",
+    createConfig: "config/create",
     /**
      * Update an existing config with parameters.
      */
@@ -110,7 +110,7 @@ const urls = {
     /**
      * Delete a config with config name.
      */
-    deleteConfig: "/config/delete"
+    deleteConfig: "config/delete"
 
 };
 export default urls;

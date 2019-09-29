@@ -78,6 +78,11 @@
   margin-bottom: 5px;
   right: 0;
   font-size: small;
+  max-width: 25vw;
+}
+
+.progress-modal-body {
+  max-height: 30vh;
 }
 
 .task-modal {
@@ -127,3 +132,4 @@
   -webkit-transform: rotate(270deg) translateX(-100%);
   -ms-transform: rotate(270deg) translateX(-100%);
 }
+

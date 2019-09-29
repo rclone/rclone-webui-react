@@ -46,12 +46,28 @@ function JobCard({job}) {
     return null;
 }
 
+function getCroppedName(name) {
+	const leftChars = 30;
+	const rightChars = 5;
+
+	if (name.length > leftChars) {
+		const croppedName = name.substr(0, leftChars) + " ... " + name.substr(-rightChars);
+		return croppedName;
+	}
+	return name;
+
+}
+
 function JobCardRow({job}) {
     const {name, percentage, speed, size} = job;
     return (
         <React.Fragment>
-            <Row>
-                {(size && speed) ? (<Col lg={12}>{name}({formatBytes(size)}) - {formatBytes(speed)}PS </Col>) : (
+			<Row className="runningJobs">
+				{(size && speed) ? (
+
+					<Col lg={12} className="itemName"> {getCroppedName(name)} {" "}
+						({formatBytes(size)}) - {formatBytes(speed)}PS </Col>
+				) : (
                     <Col lg={12}>Calculating</Col>)}
 
             </Row>
@@ -113,7 +129,7 @@ function GlobalStatus({stats}) {
 function TransferringJobs({transferring}) {
     if (transferring !== undefined) {
         return transferring.map((item, idx) => {
-            return (<JobCard key={idx} job={item}/>);
+			return (<JobCard key={item.name} job={item}/>);
         });
     }
     return null;
@@ -122,7 +138,7 @@ function TransferringJobs({transferring}) {
 function TransferringJobsRow({transferring}) {
     if (transferring !== undefined) {
         return transferring.map((item, idx) => {
-            return (<JobCardRow key={idx} job={item}/>);
+			return (<JobCardRow key={item.name} job={item}/>);
         });
     }
     return null;
@@ -202,7 +218,7 @@ class RunningJobs extends React.Component {
                                 </Button>
                             </div>
                         </CardHeader>
-                        <CardBody className={!this.state.isShowing ? "d-none" : ""}>
+						<CardBody className={!this.state.isShowing ? "d-none" : "progress-modal-body"}>
                             <TransferringJobsRow transferring={transferring}/>
 
                         </CardBody>
