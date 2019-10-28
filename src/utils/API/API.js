@@ -88,14 +88,19 @@ async function performCopyOrMoveFile(srcFs, srcRemote, dstFs, dstRemote, Name, I
         dstFs = "";
     }
 
+    let data = {
+        _async: true
+    };
+
+
     if (IsDir) {
 
         const splitRes = srcRemote.split('/');
 
-        const data = {
+        data = {
+            ...data,
             srcFs: srcFs + srcRemote,
             dstFs: dstFs + dstRemote + "/" + splitRes[splitRes.length - 1],
-            _async: true
         };
         console.log("DirOp:", data);
         return await axiosInstance.post(url, data);
@@ -107,12 +112,12 @@ async function performCopyOrMoveFile(srcFs, srcRemote, dstFs, dstRemote, Name, I
             dstRemote += "/" + Name;
         }
 
-        const data = {
+        data = {
+            ...data,
             srcFs: srcFs,
             srcRemote: srcRemote,
             dstFs: dstFs,
             dstRemote: dstRemote,
-            _async: true
         };
         return await axiosInstance.post(url, data);
 
