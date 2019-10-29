@@ -110,7 +110,12 @@ const urls = {
     /**
      * Delete a config with config name.
      */
-    deleteConfig: "config/delete"
+    deleteConfig: "config/delete",
+
+    /**
+     * Stop a running job by job id
+     */
+    stopJob: "job/stop",
 
 };
 export default urls;
