@@ -243,7 +243,7 @@ class FilesView extends React.PureComponent {
                 await axiosInstance.post(urls.deleteFile, data);
                 this.updateHandler();
                 toast.info(`${item.Name} deleted.`, {
-                    autoClose: false
+                    autoClose: true
                 });
             }
         } catch (e) {

@@ -271,3 +271,31 @@ export function changeSearchFilter(list, searchQuery = "") {
 export function isLocalRemoteName(remoteName) {
     return (remoteName && remoteName !== "" && remoteName[0] === "/");
 }
+
+/**
+ * Group the array items by the given key inside each object.
+ *
+ * @param xs{T}     array of T type
+ * @param keyGetter       key to select from the T
+ * @returns map{T}  map with format {key: [...objects with same key]}
+ */
+
+// export function groupByKey(xs, key) {
+//     return xs.reduce(function(rv, x) {
+//         (rv[x[key]] = rv[x[key]] || []).push(x);
+//         return rv;
+//     }, {});
+// }
+export function groupByKey(xs, keyGetter) {
+    const map = new Map();
+    xs.forEach((item) => {
+        const key = keyGetter(item);
+        const collection = map.get(key);
+        if (!collection) {
+            map.set(key, [item]);
+        } else {
+            collection.push(item);
+        }
+    });
+    return map;
+}

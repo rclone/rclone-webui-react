@@ -1,10 +1,12 @@
-import React from 'react';
-import {Button, Card, CardBody, CardHeader, Col, Progress, Row} from "reactstrap";
-import {bytesToKB, formatBytes, secondsToStr} from "../../../utils/Tools";
+import React, {useState} from 'react';
+import {Button, Card, CardBody, CardHeader, Col, Collapse, Container, Progress, Row} from "reactstrap";
+import {bytesToKB, formatBytes, groupByKey, secondsToStr} from "../../../utils/Tools";
 import * as PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Line} from "react-chartjs-2";
 import {CustomTooltips} from "@coreui/coreui-plugin-chartjs-custom-tooltips";
+import axiosInstance from "../../../utils/API/API";
+import urls from "../../../utils/API/endpoint";
 
 const options = {
     tooltips: {
@@ -47,14 +49,14 @@ function JobCard({job}) {
 }
 
 function getCroppedName(name) {
-	const leftChars = 30;
-	const rightChars = 5;
+    const leftChars = 30;
+    const rightChars = 5;
 
-	if (name.length > leftChars) {
-		const croppedName = name.substr(0, leftChars) + " ... " + name.substr(-rightChars);
-		return croppedName;
-	}
-	return name;
+    if (name.length > leftChars) {
+        const croppedName = name.substr(0, leftChars) + " ... " + name.substr(-rightChars);
+        return croppedName;
+    }
+    return name;
 
 }
 
@@ -62,12 +64,12 @@ function JobCardRow({job}) {
     const {name, percentage, speed, size} = job;
     return (
         <React.Fragment>
-			<Row className="runningJobs">
-				{(size && speed) ? (
+            <Row className="runningJobs">
+                {(size && speed) ? (
 
-					<Col lg={12} className="itemName"> {getCroppedName(name)} {" "}
-						({formatBytes(size)}) - {formatBytes(speed)}PS </Col>
-				) : (
+                    <Col lg={12} className="itemName"> {getCroppedName(name)} {" "}
+                        ({formatBytes(size)}) - {formatBytes(speed)}PS </Col>
+                ) : (
                     <Col lg={12}>Calculating</Col>)}
 
             </Row>
@@ -82,7 +84,7 @@ function JobCardRow({job}) {
 }
 
 function GlobalStatus({stats}) {
-    const {speed, bytes, checks, elapsedTime, deletes, errors, transfers} = stats;
+    const {speed, bytes, checks, elapsedTime, deletes, errors, transfers, lastError} = stats;
     return (
         <Card>
             <CardHeader><strong>Global Stats</strong></CardHeader>
@@ -117,6 +119,11 @@ function GlobalStatus({stats}) {
                         <td>Transfers:</td>
                         <td>{transfers}</td>
                     </tr>
+                    <tr>
+                        <td>Last Error:</td>
+                        <td>{lastError}</td>
+                    </tr>
+
                     </tbody>
                 </table>
 
@@ -129,7 +136,7 @@ function GlobalStatus({stats}) {
 function TransferringJobs({transferring}) {
     if (transferring !== undefined) {
         return transferring.map((item, idx) => {
-			return (<JobCard key={item.name} job={item}/>);
+            return (<JobCard key={item.name} job={item}/>);
         });
     }
     return null;
@@ -137,9 +144,76 @@ function TransferringJobs({transferring}) {
 
 function TransferringJobsRow({transferring}) {
     if (transferring !== undefined) {
-        return transferring.map((item, idx) => {
-			return (<JobCardRow key={item.name} job={item}/>);
+        const grouped = groupByKey(transferring, job => job.group);
+        console.log(grouped);
+
+        const array = [];
+
+        grouped.forEach((val, keys) => {
+            console.log(val, keys);
+            array.push (<JobGroup job={val} groupId={keys} key={keys}/>);
         });
+        return array;
+
+        // return grouped.values().map((item, idx) => {
+        // 	return (<JobCardRow key={item.name} job={item}/>);
+        // });
+    }
+    return null;
+}
+
+function JobGroup({job, groupId}) {
+    const [showCollapse, setShowCollapse] = useState(false);
+    const [cancelButtonEnabled, setCancelButtonEnabled] = useState(true);
+    console.log(job);
+
+    const stopJob = (e, groupId) => {
+        e.stopPropagation();
+        if(groupId && groupId.indexOf('/') !== -1) {
+            setCancelButtonEnabled(false);
+            const jobid = groupId.split('/')[1];
+            axiosInstance.post(urls.stopJob, {jobid, _async:true}).then(function (res) {
+                console.log(res);
+            }).catch(err => {
+                console.error(err);
+            })
+        }
+    };
+    // setCancelButtonEnabled((groupId && groupId !== "undefined"));
+    if(job) {
+        return (
+            <>
+                {groupId &&
+                <Card>
+
+                    <CardHeader onClick={() => setShowCollapse(!showCollapse)}>
+                        <Container>
+                            <Row>
+                                <Col sm={10}>
+                                    Transferring {job.length} file(s)
+                                </Col>
+                                <Col sm={2}>
+                                    <Button color={"light"} disabled={!cancelButtonEnabled}
+                                            onClick={(e) => stopJob(e, groupId)}
+                                            className={"btn-outline-danger btn-pill"}><i
+                                        className="fa fa-close fa-sm"/></Button>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </CardHeader>
+                    <Collapse isOpen={showCollapse}>
+                        <CardBody>
+                            {
+                                job.map((item, idx) => {
+                                    return (<JobCardRow key={item.name} job={item}/>);
+                                })
+                            }
+                        </CardBody>
+                    </Collapse>
+                </Card>
+                }
+            </>
+        );
     }
     return null;
 }
@@ -161,6 +235,8 @@ class RunningJobs extends React.Component {
             }
         })
     };
+
+
 
 
 
@@ -200,7 +276,6 @@ class RunningJobs extends React.Component {
         } else if (mode === "card") {
             if (isConnected) {
                 return (
-
                     <TransferringJobsRow transferring={transferring}/>
                 );
             } else {
@@ -218,7 +293,7 @@ class RunningJobs extends React.Component {
                                 </Button>
                             </div>
                         </CardHeader>
-						<CardBody className={!this.state.isShowing ? "d-none" : "progress-modal-body"}>
+                        <CardBody className={!this.state.isShowing ? "d-none" : "progress-modal-body"}  style={{overflowY: 'scroll'}}>
                             <TransferringJobsRow transferring={transferring}/>
 
                         </CardBody>
