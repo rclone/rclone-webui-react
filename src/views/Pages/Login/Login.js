@@ -37,6 +37,7 @@ function removeParam(parameter) {
             url = urlBase + '?' + pars.join('&');
         else
             url = urlBase;
+        url = url.replace(window.location.origin, ''); // history.pushState requires same-origin
         window.history.pushState('', document.title, url); // added this line to push the new url directly to url bar .
 
     }
