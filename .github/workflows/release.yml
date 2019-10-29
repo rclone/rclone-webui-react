@@ -1,7 +1,10 @@
-name: Node CI
+name: Release
 
 on:
-  push
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
   build:
@@ -28,8 +31,7 @@ jobs:
       - name: Zip build
         run: |
           zip -r currentbuild.zip build
-      -
-        name: Deploy
+      - name: Deploy to gh-pages
         if: success()
         uses: crazy-max/ghaction-github-pages@v1
         with:
@@ -37,3 +39,4 @@ jobs:
           build_dir: build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
