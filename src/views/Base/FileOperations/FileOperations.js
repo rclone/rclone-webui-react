@@ -145,7 +145,7 @@ class FileOperations extends React.Component {
                         }
                     },
                     (err) => {
-                        toast.error("Error clearing trash");
+                        toast.error("Error clearing trash " + err);
                     }
                 )
             }
@@ -197,11 +197,18 @@ class FileOperations extends React.Component {
                     <div className="float-right mb-3 mt-1 form-inline">
 
                         <ButtonGroup>
-                            <Button className="mr-1 btn-outline-dark" onClick={this.openNewFolderModal}><i
+                            <Button className="mr-1 btn-outline-dark" id="CreateFolderButton"
+                                    onClick={this.openNewFolderModal}><i
                                 className={"fa fa-lg fa-plus"}/> </Button>
-                            <Button className="mr-1 btn-outline-dark"
+                            <UncontrolledTooltip placement="right" target="CreateFolderButton">
+                                Create a new Folder
+                            </UncontrolledTooltip>
+                            <Button className="mr-1 btn-outline-dark" id="RefreshButton"
                                     onClick={() => getFilesForContainerID(containerID)}><i
                                 className={"fa fa-lg fa-repeat"}/></Button>
+                            <UncontrolledTooltip placement="right" target="RefreshButton">
+                                Refresh Files
+                            </UncontrolledTooltip>
                             <Button className={"mr-1 " + (loadImages ? "btn-dark" : "btn-outline-dark")}
                                     onClick={this.changeLoadMedia}><i
                                 className={"fa fa-lg fa-picture-o"} id="LoadMediaButton"/></Button>
@@ -236,7 +243,7 @@ class FileOperations extends React.Component {
                                                className="ml-1 mr-1">
                                             <option key={0}>None</option>
                                             {
-                                                this.filterOptions.map((item, idx) => {
+                                                this.filterOptions.map((item, _) => {
                                                     return (<option key={item} value={item}>{item}</option>)
                                                 })
                                             }
