@@ -3,9 +3,9 @@
 [![CCExtractor](https://img.shields.io/badge/CCExtractor-org-blue.svg)](https://www.ccextractor.org/) [![RClone](https://img.shields.io/badge/RClone-org-blue.svg)](https://rclone.org/)
 ## About
 
-This project is developed as a part of Google Summer of Code '19 under [ccextractor.org](ccextractor.org) and [rclone.org](rclone.org) by [negative0](https://github.com/negative0).
+This project is developed as a part of Google Summer of Code '19 under [ccextractor.org](https://ccextractor.org) and [rclone.org](https://rclone.org) by [negative0](https://github.com/negative0).
 
-This is a reactjs based web UI for the rclone cli project @ [Rclone Website](rclone.org)  
+This is a reactjs based web UI for the rclone cli project @ [Rclone Website](https://rclone.org/)  
 
 ### Work Products (GSoC):
 
