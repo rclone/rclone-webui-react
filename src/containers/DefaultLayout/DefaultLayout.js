@@ -53,7 +53,7 @@ class DefaultLayout extends Component {
                         <AppSidebar fixed display="lg">
                             <AppSidebarHeader/>
                             <AppSidebarForm/>
-                            <Suspense>
+                            <Suspense fallback={this.loading()}>
                                 <AppSidebarNav navConfig={navigation} {...this.props} />
                             </Suspense>
                             <AppSidebarFooter/>
