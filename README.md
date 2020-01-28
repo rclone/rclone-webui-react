@@ -73,7 +73,7 @@ The web-gui should now be available at the url http://localhost:5572
 **Bash users:**
 
 Download the sh file given here: 
-[webui.sh](https://raw.githubusercontent.com/negative0/rclone-webui-react/master/package.json)
+[webui.sh](https://raw.githubusercontent.com/rclone/rclone-webui-react/master/webui.sh)
 
 Copy the file to root folder of rclone.
 
@@ -118,7 +118,7 @@ Coming soon
 
 ### Get the Project
 ```
-    git clone https://github.com/negative0/rclone-webui-react
+    git clone https://github.com/rclone/rclone-webui-react
 ```
 OR download a zip from the option above.
 
