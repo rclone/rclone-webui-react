@@ -42,7 +42,15 @@ exports[`Remote Explorer renders should match snapshot 1`] = `
         <AppSidebarForm
           tag="div"
         />
-        <Suspense>
+        <Suspense
+          fallback={
+            <div
+              className="animated fadeIn pt-1 text-center"
+            >
+              Loading...
+            </div>
+          }
+        >
           <AppSidebarNav
             history={
               Object {
