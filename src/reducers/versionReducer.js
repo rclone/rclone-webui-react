@@ -1,7 +1,13 @@
-import { GET_VERSION, REQUEST_ERROR, REQUEST_SUCCESS } from "../actions/types";
+import { GET_VERSION, REQUEST_ERROR, REQUEST_SUCCESS } from '../actions/types';
 
-const initialState = {
-  version: {}
+export const initialState = {
+  arch: '',
+  decomposed: [],
+  goVersion: '',
+  isGit: false,
+  os: '',
+  version: '',
+  hasError: false
 };
 
 export default (state = initialState, action) => {
@@ -9,7 +15,7 @@ export default (state = initialState, action) => {
     if (action.status === REQUEST_SUCCESS) {
       return {
         ...state,
-        version: action.payload,
+        ...action.payload,
         hasError: false
       };
     }

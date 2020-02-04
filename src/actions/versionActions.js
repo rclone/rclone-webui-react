@@ -9,7 +9,7 @@ export const getVersion = () => {
         dispatch({
           type: GET_VERSION,
           status: REQUEST_SUCCESS,
-          payload: res.data.version
+          payload: res.data
         }),
       error =>
         dispatch({
