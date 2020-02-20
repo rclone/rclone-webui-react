@@ -12,6 +12,15 @@ exports[`Home Component renders should match snapshot 1`] = `
   </p>
   <Row
     tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
   >
     <Col
       lg={4}

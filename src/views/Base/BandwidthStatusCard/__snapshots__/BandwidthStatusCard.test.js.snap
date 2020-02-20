@@ -3,6 +3,15 @@
 exports[`Bandwidth Status Card should match snapshot 1`] = `
 <Row
   tag="div"
+  widths={
+    Array [
+      "xs",
+      "sm",
+      "md",
+      "lg",
+      "xl",
+    ]
+  }
 >
   <Col
     lg={12}
