@@ -4,7 +4,6 @@ import {Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Labe
 import axiosInstance from "../../utils/API/API";
 import ErrorBoundary from "../../ErrorHandling/ErrorBoundary";
 import urls from "../../utils/API/endpoint";
-import {getVersion} from "../../actions/versionActions";
 
 function RCloneVersion({data}) {
     if (data.hasError) {
@@ -113,7 +112,6 @@ class RCloneDashboard extends React.Component {
     };
 
     componentDidMount() {
-        this.props.getVersion();
         this.getOptions();
     }
 
@@ -146,5 +144,5 @@ const mapStateToProps = state => ({
     version: state.version,
 });
 
-export default connect(mapStateToProps, { getVersion })(RCloneDashboard);
+export default connect(mapStateToProps)(RCloneDashboard);
 
