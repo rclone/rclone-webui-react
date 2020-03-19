@@ -52,24 +52,6 @@ exports[`Remote Explorer renders should match snapshot 1`] = `
           }
         >
           <AppSidebarNav
-            history={
-              Object {
-                "push": [MockFunction] {
-                  "calls": Array [
-                    Array [
-                      "/login",
-                    ],
-                  ],
-                  "results": Array [
-                    Object {
-                      "type": "return",
-                      "value": undefined,
-                    },
-                  ],
-                },
-              }
-            }
-            isConnected={true}
             isOpen={false}
             navConfig={
               Object {
@@ -99,16 +81,17 @@ exports[`Remote Explorer renders should match snapshot 1`] = `
                     "name": "Log Out",
                     "url": "/login",
                   },
+                  Object {
+                    "attributes": Object {
+                      "target": "_blank",
+                    },
+                    "class": "mt-auto",
+                    "icon": "cui-cog",
+                    "name": "",
+                    "url": "https://rclone.org/changelog",
+                    "variant": "success",
+                  },
                 ],
-              }
-            }
-            store={
-              Object {
-                "dispatch": [Function],
-                "getState": [Function],
-                "replaceReducer": [Function],
-                "subscribe": [Function],
-                Symbol(observable): [Function],
               }
             }
             tag="nav"
