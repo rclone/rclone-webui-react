@@ -1,6 +1,7 @@
 import React, {Component, Suspense} from 'react';
 import {Redirect, Route, Switch} from 'react-router-dom';
 import {Container} from 'reactstrap';
+import {getVersion} from "../../actions/versionActions";
 
 import {
     AppAside,
@@ -26,14 +27,34 @@ const DefaultAside = React.lazy(() => import('./DefaultAside'));
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
+const VERSION_NAV_ITEM_ATTRS = {
+    attributes: { target: '_blank' },
+    class: 'mt-auto',
+    icon: 'cui-cog',
+    url: 'https://rclone.org/changelog',
+    variant: 'success'
+}
 class DefaultLayout extends Component {
 
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>;
 
+    get navConfig() {
+        return {
+            items: [
+                ...navigation.items,
+                {
+                    name: this.props.version.version,
+                    ...VERSION_NAV_ITEM_ATTRS
+                }
+            ]
+        }
+    }
 
     componentWillMount() {
         if (!localStorage.getItem(AUTH_KEY)) {
             this.props.history.push('/login');
+        } else {
+            this.props.getVersion();
         }
     }
 
@@ -54,7 +75,7 @@ class DefaultLayout extends Component {
                             <AppSidebarHeader/>
                             <AppSidebarForm/>
                             <Suspense fallback={this.loading()}>
-                                <AppSidebarNav navConfig={navigation} {...this.props} />
+                                <AppSidebarNav navConfig={this.navConfig} />
                             </Suspense>
                             <AppSidebarFooter/>
                             <AppSidebarMinimizer/>
@@ -102,6 +123,7 @@ class DefaultLayout extends Component {
 
 const mapStateToProps = (state) => ({
     isConnected: state.status.isConnected,
+    version: state.version,
 });
 
-export default connect(mapStateToProps, {})(DefaultLayout);
+export default connect(mapStateToProps, { getVersion })(DefaultLayout);
