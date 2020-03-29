@@ -1,8 +1,7 @@
 import React from "react";
-import BandwidthWidget from "../Widgets/BandwidthWidget";
 import {validateSizeSuffix} from "../../../utils/Tools";
 import {toast} from "react-toastify";
-import {Button, Card, CardBody, CardHeader, Col, Form, FormFeedback, FormGroup, Input, Label, Row} from "reactstrap";
+import {Button, Card, CardBody, CardHeader, Col, Form, FormFeedback, FormGroup, Input, Label} from "reactstrap";
 import {connect} from "react-redux";
 import {getBandwidth, setBandwidth} from "../../../actions/statusActions";
 import * as PropTypes from "prop-types";
@@ -81,45 +80,37 @@ class BandwidthStatusCard extends React.Component {
         const {bandwidthText, hasError, showChangeBandwidth} = this.state;
         const {bandwidth} = this.props;
 
-        return (
 
-            <Row>
-                <Col lg={showChangeBandwidth ? 6 : 12} sm={12}>
-                    <BandwidthWidget icon="icon-speedometer" color="danger"
-                                     header={(bandwidth.rate !== "off") ? bandwidth.rate : "Unlimited"} lg={6} sm={12}>
-                        Current bandwidth <Button color="link"
-                                                  onClick={this.toggleShowChangeBandwidth}>{!showChangeBandwidth ? "Change" : "Close"}
-                        <i
-                            className={"fa fa-lg fa-angle-" + (!showChangeBandwidth ? "right" : "left")}/></Button>
-                    </BandwidthWidget>
-                </Col>
-                <Col lg={6} sm={12} className={showChangeBandwidth ? "" : "d-none"}>
-                    <Card>
-                        <CardHeader>Change bandwidth</CardHeader>
-                        <CardBody>
-                            <Form onSubmit={this.setBandwidth}>
-                                <FormGroup row>
-                                    <Label for="bandwidthValue" sm={5}>New Bandwidth</Label>
-                                    <Col sm={7}>
-                                        <Input type="text" value={bandwidthText}
-                                               valid={!hasError} invalid={hasError}
-                                               id="bandwidthValue" onChange={this.changeBandwidthInput}>
-                                        </Input>
-                                        <FormFeedback valid>Keep empty to reset.</FormFeedback>
-                                        <FormFeedback>The bandwidth should be of the form 1M|2M|1G|1K|1.1K
-                                            etc</FormFeedback>
+        return ( 
+        <Card>
+            <CardHeader>
+                Bandwidth <button className="btn btn-white float-right" onClick={this.toggleShowChangeBandwidth}>Modify</button>
+            </CardHeader>
+            <CardBody>
+                <p>
+                    <span className="card-subtitle">Current Max speed: {"  "}</span> 
+                    <span className="card-text">{(bandwidth.rate !== "off") ? bandwidth.rate : "Unlimited"}</span>
+                </p>
+                <Form onSubmit={this.setBandwidth} className={showChangeBandwidth ? "" : "d-none"}>
+                    <FormGroup row>
+                        <Label for="bandwidthValue" sm={5}>Enter new max speed</Label>
+                        <Col sm={7}>
+                            <Input type="text" value={bandwidthText}
+                                    valid={!hasError} invalid={hasError}
+                                    id="bandwidthValue" onChange={this.changeBandwidthInput}>
+                            </Input>
+                            <FormFeedback valid>Keep empty to reset.</FormFeedback>
+                            <FormFeedback>The bandwidth should be of the form 1M|2M|1G|1K|1.1K
+                                etc</FormFeedback>
 
-                                    </Col>
-                                </FormGroup>
-                                <Button className="float-right" color="success" type="submit">Set</Button>
+                        </Col>
+                    </FormGroup>
+                    <Button className="float-right" color="success" type="submit">Set</Button>
 
-                            </Form>
-                        </CardBody>
-                    </Card>
-                </Col>
-
-            </Row>
-        )
+                </Form>
+                
+            </CardBody>
+        </Card>)
     }
 }
 

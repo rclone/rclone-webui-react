@@ -76,7 +76,8 @@ export default function (state = initialState, action) {
         case CHANGE_LAYOUT_COLS:
             return {
                 ...state,
-                numCols: action.payload.numCols
+                numCols: action.payload.numCols,
+                splitMode: action.payload.mode
             };
         case CHANGE_DISTRACTION_FREE_MODE:
             return {

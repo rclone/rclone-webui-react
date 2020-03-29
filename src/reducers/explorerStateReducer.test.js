@@ -9,7 +9,9 @@ describe('Explorer Reducer', function () {
             visibilityFilters: {},
             gridMode: {},
             searchQueries: {},
-            loadImages: {}
+            loadImages: {},
+            sortFilters: {},
+            sortFiltersAscending: {}
         });
     });
 

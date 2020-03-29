@@ -299,3 +299,36 @@ export function groupByKey(xs, keyGetter) {
     });
     return map;
 }
+export function getSortCompareFunction(type, ascending){
+    
+    // console.log("Here", a,b)
+    switch(type){
+        case "name":
+            return (a, b) => {
+                let x,y;
+                x = a.Name.toLowerCase();
+                y = b.Name.toLowerCase();
+                if (x < y) {return ascending ? -1 : 1;}
+                if (x > y) {return ascending ? 1 : -1;}
+                return 0;
+            }
+        case "size":
+            return (a, b) => {
+                let x, y;
+                x = a.Size ? a.Size : 0;
+                y = b.Size ? b.Size : 0;
+                return ascending ? ( x - y ) : ( y - x );
+            }
+            case "modified":
+                return (a, b) => {
+                    let x, y;
+                    x = new Date(a.ModTime);
+                    y = new Date(b.ModTime);
+                    return ascending ? ( x - y ) : ( y - x );
+                }
+        default:
+            break;
+
+
+    }
+}

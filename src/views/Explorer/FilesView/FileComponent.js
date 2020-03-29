@@ -7,7 +7,7 @@ import {
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
-    UncontrolledButtonDropdown
+    UncontrolledButtonDropdown,
 } from "reactstrap";
 
 import {ItemTypes} from './Constants'
@@ -215,12 +215,12 @@ class FileComponent extends React.Component {
         }
     }
     render() {
-        const {containerID, inViewport, item, loadImages, clickHandler, downloadHandle, linkShareHandle, deleteHandle, connectDragSource, gridMode, itemIdx /*isDragging, remoteName*/} = this.props;
+        const {containerID, inViewport, item, loadImages, clickHandler, downloadHandle, linkShareHandle, deleteHandle, connectDragSource, gridMode /*isDragging, remoteName*/} = this.props;
 
         const {IsDir, MimeType, ModTime, Name, Size} = item;
 
 
-        let modTime = new Date(Date.parse(ModTime));
+        let modTime = new Date(ModTime);
         let element;
         if (gridMode === "card") {
             element = connectDragSource(
@@ -244,11 +244,8 @@ class FileComponent extends React.Component {
         } else {
             element = connectDragSource(
                 <tr className={"pointer-cursor"}>
-                    <td className="d-none d-md-table-cell"><input type="checkbox"/></td>
-                    <td onClick={(e) => clickHandler(e, item)} id={"file" + itemIdx}>
-                        <FileIcon IsDir={IsDir} MimeType={MimeType}/> {Name}
-
-
+                    <td onClick={(e) => clickHandler(e, item)}>
+                        <FileIcon IsDir={IsDir} MimeType={MimeType}/>{" "}{Name}
                     </td>
                     <td>{Size === -1 ? "-" : formatBytes(Size, 2)}</td>
                     <td className="d-none d-md-table-cell">{modTime.toLocaleDateString()}</td>

@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card, CardBody, CardHeader, Col, Row} from "reactstrap";
+import {Button, Col, Row} from "reactstrap";
 import RemoteExplorer from "../RemoteExplorer";
 
 import HTML5Backend from "react-dnd-html5-backend";
@@ -11,18 +11,33 @@ import * as PropTypes from 'prop-types';
 import {changeDistractionFreeMode, changeNumCols} from "../../../actions/explorerActions";
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 
-
-function RemoteExplorerList({cols, distractionFreeMode}) {
+import singlePaneImg from '../../../assets/img/single-pane.png'; 
+import doublePaneImg from '../../../assets/img/double-pane1.png'; 
+import triplePaneImg from '../../../assets/img/triple-pane.png'; 
+function RemoteExplorerList({cols, distractionFreeMode, splitMode}) {
     let remoteExplorers = [];
-    const lgSize = 12 / cols;
-    for (let i = 0; i < cols; i++) {
+    if(splitMode === "horizontal"){
+        const lgSize = 12 / cols;
+        for (let i = 0; i < cols; i++) {
 
-        remoteExplorers.push((
-            <Col xs={12} sm={12} md={lgSize} lg={lgSize} key={i}>
+            remoteExplorers.push((
+                <Col xs={12} sm={12} md={lgSize} lg={lgSize} key={i}>
 
-                <RemoteExplorer containerID={i.toString()} distractionFreeMode={distractionFreeMode}/>
-            </Col>
-        ));
+                    <RemoteExplorer containerID={i.toString()} distractionFreeMode={distractionFreeMode}/>
+                </Col>
+            ));
+        }
+    }else if(splitMode === "vertical"){
+        for (let i = 0; i < cols; i++) {
+
+            remoteExplorers.push((
+                <Col xs={12} sm={12} md={12} lg={12} key={i}>
+    
+                    <RemoteExplorer containerID={i.toString()} distractionFreeMode={distractionFreeMode}/>
+                </Col>
+            ));
+        }
+        
     }
     return remoteExplorers;
 }
@@ -30,16 +45,11 @@ function RemoteExplorerList({cols, distractionFreeMode}) {
 class RemoteExplorerLayout extends React.Component {
 
 
-    constructor(props) {
-        super(props);
-        this.changeLayout = this.changeLayout.bind(this);
-    }
-
     changeLayout = (nos, mode) => {
         const {changeNumCols} = this.props;
-        // console.log("changing layout");
-        if (mode === "side" && nos !== changeNumCols) {
-            changeNumCols(nos);
+        // Check if the current layout is not same as previous
+        if(nos !== changeNumCols){
+            changeNumCols(nos, mode);
         }
     };
 
@@ -48,7 +58,7 @@ class RemoteExplorerLayout extends React.Component {
         const {numCols, changeNumCols} = this.props;
 
         if (numCols < 1) {
-            changeNumCols(1);
+            changeNumCols(1, "horizontal");
         }
     }
 
@@ -64,7 +74,7 @@ class RemoteExplorerLayout extends React.Component {
     render() {
 
         /*Divide the 12 bootstrap columns to fit number of explorers*/
-        const {numCols, backStacks, distractionFreeMode} = this.props;
+        const {numCols, backStacks, distractionFreeMode, splitMode} = this.props;
 
         return (
             <ErrorBoundary>
@@ -76,42 +86,38 @@ class RemoteExplorerLayout extends React.Component {
                     </div>}
 
                     {(!distractionFreeMode) &&
-                    <Col sm={12} lg={12}>
-                        <Card>
+                        <Col sm={12} lg={12} className="mb-3">
+                            
 
-                            <CardHeader>
-                                Choose Layout
-                            </CardHeader>
-                            <CardBody>
-                                <Button color={"primary"} className={"ml-2"}
-                                        onClick={() => this.changeLayout(1, "side")}>
-                                    1 - side by side
-                                </Button>
-                                <Button color={"primary"} className={"ml-2"}
-                                        onClick={() => this.changeLayout(2, "side")}>
-                                    2 - side by side
-                                </Button>
-                                <Button color={"primary"} className={"ml-2"}
-                                        onClick={() => this.changeLayout(3, "side")}>
-                                    3 - side by side
-                                </Button>
-                                <Button color={"primary"} className={"ml-2"}
-                                        onClick={() => this.changeLayout(4, "side")}>
-                                    4 - side by side
-                                </Button>
-                                <Button color={"success"} className={"ml-2"}
-                                        onClick={this.toggleDistractionFreeMode}><i className="fa fa-arrows"/>
-                                </Button>
-                                {/*<Button onClick={this.changeLayout(4,"grid")}>4 - grid</Button>*/}
-                            </CardBody>
-                        </Card>
-                    </Col>
+                            <span className="text-choose-layout">
+                                Choose Layout: {"  "}
+                            </span>
+                            
+                            <Button color={"primary"} className={"ml-2 layout-change-button"}
+                                    onClick={() => this.changeLayout(1, "horizontal")}>
+                                    <img style={{height:24}} src={singlePaneImg} alt="Single Vertical Pane"/>
+                            </Button>
+                            <Button color={"primary"} className={"ml-2 layout-change-button"}
+                                    onClick={() => this.changeLayout(2, "horizontal")}>
+                                    <img style={{height:24}} src={doublePaneImg} alt="Double Vertical Pane"/>
+                            </Button>
+                            <Button color={"primary"} className={"ml-2 layout-change-button"}
+                                    onClick={() => this.changeLayout(3, "horizontal")}>
+                                    <img style={{height:24}} src={triplePaneImg} alt="Triple Vertical Pane"/>
+                            </Button>
+                    
+                            <Button color={"success"} className={"ml-2"}
+                                    onClick={this.toggleDistractionFreeMode}><i className="fa fa-arrows"/> Full Screen
+                            </Button>
+                            {/*<Button onClick={this.changeLayout(4,"grid")}>4 - grid</Button>*/}
+                                    
+                        </Col>
                     }
                 </Row>
 
 
                 <Row>
-                    <RemoteExplorerList cols={numCols} backStacks={backStacks}
+                    <RemoteExplorerList cols={numCols} backStacks={backStacks} splitMode={splitMode}
                                         distractionFreeMode={distractionFreeMode}/>
                 </Row>
 
@@ -124,7 +130,8 @@ class RemoteExplorerLayout extends React.Component {
 const mapStateToProps = (state) => ({
     backStacks: state.explorer.backStacks,
     numCols: state.remote.numCols,
-    distractionFreeMode: state.remote.distractionFreeMode
+    distractionFreeMode: state.remote.distractionFreeMode,
+    splitMode: state.remote.splitMode
 });
 
 RemoteExplorerLayout.propTypes = {

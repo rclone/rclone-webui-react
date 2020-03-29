@@ -9,7 +9,8 @@ import {
     CREATE_PATH,
     NAVIGATE_BACK,
     NAVIGATE_FWD,
-    NAVIGATE_UP
+    NAVIGATE_UP,
+    CHANGE_SORT_FILTER
 } from "./types";
 import {getFiles} from "./explorerActions";
 
@@ -196,4 +197,15 @@ export const setLoadImages = (containerID, shouldLoad) => dispatch => {
         payload: shouldLoad
     })
 };
+
+export const changeSortFilter = (containerID, sortFilter, sortFilterAscending) => dispatch => {
+    dispatch({
+        type: CHANGE_SORT_FILTER,
+        id: containerID,
+        payload: {
+            sortFilter, 
+            sortFilterAscending
+        }
+    })
+}
 

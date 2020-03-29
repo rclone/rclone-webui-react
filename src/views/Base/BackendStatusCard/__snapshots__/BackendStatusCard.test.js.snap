@@ -8,7 +8,7 @@ exports[`Backend Status Card renders showChangeBandwidth: false should match sna
   <CardHeader
     tag="div"
   >
-    rclone status
+    Overview
   </CardHeader>
   <CardBody
     tag="div"
@@ -31,7 +31,7 @@ exports[`Backend Status Card renders showChangeBandwidth: true should match snap
   <CardHeader
     tag="div"
   >
-    rclone status
+    Overview
   </CardHeader>
   <CardBody
     tag="div"

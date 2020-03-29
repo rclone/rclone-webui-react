@@ -110,10 +110,11 @@ export const getFiles = (remoteName, remotePath) => dispatch => {
 
 /**
  * Changes the number of columns in current layout view.
+ * @param mode          {string} Either "vertical or horizontal, defines the split type"
  * @param numCols       {number} Number of columns to create
  * @returns {Function}
  */
-export const changeNumCols = (numCols) => (dispatch) => {
+export const changeNumCols = (numCols, mode) => (dispatch) => {
     if (!numCols || numCols < 0) throw new Error(`Invalid number of cols:${numCols}`);
 
 
@@ -124,7 +125,7 @@ export const changeNumCols = (numCols) => (dispatch) => {
     dispatch({
         type: CHANGE_LAYOUT_COLS,
         payload: {
-            numCols
+            numCols, mode
         }
     })
 };

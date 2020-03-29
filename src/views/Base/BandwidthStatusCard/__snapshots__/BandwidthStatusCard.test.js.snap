@@ -1,149 +1,104 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Bandwidth Status Card should match snapshot 1`] = `
-<Row
+<Card
   tag="div"
-  widths={
-    Array [
-      "xs",
-      "sm",
-      "md",
-      "lg",
-      "xl",
-    ]
-  }
 >
-  <Col
-    lg={12}
-    sm={12}
+  <CardHeader
     tag="div"
-    widths={
-      Array [
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl",
-      ]
-    }
   >
-    <BandwidthWidget
-      color="danger"
-      header="Unlimited"
-      icon="icon-speedometer"
-      invert={false}
-      lg={6}
-      sm={12}
-      value="25"
+    Bandwidth 
+    <button
+      className="btn btn-white float-right"
+      onClick={[Function]}
     >
-      Current bandwidth 
-      <Button
-        color="link"
-        onClick={[Function]}
-        tag="button"
+      Modify
+    </button>
+  </CardHeader>
+  <CardBody
+    tag="div"
+  >
+    <p>
+      <span
+        className="card-subtitle"
       >
-        Change
-        <i
-          className="fa fa-lg fa-angle-right"
-        />
-      </Button>
-    </BandwidthWidget>
-  </Col>
-  <Col
-    className="d-none"
-    lg={6}
-    sm={12}
-    tag="div"
-    widths={
-      Array [
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl",
-      ]
-    }
-  >
-    <Card
-      tag="div"
+        Current Max speed: 
+          
+      </span>
+      <span
+        className="card-text"
+      >
+        Unlimited
+      </span>
+    </p>
+    <Form
+      className="d-none"
+      onSubmit={[Function]}
+      tag="form"
     >
-      <CardHeader
+      <FormGroup
+        row={true}
         tag="div"
       >
-        Change bandwidth
-      </CardHeader>
-      <CardBody
-        tag="div"
-      >
-        <Form
-          onSubmit={[Function]}
-          tag="form"
+        <Label
+          for="bandwidthValue"
+          sm={5}
+          tag="label"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
         >
-          <FormGroup
-            row={true}
+          Enter new max speed
+        </Label>
+        <Col
+          sm={7}
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Input
+            id="bandwidthValue"
+            invalid={false}
+            onChange={[Function]}
+            type="text"
+            valid={true}
+            value=""
+          />
+          <FormFeedback
+            tag="div"
+            valid={true}
+          >
+            Keep empty to reset.
+          </FormFeedback>
+          <FormFeedback
             tag="div"
           >
-            <Label
-              for="bandwidthValue"
-              sm={5}
-              tag="label"
-              widths={
-                Array [
-                  "xs",
-                  "sm",
-                  "md",
-                  "lg",
-                  "xl",
-                ]
-              }
-            >
-              New Bandwidth
-            </Label>
-            <Col
-              sm={7}
-              tag="div"
-              widths={
-                Array [
-                  "xs",
-                  "sm",
-                  "md",
-                  "lg",
-                  "xl",
-                ]
-              }
-            >
-              <Input
-                id="bandwidthValue"
-                invalid={false}
-                onChange={[Function]}
-                type="text"
-                valid={true}
-                value=""
-              />
-              <FormFeedback
-                tag="div"
-                valid={true}
-              >
-                Keep empty to reset.
-              </FormFeedback>
-              <FormFeedback
-                tag="div"
-              >
-                The bandwidth should be of the form 1M|2M|1G|1K|1.1K etc
-              </FormFeedback>
-            </Col>
-          </FormGroup>
-          <Button
-            className="float-right"
-            color="success"
-            tag="button"
-            type="submit"
-          >
-            Set
-          </Button>
-        </Form>
-      </CardBody>
-    </Card>
-  </Col>
-</Row>
+            The bandwidth should be of the form 1M|2M|1G|1K|1.1K etc
+          </FormFeedback>
+        </Col>
+      </FormGroup>
+      <Button
+        className="float-right"
+        color="success"
+        tag="button"
+        type="submit"
+      >
+        Set
+      </Button>
+    </Form>
+  </CardBody>
+</Card>
 `;

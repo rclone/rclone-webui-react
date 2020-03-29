@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CardBody, CardHeader} from "reactstrap";
+import {Card, CardBody, CardHeader, Container} from "reactstrap";
 import RemotesList from "../RemotesList";
 import FilesView from "../FilesView/FilesView";
 import {addColonAtLast} from "../../../utils/Tools";
@@ -60,30 +60,33 @@ class RemoteExplorer extends React.Component {
 
         const isValidPath = remoteName && remoteName !== "";
 
+        
+
         return (
             <ErrorBoundary>
-                {/*Render remotes array*/}
+                
                 {(!distractionFreeMode) &&
-                <Card>
-                    <CardHeader>Remotes</CardHeader>
-                    <CardBody>
-                        <RemotesList
-                            remoteName={remoteName}
-                            containerID={containerID}
-                        />
-                    </CardBody>
-                </Card>
+                    <Card>
+                        <CardHeader>Remotes</CardHeader>
+                        <CardBody>
+                            <Container fluid={true}>
+                                {/*Render remotes array*/}
+                                <RemotesList
+                                    remoteName={remoteName}
+                                    containerID={containerID}
+                                />
+                                
+                                {isValidPath && (
+                                    <>
+                                        <FileOperations containerID={containerID}/>
+                                        <FilesView containerID={containerID}/>
+                                    </>
+                                )}
+                            </Container>
+                            
+                        </CardBody>
+                    </Card>
                 }
-
-                {/*Render the files in the selected remote*/}
-                {isValidPath && <Card>
-                    <CardHeader>
-                        <FileOperations containerID={containerID}/>
-                    </CardHeader>
-                    <CardBody>
-                        <FilesView containerID={containerID}/>
-                    </CardBody>
-                </Card>}
 
             </ErrorBoundary>
         );

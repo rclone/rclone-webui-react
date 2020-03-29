@@ -1,4 +1,106 @@
 // Here you can add other styles
+body{
+  font-family: Noto Sans;
+}
+
+.card, .card-header, .card-body {
+  border-radius: 0 !important;
+}
+
+.btn-white {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  color: rgba(44,44,44,1);
+  background-color: rgba(232,239,247,1);
+}
+
+.card .card-header{
+  text-align: left;
+  background-color: rgba(188,201,214,1);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 25px;
+  color: rgba(44,44,44,1);  
+}
+
+.card .card-subtitle{
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  color: rgba(63,121,173,1);
+}
+.card .card-text {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  color: rgba(114,114,114,1);
+}
+
+.card .card-body{
+  text-align: left;
+}
+
+// START Explorer
+
+.text-choose-layout {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  color: rgba(114,114,114,1);
+}
+.layout-change-button{
+  background: none;
+  padding: 0;
+  
+}
+
+.btn-explorer-action {
+  background: none;
+  border: none;
+}
+
+.btn-explorer-action :hover {
+  border: 1px;
+  background-color: none;
+}
+
+.table-fix-head          { overflow-y: auto; height: 100px; }
+.table-fix-head thead th { position: sticky; top: 0; z-index: 2; border-top: none; border-bottom: 1px solid #c8ced3;}
+.table-fix-head th       { background: #ffffff; }
+
+.animate-fade-in {
+  -webkit-animation: fadein 0.5s; /* Safari, Chrome and Opera > 12.1 */
+     -moz-animation: fadein 0.5s; /* Firefox < 16 */
+      -ms-animation: fadein 0.5s; /* Internet Explorer */
+       -o-animation: fadein 0.5s; /* Opera < 12.1 */
+          animation: fadein 0.5s;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// END Explorer
 .text-red {
   color: #FF0000;
 }
@@ -51,7 +153,7 @@
   font-size: 16px;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
-  z-index: 2;
+  z-index: 3;
   height: 300px;
   overflow: auto;
 }

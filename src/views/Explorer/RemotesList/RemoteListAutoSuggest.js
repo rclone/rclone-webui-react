@@ -81,6 +81,7 @@ class RemoteListAutoSuggest extends React.Component {
                 renderSuggestion={renderSuggestion}
                 highlightFirstSuggestion={true}
                 inputProps={inputProps}
+                style={{width:"100%"}}
             />
         );
     }

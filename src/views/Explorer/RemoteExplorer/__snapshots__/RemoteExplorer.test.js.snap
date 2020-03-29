@@ -13,28 +13,21 @@ exports[`Remote Explorer renders should match snapshot 1`] = `
     <CardBody
       tag="div"
     >
-      <Connect(RemotesList)
-        containerID="0"
-        remoteName="local"
-      />
-    </CardBody>
-  </Card>
-  <Card
-    tag="div"
-  >
-    <CardHeader
-      tag="div"
-    >
-      <Connect(FileOperations)
-        containerID="0"
-      />
-    </CardHeader>
-    <CardBody
-      tag="div"
-    >
-      <Connect(DropTarget(FilesView))
-        containerID="0"
-      />
+      <Container
+        fluid={true}
+        tag="div"
+      >
+        <Connect(RemotesList)
+          containerID="0"
+          remoteName="local"
+        />
+        <Connect(FileOperations)
+          containerID="0"
+        />
+        <Connect(DropTarget(FilesView))
+          containerID="0"
+        />
+      </Container>
     </CardBody>
   </Card>
 </ErrorBoundary>

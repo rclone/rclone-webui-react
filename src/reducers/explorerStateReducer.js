@@ -9,7 +9,8 @@ import {
     CREATE_PATH,
     NAVIGATE_BACK,
     NAVIGATE_FWD,
-    NAVIGATE_UP
+    NAVIGATE_UP,
+    CHANGE_SORT_FILTER
 } from "../actions/types";
 import BackStack from "../utils/classes/BackStack";
 
@@ -19,7 +20,9 @@ const initialState = {
     visibilityFilters: {},
     gridMode: {},
     searchQueries: {},
-    loadImages: {}
+    loadImages: {},
+    sortFilters: {},
+    sortFiltersAscending: {}
 };
 
 /**
@@ -67,6 +70,10 @@ export default function (state = initialState, action) {
         let loadImages = state.loadImages[id];
         if (!loadImages) loadImages = false;
 
+        let sortFilterAscending = state.sortFiltersAscending[id];
+        if(!sortFilterAscending) sortFilterAscending = true;
+        let sortFilter = state.sortFilters[id];
+        if(!sortFilter) sortFilter = "name";
 
         switch (action.type) {
             case CHANGE_PATH:
@@ -137,6 +144,10 @@ export default function (state = initialState, action) {
             case CHANGE_LOAD_IMAGES:
                 loadImages = action.payload;
                 break;
+            case CHANGE_SORT_FILTER:
+                sortFilter = action.payload.sortFilter;
+                sortFilterAscending =  action.payload.sortFilterAscending;
+                break;
             default:
                 break;
         }
@@ -147,7 +158,9 @@ export default function (state = initialState, action) {
             visibilityFilters: {...state.visibilityFilters, [id]: visibilityFilter},
             gridMode: {...state.gridMode, [id]: gridMode},
             searchQueries: {...state.searchQueries, [id]: searchQuery},
-            loadImages: {...state.loadImages, [id]: loadImages}
+            loadImages: {...state.loadImages, [id]: loadImages},
+            sortFilters: {...state.sortFilters, [id]: sortFilter},
+            sortFiltersAscending: {...state.sortFiltersAscending, [id]: sortFilterAscending},
         };
     } else {
         // console.error("ID is unexpectedly null");

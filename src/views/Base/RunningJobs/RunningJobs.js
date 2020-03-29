@@ -92,36 +92,36 @@ function GlobalStatus({stats}) {
                 <table className="table">
                     <tbody>
                     <tr>
-                        <td>Bytes Transferred:</td>
-                        <td>{formatBytes(bytes)}</td>
+                        <td className="card-subtitle">Bytes Transferred:</td>
+                        <td className="card-text">{formatBytes(bytes)}</td>
                     </tr>
                     <tr>
-                        <td>Average Speed:</td>
-                        <td>{formatBytes(speed)}PS</td>
+                        <td className="card-subtitle">Average Speed:</td>
+                        <td className="card-text">{formatBytes(speed)}PS</td>
                     </tr>
                     <tr>
-                        <td>Checks:</td>
-                        <td>{checks}</td>
+                        <td className="card-subtitle">Checks:</td>
+                        <td className="card-text">{checks}</td>
                     </tr>
                     <tr>
-                        <td>Deletes:</td>
-                        <td>{deletes}</td>
+                        <td className="card-subtitle">Deletes:</td>
+                        <td className="card-text">{deletes}</td>
                     </tr>
                     <tr>
-                        <td>Running since:</td>
-                        <td>{secondsToStr(elapsedTime)}</td>
+                        <td className="card-subtitle">Running since:</td>
+                        <td className="card-text">{secondsToStr(elapsedTime)}</td>
                     </tr>
                     <tr className={errors > 0 ? "table-danger" : ""}>
-                        <td>Errors:</td>
-                        <td>{errors}</td>
+                        <td className="card-subtitle">Errors:</td>
+                        <td className="card-text">{errors}</td>
                     </tr>
                     <tr>
-                        <td>Transfers:</td>
-                        <td>{transfers}</td>
+                        <td className="card-subtitle">Transfers:</td>
+                        <td className="card-text">{transfers}</td>
                     </tr>
                     <tr>
-                        <td>Last Error:</td>
-                        <td>{lastError}</td>
+                        <td className="card-subtitle">Last Error:</td>
+                        <td className="card-text">{lastError}</td>
                     </tr>
 
                     </tbody>
@@ -248,11 +248,11 @@ class RunningJobs extends React.Component {
             if (isConnected) {
                 return (
                     <Row>
-                        <Col sm={12} lg={4}>
+                        <Col sm={12} lg={6}>
                             <GlobalStatus stats={jobs}/>
                         </Col>
 
-                        <Col sm={12} lg={4}>
+                        <Col sm={12} lg={6}>
                             <Card>
                                 <CardHeader>
                                     Speed
