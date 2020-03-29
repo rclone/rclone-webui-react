@@ -398,7 +398,7 @@ class FilesView extends React.PureComponent {
                 }
                 renderElement = (
 
-                    <Container fluid={true} className={"pd-0"}>
+                    <Container fluid={true} className={"p-0"}>
                         
                         <ScrollableDiv height={FILES_VIEW_HEIGHT}>
 
