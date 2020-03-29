@@ -405,9 +405,9 @@ class FilesView extends React.PureComponent {
                             <Table className="table table-responsive-sm table-striped table-fix-head">
                                 <thead>
                                     <tr>
-                                        <th onClick={()=>this.applySortFilter("name")}>Name {sortFilter === "name" && <i className={filterIconClass}></i>}</th>
-                                        <th onClick={()=>this.applySortFilter("size")}>Size {sortFilter === "size" && <i className={filterIconClass}></i>}</th>
-                                        <th className="d-none d-md-table-cell" onClick={()=>this.applySortFilter("modified")}>Modified {sortFilter === "modified" && <i className={filterIconClass}></i>}</th>
+                                        <th className="pointer-cursor" onClick={()=>this.applySortFilter("name")}>Name {sortFilter === "name" && <i className={filterIconClass}></i>}</th>
+                                        <th className="pointer-cursor" onClick={()=>this.applySortFilter("size")}>Size {sortFilter === "size" && <i className={filterIconClass}></i>}</th>
+                                        <th className="d-none d-md-table-cell pointer-cursor" onClick={()=>this.applySortFilter("modified")}>Modified {sortFilter === "modified" && <i className={filterIconClass}></i>}</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>

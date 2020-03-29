@@ -50,9 +50,6 @@ export default function (state = initialState, action) {
             }
         }
 
-
-        // let arrayLen = array.length - 1 ;
-
         let remoteName = action.remoteName;
         let remotePath = action.remotePath;
 
