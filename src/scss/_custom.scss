@@ -101,6 +101,72 @@ body{
 }
 
 // END Explorer
+
+// START REMOTE CONFIG
+
+.btn-blue {
+  background-color: rgba(63,121,173,1);
+  color: #ffffff;
+}
+
+.btn-blue :hover{
+  background-color: rgba(63,121,173,1);
+  color: #ffffff;
+  
+}
+
+.btn-no-background {
+  background: none;
+  border: none;
+  font-weight: bold;
+  color: rgba(44,44,44,1);
+}
+.timeline {
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  h4 {
+    padding-top: 10px;
+    font-weight: bold;
+    color: rgba(140,140,140,1);
+
+  }
+
+  .btn-step-count {
+    border-radius: 100px;
+    background-color: none;
+    border: 5px solid rgba(140,140,140,1);
+    color:rgba(66,66,66,1);
+    font-weight: bold;
+    
+  }
+
+  .timeline-divider {
+    border: 2px solid rgba(66,66,66,1);
+    margin-top: 24px;
+
+  }
+
+  .step-active{
+    .btn {
+      border: 5px solid rgba(63,121,173,1);
+    }
+    h4 {
+      color: rgba(66,66,66,1);
+    }
+  }
+  .btn-step-active {
+    border: 5px solid rgba(63,121,173,1);
+  }
+  
+}
+
+
+// Timeline code
+
+// END Remote Config
+
 .text-red {
   color: #FF0000;
 }
