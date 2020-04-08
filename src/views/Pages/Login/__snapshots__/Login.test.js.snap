@@ -11,6 +11,15 @@ exports[`Login Layout renders should match snapshot 1`] = `
     <Row
       className="justify-content-center"
       tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
     >
       <Col
         md="8"
@@ -124,6 +133,15 @@ exports[`Login Layout renders should match snapshot 1`] = `
                 </InputGroup>
                 <Row
                   tag="div"
+                  widths={
+                    Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ]
+                  }
                 >
                   <Col
                     tag="div"

@@ -66,6 +66,7 @@ exports[`File Operations renders should match snapshot 1`] = `
         <Button
           className="mr-1 btn-outline-dark"
           color="secondary"
+          id="CreateFolderButton"
           onClick={[Function]}
           tag="button"
         >
@@ -74,9 +75,16 @@ exports[`File Operations renders should match snapshot 1`] = `
           />
            
         </Button>
+        <UncontrolledTooltip
+          placement="right"
+          target="CreateFolderButton"
+        >
+          Create a new Folder
+        </UncontrolledTooltip>
         <Button
           className="mr-1 btn-outline-dark"
           color="secondary"
+          id="RefreshButton"
           onClick={[Function]}
           tag="button"
         >
@@ -84,6 +92,12 @@ exports[`File Operations renders should match snapshot 1`] = `
             className="fa fa-lg fa-repeat"
           />
         </Button>
+        <UncontrolledTooltip
+          placement="right"
+          target="RefreshButton"
+        >
+          Refresh Files
+        </UncontrolledTooltip>
         <Button
           className="mr-1 btn-outline-dark"
           color="secondary"
@@ -256,6 +270,15 @@ exports[`File Operations renders should match snapshot 1`] = `
         >
           <Row
             tag="div"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
           >
             <Col
               sm={12}
@@ -289,6 +312,15 @@ exports[`File Operations renders should match snapshot 1`] = `
           </Row>
           <Row
             tag="div"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
           >
             <Col
               sm={12}

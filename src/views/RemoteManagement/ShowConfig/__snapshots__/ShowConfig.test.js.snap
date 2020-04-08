@@ -6,6 +6,15 @@ exports[`Show Config renders should match snapshot 1`] = `
 >
   <Row
     tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
   >
     <Col
       lg={8}

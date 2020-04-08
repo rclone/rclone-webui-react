@@ -1,5 +1,7 @@
-username='chaitanya'
-password='abcd'
+#!/bin/bash
+
+username=''
+password=''
 
 repoName='rclone-webui-react'
 
@@ -21,7 +23,7 @@ fi
 
 if [[ -z "$password" ]]; then
 	#statements
-	echo "Please set password in webui.sh"
+	echo "Please set password in the webui.sh"
 	errors=$((errors + 1))
 fi
 
@@ -41,7 +43,7 @@ if [[ "$command" == "get" ]]; then
 	# Replace code to download the prebuilt version
 	if [[ -n rclone-webui-react ]]; then
 		#statements
-		git clone https://github.com/negative0/"$repoName".git
+		git clone https://github.com/rclone/"$repoName".git
 	fi
 fi
 

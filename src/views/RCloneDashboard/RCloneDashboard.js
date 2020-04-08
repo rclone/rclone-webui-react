@@ -1,24 +1,25 @@
 import React from 'react';
+import {connect} from "react-redux";
 import {Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label, Row} from "reactstrap";
 import axiosInstance from "../../utils/API/API";
 import ErrorBoundary from "../../ErrorHandling/ErrorBoundary";
 import urls from "../../utils/API/endpoint";
 
-
-function RCloneVersion({data, hasError}) {
-    if (hasError) {
+function RCloneVersion({data}) {
+    if (data.hasError) {
         return (<p>Error loading.</p>);
     }
+
     return (
         <Col sm={12} lg={4} md={6}>
             <Card>
                 <CardHeader>Version</CardHeader>
                 <CardBody>
-                    <p><strong>Arch:</strong>{data.arch}</p>
-                    <p><strong>goVersion:</strong>{data.goVersion}</p>
-                    <p><strong>OS:</strong>{data.os}</p>
-                    <p><strong>Rclone version:</strong>{data.version}</p>
-                    <p><strong>isGit:</strong>{data.isGit}</p>
+                    <p><strong>Arch: </strong>{data.arch}</p>
+                    <p><strong>goVersion: </strong>{data.goVersion}</p>
+                    <p><strong>OS: </strong>{data.os}</p>
+                    <p><strong>Rclone version: </strong>{data.version}</p>
+                    <p><strong>isGit: </strong>{`${data.isGit}`}</p>
                 </CardBody>
             </Card>
         </Col>
@@ -27,19 +28,6 @@ function RCloneVersion({data, hasError}) {
 
 
 class RCloneDashboard extends React.Component {
-
-    getRcloneStatus = () => {
-        axiosInstance.post(urls.getRcloneVersion).then((res) => {
-            this.setState({
-                version: res.data,
-                hasError: false
-            })
-        }, () => {
-            this.setState({
-                hasError: true
-            })
-        })
-    };
     getMemStats = () => {
         axiosInstance.post(urls.getRcloneMemStats).then((res) => {
             this.setState({
@@ -124,14 +112,12 @@ class RCloneDashboard extends React.Component {
     };
 
     componentDidMount() {
-        this.getRcloneStatus();
         this.getOptions();
     }
 
     constructor(props, context) {
         super(props, context);
         this.state = {
-            version: {},
             hasError: false,
             memStats: {},
             options: {}
@@ -145,8 +131,7 @@ class RCloneDashboard extends React.Component {
                 <ErrorBoundary>
                     <Container fluid={true}>
                         <Row>
-                            <RCloneVersion data={this.state.version} hasError={this.state.hasError}/>
-
+                            <RCloneVersion data={this.props.version} />
                         </Row>
                         {this.getOptionsView()}
                     </Container>
@@ -155,8 +140,9 @@ class RCloneDashboard extends React.Component {
     }
 }
 
-// const mapStateToProps = state => ({
-//
-// });
+const mapStateToProps = state => ({
+    version: state.version,
+});
 
-export default RCloneDashboard;
+export default connect(mapStateToProps)(RCloneDashboard);
+
