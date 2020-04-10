@@ -31,7 +31,6 @@ export class StateLoader {
         };
         try {
             let serializedState = JSON.stringify(newState);
-            // console.log(serializedState);
             localStorage.setItem("curState", serializedState);
 
         } catch (err) {

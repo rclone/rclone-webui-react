@@ -11,9 +11,9 @@ const RCloneDashboard = React.lazy(() => import("./views/RCloneDashboard"));
 // Define the routes as required
 const routes = [
     {path: '/', exact: true, name: 'Home'},
-    {path: '/newdrive/edit/:drivePrefix', name: 'New Drive', component: MyDashboard},
-    {path: '/newdrive', exact: true, name: 'New Drive', component: MyDashboard},
-    {path: '/login', exact: true, name: 'New Drive', component: Login},
+    {path: '/newdrive/edit/:drivePrefix', name: 'Edit Remote', component: MyDashboard},
+    {path: '/newdrive', exact: true, name: 'New Remote', component: MyDashboard},
+    {path: '/login', exact: true, name: 'Login Page', component: Login},
     {path: '/dashboard', name: 'Dashboard', component: Home},
     {path: '/showconfig', name: 'Configs', component: ShowConfig},
     {path: '/remoteExplorer/:remoteName/:remotePath', exact: true, name: 'Explorer', component: RemoteExplorerLayout},
