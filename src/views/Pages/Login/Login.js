@@ -18,6 +18,7 @@ import {connect} from "react-redux";
 import {changeAuthKey, changeIPAddress, changeUserNamePassword, signOut} from "../../../actions/userActions";
 import axiosInstance from "../../../utils/API/API";
 import urls from "../../../utils/API/endpoint";
+import logo from '../../../assets/img/brand/logo_symbol.png'
 
 
 function removeParam(parameter) {
@@ -57,7 +58,6 @@ class Login extends Component {
             username: "",
             password: "",
             ipAddress,
-            connectionSuccess: false,
             error: ""
         };
     }
@@ -65,13 +65,11 @@ class Login extends Component {
     changeUserName = e => {
         this.setState({
             username: e.target.value,
-            connectionSuccess: false
         });
     };
     changePassword = e => {
         this.setState({
             password: e.target.value,
-            connectionSuccess: false
 
         })
     };
@@ -79,7 +77,6 @@ class Login extends Component {
 
         this.setState({
             ipAddress: e.target.value,
-            connectionSuccess: false
         });
     };
 
@@ -98,7 +95,17 @@ class Login extends Component {
             changeUserNamePassword(username, password),
             changeIPAddress(ipAddress)
         ]).then(() => {
-            this.redirectToDashboard()
+            axiosInstance.post(urls.noopAuth).then((data) => {
+                console.log("Connection successful.");
+                this.redirectToDashboard();
+            }, (error) => {
+                console.log(error);
+                this.setState({
+                    connectionSuccess: false,
+                    error: "Error connecting. Please check username password and verify if rclone is working at the specified IP."
+                })
+            })
+
         });
 
     };
@@ -136,7 +143,6 @@ class Login extends Component {
         localStorage.clear();
         this.props.signOut();
 
-
         let url_string = window.location.href;
         let url = new URL(url_string);
         let loginToken = url.searchParams.get("login_token");
@@ -156,6 +162,7 @@ class Login extends Component {
             this.redirectToDashboard();
         }
     }
+
 
 
     render() {
@@ -209,23 +216,16 @@ class Login extends Component {
                                             </InputGroup>
                                             <Row>
                                                 <Col xs="6">
-                                                    <Button color="primary" className="px-4"
-                                                            data-testid="LoginForm-BtnLogin"
-                                                            disabled={!connectionSuccess}>Login</Button>
-                                                </Col>
-                                                <Col xs="6" className="text-right">
-                                                    <Button onClick={this.checkConnection} color="primary"
-                                                            data-testid="LoginForm-BtnVerify"
-                                                            className="px-4">Verify</Button>
+                                                    <Button color="primary" className="px-4" type="submit"
+                                                            data-testid="LoginForm-BtnLogin">Login</Button>
                                                 </Col>
                                             </Row>
                                         </Form>
                                     </CardBody>
                                 </Card>
-                                <Card className="text-white bg-primary py-5 d-md-down-none" style={{width: '44%'}}>
+                                <Card className="text-white bg-white py-5 d-md-down-none" style={{width: '44%'}}>
                                     <CardBody className="text-center">
-                                        <div>
-                                        </div>
+                                        <img src={logo}/>
                                     </CardBody>
                                 </Card>
                             </CardGroup>

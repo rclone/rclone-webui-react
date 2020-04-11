@@ -3,7 +3,7 @@ import {NavLink} from 'react-router-dom';
 import {Nav, NavItem} from 'reactstrap';
 import PropTypes from 'prop-types';
 
-import {AppAsideToggler, AppNavbarBrand, AppSidebarToggler} from '@coreui/react';
+import {AppNavbarBrand, AppSidebarToggler} from '@coreui/react';
 import logo from '../../assets/img/brand/logo.png'
 import favicon from '../../assets/img/brand/favicon.png'
 import BackendStatusCard from "../../views/Base/BackendStatusCard/BackendStatusCard";
