@@ -38,7 +38,7 @@ class DefaultHeader extends Component {
                 <Nav className="ml-auto" navbar>
                     <BackendStatusCard mode={"button"}/>
                 </Nav>
-                <AppAsideToggler className="d-md-down-none"/>
+
             </React.Fragment>
         );
     }
