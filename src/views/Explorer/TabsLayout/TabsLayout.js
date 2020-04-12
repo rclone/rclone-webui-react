@@ -4,22 +4,23 @@ import {connect} from "react-redux";
 import {addRemoteContainer, changeActiveRemoteContainer, removeRemoteContainer} from "../../../actions/explorerActions";
 
 function TabsLayout(props) {
-	const {addRemoteContainer, removeRemoteContainer, changeActiveRemoteContainer} = props;
+	const {addRemoteContainer, removeRemoteContainer, changeActiveRemoteContainer, activeRemoteContainerID} = props;
 	const {containers, currentPaths} = props;
 	return (<Nav tabs>
 		{
-			containers.map((container) => {
+			containers.map((containerID) => {
+				const isActiveTab = containerID === activeRemoteContainerID;
 				return (
-					<NavItem key={"TAB_" + container} className={"col-md-2 pl-0 pr-0"}
-							 style={{background: "#1b8eb7", color: "#fff", borderRight: "1px solid #c8ced3"}}>
-						<NavLink className={"float-center"} onClick={() => changeActiveRemoteContainer(container)}>
+					<NavItem key={"TAB_" + containerID}
+							 className={"col-md-2 pl-0 pr-0 custom-tab " + (isActiveTab ? "tab-active" : "")}>
+						<NavLink className={"float-center"} onClick={() => changeActiveRemoteContainer(containerID)}>
 							<i className="fa fa-folder-o pr-1"/>
-							{currentPaths[container] && currentPaths[container].remoteName !== "" ? currentPaths[container].remoteName : "Open New"}
+							{currentPaths[containerID] && currentPaths[containerID].remoteName !== "" ? currentPaths[containerID].remoteName : "Open New"}
 							<Button className="btn-no-background btn btn-secondary float-right p-0" onClick={(e) => {
 								e.stopPropagation();
-								removeRemoteContainer(container)
+								removeRemoteContainer(containerID)
 							}}>
-								<i className="fa fa-lg fa-close" style={{color: "#fff"}}/>
+								<i className="fa fa-lg fa-close"/>
 							</Button>
 						</NavLink>
 					</NavItem>)

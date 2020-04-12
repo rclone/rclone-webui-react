@@ -191,14 +191,34 @@ body{
     color: rgb(114,114,114);
     padding-top: 15px;
     padding-bottom: 15px;
-    border-top: 1px solid rgba(232,239,247,1);
+    border-top: 1px solid rgba(232, 239, 247, 1);
   }
-  .nav-link-success:hover{
+
+  .nav-link-success:hover {
     color: #fff;
   }
 }
 
 // END Sidebar
+
+.custom-tab {
+  border-right: 1px solid #c8ced3;
+  background-color: #ffffff;
+  color: #000000;
+
+  i {
+    color: #000;
+  }
+}
+
+.tab-active {
+  background: #1b8eb7;
+  color: #ffffff;
+
+  i {
+    color: #fff;
+  }
+}
 
 .text-red {
   color: #FF0000;
