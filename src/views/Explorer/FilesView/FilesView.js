@@ -5,11 +5,17 @@ import {DropTarget} from "react-dnd";
 import FileComponent from "./FileComponent";
 import {ItemTypes} from "./Constants";
 import {toast} from "react-toastify";
-import {addColonAtLast, changeListVisibility, changeSearchFilter, isEmpty, getSortCompareFunction} from "../../../utils/Tools";
+import {
+    addColonAtLast,
+    changeListVisibility,
+    changeSearchFilter,
+    getSortCompareFunction,
+    isEmpty
+} from "../../../utils/Tools";
 import {connect} from "react-redux";
 import {getFiles} from "../../../actions/explorerActions";
 import {compose} from "redux";
-import {changePath, navigateUp, changeSortFilter} from "../../../actions/explorerStateActions";
+import {changePath, changeSortFilter, navigateUp} from "../../../actions/explorerStateActions";
 import LinkShareModal from "../../Base/LinkShareModal/LinkShareModal";
 import ScrollableDiv from "../../Base/ScrollableDiv/ScrollableDiv";
 import {FILES_VIEW_HEIGHT} from "../../../utils/Constants";
@@ -303,18 +309,16 @@ class FilesView extends React.PureComponent {
                 }
                 if (item.IsDir === isDir) {
                     result.push(
-                        <React.Fragment key={ID}>
-                            <FileComponent item={item} clickHandler={this.handleFileClick}
-                                           downloadHandle={this.downloadHandle} deleteHandle={this.deleteHandle}
-                                           remoteName={remoteName} remotePath={remotePath} gridMode={gridMode}
-                                           containerID={containerID}
-                                           linkShareHandle={this.linkShareHandle}
-                                           loadImages={loadImages}
-                                           isBucketBased={fsInfo.Features.BucketBased}
-                                           canCopy={fsInfo.Features.Copy} canMove={fsInfo.Features.Move} itemIdx={1}>
+                        <FileComponent key={ID} item={item} clickHandler={this.handleFileClick}
+                                       downloadHandle={this.downloadHandle} deleteHandle={this.deleteHandle}
+                                       remoteName={remoteName} remotePath={remotePath} gridMode={gridMode}
+                                       containerID={containerID}
+                                       linkShareHandle={this.linkShareHandle}
+                                       loadImages={loadImages}
+                                       isBucketBased={fsInfo.Features.BucketBased}
+                                       canCopy={fsInfo.Features.Copy} canMove={fsInfo.Features.Move} itemIdx={1}>
 
-                            </FileComponent>
-                        </React.Fragment>
+                        </FileComponent>
                     );
                 }
                 return result;
@@ -325,22 +329,15 @@ class FilesView extends React.PureComponent {
 
     applySortFilter = (sortFilter) => {
         const {changeSortFilter, containerID} = this.props;
-            
-        if(this.props.sortFilter === sortFilter){
-            return changeSortFilter(containerID, sortFilter, (this.props.sortFilterAscending === true ? false : true));    
-        }else{
-            return changeSortFilter(containerID, sortFilter, true);    
+
+        if (this.props.sortFilter === sortFilter) {
+            return changeSortFilter(containerID, sortFilter, (this.props.sortFilterAscending === true ? false : true));
+        } else {
+            return changeSortFilter(containerID, sortFilter, true);
         }
-       
-    }
 
-    // TODO: Dont sort everytime you render
-    // componentDidUpdate (prevProps, prevState) {
-    //     const {sortFilter, sortFilterAscending} = this.state;
-    //     if(prevState.sortFilter !== sortFilter || prevState.sortFilterAscending !== sortFilterAscending){
+    };
 
-    //     }
-    // }
 
     render() {
         const {isLoading, isDownloadProgress, downloadingItems, generatedLink, showLinkShareModal} = this.state;
@@ -368,7 +365,7 @@ class FilesView extends React.PureComponent {
                 renderElement = (
 
                     <Container fluid={true}>
-                       
+
                         <Row>
                             <Col lg={3}>
                                 <h3>Directories</h3>
@@ -399,17 +396,23 @@ class FilesView extends React.PureComponent {
                 renderElement = (
 
                     <Container fluid={true} className={"p-0"}>
-                        
+
                         <ScrollableDiv height={FILES_VIEW_HEIGHT}>
 
                             <Table className="table table-responsive-sm table-striped table-fix-head">
                                 <thead>
-                                    <tr>
-                                        <th className="pointer-cursor" onClick={()=>this.applySortFilter("name")}>Name {sortFilter === "name" && <i className={filterIconClass}></i>}</th>
-                                        <th className="pointer-cursor" onClick={()=>this.applySortFilter("size")}>Size {sortFilter === "size" && <i className={filterIconClass}></i>}</th>
-                                        <th className="d-none d-md-table-cell pointer-cursor" onClick={()=>this.applySortFilter("modified")}>Modified {sortFilter === "modified" && <i className={filterIconClass}></i>}</th>
-                                        <th>Actions</th>
-                                    </tr>
+                                <tr>
+                                    <th className="pointer-cursor"
+                                        onClick={() => this.applySortFilter("name")}>Name {sortFilter === "name" &&
+                                    <i className={filterIconClass}/>}</th>
+                                    <th className="pointer-cursor"
+                                        onClick={() => this.applySortFilter("size")}>Size {sortFilter === "size" &&
+                                    <i className={filterIconClass}/>}</th>
+                                    <th className="d-none d-md-table-cell pointer-cursor"
+                                        onClick={() => this.applySortFilter("modified")}>Modified {sortFilter === "modified" &&
+                                    <i className={filterIconClass}/>}</th>
+                                    <th>Actions</th>
+                                </tr>
                                 </thead>
                                 <tbody>
                                 {files.length > 0 ? (
@@ -514,11 +517,11 @@ const mapStateToProps = (state, ownProps) => {
             files = changeSearchFilter(files, searchQuery);
         }
         files.sort(getSortCompareFunction(sortFilter, sortFilterAscending));
-    
+
     }
 
     // Sort the files
-    
+
 
     return {
         files,

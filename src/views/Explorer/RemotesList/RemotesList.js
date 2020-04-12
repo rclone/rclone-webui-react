@@ -103,9 +103,7 @@ const propTypes = {
     error: PropTypes.object,
     hasError: PropTypes.bool,
     containerID: PropTypes.string.isRequired,
-
     currentPath: PROP_CURRENT_PATH
-
 };
 
 

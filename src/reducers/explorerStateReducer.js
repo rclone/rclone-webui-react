@@ -5,12 +5,13 @@ import {
     CHANGE_REMOTE_NAME,
     CHANGE_REMOTE_PATH,
     CHANGE_SEARCH_QUERY,
+    CHANGE_SORT_FILTER,
     CHANGE_VISIBILITY_FILTER,
     CREATE_PATH,
     NAVIGATE_BACK,
     NAVIGATE_FWD,
     NAVIGATE_UP,
-    CHANGE_SORT_FILTER
+    REMOVE_PATH
 } from "../actions/types";
 import BackStack from "../utils/classes/BackStack";
 
@@ -101,7 +102,19 @@ export default function (state = initialState, action) {
                 if (!backStack || !(backStack instanceof BackStack))
                     backStack = new BackStack();
                 break;
-
+            case REMOVE_PATH:
+                // return {
+                //     ...state,
+                //     backStacks: {...state.backStacks, [id]: undefined},
+                //     currentPaths: {...state.currentPaths, [id]: undefined},
+                //     visibilityFilters: {...state.visibilityFilters, [id]: undefined},
+                //     gridMode: {...state.gridMode, [id]: undefined},
+                //     searchQueries: {...state.searchQueries, [id]: undefined},
+                //     loadImages: {...state.loadImages, [id]: undefined},
+                //     sortFilters: {...state.sortFilters, [id]: undefined},
+                //     sortFiltersAscending: {...state.sortFiltersAscending, [id]: undefined},
+                // };
+                break;
             case NAVIGATE_UP:
                 // TODO: Write logic for up, which will navigate one directory up
                 let current = backStack.peek();

@@ -1,35 +1,34 @@
 import React from 'react';
 import {
-    Button,
-    ButtonDropdown,
-    ButtonGroup,
-    Col,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
-    Input,
-    Modal,
-    ModalBody,
-    ModalFooter,
-    ModalHeader,
-    Row,
-    Spinner,
-    UncontrolledTooltip,
-    Form,
-    FormGroup
-
+	Button,
+	ButtonDropdown,
+	ButtonGroup,
+	Col,
+	DropdownItem,
+	DropdownMenu,
+	DropdownToggle,
+	Form,
+	FormGroup,
+	Input,
+	Modal,
+	ModalBody,
+	ModalFooter,
+	ModalHeader,
+	Row,
+	Spinner,
+	UncontrolledTooltip
 } from "reactstrap";
 import NewFolder from "../NewFolder/NewFolder";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {
-    changeGridMode,
-    changeVisibilityFilter,
-    getFilesForContainerID,
-    navigateBack,
-    navigateFwd,
-    setLoadImages,
-    setSearchQuery
+	changeGridMode,
+	changeVisibilityFilter,
+	getFilesForContainerID,
+	navigateBack,
+	navigateFwd,
+	setLoadImages,
+	setSearchQuery
 } from "../../../actions/explorerStateActions";
 import {visibilityFilteringOptions} from "../../../utils/Constants";
 import {getAbout} from "../../../actions/providerStatusActions";
@@ -244,43 +243,6 @@ class FileOperations extends React.Component {
                             <UncontrolledTooltip placement="right" target="ListViewButton">
                                 {(gridMode === "card" ? "List View": "Card View")}
                             </UncontrolledTooltip>
-
-
-                            {/* <Button className={"mr-1 " + (loadImages ? "btn-dark" : "btn-outline-dark")}
-                                    onClick={this.changeLoadMedia}><i
-                                className={"fa fa-lg fa-picture-o"} id="LoadMediaButton"/></Button>
-                            <UncontrolledTooltip placement="right" target="LoadMediaButton">
-                                Load Media
-                            </UncontrolledTooltip> */}
-                           
-                            {/* <ButtonDropdown isOpen={dropdownOpen} toggle={this.toggleDropDown}>
-                                <DropdownToggle caret>
-                                    More
-                                </DropdownToggle>
-                                <DropdownMenu>
-                                    <DropdownItem>View Type{' '}
-                                        <Input type={"select"} onClick={(e) => e.stopPropagation()}
-                                            onChange={this.handleChangeGridMode} value={gridMode}>
-                                            <option value={"grid"}>Table</option>
-                                            <option value={"card"}>Card</option>
-                                        </Input>
-
-                                    </DropdownItem>
-                                    <DropdownItem>File Filter{' '}
-                                        <Input type={"select"}
-                                            onClick={(e) => e.stopPropagation()/*Stop propagation is required to prevent parent dropdown from closing.}
-                                            onChange={this.handleChangeFilter} value={visibilityFilter}
-                                            className="ml-1 mr-1">
-                                            <option key={0}>None</option>
-                                            {
-                                                this.filterOptions.map((item, _) => {
-                                                    return (<option key={item} value={item}>{item}</option>)
-                                                })
-                                            }
-                                        </Input>
-                                    </DropdownItem>
-                                </DropdownMenu>
-                            </ButtonDropdown> */}
                         </ButtonGroup>
 
 

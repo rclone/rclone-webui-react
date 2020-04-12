@@ -181,8 +181,6 @@ class Login extends Component {
 											<h1>Login</h1>
 											<p className="text-muted">Sign In to your account</p>
 											{error && <UncontrolledAlert color="danger" children={error}/>}
-											{/*{connectionSuccess && <UncontrolledAlert color="success"*/}
-											{/*                                         children={"Connection verified. You may now login."}/>}*/}
 											<InputGroup className="mb-3">
 												<InputGroupAddon addonType="prepend">
 													<InputGroupText>

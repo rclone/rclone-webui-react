@@ -324,11 +324,21 @@ export function getSortCompareFunction(type, ascending){
                     let x, y;
                     x = new Date(a.ModTime);
                     y = new Date(b.ModTime);
-                    return ascending ? ( x - y ) : ( y - x );
+                    return ascending ? (x - y) : (y - x);
                 }
         default:
             break;
 
 
     }
+}
+
+export function makeUniqueID(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
 }

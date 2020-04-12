@@ -1,14 +1,17 @@
 import axiosInstance from "../utils/API/API";
 import {
+    ADD_LAYOUT_CONTAINER,
+    CHANGE_ACTIVE_REMOTE_CONTAINER,
     CHANGE_DISTRACTION_FREE_MODE,
     CHANGE_LAYOUT_COLS,
     GET_CONFIG_FOR_REMOTE,
     GET_FILES_LIST,
     GET_REMOTE_LIST,
+    REMOVE_LAYOUT_CONTAINER,
     REQUEST_ERROR,
     REQUEST_SUCCESS
 } from "./types";
-import {addColonAtLast, isLocalRemoteName} from "../utils/Tools";
+import {addColonAtLast, isLocalRemoteName, makeUniqueID} from "../utils/Tools";
 import {createPath} from "./explorerStateActions";
 import urls from "../utils/API/endpoint";
 
@@ -126,6 +129,53 @@ export const changeNumCols = (numCols, mode) => (dispatch) => {
         type: CHANGE_LAYOUT_COLS,
         payload: {
             numCols, mode
+        }
+    })
+};
+
+/**
+ * Adds a new remote container.
+ * @returns {Function}
+ */
+export const addRemoteContainer = () => (dispatch) => {
+    const uniqueID = makeUniqueID(3);
+    dispatch(createPath(uniqueID));
+    dispatch(changeActiveRemoteContainer(uniqueID));
+    dispatch({
+        type: ADD_LAYOUT_CONTAINER,
+        payload: {
+            containerID: uniqueID
+        }
+    })
+};
+
+
+/**
+ * Remove a new remote container.
+ * @param containerID          {string} Container ID to remove
+ * @returns {Function}
+ */
+export const removeRemoteContainer = (containerID) => (dispatch) => {
+    // dispatch(removePath(containerID));
+    // console.log("Removing : " + containerID);
+    dispatch({
+        type: REMOVE_LAYOUT_CONTAINER,
+        payload: {
+            containerID
+        }
+    })
+};
+
+/**
+ * Change active remote container.
+ * @param containerID          {string} Container ID to remove
+ * @returns {Function}
+ */
+export const changeActiveRemoteContainer = (containerID) => (dispatch) => {
+    dispatch({
+        type: CHANGE_ACTIVE_REMOTE_CONTAINER,
+        payload: {
+            containerID
         }
     })
 };

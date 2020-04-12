@@ -1,22 +1,22 @@
 import React from 'react';
-import {Card, CardBody, CardHeader, Container} from "reactstrap";
-import RemotesList from "../RemotesList";
+import {Card, CardBody, Container} from "reactstrap";
 import FilesView from "../FilesView/FilesView";
 import {addColonAtLast} from "../../../utils/Tools";
 import {connect} from "react-redux";
 import * as PropTypes from 'prop-types';
 import {
-    changePath,
-    changeRemoteName,
-    changeRemotePath,
-    createPath,
-    navigateBack,
-    navigateFwd,
-    navigateUp
+	changePath,
+	changeRemoteName,
+	changeRemotePath,
+	createPath,
+	navigateBack,
+	navigateFwd,
+	navigateUp
 } from "../../../actions/explorerStateActions";
 import FileOperations from "../../Base/FileOperations/FileOperations";
 import {PROP_CURRENT_PATH, PROP_FS_INFO} from "../../../utils/RclonePropTypes";
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
+import RemotesList from "../RemotesList";
 
 
 class RemoteExplorer extends React.Component {
@@ -60,32 +60,29 @@ class RemoteExplorer extends React.Component {
 
         const isValidPath = remoteName && remoteName !== "";
 
-        
-
         return (
             <ErrorBoundary>
-                
+
                 {(!distractionFreeMode) &&
-                    <Card>
-                        <CardHeader>Remotes</CardHeader>
-                        <CardBody>
-                            <Container fluid={true}>
-                                {/*Render remotes array*/}
-                                <RemotesList
-                                    remoteName={remoteName}
-                                    containerID={containerID}
-                                />
-                                
-                                {isValidPath && (
-                                    <>
-                                        <FileOperations containerID={containerID}/>
-                                        <FilesView containerID={containerID}/>
-                                    </>
-                                )}
-                            </Container>
-                            
-                        </CardBody>
-                    </Card>
+				<Card>
+					<CardBody>
+						<Container fluid={true}>
+
+							{isValidPath ? (
+								<>
+									<FileOperations containerID={containerID}/>
+									<FilesView containerID={containerID}/>
+								</>
+							) : (
+								<RemotesList
+									remoteName={remoteName}
+									containerID={containerID}
+								/>
+							)}
+						</Container>
+
+					</CardBody>
+				</Card>
                 }
 
             </ErrorBoundary>
@@ -124,12 +121,12 @@ const mapStateToProps = (state, ownProps) => {
             fsInfo = state.remote.configs[tempRemoteName];
     }
     return {
-        configs: state.remote.configs,
-        hasError: state.remote.hasError,
-        error: state.remote.error,
-        currentPath: state.explorer.currentPaths[ownProps.containerID],
-        fsInfo
-    }
+		configs: state.remote.configs,
+		hasError: state.remote.hasError,
+		error: state.remote.error,
+		currentPath,
+		fsInfo
+	}
 };
 
 RemoteExplorer.propTypes = propTypes;

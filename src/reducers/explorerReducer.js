@@ -1,20 +1,24 @@
 import {
-    CHANGE_DISTRACTION_FREE_MODE,
-    CHANGE_LAYOUT_COLS,
-    GET_CONFIG_FOR_REMOTE,
-    GET_FILES_LIST,
-    GET_REMOTE_LIST,
-    REQUEST_ERROR,
-    REQUEST_SUCCESS
+	ADD_LAYOUT_CONTAINER,
+	CHANGE_ACTIVE_REMOTE_CONTAINER,
+	CHANGE_DISTRACTION_FREE_MODE,
+	GET_CONFIG_FOR_REMOTE,
+	GET_FILES_LIST,
+	GET_REMOTE_LIST,
+	REMOVE_LAYOUT_CONTAINER,
+	REQUEST_ERROR,
+	REQUEST_SUCCESS
 } from "../actions/types";
 
 const initialState = {
-    configs: {},
-    remotes: [],
-    files: {},
-    hasError: false,
-    numCols: 0,
-    distractionFreeMode: false
+	configs: {},
+	remotes: [],
+	files: {},
+	hasError: false,
+	numContainers: 0,
+	containers: [],
+	activeRemoteContainerID: "",
+	distractionFreeMode: false
 };
 /**
  * Specifies the explorer specific reducers for the redux actions.
@@ -63,29 +67,42 @@ export default function (state = initialState, action) {
             if (action.status === REQUEST_ERROR)
                 return {
                     ...state,
-                    files: {...state.files,
-                        [action.payload.path]: {
-                            time: new Date(),
-                            files: [],
-                            hasError: true,
-                            error: action.payload.error
-                        }
-                    }
-                };
-            break;
-        case CHANGE_LAYOUT_COLS:
-            return {
-                ...state,
-                numCols: action.payload.numCols,
-                splitMode: action.payload.mode
-            };
-        case CHANGE_DISTRACTION_FREE_MODE:
-            return {
-                ...state,
-                distractionFreeMode: action.payload
-            };
-        default:
-            return state;
-    }
+					files: {
+						...state.files,
+						[action.payload.path]: {
+							time: new Date(),
+							files: [],
+							hasError: true,
+							error: action.payload.error
+						}
+					}
+				};
+			break;
+
+		case ADD_LAYOUT_CONTAINER:
+			state.containers.push(action.payload.containerID);
+			state.numContainers = state.containers.length;
+			state.activeRemoteContainerID = action.payload.containerID;
+			return {...state};
+		case REMOVE_LAYOUT_CONTAINER:
+			// Remove the specified containerID from containers
+			state.containers = state.containers.filter(item => item !== action.payload.containerID);
+			state.numContainers = state.containers.length;
+			const lastItem = state.containers.slice(-1).pop();
+			console.log("Last Item:" + lastItem);
+			state.activeRemoteContainerID = lastItem ? lastItem : "";
+			return {...state};
+		case CHANGE_ACTIVE_REMOTE_CONTAINER:
+			state.activeRemoteContainerID = action.payload.containerID;
+			return {...state};
+
+		case CHANGE_DISTRACTION_FREE_MODE:
+			return {
+				...state,
+				distractionFreeMode: action.payload
+			};
+		default:
+			return state;
+	}
 
 }

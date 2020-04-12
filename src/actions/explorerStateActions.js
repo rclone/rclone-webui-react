@@ -5,12 +5,13 @@ import {
     CHANGE_REMOTE_NAME,
     CHANGE_REMOTE_PATH,
     CHANGE_SEARCH_QUERY,
+    CHANGE_SORT_FILTER,
     CHANGE_VISIBILITY_FILTER,
     CREATE_PATH,
     NAVIGATE_BACK,
     NAVIGATE_FWD,
     NAVIGATE_UP,
-    CHANGE_SORT_FILTER
+    REMOVE_PATH
 } from "./types";
 import {getFiles} from "./explorerActions";
 
@@ -94,6 +95,20 @@ export const createPath = (containerID) => dispatch => {
 
     dispatch({
         type: CREATE_PATH,
+        id: containerID
+    })
+};
+
+
+/**
+ * Creates an empty path for initialization of a container.
+ * @param containerID {string}
+ * @returns {Function}
+ */
+export const removePath = (containerID) => dispatch => {
+
+    dispatch({
+        type: REMOVE_PATH,
         id: containerID
     })
 };
