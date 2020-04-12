@@ -4,7 +4,6 @@ import {Container} from 'reactstrap';
 import {getVersion} from "../../actions/versionActions";
 
 import {
-    AppAside,
     AppBreadcrumb,
     AppFooter,
     AppHeader,
@@ -23,7 +22,7 @@ import {connect} from "react-redux";
 import {AUTH_KEY} from "../../utils/Constants";
 import ErrorBoundary from "../../ErrorHandling/ErrorBoundary";
 
-const DefaultAside = React.lazy(() => import('./DefaultAside'));
+// const DefaultAside = React.lazy(() => import('./DefaultAside'));
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 

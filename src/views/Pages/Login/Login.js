@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
 import {
-    Button,
-    Card,
-    CardBody,
-    CardGroup,
-    Col,
-    Container,
-    Form,
-    Input,
-    InputGroup,
-    InputGroupAddon,
-    InputGroupText,
-    Row,
-    UncontrolledAlert
+	Button,
+	Card,
+	CardBody,
+	CardGroup,
+	Col,
+	Container,
+	Form,
+	Input,
+	InputGroup,
+	InputGroupAddon,
+	InputGroupText,
+	Row,
+	UncontrolledAlert
 } from 'reactstrap';
 import {connect} from "react-redux";
 import {changeAuthKey, changeIPAddress, changeUserNamePassword, signOut} from "../../../actions/userActions";
@@ -86,68 +86,69 @@ class Login extends Component {
 
 
     onSubmit = e => {
-        if (e)
-            e.preventDefault();
+		if (e)
+			e.preventDefault();
 
-        const {ipAddress, username, password} = this.state;
-
-        Promise.all([
-            changeUserNamePassword(username, password),
-            changeIPAddress(ipAddress)
-        ]).then(() => {
-            axiosInstance.post(urls.noopAuth).then((data) => {
-                console.log("Connection successful.");
-                this.redirectToDashboard();
-            }, (error) => {
-                console.log(error);
-                this.setState({
-                    connectionSuccess: false,
-                    error: "Error connecting. Please check username password and verify if rclone is working at the specified IP."
-                })
-            })
-
-        });
-
-    };
-
-    checkConnection = (e) => {
-        e.preventDefault();
-
-        // Set the localStorage parameters temporarily.
-        const {ipAddress, username, password} = this.state;
-        const {changeUserNamePassword, changeIPAddress} = this.props;
-
-        Promise.all([
-            changeUserNamePassword(username, password),
-            changeIPAddress(ipAddress)
-        ]).then(() => {
-            axiosInstance.post(urls.noopAuth).then((data) => {
-                console.log("Connection successful.");
-                this.setState({
-                    connectionSuccess: true,
-                    error: ""
-                })
-            }, (error) => {
-                console.log(error);
-                this.setState({
-                    connectionSuccess: false,
-                    error: "Error connecting. Please check username password and verify if rclone is working at the specified IP."
-                })
-            })
-        })
+		const {ipAddress, username, password} = this.state;
+		const {changeUserNamePassword, changeIPAddress} = this.props;
 
 
-    };
+		Promise.all([
+			changeUserNamePassword(username, password),
+			changeIPAddress(ipAddress)
+		]).then(() => {
+			axiosInstance.post(urls.noopAuth).then((data) => {
+				console.log("Connection successful.");
+				this.redirectToDashboard();
+			}, (error) => {
+				console.log(error);
+				this.setState({
+					error: "Error connecting. Please check username password and verify if rclone is working at the specified IP."
+				})
+			})
 
-    componentDidMount() {
-        localStorage.clear();
-        this.props.signOut();
+		});
 
-        let url_string = window.location.href;
-        let url = new URL(url_string);
-        let loginToken = url.searchParams.get("login_token");
-        let ipAddress = this.state.ipAddress;
-        if (url.searchParams.get("ip_address")) {
+	};
+
+	// checkConnection = (e) => {
+	//     e.preventDefault();
+	//
+	//     // Set the localStorage parameters temporarily.
+	//     const {ipAddress, username, password} = this.state;
+	//     const {changeUserNamePassword, changeIPAddress} = this.props;
+	//
+	//     Promise.all([
+	//         changeUserNamePassword(username, password),
+	//         changeIPAddress(ipAddress)
+	//     ]).then(() => {
+	//         axiosInstance.post(urls.noopAuth).then((data) => {
+	//             console.log("Connection successful.");
+	//             this.setState({
+	//                 connectionSuccess: true,
+	//                 error: ""
+	//             })
+	//         }, (error) => {
+	//             console.log(error);
+	//             this.setState({
+	//                 connectionSuccess: false,
+	//                 error: "Error connecting. Please check username password and verify if rclone is working at the specified IP."
+	//             })
+	//         })
+	//     })
+	//
+	//
+	// };
+
+	componentDidMount() {
+		localStorage.clear();
+		this.props.signOut();
+
+		let url_string = window.location.href;
+		let url = new URL(url_string);
+		let loginToken = url.searchParams.get("login_token");
+		let ipAddress = this.state.ipAddress;
+		if (url.searchParams.get("ip_address")) {
             ipAddress = url.searchParams.get("ip_address");
         }
         // console.log(loginToken);
@@ -166,7 +167,7 @@ class Login extends Component {
 
 
     render() {
-        const {username, password, ipAddress, connectionSuccess, error} = this.state;
+		const {username, password, ipAddress, error} = this.state;
 
         return (
             <div className="app flex-row align-items-center" data-test="loginComponent">
@@ -176,22 +177,22 @@ class Login extends Component {
                             <CardGroup>
                                 <Card className="p-4">
                                     <CardBody>
-                                        <Form onSubmit={this.onSubmit}>
-                                            <h1>Login</h1>
-                                            <p className="text-muted">Sign In to your account</p>
-                                            {error && <UncontrolledAlert color="danger" children={error}/>}
-                                            {connectionSuccess && <UncontrolledAlert color="success"
-                                                                                     children={"Connection verified. You may now login."}/>}
-                                            <InputGroup className="mb-3">
-                                                <InputGroupAddon addonType="prepend">
-                                                    <InputGroupText>
-                                                        <i className="icon-user"></i>
-                                                    </InputGroupText>
-                                                </InputGroupAddon>
-                                                <Input type="text" placeholder="IP Address / URL"
-                                                       autoComplete="ipAddress"
-                                                       onChange={this.changeIPAddress} value={ipAddress}
-                                                       data-testid="LoginForm-ipAddress"/>
+										<Form onSubmit={this.onSubmit}>
+											<h1>Login</h1>
+											<p className="text-muted">Sign In to your account</p>
+											{error && <UncontrolledAlert color="danger" children={error}/>}
+											{/*{connectionSuccess && <UncontrolledAlert color="success"*/}
+											{/*                                         children={"Connection verified. You may now login."}/>}*/}
+											<InputGroup className="mb-3">
+												<InputGroupAddon addonType="prepend">
+													<InputGroupText>
+														<i className="icon-user"></i>
+													</InputGroupText>
+												</InputGroupAddon>
+												<Input type="text" placeholder="IP Address / URL"
+													   autoComplete="ipAddress"
+													   onChange={this.changeIPAddress} value={ipAddress}
+													   data-testid="LoginForm-ipAddress"/>
                                             </InputGroup>
                                             <InputGroup className="mb-3">
                                                 <InputGroupAddon addonType="prepend">
