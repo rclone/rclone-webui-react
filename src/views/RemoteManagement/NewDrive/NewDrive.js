@@ -1,17 +1,5 @@
 import React from 'react';
-import {
-    Button,
-    Card,
-    CardBody,
-    Col,
-    Collapse,
-    Row,
-    FormFeedback,
-    FormGroup,
-    Input,
-    Label,
-    Container
-} from "reactstrap";
+import {Button, Card, CardBody, Col, Collapse, Container, FormFeedback, FormGroup, Input, Label, Row} from "reactstrap";
 // import {config} from "./config.js";
 import NewDriveAuthModal from "../../Base/NewDriveAuthModal";
 import axiosInstance from "../../../utils/API/API";
@@ -637,13 +625,12 @@ class NewDrive extends React.Component {
     }
 
     StepShowCase = ({currentStepNumber}) => {
-        const { advancedOptions} = this.state;
-        const buttonActiveclassName = "step-active";
+        const buttonActiveClassName = "step-active";
         const stepTitles = [
             "Set up Remote Config",
             "Set up Drive",
             "Advanced Config"
-        ]
+        ];
 
         return (
             <Container className="timeline">
@@ -652,8 +639,11 @@ class NewDrive extends React.Component {
                         idx += 1;
                         return (
                             <React.Fragment id={idx}>
-                                <Col className={"text-center " + ((currentStepNumber === idx) ? buttonActiveclassName: "") } md={2} sm={4}>
-                                    <button className="btn btn-step-count" onClick={()=>this.setCurrentStep(idx)}>{idx}</button>
+                                <Col
+                                    className={"text-center " + ((currentStepNumber === idx) ? buttonActiveClassName : "")}
+                                    md={2} sm={4}>
+                                    <button className="btn btn-step-count"
+                                            onClick={() => this.setCurrentStep(idx)}>{idx}</button>
                                     <h4>{item}</h4>
                                 </Col>
                                 {idx !== stepTitles.length && <Col md={3} className={"d-none d-md-block"}>

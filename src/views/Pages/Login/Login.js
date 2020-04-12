@@ -186,7 +186,7 @@ class Login extends Component {
 											<InputGroup className="mb-3">
 												<InputGroupAddon addonType="prepend">
 													<InputGroupText>
-														<i className="icon-user"></i>
+														<i className="icon-user"/>
 													</InputGroupText>
 												</InputGroupAddon>
 												<Input type="text" placeholder="IP Address / URL"
@@ -197,7 +197,7 @@ class Login extends Component {
                                             <InputGroup className="mb-3">
                                                 <InputGroupAddon addonType="prepend">
                                                     <InputGroupText>
-                                                        <i className="icon-user"></i>
+														<i className="icon-user"/>
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input type="text" placeholder="Username" autoComplete="username"
@@ -207,7 +207,7 @@ class Login extends Component {
                                             <InputGroup className="mb-4">
                                                 <InputGroupAddon addonType="prepend">
                                                     <InputGroupText>
-                                                        <i className="icon-lock"></i>
+														<i className="icon-lock"/>
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input type="password" placeholder="Password"
@@ -226,7 +226,7 @@ class Login extends Component {
                                 </Card>
                                 <Card className="text-white bg-white py-5 d-md-down-none" style={{width: '44%'}}>
                                     <CardBody className="text-center">
-                                        <img src={logo}/>
+										<img src={logo} alt="RClone logo"/>
                                     </CardBody>
                                 </Card>
                             </CardGroup>
