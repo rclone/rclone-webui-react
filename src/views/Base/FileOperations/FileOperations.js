@@ -1,34 +1,34 @@
 import React from 'react';
 import {
-	Button,
-	ButtonDropdown,
-	ButtonGroup,
-	Col,
-	DropdownItem,
-	DropdownMenu,
-	DropdownToggle,
-	Form,
-	FormGroup,
-	Input,
-	Modal,
-	ModalBody,
-	ModalFooter,
-	ModalHeader,
-	Row,
-	Spinner,
-	UncontrolledTooltip
+    Button,
+    ButtonDropdown,
+    ButtonGroup,
+    Col,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
+    Form,
+    FormGroup,
+    Input,
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ModalHeader,
+    Row,
+    Spinner,
+    UncontrolledTooltip
 } from "reactstrap";
 import NewFolder from "../NewFolder/NewFolder";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {
-	changeGridMode,
-	changeVisibilityFilter,
-	getFilesForContainerID,
-	navigateBack,
-	navigateFwd,
-	setLoadImages,
-	setSearchQuery
+    changeGridMode,
+    changeVisibilityFilter,
+    getFilesForContainerID,
+    navigateBack,
+    navigateFwd,
+    setLoadImages,
+    setSearchQuery
 } from "../../../actions/explorerStateActions";
 import {visibilityFilteringOptions} from "../../../utils/Constants";
 import {getAbout} from "../../../actions/providerStatusActions";
@@ -161,11 +161,10 @@ class FileOperations extends React.Component {
     handleSearchOpen = () =>{
         const {containerID} = this.props;
         this.setState((prevState) => {
-            if(prevState.searchOpen)
-            {
-                // Clear Search Query if the search is about to close
-                this.props.setSearchQuery(containerID, "");
-            }    
+                if (prevState.searchOpen) {
+                    // Clear Search Query if the search is about to close
+                    this.props.setSearchQuery(containerID, "");
+                }
 
                 return {searchOpen: !prevState.searchOpen}
             }
@@ -180,34 +179,33 @@ class FileOperations extends React.Component {
         const {remoteName, remotePath} = currentPath;
 
         return (
-                <nav aria-label="breadcrumb" className="row mt-3 mb-1">
-                   
-                    
-                    <Col sm={4} md={2} lg={1}>
-                        <Button color="light" className={"mr-1 btn-explorer-action"}
-                                onClick={() => navigateBack(containerID)}><i
-                            className={"fa fa-lg fa-arrow-left"}/></Button>
-                        <Button color="light" className={"mr-1 btn-explorer-action"}
-                                onClick={() => navigateFwd(containerID)}><i
-                            className={"fa fa-lg fa-arrow-right"}/></Button>
-                    </Col>
-                    <Col sm={8} md={searchOpen ? 6 : 6} lg={searchOpen ? 7 : 9}>
-                        <ol className="breadcrumb float-center" style={{padding: "6px 12px"}}>
-                            <li className="breadcrumb-item active">{remoteName}:/</li>
-                            {remotePath}  
-                        </ol>
-                    </Col>
-                    <Col sm={12} md={searchOpen ? 4 : 4} lg={searchOpen ? 4 : 2}>
+            <nav aria-label="breadcrumb" className="row mt-3 mb-1">
+                <Col sm={4} md={2} lg={1} className="pl-0">
+                    <Button color="light" className={"mr-1 btn-explorer-action"}
+                            onClick={() => navigateBack(containerID)}><i
+                        className={"fa fa-lg fa-arrow-left"}/></Button>
+                    <Button color="light" className={"mr-1 btn-explorer-action"}
+                            onClick={() => navigateFwd(containerID)}><i
+                        className={"fa fa-lg fa-arrow-right"}/></Button>
+                </Col>
+                <Col sm={8} md={searchOpen ? 6 : 6} lg={searchOpen ? 7 : 9}>
+                    <ol className="breadcrumb float-center" style={{padding: "6px 12px"}}>
+                        <li className="breadcrumb-item active">{remoteName}:/</li>
+                        {remotePath}
+                    </ol>
+                </Col>
+                <Col sm={12} md={searchOpen ? 4 : 4} lg={searchOpen ? 4 : 2} className="pr-0">
                     <div className="float-right form-inline">
 
                         <ButtonGroup>
                             <Form inline>
                                 <FormGroup>
-                                    {searchOpen &&  <Input type="text" placeholder="Search" value={searchQuery} className="animate-fade-in"
-                                        onChange={this.changeSearch}/> 
+                                    {searchOpen && <Input type="text" placeholder="Search" value={searchQuery}
+                                                          className="animate-fade-in"
+                                                          onChange={this.changeSearch}/>
                                     }
                                     <Button className="mr-1 btn-explorer-action" onClick={this.handleSearchOpen}>
-                                        <i className={"fa fa-lg " + (searchOpen ? "fa-close" : "fa-search")} />
+                                        <i className={"fa fa-lg " + (searchOpen ? "fa-close" : "fa-search")}/>
                                     </Button>
                                 </FormGroup>
                             </Form>
@@ -237,17 +235,17 @@ class FileOperations extends React.Component {
                             </ButtonDropdown>
 
                             <Button className="btn-explorer-action" id="ListViewButton"
-                                onClick={this.handleChangeGridMode}>
-                                    <i className={"fa fa-lg " + (gridMode === "card" ? "fa-list": "fa-th-large")}/>
+                                    onClick={this.handleChangeGridMode}>
+                                <i className={"fa fa-lg " + (gridMode === "card" ? "fa-list" : "fa-th-large")}/>
                             </Button>
                             <UncontrolledTooltip placement="right" target="ListViewButton">
-                                {(gridMode === "card" ? "List View": "Card View")}
+                                {(gridMode === "card" ? "List View" : "Card View")}
                             </UncontrolledTooltip>
                         </ButtonGroup>
 
 
                         <NewFolder containerID={containerID} isVisible={newFolderModalIsVisible}
-                                closeModal={this.closeNewFolderModal}/>
+                                   closeModal={this.closeNewFolderModal}/>
 
                         <Modal isOpen={isAboutModalOpen} toggle={this.toggleAboutModal}>
                             <ModalHeader>

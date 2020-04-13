@@ -16,30 +16,6 @@ import doublePaneImg from '../../../assets/img/double-pane1.png';
 import triplePaneImg from '../../../assets/img/triple-pane.png';
 import TabsLayout from "../TabsLayout/TabsLayout";
 
-function RemoteExplorerList({cols, distractionFreeMode, splitMode}) {
-    let remoteExplorers = [];
-    if (splitMode === "horizontal") {
-        const lgSize = 12 / cols;
-        for (let i = 0; i < cols; i++) {
-            remoteExplorers.push((
-                <Col xs={12} sm={12} md={lgSize} lg={lgSize} key={i}>
-                    <RemoteExplorer containerID={i.toString()} distractionFreeMode={distractionFreeMode}/>
-                </Col>
-            ));
-        }
-    }else if(splitMode === "vertical"){
-        for (let i = 0; i < cols; i++) {
-
-            remoteExplorers.push((
-                <Col xs={12} sm={12} md={12} lg={12} key={i}>
-                    <RemoteExplorer containerID={i.toString()} distractionFreeMode={distractionFreeMode}/>
-                </Col>
-            ));
-        }
-
-    }
-    return remoteExplorers;
-}
 
 class RemoteExplorerLayout extends React.Component {
 
@@ -70,11 +46,31 @@ class RemoteExplorerLayout extends React.Component {
 
     };
 
+    Panes = ({numCols, activeRemoteContainerID, distractionFreeMode}) => {
+        let returnData = [];
+        const lgSize = 12 / numCols;
+        for (let i = 0; i < numCols; i++) {
+            returnData.push((
+                <Col lg={lgSize} key={i}>
+                    <Row>
+                        <Col lg={12}>
+                            <TabsLayout paneID={i}/>
+                        </Col>
+                    </Row>
+                    {activeRemoteContainerID && activeRemoteContainerID[i] && activeRemoteContainerID[i] !== "" &&
+                    <RemoteExplorer containerID={activeRemoteContainerID[i]}
+                                    distractionFreeMode={distractionFreeMode}/>}
+
+                </Col>
+            ))
+        }
+        return returnData;
+    };
+
     render() {
 
         /*Divide the 12 bootstrap columns to fit number of explorers*/
-        const {numCols, backStacks, distractionFreeMode, splitMode, activeRemoteContainerID} = this.props;
-        console.log("Active container :" + activeRemoteContainerID);
+        const {numCols, distractionFreeMode, activeRemoteContainerID} = this.props;
         return (
             <ErrorBoundary>
                 <Row className={"d-none d-md-block"} data-test="remoteExplorerLayout">
@@ -114,23 +110,13 @@ class RemoteExplorerLayout extends React.Component {
                     }
                 </Row>
 
-
                 <Row>
-                    <Col lg={12}>
-                        <TabsLayout/>
-                    </Col>
+                    <this.Panes
+                        numCols={numCols}
+                        distractionFreeMode={distractionFreeMode}
+                        activeRemoteContainerID={activeRemoteContainerID}
+                    />
                 </Row>
-                <Row>
-                    <Col lg={12}>
-                        {activeRemoteContainerID && activeRemoteContainerID !== "" &&
-                        <RemoteExplorer containerID={activeRemoteContainerID}
-                                        distractionFreeMode={distractionFreeMode}/>}
-                        {/*<RemoteExplorerList cols={numCols} backStacks={backStacks} splitMode={splitMode}*/}
-                        {/*                    distractionFreeMode={distractionFreeMode}/>*/}
-                    </Col>
-                </Row>
-
-
             </ErrorBoundary>
         );
     }

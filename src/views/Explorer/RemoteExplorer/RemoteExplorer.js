@@ -20,50 +20,50 @@ import RemotesList from "../RemotesList";
 
 
 class RemoteExplorer extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            remoteNameTemp: ""
-        };
+	constructor(props) {
+		super(props);
+		this.state = {
+			remoteNameTemp: ""
+		};
 
-        this.updateRemoteName = this.updateRemoteName.bind(this);
-        this.updateRemotePath = this.updateRemotePath.bind(this);
-    }
-
-
-    updateRemoteName(remoteName) {
-        this.setState({remoteNameTemp: remoteName});
-    }
-
-    updateRemotePath(newRemotePath, IsDir, IsBucket) {
-        const {remoteName} = this.props.currentPath;
-
-        let updateRemoteName = "";
-        let updateRemotePath = "";
-
-        if (IsBucket) {
-            updateRemoteName = addColonAtLast(remoteName) + newRemotePath;
-            updateRemotePath = "";
-
-        } else if (IsDir) {
-            updateRemoteName = remoteName;
-            updateRemotePath = newRemotePath;
-        }
-        this.props.changePath(this.props.containerID, updateRemoteName, updateRemotePath);
-    }
-
-    render() {
+		this.updateRemoteName = this.updateRemoteName.bind(this);
+		this.updateRemotePath = this.updateRemotePath.bind(this);
+	}
 
 
-        const {remoteName} = this.props.currentPath;
-        const {containerID, distractionFreeMode} = this.props;
+	updateRemoteName(remoteName) {
+		this.setState({remoteNameTemp: remoteName});
+	}
 
-        const isValidPath = remoteName && remoteName !== "";
+	updateRemotePath(newRemotePath, IsDir, IsBucket) {
+		const {remoteName} = this.props.currentPath;
 
-        return (
-            <ErrorBoundary>
+		let updateRemoteName = "";
+		let updateRemotePath = "";
 
-                {(!distractionFreeMode) &&
+		if (IsBucket) {
+			updateRemoteName = addColonAtLast(remoteName) + newRemotePath;
+			updateRemotePath = "";
+
+		} else if (IsDir) {
+			updateRemoteName = remoteName;
+			updateRemotePath = newRemotePath;
+		}
+		this.props.changePath(this.props.containerID, updateRemoteName, updateRemotePath);
+	}
+
+	render() {
+
+
+		const {remoteName} = this.props.currentPath;
+		const {containerID, distractionFreeMode} = this.props;
+
+		const isValidPath = remoteName && remoteName !== "";
+
+		return (
+			<ErrorBoundary>
+
+				{(!distractionFreeMode) &&
 				<Card>
 					<CardBody>
 						<Container fluid={true}>
@@ -83,24 +83,25 @@ class RemoteExplorer extends React.Component {
 
 					</CardBody>
 				</Card>
-                }
+				}
 
-            </ErrorBoundary>
-        );
+			</ErrorBoundary>
+		);
 
-    }
+
+	}
 
 }
 
 
 const propTypes = {
 
-    containerID: PropTypes.string.isRequired,
-    createPath: PropTypes.func.isRequired,
-    currentPath: PROP_CURRENT_PATH,
-    fsInfo: PROP_FS_INFO,
-    hasError: PropTypes.bool,
-    distractionFreeMode: PropTypes.bool.isRequired
+	containerID: PropTypes.string.isRequired,
+	createPath: PropTypes.func.isRequired,
+	currentPath: PROP_CURRENT_PATH,
+	fsInfo: PROP_FS_INFO,
+	hasError: PropTypes.bool,
+	distractionFreeMode: PropTypes.bool.isRequired
 
 };
 
@@ -108,35 +109,36 @@ const defaultProps = {};
 
 const mapStateToProps = (state, ownProps) => {
 
-    const currentPath = state.explorer.currentPaths[ownProps.containerID];
-    let fsInfo = {};
+	const currentPath = state.explorer.currentPaths[ownProps.containerID];
+	let fsInfo = {};
 
-    const {remoteName} = currentPath;
+	const {remoteName} = currentPath;
 
-    if (currentPath && state.remote.configs) {
+	if (currentPath && state.remote.configs) {
 
-        const tempRemoteName = remoteName.split(':')[0];
-        if (state.remote.configs[tempRemoteName])
+		const tempRemoteName = remoteName.split(':')[0];
+		if (state.remote.configs[tempRemoteName])
 
-            fsInfo = state.remote.configs[tempRemoteName];
-    }
-    return {
+			fsInfo = state.remote.configs[tempRemoteName];
+	}
+	return {
 		configs: state.remote.configs,
 		hasError: state.remote.hasError,
 		error: state.remote.error,
 		currentPath,
-		fsInfo
+		fsInfo,
 	}
+
 };
 
 RemoteExplorer.propTypes = propTypes;
 RemoteExplorer.defaultProps = defaultProps;
 
 export default connect(
-    mapStateToProps,
-    {
-        createPath, changePath,
-        changeRemoteName, changeRemotePath, navigateUp,
-        navigateBack, navigateFwd
-    }
+	mapStateToProps,
+	{
+		createPath, changePath,
+		changeRemoteName, changeRemotePath, navigateUp,
+		navigateBack, navigateFwd
+	}
 )(RemoteExplorer);

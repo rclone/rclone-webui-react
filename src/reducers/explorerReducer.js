@@ -2,6 +2,7 @@ import {
 	ADD_LAYOUT_CONTAINER,
 	CHANGE_ACTIVE_REMOTE_CONTAINER,
 	CHANGE_DISTRACTION_FREE_MODE,
+	CHANGE_LAYOUT_COLS,
 	GET_CONFIG_FOR_REMOTE,
 	GET_FILES_LIST,
 	GET_REMOTE_LIST,
@@ -17,8 +18,9 @@ const initialState = {
 	hasError: false,
 	numContainers: 0,
 	containers: [],
-	activeRemoteContainerID: "",
-	distractionFreeMode: false
+	activeRemoteContainerID: {},
+	distractionFreeMode: false,
+	numCols: 1
 };
 /**
  * Specifies the explorer specific reducers for the redux actions.
@@ -80,22 +82,36 @@ export default function (state = initialState, action) {
 			break;
 
 		case ADD_LAYOUT_CONTAINER:
-			state.containers.push(action.payload.containerID);
+			state.containers.push({ID: action.payload.containerID, paneID: action.payload.paneID});
 			state.numContainers = state.containers.length;
-			state.activeRemoteContainerID = action.payload.containerID;
+			state.activeRemoteContainerID = {
+				...state.activeRemoteContainerID,
+				[action.payload.paneID]: action.payload.containerID
+			};
 			return {...state};
 		case REMOVE_LAYOUT_CONTAINER:
 			// Remove the specified containerID from containers
-			state.containers = state.containers.filter(item => item !== action.payload.containerID);
+			state.containers = state.containers.filter(item => item.ID !== action.payload.containerID);
 			state.numContainers = state.containers.length;
-			const lastItem = state.containers.slice(-1).pop();
-			console.log("Last Item:" + lastItem);
-			state.activeRemoteContainerID = lastItem ? lastItem : "";
+			const lastItem = state.containers.filter(item => item.paneID === action.payload.paneID).slice(-1).pop();
+			state.activeRemoteContainerID = {
+				...state.activeRemoteContainerID,
+				[action.payload.paneID]: (lastItem ? lastItem.ID : undefined)
+			};
+
+			// state.activeRemoteContainerID = lastItem ? lastItem : "";
 			return {...state};
 		case CHANGE_ACTIVE_REMOTE_CONTAINER:
-			state.activeRemoteContainerID = action.payload.containerID;
+			state.activeRemoteContainerID = {
+				...state.activeRemoteContainerID,
+				[action.payload.paneID]: action.payload.containerID
+			};
 			return {...state};
-
+		case CHANGE_LAYOUT_COLS:
+			return {
+				...state,
+				numCols: action.payload.numCols
+			};
 		case CHANGE_DISTRACTION_FREE_MODE:
 			return {
 				...state,

@@ -121,9 +121,9 @@ export const changeNumCols = (numCols, mode) => (dispatch) => {
     if (!numCols || numCols < 0) throw new Error(`Invalid number of cols:${numCols}`);
 
 
-    for (let i = 0; i < numCols; i++) {
-        dispatch(createPath(i.toString()))
-    }
+    // for (let i = 0; i < numCols; i++) {
+    //     dispatch(createPath(i.toString()))
+    // }
 
     dispatch({
         type: CHANGE_LAYOUT_COLS,
@@ -135,16 +135,18 @@ export const changeNumCols = (numCols, mode) => (dispatch) => {
 
 /**
  * Adds a new remote container.
+ * @param paneID               {int} pane ID
  * @returns {Function}
  */
-export const addRemoteContainer = () => (dispatch) => {
+export const addRemoteContainer = (paneID) => (dispatch) => {
     const uniqueID = makeUniqueID(3);
     dispatch(createPath(uniqueID));
-    dispatch(changeActiveRemoteContainer(uniqueID));
+    dispatch(changeActiveRemoteContainer(uniqueID, paneID));
     dispatch({
         type: ADD_LAYOUT_CONTAINER,
         payload: {
-            containerID: uniqueID
+            containerID: uniqueID,
+            paneID
         }
     })
 };
@@ -153,15 +155,16 @@ export const addRemoteContainer = () => (dispatch) => {
 /**
  * Remove a new remote container.
  * @param containerID          {string} Container ID to remove
+ * @param paneID               {int} pane ID
  * @returns {Function}
  */
-export const removeRemoteContainer = (containerID) => (dispatch) => {
+export const removeRemoteContainer = (containerID, paneID) => (dispatch) => {
     // dispatch(removePath(containerID));
     // console.log("Removing : " + containerID);
     dispatch({
         type: REMOVE_LAYOUT_CONTAINER,
         payload: {
-            containerID
+            containerID, paneID
         }
     })
 };
@@ -169,13 +172,15 @@ export const removeRemoteContainer = (containerID) => (dispatch) => {
 /**
  * Change active remote container.
  * @param containerID          {string} Container ID to remove
+ * @param paneID               {int} pane ID
  * @returns {Function}
  */
-export const changeActiveRemoteContainer = (containerID) => (dispatch) => {
+export const changeActiveRemoteContainer = (containerID, paneID) => (dispatch) => {
     dispatch({
         type: CHANGE_ACTIVE_REMOTE_CONTAINER,
         payload: {
-            containerID
+            containerID,
+            paneID
         }
     })
 };
