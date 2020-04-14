@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 import axiosInstance from "../../../utils/API/API";
 import {Alert, Button, Col, Container, Row, Spinner, Table} from "reactstrap";
 import {DropTarget} from "react-dnd";
@@ -9,7 +10,7 @@ import {addColonAtLast, changeListVisibility, changeSearchFilter, isEmpty} from 
 import {connect} from "react-redux";
 import {getFiles} from "../../../actions/explorerActions";
 import {compose} from "redux";
-import {changePath, navigateUp} from "../../../actions/explorerStateActions";
+import {changePath, navigateUp, setSortParams} from "../../../actions/explorerStateActions";
 import LinkShareModal from "../../Base/LinkShareModal/LinkShareModal";
 import ScrollableDiv from "../../Base/ScrollableDiv/ScrollableDiv";
 import {FILES_VIEW_HEIGHT} from "../../../utils/Constants";
@@ -17,7 +18,12 @@ import {PROP_CURRENT_PATH, PROP_FS_INFO} from "../../../utils/RclonePropTypes";
 import * as PropTypes from 'prop-types';
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 import urls from "../../../utils/API/endpoint";
+import {getSortedFilesList} from "../../../selectors";
 
+const DirectionIcon = ({direction, className = ""}) => {
+    const directionClassName = direction === "desc" ? "fa-arrow-down" : "fa-arrow-up";
+    return <i className={classNames(directionClassName, "fa fa-lg", className)}/>;
+}
 
 /*
 * Start code for react DND
@@ -121,7 +127,6 @@ class FilesView extends React.PureComponent {
             shouldUpdate: true,
             showLinkShareModal: false,
             generatedLink: "",
-
         };
         this.handleFileClick = this.handleFileClick.bind(this);
         this.downloadHandle = this.downloadHandle.bind(this);
@@ -140,7 +145,6 @@ class FilesView extends React.PureComponent {
 
         })
     };
-
 
     handleFileClick(e, item) {
         const {Path, IsDir, IsBucket} = item;
@@ -290,11 +294,11 @@ class FilesView extends React.PureComponent {
     };
 
     getFileComponents = (isDir) => {
-        const {files, containerID, gridMode, fsInfo, loadImages} = this.props;
+        const {sortedFiles, containerID, gridMode, fsInfo, loadImages} = this.props;
         const {remoteName, remotePath} = this.props.currentPath;
         // console.log(fsInfo, files);
         if (fsInfo && !isEmpty(fsInfo)) {
-            return files.map((item, idx) => {
+            return sortedFiles.map((item, idx) => {
                 let {ID, Name} = item;
                 // Using fallback as fileName when the ID is not available (for local file system)
                 if (ID === undefined) {
@@ -304,13 +308,13 @@ class FilesView extends React.PureComponent {
                     return (
                         <React.Fragment key={ID}>
                             <FileComponent item={item} clickHandler={this.handleFileClick}
-                                           downloadHandle={this.downloadHandle} deleteHandle={this.deleteHandle}
-                                           remoteName={remoteName} remotePath={remotePath} gridMode={gridMode}
-                                           containerID={containerID}
-                                           linkShareHandle={this.linkShareHandle}
-                                           loadImages={loadImages}
-                                           isBucketBased={fsInfo.Features.BucketBased}
-                                           canCopy={fsInfo.Features.Copy} canMove={fsInfo.Features.Move} itemIdx={idx}>
+                                downloadHandle={this.downloadHandle} deleteHandle={this.deleteHandle}
+                                remoteName={remoteName} remotePath={remotePath} gridMode={gridMode}
+                                containerID={containerID}
+                                linkShareHandle={this.linkShareHandle}
+                                loadImages={loadImages}
+                                isBucketBased={fsInfo.Features.BucketBased}
+                                canCopy={fsInfo.Features.Copy} canMove={fsInfo.Features.Move} itemIdx={idx}>
 
                             </FileComponent>
                         </React.Fragment>
@@ -324,7 +328,7 @@ class FilesView extends React.PureComponent {
 
     render() {
         const {isLoading, isDownloadProgress, downloadingItems, generatedLink, showLinkShareModal} = this.state;
-        const {connectDropTarget, isOver, files, navigateUp, containerID, gridMode, canDrop} = this.props;
+        const {connectDropTarget, isOver, files, sortedFiles, navigateUp, containerID, gridMode, canDrop, setSortParams} = this.props;
         const {remoteName} = this.props.currentPath;
 
         // console.log(this.props.searchQuery);
@@ -388,15 +392,26 @@ class FilesView extends React.PureComponent {
                                 <thead>
                                 <tr>
                                     <th className="d-none d-md-table-cell">x</th>
-                                    <th>Name</th>
-                                    <th>Size</th>
-                                    <th className="d-none d-md-table-cell">Modified</th>
+                                    <th onClick={() => setSortParams(this.props.containerID, "Name")}>
+                                        <div className="d-flex align-items-center">
+                                            <span className="mr-2">Name</span>
+                                            <DirectionIcon direction={this.props.sortParams.order} className={this.props.sortParams.key === "Name" ? "text-black-50" : "invisible"} />
+                                        </div>
+                                    </th>
+                                    <th onClick={() => setSortParams(this.props.containerID, "Size")}>
+                                        <span className="mr-2">Size</span>
+                                        <DirectionIcon direction={this.props.sortParams.order} className={this.props.sortParams.key === "Size" ? "text-black-50" : "invisible"} />
+                                    </th>
+                                    <th onClick={() => setSortParams(this.props.containerID, "ModTime", "date")} className="d-none d-md-table-cell">
+                                        <span className="mr-2">Modified</span>
+                                        <DirectionIcon direction={this.props.sortParams.order} className={this.props.sortParams.key === "ModTime" ? "text-black-50" : "invisible"} />
+                                    </th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <UpButtonComponent upButtonHandle={() => navigateUp(containerID)} gridMode={gridMode}/>
-                                {files.length > 0 ? (
+                                {sortedFiles.length > 0 ? (
                                         <React.Fragment>
                                             <tr>
                                                 <td colSpan={1} className="d-none d-md-block"/>
@@ -473,6 +488,7 @@ const mapStateToProps = (state, ownProps) => {
     const gridMode = state.explorer.gridMode[ownProps.containerID];
     const searchQuery = state.explorer.searchQueries[ownProps.containerID];
     const loadImages = state.explorer.loadImages[ownProps.containerID];
+    const sortParams = state.explorer.sortParams[ownProps.containerID];
 
     let fsInfo = {};
     const {remoteName, remotePath} = currentPath;
@@ -504,17 +520,20 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         files,
+        sortedFiles: getSortedFilesList(state, ownProps),
         currentPath,
         fsInfo,
         gridMode,
         searchQuery,
-        loadImages
+        loadImages,
+        sortParams
     }
 };
 
 export default compose(
     connect(
-        mapStateToProps, {getFiles, navigateUp, changePath}
+        mapStateToProps,
+        {getFiles, navigateUp, changePath, setSortParams}
     ),
     DropTarget(ItemTypes.FILECOMPONENT, filesTarget, collect)
 )(FilesView)
