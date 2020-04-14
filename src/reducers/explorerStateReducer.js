@@ -9,7 +9,8 @@ import {
     CREATE_PATH,
     NAVIGATE_BACK,
     NAVIGATE_FWD,
-    NAVIGATE_UP
+    NAVIGATE_UP,
+    SORT_FILES_LIST
 } from "../actions/types";
 import BackStack from "../utils/classes/BackStack";
 
@@ -19,7 +20,8 @@ const initialState = {
     visibilityFilters: {},
     gridMode: {},
     searchQueries: {},
-    loadImages: {}
+    loadImages: {},
+    sortParams: {}
 };
 
 /**
@@ -66,7 +68,10 @@ export default function (state = initialState, action) {
         let searchQuery = "";
         let loadImages = state.loadImages[id];
         if (!loadImages) loadImages = false;
-
+        let sortParams = state.sortParams[id];
+        if (!sortParams) {
+            sortParams = {}
+        }
 
         switch (action.type) {
             case CHANGE_PATH:
@@ -137,6 +142,9 @@ export default function (state = initialState, action) {
             case CHANGE_LOAD_IMAGES:
                 loadImages = action.payload;
                 break;
+            case SORT_FILES_LIST:
+                sortParams = action.payload
+                break;
             default:
                 break;
         }
@@ -147,7 +155,8 @@ export default function (state = initialState, action) {
             visibilityFilters: {...state.visibilityFilters, [id]: visibilityFilter},
             gridMode: {...state.gridMode, [id]: gridMode},
             searchQueries: {...state.searchQueries, [id]: searchQuery},
-            loadImages: {...state.loadImages, [id]: loadImages}
+            loadImages: {...state.loadImages, [id]: loadImages},
+            sortParams: {...state.sortParams, [id]: sortParams}
         };
     } else {
         // console.error("ID is unexpectedly null");

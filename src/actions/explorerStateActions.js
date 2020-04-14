@@ -9,8 +9,10 @@ import {
     CREATE_PATH,
     NAVIGATE_BACK,
     NAVIGATE_FWD,
-    NAVIGATE_UP
+    NAVIGATE_UP,
+    SORT_FILES_LIST,
 } from "./types";
+import get from "lodash/get";
 import {getFiles} from "./explorerActions";
 
 /**
@@ -174,6 +176,25 @@ export const changeGridMode = (containerID, mode) => dispatch => {
         mode
     })
 };
+
+
+export const setSortParams = (containerID, sortKey, sortType) => {
+    return (dispatch, getState) => {
+        const {sortParams} = getState().explorer;
+        const order = get(sortParams, [containerID, "order"]);
+
+        dispatch({
+            id: containerID,
+            type: SORT_FILES_LIST,
+            payload: {
+                key: sortKey,
+                order: order === "desc" ? "asc" : "desc",
+                type: sortType
+            }
+        })
+    }
+}
+
 
 /**
  * Changes the current search query to be searched in the container id. Filters the files and folders according to the new search query.
