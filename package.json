@@ -45,6 +45,7 @@
     "reactstrap": "^8.4.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0",
     "simple-line-icons": "^2.4.1",
     "typescript": "^3.7.5"
   },
