@@ -54,7 +54,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "enzyme-to-json": "^3.4.4",
-    "fetch-mock": "^7.7.3",
+    "fetch-mock": "^9.4.0",
     "react-dnd-test-backend": "^7.7.0",
     "react-dnd-test-utils": "^7.4.4",
     "react-scripts": "^3.3.1",
