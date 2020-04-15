@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import {
     Button,
     Card,
@@ -7,6 +8,10 @@ import {
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
     UncontrolledButtonDropdown
 } from "reactstrap";
 
@@ -23,7 +28,8 @@ import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 
 async function performCopyMoveOperation(params) {
     const {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir, dropEffect, updateHandler} = params;
-    if (dropEffect === "move") { /*Default operation without holding alt is copy, named as move in react-dnd*/
+
+    if (dropEffect === "copy") { /*Default operation without holding alt is copy, named as move in react-dnd*/
         // if (component.props.canCopy) {
         await performCopyFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
         updateHandler();
@@ -36,7 +42,7 @@ async function performCopyMoveOperation(params) {
         //     toast.error("This remote does not support copying");
         // }
 
-    } else {
+    } else if (dropEffect === "move") {
         // if (component.props.canMove) {
         await performMoveFile(srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir);
         updateHandler();
@@ -52,6 +58,40 @@ async function performCopyMoveOperation(params) {
     }
 }
 
+let modalbox = true;
+let operation = "";
+
+const modalClose = () => {
+    const modalNode = document.getElementById("mainModalElement");
+    ReactDOM.unmountComponentAtNode(modalNode);
+    ReactDOM.render(emptyElement, document.getElementById("modalElement"));
+}
+
+const modalMove = () => {
+    const modalNode = document.getElementById("mainModalElement");
+    ReactDOM.unmountComponentAtNode(modalNode);
+    operation = "move";
+    ReactDOM.render(emptyElement, document.getElementById("modalElement"));
+}
+
+const modalCopy = () => {
+    const modalNode = document.getElementById("mainModalElement");
+    ReactDOM.unmountComponentAtNode(modalNode);
+    operation = "copy";
+    ReactDOM.render(emptyElement, document.getElementById("modalElement"));
+}
+
+let emptyElement = (<div></div>);
+let modalElement = (
+    <Modal id="mainModalElement" isOpen={modalbox} toggle={modalClose}>
+        <ModalHeader>Confirm Operation</ModalHeader>
+        <ModalBody> Confirm operation: Move or Copy </ModalBody>
+            <ModalFooter>
+                <Button color="primary" onClick={modalMove}>Move</Button>{' '}
+                <Button color="primary" onClick={modalCopy}>Copy</Button>
+            </ModalFooter>
+    </Modal>
+);
 
 const fileComponentSource = {
     canDrag(props) {
@@ -59,6 +99,7 @@ const fileComponentSource = {
         // You can disallow drag based on props
         return true;
     },
+
     beginDrag(props) {
         // console.log("props", props, props.remoteName);
         const {Name, Path, IsDir} = props.item;
@@ -70,6 +111,8 @@ const fileComponentSource = {
     endDrag(props, monitor, component) {
         // console.log("EndDrag", monitor.getDropResult());
         console.log(props, "Component:", component);
+        ReactDOM.render(modalElement, document.getElementById("modalElement"));
+        console.log(operation);
         try {
             if (monitor.getDropResult() && component) {
                 performCopyMoveOperation(monitor.getDropResult());
@@ -214,6 +257,7 @@ class FileComponent extends React.Component {
             clickHandler(e, item)
         }
     }
+
     render() {
         const {containerID, inViewport, item, loadImages, clickHandler, downloadHandle, linkShareHandle, deleteHandle, connectDragSource, gridMode, itemIdx /*isDragging, remoteName*/} = this.props;
 
@@ -257,8 +301,12 @@ class FileComponent extends React.Component {
                 </tr>
             )
         }
+
         return <ErrorBoundary>
             {element}
+            <button onClick={this.modalOpen}>Open Modal</button>
+            <div id="modalElement">
+            </div>
         </ErrorBoundary>;
     }
 }
