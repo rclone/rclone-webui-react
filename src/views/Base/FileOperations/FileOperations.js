@@ -74,7 +74,6 @@ class FileOperations extends React.Component {
         const {changeVisibilityFilter} = this.props;
 
         changeVisibilityFilter(this.props.containerID, newFilter);
-        this.toggleDropDown();
 
     };
 
