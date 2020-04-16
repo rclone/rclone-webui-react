@@ -160,34 +160,10 @@ exports[`Login Layout renders should match snapshot 1`] = `
                       className="px-4"
                       color="primary"
                       data-testid="LoginForm-BtnLogin"
-                      disabled={true}
                       tag="button"
+                      type="submit"
                     >
                       Login
-                    </Button>
-                  </Col>
-                  <Col
-                    className="text-right"
-                    tag="div"
-                    widths={
-                      Array [
-                        "xs",
-                        "sm",
-                        "md",
-                        "lg",
-                        "xl",
-                      ]
-                    }
-                    xs="6"
-                  >
-                    <Button
-                      className="px-4"
-                      color="primary"
-                      data-testid="LoginForm-BtnVerify"
-                      onClick={[Function]}
-                      tag="button"
-                    >
-                      Verify
                     </Button>
                   </Col>
                 </Row>
@@ -195,7 +171,7 @@ exports[`Login Layout renders should match snapshot 1`] = `
             </CardBody>
           </Card>
           <Card
-            className="text-white bg-primary py-5 d-md-down-none"
+            className="text-white bg-white py-5 d-md-down-none"
             style={
               Object {
                 "width": "44%",
@@ -207,7 +183,10 @@ exports[`Login Layout renders should match snapshot 1`] = `
               className="text-center"
               tag="div"
             >
-              <div />
+              <img
+                alt="RClone logo"
+                src="logo_symbol.png"
+              />
             </CardBody>
           </Card>
         </CardGroup>

@@ -5,11 +5,13 @@ import {
     CHANGE_REMOTE_NAME,
     CHANGE_REMOTE_PATH,
     CHANGE_SEARCH_QUERY,
+    CHANGE_SORT_FILTER,
     CHANGE_VISIBILITY_FILTER,
     CREATE_PATH,
     NAVIGATE_BACK,
     NAVIGATE_FWD,
-    NAVIGATE_UP
+    NAVIGATE_UP,
+    REMOVE_PATH
 } from "./types";
 import {getFiles} from "./explorerActions";
 
@@ -93,6 +95,20 @@ export const createPath = (containerID) => dispatch => {
 
     dispatch({
         type: CREATE_PATH,
+        id: containerID
+    })
+};
+
+
+/**
+ * Creates an empty path for initialization of a container.
+ * @param containerID {string}
+ * @returns {Function}
+ */
+export const removePath = (containerID) => dispatch => {
+
+    dispatch({
+        type: REMOVE_PATH,
         id: containerID
     })
 };
@@ -196,4 +212,15 @@ export const setLoadImages = (containerID, shouldLoad) => dispatch => {
         payload: shouldLoad
     })
 };
+
+export const changeSortFilter = (containerID, sortFilter, sortFilterAscending) => dispatch => {
+    dispatch({
+        type: CHANGE_SORT_FILTER,
+        id: containerID,
+        payload: {
+            sortFilter, 
+            sortFilterAscending
+        }
+    })
+}
 

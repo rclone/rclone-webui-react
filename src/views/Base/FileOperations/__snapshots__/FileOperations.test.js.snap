@@ -3,226 +3,226 @@
 exports[`File Operations renders should match snapshot 1`] = `
 <nav
   aria-label="breadcrumb"
+  className="row mt-3 mb-1"
 >
-  <ol
-    className="breadcrumb"
+  <Col
+    className="pl-0"
+    md={3}
+    sm={4}
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
   >
-    <li
-      className="breadcrumb-item active"
+    <Button
+      className="mr-1 btn-explorer-action"
+      color="light"
+      onClick={[Function]}
+      tag="button"
     >
-      local
-      :/
-    </li>
-    <li
-      className="breadcrumb-menu"
+      <i
+        className="fa fa-lg fa-arrow-left"
+      />
+    </Button>
+    <Button
+      className="mr-1 btn-explorer-action"
+      color="light"
+      onClick={[Function]}
+      tag="button"
     >
-      <div
-        aria-label="Button group with nested dropdown"
-        className="btn-group"
-        role="group"
+      <i
+        className="fa fa-lg fa-arrow-right"
+      />
+    </Button>
+    <Button
+      className="mr-1 btn-explorer-action"
+      color="secondary"
+      id="RefreshButton"
+      onClick={[Function]}
+      tag="button"
+    >
+      <i
+        className="fa fa-lg fa-repeat"
+      />
+    </Button>
+    <UncontrolledTooltip
+      placement="right"
+      target="RefreshButton"
+    >
+      Refresh Files
+    </UncontrolledTooltip>
+  </Col>
+  <Col
+    md={5}
+    sm={8}
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    <ol
+      className="breadcrumb float-center"
+      style={
+        Object {
+          "padding": "6px 12px",
+        }
+      }
+    >
+      <li
+        className="breadcrumb-item active"
       >
-        <Button
-          className="btn"
-          color="secondary"
-          onClick={[Function]}
-          tag="button"
-        >
-          <i
-            className="cui-settings"
-          />
-           Settings
-        </Button>
-      </div>
-    </li>
-  </ol>
-  <div>
-    <Button
-      className="mr-1 btn-outline-dark"
-      color="light"
-      onClick={[Function]}
-      tag="button"
-    >
-      <i
-        className="fa fa-lg fa-angle-left"
-      />
-    </Button>
-    <Button
-      className="mr-1 btn-outline-dark"
-      color="light"
-      onClick={[Function]}
-      tag="button"
-    >
-      <i
-        className="fa fa-lg fa-angle-right"
-      />
-    </Button>
+        local
+        :/
+      </li>
+    </ol>
+  </Col>
+  <Col
+    className="pr-0"
+    md={4}
+    sm={12}
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
     <div
-      className="float-right mb-3 mt-1 form-inline"
+      className="float-right form-inline"
     >
       <ButtonGroup
         role="group"
         tag="div"
       >
+        <Form
+          inline={true}
+          tag="form"
+        >
+          <FormGroup
+            tag="div"
+          >
+            <Button
+              className="mr-1 btn-explorer-action"
+              color="secondary"
+              onClick={[Function]}
+              tag="button"
+            >
+              <i
+                className="fa fa-lg fa-search"
+              />
+            </Button>
+          </FormGroup>
+        </Form>
         <Button
-          className="mr-1 btn-outline-dark"
+          className="mr-1 btn-explorer-action p-1"
           color="secondary"
           id="CreateFolderButton"
           onClick={[Function]}
           tag="button"
         >
-          <i
-            className="fa fa-lg fa-plus"
+          <img
+            alt="New Folder"
+            className="fa fa-lg"
+            src="new-folder.png"
           />
            
         </Button>
         <UncontrolledTooltip
-          placement="right"
+          placement="bottom"
           target="CreateFolderButton"
         >
           Create a new Folder
         </UncontrolledTooltip>
-        <Button
-          className="mr-1 btn-outline-dark"
-          color="secondary"
-          id="RefreshButton"
-          onClick={[Function]}
-          tag="button"
-        >
-          <i
-            className="fa fa-lg fa-repeat"
-          />
-        </Button>
-        <UncontrolledTooltip
-          placement="right"
-          target="RefreshButton"
-        >
-          Refresh Files
-        </UncontrolledTooltip>
-        <Button
-          className="mr-1 btn-outline-dark"
-          color="secondary"
-          onClick={[Function]}
-          tag="button"
-        >
-          <i
-            className="fa fa-lg fa-picture-o"
-            id="LoadMediaButton"
-          />
-        </Button>
-        <UncontrolledTooltip
-          placement="right"
-          target="LoadMediaButton"
-        >
-          Load Media
-        </UncontrolledTooltip>
-        <InputGroup
-          tag="div"
-        >
-          <InputGroupAddon
-            addonType="prepend"
-            tag="div"
-          >
-            <Button
-              color="primary"
-              style={
-                Object {
-                  "zIndex": 1,
-                }
-              }
-              tag="button"
-              type="button"
-            >
-              <i
-                className="fa fa-search"
-              />
-               Search
-            </Button>
-          </InputGroupAddon>
-          <Input
-            id="input1-group2"
-            onChange={[Function]}
-            placeholder="Search"
-            type="text"
-            value=""
-          />
-        </InputGroup>
         <ButtonDropdown
+          direction="down"
+          id="FilterButton"
           isOpen={false}
           toggle={[Function]}
         >
           <DropdownToggle
             aria-haspopup={true}
-            caret={true}
+            className="btn-explorer-action"
             color="secondary"
           >
-            More
+            <i
+              className="fa fa-lg fa-filter"
+            />
           </DropdownToggle>
           <DropdownMenu
             flip={true}
             tag="div"
           >
             <DropdownItem
+              key="None"
+              onClick={[Function]}
               tag="button"
               toggle={true}
+              value=""
             >
-              View Type
-               
-              <Input
-                onChange={[Function]}
-                onClick={[Function]}
-                type="select"
-              >
-                <option
-                  value="grid"
-                >
-                  Table
-                </option>
-                <option
-                  value="card"
-                >
-                  Card
-                </option>
-              </Input>
+              None
             </DropdownItem>
             <DropdownItem
+              key="Images"
+              onClick={[Function]}
               tag="button"
               toggle={true}
+              value="Images"
             >
-              File Filter
-               
-              <Input
-                className="ml-1 mr-1"
-                onChange={[Function]}
-                onClick={[Function]}
-                type="select"
-              >
-                <option
-                  key="0"
-                >
-                  None
-                </option>
-                <option
-                  key="Images"
-                  value="Images"
-                >
-                  Images
-                </option>
-                <option
-                  key="Pdf"
-                  value="Pdf"
-                >
-                  Pdf
-                </option>
-                <option
-                  key="Videos"
-                  value="Videos"
-                >
-                  Videos
-                </option>
-              </Input>
+              Images
+            </DropdownItem>
+            <DropdownItem
+              key="Pdf"
+              onClick={[Function]}
+              tag="button"
+              toggle={true}
+              value="Pdf"
+            >
+              Pdf
+            </DropdownItem>
+            <DropdownItem
+              key="Videos"
+              onClick={[Function]}
+              tag="button"
+              toggle={true}
+              value="Videos"
+            >
+              Videos
             </DropdownItem>
           </DropdownMenu>
         </ButtonDropdown>
+        <Button
+          className="btn-explorer-action"
+          color="secondary"
+          id="ListViewButton"
+          onClick={[Function]}
+          tag="button"
+        >
+          <i
+            className="fa fa-lg fa-th-large"
+          />
+        </Button>
+        <UncontrolledTooltip
+          placement="right"
+          target="ListViewButton"
+        >
+          Card View
+        </UncontrolledTooltip>
       </ButtonGroup>
       <Connect(NewFolder)
         closeModal={[Function]}
@@ -353,6 +353,6 @@ exports[`File Operations renders should match snapshot 1`] = `
         />
       </Modal>
     </div>
-  </div>
+  </Col>
 </nav>
 `;

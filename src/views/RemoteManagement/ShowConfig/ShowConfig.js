@@ -32,27 +32,28 @@ class ShowConfig extends React.PureComponent {
         return (
             <div data-test="showConfigComponent">
                 <Row>
-                    <Col lg={8}/>
-                    <Col lg={4} className={"mb-3"}>
-                        <Button color={"primary"} className={"float-right"}
+                    <Col lg={8} className={"mb-4"}>
+                        <Button color={"primary"} className={"float-left"}
                                 onClick={() => this.props.history.push("/newdrive")}>
-                            New Config
+                            Create a New Config
                         </Button>
+                    </Col>
+                    <Col lg={4}>
+                        
                     </Col>
 
                 </Row>
-                <Table responsive>
+                <Table responsive className="table-striped">
                     <thead>
                     <tr>
                         <th>No.</th>
                         <th>Name</th>
                         <th>Type</th>
-                        <th>Update</th>
-                        <th>Delete</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <RemoteRows remotes={this.props.remotes} refreshHandle={this.props.getConfigDump}/>
+                        <RemoteRows remotes={this.props.remotes} refreshHandle={this.props.getConfigDump}/>
                     </tbody>
                 </Table>
             </div>

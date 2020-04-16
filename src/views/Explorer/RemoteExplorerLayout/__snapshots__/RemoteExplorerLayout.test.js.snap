@@ -6,6 +6,7 @@ exports[`Remote Explorer Layout renders should match snapshot 1`] = `
   data-test="remoteExplorerLayout"
 >
   <Col
+    className="mb-3 d-none d-md-block"
     lg={12}
     sm={12}
     tag="div"
@@ -19,61 +20,71 @@ exports[`Remote Explorer Layout renders should match snapshot 1`] = `
       ]
     }
   >
-    <Card
-      tag="div"
+    <span
+      className="text-choose-layout"
     >
-      <CardHeader
-        tag="div"
-      >
-        Choose Layout
-      </CardHeader>
-      <CardBody
-        tag="div"
-      >
-        <Button
-          className="ml-2"
-          color="primary"
-          onClick={[Function]}
-          tag="button"
-        >
-          1 - side by side
-        </Button>
-        <Button
-          className="ml-2"
-          color="primary"
-          onClick={[Function]}
-          tag="button"
-        >
-          2 - side by side
-        </Button>
-        <Button
-          className="ml-2"
-          color="primary"
-          onClick={[Function]}
-          tag="button"
-        >
-          3 - side by side
-        </Button>
-        <Button
-          className="ml-2"
-          color="primary"
-          onClick={[Function]}
-          tag="button"
-        >
-          4 - side by side
-        </Button>
-        <Button
-          className="ml-2"
-          color="success"
-          onClick={[Function]}
-          tag="button"
-        >
-          <i
-            className="fa fa-arrows"
-          />
-        </Button>
-      </CardBody>
-    </Card>
+      Choose Layout: 
+        
+    </span>
+    <Button
+      className="ml-2 layout-change-button"
+      color="primary"
+      onClick={[Function]}
+      tag="button"
+    >
+      <img
+        alt="Single Vertical Pane"
+        src="single-pane.png"
+        style={
+          Object {
+            "height": 24,
+          }
+        }
+      />
+    </Button>
+    <Button
+      className="ml-2 layout-change-button"
+      color="primary"
+      onClick={[Function]}
+      tag="button"
+    >
+      <img
+        alt="Double Vertical Pane"
+        src="double-pane1.png"
+        style={
+          Object {
+            "height": 24,
+          }
+        }
+      />
+    </Button>
+    <Button
+      className="ml-2 layout-change-button"
+      color="primary"
+      onClick={[Function]}
+      tag="button"
+    >
+      <img
+        alt="Triple Vertical Pane"
+        src="triple-pane.png"
+        style={
+          Object {
+            "height": 24,
+          }
+        }
+      />
+    </Button>
+    <Button
+      className="ml-2"
+      color="success"
+      onClick={[Function]}
+      tag="button"
+    >
+      <i
+        className="fa fa-arrows"
+      />
+       Full Screen
+    </Button>
   </Col>
 </div>
 `;

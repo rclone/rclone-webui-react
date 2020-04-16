@@ -1,4 +1,221 @@
 // Here you can add other styles
+body{
+  font-family: Noto Sans, sans-serif;
+}
+
+.card, .card-header, .card-body {
+  border-radius: 0 !important;
+}
+
+.btn-white {
+  font-style: normal;
+  font-weight: normal;
+  color: rgba(44,44,44,1);
+  background-color: rgba(232,239,247,1);
+}
+
+.btn-primary{
+  background-color: rgba(112,202,242,1);
+  border:none ;
+}
+
+.card .card-header{
+  text-align: left;
+  background-color: rgba(188,201,214,1);
+  font-style: normal;
+  font-weight: bold;
+  color: rgba(44,44,44,1);
+}
+
+.card .card-subtitle{
+  font-style: normal;
+  font-weight: bold;
+  color: rgba(63,121,173,1);
+}
+.card .card-text {
+  font-style: normal;
+  font-weight: normal;
+  color: rgba(114,114,114,1);
+}
+
+.card .card-body{
+  text-align: left;
+}
+
+// START Explorer
+
+.text-choose-layout {
+  font-style: normal;
+  font-weight: bold;
+  color: rgba(114,114,114,1);
+}
+.layout-change-button{
+  background: none;
+  padding: 0;
+
+}
+
+.btn-explorer-action {
+  background: none;
+  border: none;
+}
+
+.btn-explorer-action :hover {
+  border: 1px;
+  background: none;
+}
+
+.table-fix-head          { overflow-y: auto; height: 100px; }
+.table-fix-head thead th { position: sticky; top: 0; z-index: 2; border-top: none; border-bottom: 1px solid #c8ced3;}
+.table-fix-head th       { background: #ffffff; }
+
+.animate-fade-in {
+  -webkit-animation: fadein 0.5s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 0.5s; /* Firefox < 16 */
+  -ms-animation: fadein 0.5s; /* Internet Explorer */
+  -o-animation: fadein 0.5s; /* Opera < 12.1 */
+  animation: fadein 0.5s;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// END Explorer
+
+// START REMOTE CONFIG
+
+.btn-blue {
+  background-color: rgba(63,121,173,1);
+  color: #ffffff;
+}
+
+.btn-blue :hover{
+  background-color: rgba(63,121,173,1);
+  color: #ffffff;
+
+}
+
+.btn-no-background {
+  background: none;
+  border: none;
+  font-weight: bold;
+  color: rgba(44,44,44,1);
+}
+.timeline {
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  h4 {
+    padding-top: 10px;
+    font-weight: bold;
+    color: rgba(140,140,140,1);
+
+  }
+
+  .btn-step-count {
+    border-radius: 100px;
+    background: none;
+    border: 5px solid rgba(140, 140, 140, 1);
+    color: rgba(66, 66, 66, 1);
+    font-weight: bold;
+
+  }
+
+  .timeline-divider {
+    border: 2px solid rgba(66,66,66,1);
+    margin-top: 24px;
+
+  }
+
+  .step-active{
+    .btn {
+      border: 5px solid rgba(63,121,173,1);
+    }
+    h4 {
+      color: rgba(66,66,66,1);
+    }
+  }
+  .btn-step-active {
+    border: 5px solid rgba(63,121,173,1);
+  }
+
+}
+
+
+// Timeline code
+
+// END Remote Config
+
+// START Sidebar
+
+.sidebar{
+  ul.nav {
+    background-color: #ffffff;
+    font-family: Nunito, sans-serif;
+    font-weight: bold;
+  }
+  .nav-link.active {
+    background-color: #ffffff;
+    color: rgb(63,121,173);
+  }
+  .nav-link.active > .nav-icon :hover{
+    color: rgb(63,121,173);
+  }
+  .nav-link {
+    color: rgb(114,114,114);
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-top: 1px solid rgba(232, 239, 247, 1);
+  }
+
+  .nav-link-success:hover {
+    color: #fff;
+  }
+}
+
+// END Sidebar
+
+.custom-tab {
+  border-right: 1px solid #c8ced3;
+  background-color: #ffffff;
+  color: #000000;
+  overflow-x: hidden;
+
+  i {
+    color: #000;
+  }
+}
+
+.tab-active {
+  background: #1b8eb7;
+  color: #ffffff;
+
+  i {
+    color: #fff;
+  }
+}
+
 .text-red {
   color: #FF0000;
 }
@@ -51,7 +268,7 @@
   font-size: 16px;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
-  z-index: 2;
+  z-index: 3;
   height: 300px;
   overflow: auto;
 }

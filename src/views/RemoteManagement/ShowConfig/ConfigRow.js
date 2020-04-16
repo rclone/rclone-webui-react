@@ -59,9 +59,9 @@ class ConfigRow extends React.Component {
                 <td>{type}</td>
                 <td>
 
-                    <Button className={"bg-info"} onClick={this.onUpdateClicked}>Update</Button>
+                    <Button className={"bg-info mr-2"} onClick={this.onUpdateClicked}>Update</Button>
+                    <Button className={"bg-danger"} onClick={this.onDeleteClicked}>Delete</Button>
                 </td>
-                <td><Button className={"bg-danger"} onClick={this.onDeleteClicked}>Delete</Button></td>
             </tr>
         );
     }

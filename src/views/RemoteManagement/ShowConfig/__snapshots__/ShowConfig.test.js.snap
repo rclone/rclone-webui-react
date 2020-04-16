@@ -17,21 +17,8 @@ exports[`Show Config renders should match snapshot 1`] = `
     }
   >
     <Col
+      className="mb-4"
       lg={8}
-      tag="div"
-      widths={
-        Array [
-          "xs",
-          "sm",
-          "md",
-          "lg",
-          "xl",
-        ]
-      }
-    />
-    <Col
-      className="mb-3"
-      lg={4}
       tag="div"
       widths={
         Array [
@@ -44,16 +31,30 @@ exports[`Show Config renders should match snapshot 1`] = `
       }
     >
       <Button
-        className="float-right"
+        className="float-left"
         color="primary"
         onClick={[Function]}
         tag="button"
       >
-        New Config
+        Create a New Config
       </Button>
     </Col>
+    <Col
+      lg={4}
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    />
   </Row>
   <Table
+    className="table-striped"
     responsive={true}
     responsiveTag="div"
     tag="table"
@@ -70,10 +71,7 @@ exports[`Show Config renders should match snapshot 1`] = `
           Type
         </th>
         <th>
-          Update
-        </th>
-        <th>
-          Delete
+          Actions
         </th>
       </tr>
     </thead>

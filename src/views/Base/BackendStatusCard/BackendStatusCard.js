@@ -66,7 +66,7 @@ class BackendStatusCard extends React.Component {
                 <Card
                     className={"text-center " + (isConnected ? "card-accent-info" : "card-accent-warning")}>
                     <CardHeader>
-                        rclone status
+                        Overview
                     </CardHeader>
                     <CardBody>
                         <StatusText checkStatus={checkStatus} connectivityStatus={isConnected} ipAddress={ipAddress}
@@ -97,20 +97,33 @@ class BackendStatusCard extends React.Component {
  * @constructor
  */
 function StatusText({connectivityStatus, checkStatus, ipAddress, userName}) {
-    if (!checkStatus) {
-        return <p>Not monitoring connectivity status. Tap the icon in navbar to start.</p>
-    }
-    if (connectivityStatus) {
-        return (
-            <p>The rclone backend is connected and working as expected.<br/>Current IP address is {ipAddress}
-                <br/><strong> Username: </strong>{userName}</p>
-        );
-    } else {
-        return (
-            <p>Cannot connect to rclone backend. There is a problem with connecting to {ipAddress}.</p>
 
-        )
+    let statusText = "";
+    if(!checkStatus){
+        statusText = "Not monitoring connectivity status. Tap the icon in navbar to start.";
+    }else if(connectivityStatus){
+        // Connected to backend
+        statusText = "rClone Backend is connected and working as expected";
+    }else{
+        statusText = "Cannot connect to rclone backend. There is a problem with connecting to {ipAddress}."
     }
+
+    return (
+        <>
+            <p>
+                <span className={"card-subtitle"}>Status: {" "}</span>
+                <span className="card-text">{statusText}</span>
+            </p>
+            <p>
+                <span className={"card-subtitle"}>Current IP Address: {" "}</span>
+                <span className="card-text">{ipAddress}</span>
+            </p>
+            <p>
+                <span className={"card-subtitle"}>Username: {" "}</span>
+                <span className="card-text">{userName}</span>
+            </p>
+        </>
+    )
 }
 
 const propTypes = {

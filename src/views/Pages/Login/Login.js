@@ -1,23 +1,24 @@
 import React, {Component} from 'react';
 import {
-    Button,
-    Card,
-    CardBody,
-    CardGroup,
-    Col,
-    Container,
-    Form,
-    Input,
-    InputGroup,
-    InputGroupAddon,
-    InputGroupText,
-    Row,
-    UncontrolledAlert
+	Button,
+	Card,
+	CardBody,
+	CardGroup,
+	Col,
+	Container,
+	Form,
+	Input,
+	InputGroup,
+	InputGroupAddon,
+	InputGroupText,
+	Row,
+	UncontrolledAlert
 } from 'reactstrap';
 import {connect} from "react-redux";
 import {changeAuthKey, changeIPAddress, changeUserNamePassword, signOut} from "../../../actions/userActions";
 import axiosInstance from "../../../utils/API/API";
 import urls from "../../../utils/API/endpoint";
+import logo from '../../../assets/img/brand/logo_symbol.png'
 
 
 function removeParam(parameter) {
@@ -57,7 +58,6 @@ class Login extends Component {
             username: "",
             password: "",
             ipAddress,
-            connectionSuccess: false,
             error: ""
         };
     }
@@ -65,13 +65,11 @@ class Login extends Component {
     changeUserName = e => {
         this.setState({
             username: e.target.value,
-            connectionSuccess: false
         });
     };
     changePassword = e => {
         this.setState({
             password: e.target.value,
-            connectionSuccess: false
 
         })
     };
@@ -79,7 +77,6 @@ class Login extends Component {
 
         this.setState({
             ipAddress: e.target.value,
-            connectionSuccess: false
         });
     };
 
@@ -89,59 +86,69 @@ class Login extends Component {
 
 
     onSubmit = e => {
-        if (e)
-            e.preventDefault();
+		if (e)
+			e.preventDefault();
 
-        const {ipAddress, username, password} = this.state;
-
-        Promise.all([
-            changeUserNamePassword(username, password),
-            changeIPAddress(ipAddress)
-        ]).then(() => {
-            this.redirectToDashboard()
-        });
-
-    };
-
-    checkConnection = (e) => {
-        e.preventDefault();
-
-        // Set the localStorage parameters temporarily.
-        const {ipAddress, username, password} = this.state;
-        const {changeUserNamePassword, changeIPAddress} = this.props;
-
-        Promise.all([
-            changeUserNamePassword(username, password),
-            changeIPAddress(ipAddress)
-        ]).then(() => {
-            axiosInstance.post(urls.noopAuth).then((data) => {
-                console.log("Connection successful.");
-                this.setState({
-                    connectionSuccess: true,
-                    error: ""
-                })
-            }, (error) => {
-                console.log(error);
-                this.setState({
-                    connectionSuccess: false,
-                    error: "Error connecting. Please check username password and verify if rclone is working at the specified IP."
-                })
-            })
-        })
+		const {ipAddress, username, password} = this.state;
+		const {changeUserNamePassword, changeIPAddress} = this.props;
 
 
-    };
+		Promise.all([
+			changeUserNamePassword(username, password),
+			changeIPAddress(ipAddress)
+		]).then(() => {
+			axiosInstance.post(urls.noopAuth).then((data) => {
+				console.log("Connection successful.");
+				this.redirectToDashboard();
+			}, (error) => {
+				console.log(error);
+				this.setState({
+					error: "Error connecting. Please check username password and verify if rclone is working at the specified IP."
+				})
+			})
 
-    componentDidMount() {
-        localStorage.clear();
-        this.props.signOut();
+		});
 
+	};
 
-        let url_string = window.location.href;
-        let url = new URL(url_string);
-        let loginToken = url.searchParams.get("login_token");
-        let ipAddress = this.state.ipAddress;
-        if (url.searchParams.get("ip_address")) {
+	// checkConnection = (e) => {
+	//     e.preventDefault();
+	//
+	//     // Set the localStorage parameters temporarily.
+	//     const {ipAddress, username, password} = this.state;
+	//     const {changeUserNamePassword, changeIPAddress} = this.props;
+	//
+	//     Promise.all([
+	//         changeUserNamePassword(username, password),
+	//         changeIPAddress(ipAddress)
+	//     ]).then(() => {
+	//         axiosInstance.post(urls.noopAuth).then((data) => {
+	//             console.log("Connection successful.");
+	//             this.setState({
+	//                 connectionSuccess: true,
+	//                 error: ""
+	//             })
+	//         }, (error) => {
+	//             console.log(error);
+	//             this.setState({
+	//                 connectionSuccess: false,
+	//                 error: "Error connecting. Please check username password and verify if rclone is working at the specified IP."
+	//             })
+	//         })
+	//     })
+	//
+	//
+	// };
+
+	componentDidMount() {
+		localStorage.clear();
+		this.props.signOut();
+
+		let url_string = window.location.href;
+		let url = new URL(url_string);
+		let loginToken = url.searchParams.get("login_token");
+		let ipAddress = this.state.ipAddress;
+		if (url.searchParams.get("ip_address")) {
             ipAddress = url.searchParams.get("ip_address");
         }
         // console.log(loginToken);
@@ -158,8 +165,9 @@ class Login extends Component {
     }
 
 
+
     render() {
-        const {username, password, ipAddress, connectionSuccess, error} = this.state;
+		const {username, password, ipAddress, error} = this.state;
 
         return (
             <div className="app flex-row align-items-center" data-test="loginComponent">
@@ -169,27 +177,25 @@ class Login extends Component {
                             <CardGroup>
                                 <Card className="p-4">
                                     <CardBody>
-                                        <Form onSubmit={this.onSubmit}>
-                                            <h1>Login</h1>
-                                            <p className="text-muted">Sign In to your account</p>
-                                            {error && <UncontrolledAlert color="danger" children={error}/>}
-                                            {connectionSuccess && <UncontrolledAlert color="success"
-                                                                                     children={"Connection verified. You may now login."}/>}
-                                            <InputGroup className="mb-3">
-                                                <InputGroupAddon addonType="prepend">
-                                                    <InputGroupText>
-                                                        <i className="icon-user"></i>
-                                                    </InputGroupText>
-                                                </InputGroupAddon>
-                                                <Input type="text" placeholder="IP Address / URL"
-                                                       autoComplete="ipAddress"
-                                                       onChange={this.changeIPAddress} value={ipAddress}
-                                                       data-testid="LoginForm-ipAddress"/>
+										<Form onSubmit={this.onSubmit}>
+											<h1>Login</h1>
+											<p className="text-muted">Sign In to your account</p>
+											{error && <UncontrolledAlert color="danger" children={error}/>}
+											<InputGroup className="mb-3">
+												<InputGroupAddon addonType="prepend">
+													<InputGroupText>
+														<i className="icon-user"/>
+													</InputGroupText>
+												</InputGroupAddon>
+												<Input type="text" placeholder="IP Address / URL"
+													   autoComplete="ipAddress"
+													   onChange={this.changeIPAddress} value={ipAddress}
+													   data-testid="LoginForm-ipAddress"/>
                                             </InputGroup>
                                             <InputGroup className="mb-3">
                                                 <InputGroupAddon addonType="prepend">
                                                     <InputGroupText>
-                                                        <i className="icon-user"></i>
+														<i className="icon-user"/>
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input type="text" placeholder="Username" autoComplete="username"
@@ -199,7 +205,7 @@ class Login extends Component {
                                             <InputGroup className="mb-4">
                                                 <InputGroupAddon addonType="prepend">
                                                     <InputGroupText>
-                                                        <i className="icon-lock"></i>
+														<i className="icon-lock"/>
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input type="password" placeholder="Password"
@@ -209,23 +215,16 @@ class Login extends Component {
                                             </InputGroup>
                                             <Row>
                                                 <Col xs="6">
-                                                    <Button color="primary" className="px-4"
-                                                            data-testid="LoginForm-BtnLogin"
-                                                            disabled={!connectionSuccess}>Login</Button>
-                                                </Col>
-                                                <Col xs="6" className="text-right">
-                                                    <Button onClick={this.checkConnection} color="primary"
-                                                            data-testid="LoginForm-BtnVerify"
-                                                            className="px-4">Verify</Button>
+                                                    <Button color="primary" className="px-4" type="submit"
+                                                            data-testid="LoginForm-BtnLogin">Login</Button>
                                                 </Col>
                                             </Row>
                                         </Form>
                                     </CardBody>
                                 </Card>
-                                <Card className="text-white bg-primary py-5 d-md-down-none" style={{width: '44%'}}>
+                                <Card className="text-white bg-white py-5 d-md-down-none" style={{width: '44%'}}>
                                     <CardBody className="text-center">
-                                        <div>
-                                        </div>
+										<img src={logo} alt="RClone logo"/>
                                     </CardBody>
                                 </Card>
                             </CardGroup>

@@ -3,7 +3,7 @@ import {NavLink} from 'react-router-dom';
 import {Nav, NavItem} from 'reactstrap';
 import PropTypes from 'prop-types';
 
-import {AppAsideToggler, AppNavbarBrand, AppSidebarToggler} from '@coreui/react';
+import {AppNavbarBrand, AppSidebarToggler} from '@coreui/react';
 import logo from '../../assets/img/brand/logo.png'
 import favicon from '../../assets/img/brand/favicon.png'
 import BackendStatusCard from "../../views/Base/BackendStatusCard/BackendStatusCard";
@@ -24,8 +24,8 @@ class DefaultHeader extends Component {
             <React.Fragment>
                 <AppSidebarToggler className="d-lg-none" display="md" mobile/>
                 <AppNavbarBrand
-                    full={{src: logo, width: 89, height: 25, alt: 'CoreUI Logo'}}
-                    minimized={{src: favicon, width: 30, height: 30, alt: 'CoreUI Logo'}}
+                    full={{src: logo, width: 89, height: 25, alt: 'Rclone Logo'}}
+                    minimized={{src: favicon, width: 30, height: 30, alt: 'Rclone Logo'}}
                 />
                 <AppSidebarToggler className="d-md-down-none" display="lg"/>
 
@@ -37,10 +37,8 @@ class DefaultHeader extends Component {
                 </Nav>
                 <Nav className="ml-auto" navbar>
                     <BackendStatusCard mode={"button"}/>
-
-
                 </Nav>
-                <AppAsideToggler className="d-md-down-none"/>
+
             </React.Fragment>
         );
     }

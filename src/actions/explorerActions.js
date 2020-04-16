@@ -1,15 +1,18 @@
 import axiosInstance from "../utils/API/API";
 import {
-    CHANGE_DISTRACTION_FREE_MODE,
-    CHANGE_LAYOUT_COLS,
-    GET_CONFIG_FOR_REMOTE,
-    GET_FILES_LIST,
-    GET_REMOTE_LIST,
-    REQUEST_ERROR,
-    REQUEST_SUCCESS
+	ADD_LAYOUT_CONTAINER,
+	CHANGE_ACTIVE_REMOTE_CONTAINER,
+	CHANGE_DISTRACTION_FREE_MODE,
+	CHANGE_LAYOUT_COLS,
+	GET_CONFIG_FOR_REMOTE,
+	GET_FILES_LIST,
+	GET_REMOTE_LIST,
+	REMOVE_LAYOUT_CONTAINER,
+	REQUEST_ERROR,
+	REQUEST_SUCCESS
 } from "./types";
-import {addColonAtLast, isLocalRemoteName} from "../utils/Tools";
-import {createPath} from "./explorerStateActions";
+import {addColonAtLast, isLocalRemoteName, makeUniqueID} from "../utils/Tools";
+import {createPath, removePath} from "./explorerStateActions";
 import urls from "../utils/API/endpoint";
 
 /**
@@ -110,21 +113,74 @@ export const getFiles = (remoteName, remotePath) => dispatch => {
 
 /**
  * Changes the number of columns in current layout view.
+ * @param mode          {string} Either "vertical or horizontal, defines the split type"
  * @param numCols       {number} Number of columns to create
  * @returns {Function}
  */
-export const changeNumCols = (numCols) => (dispatch) => {
+export const changeNumCols = (numCols, mode) => (dispatch) => {
     if (!numCols || numCols < 0) throw new Error(`Invalid number of cols:${numCols}`);
 
 
-    for (let i = 0; i < numCols; i++) {
-        dispatch(createPath(i.toString()))
-    }
+    // for (let i = 0; i < numCols; i++) {
+    //     dispatch(createPath(i.toString()))
+    // }
 
     dispatch({
         type: CHANGE_LAYOUT_COLS,
         payload: {
-            numCols
+            numCols, mode
+        }
+    })
+};
+
+/**
+ * Adds a new remote container.
+ * @param paneID               {int} pane ID
+ * @returns {Function}
+ */
+export const addRemoteContainer = (paneID) => (dispatch) => {
+    const uniqueID = makeUniqueID(3);
+    dispatch(createPath(uniqueID));
+    dispatch(changeActiveRemoteContainer(uniqueID, paneID));
+    dispatch({
+        type: ADD_LAYOUT_CONTAINER,
+        payload: {
+            containerID: uniqueID,
+            paneID
+        }
+    })
+};
+
+
+/**
+ * Remove a new remote container.
+ * @param containerID          {string} Container ID to remove
+ * @param paneID               {int} pane ID
+ * @returns {Function}
+ */
+export const removeRemoteContainer = (containerID, paneID) => (dispatch) => {
+	dispatch(removePath(containerID));
+    // console.log("Removing : " + containerID);
+    dispatch({
+        type: REMOVE_LAYOUT_CONTAINER,
+        payload: {
+            containerID, paneID
+        }
+    })
+};
+
+/**
+ * Change active remote container.
+ * @param containerID          {string} Container ID to remove
+ * @param paneID               {int} pane ID
+ * @returns {Function}
+ */
+export const changeActiveRemoteContainer = (containerID, paneID) => (dispatch) => {
+    dispatch({
+        type: CHANGE_ACTIVE_REMOTE_CONTAINER,
+        payload: {
+            containerID,
+            paneID
         }
     })
 };

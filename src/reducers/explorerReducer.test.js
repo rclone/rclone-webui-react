@@ -5,13 +5,16 @@ describe('Explorer Reducer', function () {
     it('should return default state', function () {
         const newState = explorerReducer(undefined, {});
         expect(newState).toEqual({
-            configs: {},
-            remotes: [],
-            files: {},
-            hasError: false,
-            numCols: 0,
-            distractionFreeMode: false,
-        });
+			configs: {},
+			remotes: [],
+			files: {},
+			hasError: false,
+			numContainers: 0,
+			containers: [],
+			activeRemoteContainerID: {},
+			distractionFreeMode: false,
+			numCols: 1
+		});
     });
 
     it('should change state for GET_CONFIG_FOR_REMOTE SUCCESS', function () {

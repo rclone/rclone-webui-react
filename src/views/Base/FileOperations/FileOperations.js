@@ -1,34 +1,34 @@
 import React from 'react';
 import {
-    Button,
-    ButtonDropdown,
-    ButtonGroup,
-    Col,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
-    Input,
-    InputGroup,
-    InputGroupAddon,
-    Modal,
-    ModalBody,
-    ModalFooter,
-    ModalHeader,
-    Row,
-    Spinner,
-    UncontrolledTooltip
+	Button,
+	ButtonDropdown,
+	ButtonGroup,
+	Col,
+	DropdownItem,
+	DropdownMenu,
+	DropdownToggle,
+	Form,
+	FormGroup,
+	Input,
+	Modal,
+	ModalBody,
+	ModalFooter,
+	ModalHeader,
+	Row,
+	Spinner,
+	UncontrolledTooltip
 } from "reactstrap";
 import NewFolder from "../NewFolder/NewFolder";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {
-    changeGridMode,
-    changeVisibilityFilter,
-    getFilesForContainerID,
-    navigateBack,
-    navigateFwd,
-    setLoadImages,
-    setSearchQuery
+	changeGridMode,
+	changeVisibilityFilter,
+	getFilesForContainerID,
+	navigateBack,
+	navigateFwd,
+	setLoadImages,
+	setSearchQuery
 } from "../../../actions/explorerStateActions";
 import {visibilityFilteringOptions} from "../../../utils/Constants";
 import {getAbout} from "../../../actions/providerStatusActions";
@@ -38,6 +38,7 @@ import axiosInstance from "../../../utils/API/API";
 import {toast} from "react-toastify";
 import {PROP_FS_INFO} from "../../../utils/RclonePropTypes";
 import urls from "../../../utils/API/endpoint";
+import newFolderImg from '../../../assets/img/new-folder.png'; // with import
 
 /**
  * File Operations component which handles user actions for files in the remote.( Visibility, gridmode, back, forward etc)
@@ -48,7 +49,8 @@ class FileOperations extends React.Component {
         this.state = {
             newFolderModalIsVisible: false,
             isAboutModalOpen: false,
-            dropdownOpen: false
+            dropdownOpen: false,
+            searchOpen: false
         };
         this.filterOptions = visibilityFilteringOptions;
     }
@@ -72,20 +74,13 @@ class FileOperations extends React.Component {
         const {changeVisibilityFilter} = this.props;
 
         changeVisibilityFilter(this.props.containerID, newFilter);
-        this.toggleDropDown();
 
     };
 
 
-    handleChangeGridMode = (e) => {
-
-        const gridMode = e.target.value;
-
-        const {changeGridMode} = this.props;
-
-        changeGridMode(this.props.containerID, gridMode);
-        this.toggleDropDown();
-
+    handleChangeGridMode = () => {
+        const {gridMode, changeGridMode, containerID} = this.props;
+        changeGridMode(containerID, gridMode === "list" ? "card" : "list");
     };
 
     changeSearch = (e) => {
@@ -162,106 +157,92 @@ class FileOperations extends React.Component {
         setLoadImages(containerID, !loadImages);
     };
 
+	handleSearchOpen = () => {
+		const {containerID} = this.props;
+		this.setState((prevState) => {
+				if (prevState.searchOpen) {
+					// Clear Search Query if the search is about to close
+					this.props.setSearchQuery(containerID, "");
+				}
+
+				return {searchOpen: !prevState.searchOpen}
+			}
+		);
+	};
+
 
     render() {
-        const {containerID, loadImages, getFilesForContainerID, visibilityFilter, gridMode, navigateFwd, navigateBack, searchQuery, currentPath, doughnutData} = this.props;
-        const {newFolderModalIsVisible, dropdownOpen, isAboutModalOpen} = this.state;
+        const {containerID, getFilesForContainerID, gridMode, navigateFwd, navigateBack, searchQuery, currentPath, doughnutData} = this.props;
+        const {newFolderModalIsVisible, dropdownOpen, isAboutModalOpen, searchOpen} = this.state;
 
         const {remoteName, remotePath} = currentPath;
 
         return (
-            <nav aria-label="breadcrumb">
-                <ol className="breadcrumb">
-                    <li className="breadcrumb-item active">{remoteName}:/</li>
+            <nav aria-label="breadcrumb" className="row mt-3 mb-1">
+				<Col sm={4} md={3} className="pl-0">
+					<Button color="light" className={"mr-1 btn-explorer-action"}
+							onClick={() => navigateBack(containerID)}><i
+						className={"fa fa-lg fa-arrow-left"}/></Button>
+					<Button color="light" className={"mr-1 btn-explorer-action"}
+							onClick={() => navigateFwd(containerID)}><i
+						className={"fa fa-lg fa-arrow-right"}/></Button>
+					<Button className="mr-1 btn-explorer-action" id="RefreshButton"
+							onClick={() => getFilesForContainerID(containerID)}><i
+						className={"fa fa-lg fa-repeat"}/></Button>
+					<UncontrolledTooltip placement="right" target="RefreshButton">
+						Refresh Files
+					</UncontrolledTooltip>
+				</Col>
+				<Col sm={8} md={searchOpen ? 3 : 5}>
+					<ol className="breadcrumb float-center" style={{padding: "6px 12px"}}>
+						<li className="breadcrumb-item active">{remoteName}:/</li>
+						{remotePath}
+					</ol>
+				</Col>
+				<Col sm={12} md={searchOpen ? 6 : 4} className="pr-0">
+					<div className="float-right form-inline">
 
-                    {remotePath}
-                    <li className="breadcrumb-menu">
-                        <div className="btn-group" role="group"
-                             aria-label="Button group with nested dropdown">
-                            {/*<a className="btn" href="#"><i className="cui-speech"></i></a>*/}
-                            {/*<a className="btn" href="#"><i className="cui-graph"></i> Dashboard</a>*/}
-                            <Button onClick={this.toggleAboutModal} className="btn"><i
-                                className="cui-settings"/> Settings</Button>
-                        </div>
-                    </li>
-                </ol>
-                <div>
-                    <Button color="light" className={"mr-1 btn-outline-dark"}
-                            onClick={() => navigateBack(containerID)}><i
-                        className={"fa fa-lg fa-angle-left"}/></Button>
-                    <Button color="light" className={"mr-1 btn-outline-dark"}
-                            onClick={() => navigateFwd(containerID)}><i
-                        className={"fa fa-lg fa-angle-right"}/></Button>
-
-
-                    <div className="float-right mb-3 mt-1 form-inline">
-
-                        <ButtonGroup>
-                            <Button className="mr-1 btn-outline-dark" id="CreateFolderButton"
-                                    onClick={this.openNewFolderModal}><i
-                                className={"fa fa-lg fa-plus"}/> </Button>
-                            <UncontrolledTooltip placement="right" target="CreateFolderButton">
+						<ButtonGroup>
+							<Form inline>
+								<FormGroup>
+									{searchOpen && <Input type="text" placeholder="Search" value={searchQuery}
+														  className="animate-fade-in"
+														  onChange={this.changeSearch}/>
+									}
+									<Button className="mr-1 btn-explorer-action" onClick={this.handleSearchOpen}>
+                                        <i className={"fa fa-lg " + (searchOpen ? "fa-close" : "fa-search")}/>
+                                    </Button>
+                                </FormGroup>
+                            </Form>
+                            <Button className="mr-1 btn-explorer-action p-1" id="CreateFolderButton"
+                                    onClick={this.openNewFolderModal}><img src={newFolderImg} alt="New Folder" className="fa fa-lg"/> </Button>
+                            <UncontrolledTooltip placement="bottom" target="CreateFolderButton">
                                 Create a new Folder
                             </UncontrolledTooltip>
-                            <Button className="mr-1 btn-outline-dark" id="RefreshButton"
-                                    onClick={() => getFilesForContainerID(containerID)}><i
-                                className={"fa fa-lg fa-repeat"}/></Button>
-                            <UncontrolledTooltip placement="right" target="RefreshButton">
-                                Refresh Files
-                            </UncontrolledTooltip>
-                            <Button className={"mr-1 " + (loadImages ? "btn-dark" : "btn-outline-dark")}
-                                    onClick={this.changeLoadMedia}><i
-                                className={"fa fa-lg fa-picture-o"} id="LoadMediaButton"/></Button>
-                            <UncontrolledTooltip placement="right" target="LoadMediaButton">
-                                Load Media
-                            </UncontrolledTooltip>
-                            <InputGroup>
-                                <InputGroupAddon addonType="prepend">
-                                    <Button style={{zIndex: 1}} type="button" color="primary"><i
-                                        className="fa fa-search"/> Search</Button>
-                                </InputGroupAddon>
-                                <Input type="text" id="input1-group2" placeholder="Search" value={searchQuery}
-                                       onChange={this.changeSearch}/>
-                            </InputGroup>
-                            <ButtonDropdown isOpen={dropdownOpen} toggle={this.toggleDropDown}>
-                                <DropdownToggle caret>
-                                    More
-                                </DropdownToggle>
-                                <DropdownMenu>
-                                    <DropdownItem>View Type{' '}
-                                        <Input type={"select"} onClick={(e) => e.stopPropagation()}
-                                               onChange={this.handleChangeGridMode} value={gridMode}>
-                                            <option value={"grid"}>Table</option>
-                                            <option value={"card"}>Card</option>
-                                        </Input>
 
-                                    </DropdownItem>
-                                    <DropdownItem>File Filter{' '}
-                                        <Input type={"select"}
-                                               onClick={(e) => e.stopPropagation()/*Stop propagation is required to prevent parent dropdown from closing.*/}
-                                               onChange={this.handleChangeFilter} value={visibilityFilter}
-                                               className="ml-1 mr-1">
-                                            <option key={0}>None</option>
-                                            {
-                                                this.filterOptions.map((item, _) => {
-                                                    return (<option key={item} value={item}>{item}</option>)
-                                                })
-                                            }
-                                        </Input>
-                                    </DropdownItem>
-                                    {/*{gridMode !== "grid" &&*/}
-                                    {/*<DropdownItem onClick={this.changeLoadMedia}>Load Media{' '}*/}
-
-                                    {/*    <Input id={"loadImg" + containerID} checked={loadImages} type="checkbox"*/}
-                                    {/*           onClick={(e) => e.stopPropagation()}*/}
-                                    {/*           onChange={this.changeLoadMedia/*Stop propagation is required to prevent parent dropdown from closing.*!/*/}
-                                    {/*           className="ml-1 mr-1">*/}
-                                    {/*    </Input>*/}
-                                    {/*</DropdownItem>*/}
-                                    {/*}*/}
-                                </DropdownMenu>
-
+                            <ButtonDropdown  isOpen={dropdownOpen} toggle={this.toggleDropDown} direction={'down'} id="FilterButton">
+								<DropdownToggle className="btn-explorer-action">
+									<i className={"fa fa-lg fa-filter"}/>
+								</DropdownToggle>
+								<DropdownMenu>
+									<DropdownItem key={"None"} value={""}
+												  onClick={this.handleChangeFilter}>None</DropdownItem>
+									{
+										this.filterOptions.map((item, _) => {
+											return (<DropdownItem key={item} value={item}
+																  onClick={this.handleChangeFilter}>{item}</DropdownItem>)
+										})
+									}
+								</DropdownMenu>
                             </ButtonDropdown>
+
+                            <Button className="btn-explorer-action" id="ListViewButton"
+                                    onClick={this.handleChangeGridMode}>
+                                <i className={"fa fa-lg " + (gridMode === "card" ? "fa-list" : "fa-th-large")}/>
+                            </Button>
+                            <UncontrolledTooltip placement="right" target="ListViewButton">
+                                {(gridMode === "card" ? "List View" : "Card View")}
+                            </UncontrolledTooltip>
                         </ButtonGroup>
 
 
@@ -297,9 +278,8 @@ class FileOperations extends React.Component {
                         </Modal>
 
                     </div>
-                </div>
+                </Col>
             </nav>
-
 
         );
     }
@@ -331,17 +311,19 @@ FileOperations.propTypes = {
      */
     searchQuery: PropTypes.string,
     /**
-     * A map which gives the information about the remote about.
-     */
-    remoteAbout: PropTypes.object,
-    /**
-     * File system information and features about the current remote
-     */
-    fsInfo: PROP_FS_INFO,
-    /**
-     * Map of data to be passed to the doughnutChart.
-     */
-    doughnutData: PropTypes.object
+	 * A map which gives the information about the remote about.
+	 */
+	remoteAbout: PropTypes.object,
+	/**
+	 * File system information and features about the current remote
+	 */
+	fsInfo: PROP_FS_INFO,
+	/**
+	 * Map of data to be passed to the doughnutChart.
+	 */
+	doughnutData: PropTypes.object,
+
+	numCols: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -389,15 +371,16 @@ const mapStateToProps = (state, ownProps) => {
     }
 
     return {
-        visibilityFilter: state.explorer.visibilityFilters[ownProps.containerID],
-        loadImages: state.explorer.loadImages[ownProps.containerID],
-        currentPath: state.explorer.currentPaths[ownProps.containerID],
-        gridMode: state.explorer.gridMode[ownProps.containerID],
-        searchQuery: state.explorer.searchQueries[ownProps.containerID],
-        fsInfo,
-        doughnutData
+		visibilityFilter: state.explorer.visibilityFilters[ownProps.containerID],
+		loadImages: state.explorer.loadImages[ownProps.containerID],
+		currentPath: state.explorer.currentPaths[ownProps.containerID],
+		gridMode: state.explorer.gridMode[ownProps.containerID],
+		searchQuery: state.explorer.searchQueries[ownProps.containerID],
+		fsInfo,
+		doughnutData,
+		numCols: state.remote.numCols,
 
-    }
+	}
 };
 
 
