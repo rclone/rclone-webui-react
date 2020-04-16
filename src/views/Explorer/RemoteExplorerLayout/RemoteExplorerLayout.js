@@ -37,31 +37,42 @@ class RemoteExplorerLayout extends React.Component {
         }
     }
 
-    toggleDistractionFreeMode = (e) => {
-        const {distractionFreeMode, changeDistractionFreeMode} = this.props;
-        // this.setState((prevState) => ({
-        //     distractionFreeMode: !prevState.distractionFreeMode
-        // }));
-        changeDistractionFreeMode(!distractionFreeMode);
+    toggleDistractionFreeMode = (_) => {
+		const {distractionFreeMode, changeDistractionFreeMode} = this.props;
+		// this.setState((prevState) => ({
+		//     distractionFreeMode: !prevState.distractionFreeMode
+		// }));
+		changeDistractionFreeMode(!distractionFreeMode);
 
-    };
+	};
 
-    Panes = ({numCols, activeRemoteContainerID, distractionFreeMode}) => {
-        let returnData = [];
-        const lgSize = 12 / numCols;
-        for (let i = 0; i < numCols; i++) {
-            returnData.push((
-                <Col lg={lgSize} key={i}>
-                    <Row>
-                        <Col lg={12}>
-                            <TabsLayout paneID={i}/>
-                        </Col>
-                    </Row>
-                    {activeRemoteContainerID && activeRemoteContainerID[i] && activeRemoteContainerID[i] !== "" &&
-                    <RemoteExplorer containerID={activeRemoteContainerID[i]}
-                                    distractionFreeMode={distractionFreeMode}/>}
+	Panes = ({numCols, activeRemoteContainerID, distractionFreeMode, containers}) => {
+		let returnData = [];
+		const lgSize = 12 / numCols;
+		for (let pane = 0; pane < numCols; pane++) {
+			returnData.push((
+				<Col lg={lgSize} key={pane}>
+					<Row>
+						<Col lg={12}>
+							<TabsLayout paneID={pane}/>
+						</Col>
+					</Row>
+					{
+						containers.map(({ID, paneID}) => {
+							if (paneID === pane) {
+								return (<RemoteExplorer containerID={ID} key={ID}
+														className={activeRemoteContainerID && activeRemoteContainerID[pane] && activeRemoteContainerID[pane] !== ID ? "d-none" : ""}
+														distractionFreeMode={distractionFreeMode}/>)
+							} else {
+								return null;
+							}
+						})
+					}
+					{/*{activeRemoteContainerID && activeRemoteContainerID[pane] && activeRemoteContainerID[pane] !== "" &&*/}
+					{/*<RemoteExplorer containerID={activeRemoteContainerID[pane]} className={"d-none"}*/}
+					{/*                distractionFreeMode={distractionFreeMode}/>}*/}
 
-                </Col>
+				</Col>
             ))
         }
         return returnData;
@@ -70,7 +81,7 @@ class RemoteExplorerLayout extends React.Component {
     render() {
 
         /*Divide the 12 bootstrap columns to fit number of explorers*/
-        const {numCols, distractionFreeMode, activeRemoteContainerID} = this.props;
+		const {numCols, distractionFreeMode, activeRemoteContainerID, containers} = this.props;
         return (
             <ErrorBoundary>
                 <Row className={"d-none d-md-block"} data-test="remoteExplorerLayout">
@@ -81,17 +92,17 @@ class RemoteExplorerLayout extends React.Component {
                     </div>}
 
                     {(!distractionFreeMode) &&
-                    <Col sm={12} lg={12} className="mb-3">
+					<Col sm={12} lg={12} className="mb-3 d-none d-md-block">
                             
 
                         <span className="text-choose-layout">
                             Choose Layout: {"  "}
                         </span>
 
-                        <Button color={"primary"} className={"ml-2 layout-change-button"}
-                                onClick={() => this.changeLayout(1, "horizontal")}>
-                            <img style={{height: 24}} src={singlePaneImg} alt="Single Vertical Pane"/>
-                        </Button>
+						<Button color={"primary"} className={"ml-2 layout-change-button"}
+								onClick={() => this.changeLayout(1, "horizontal")}>
+							<img style={{height: 24}} src={singlePaneImg} alt="Single Vertical Pane"/>
+						</Button>
                         <Button color={"primary"} className={"ml-2 layout-change-button"}
                                 onClick={() => this.changeLayout(2, "horizontal")}>
                             <img style={{height: 24}} src={doublePaneImg} alt="Double Vertical Pane"/>
@@ -112,9 +123,10 @@ class RemoteExplorerLayout extends React.Component {
 
                 <Row>
                     <this.Panes
-                        numCols={numCols}
-                        distractionFreeMode={distractionFreeMode}
-                        activeRemoteContainerID={activeRemoteContainerID}
+						numCols={numCols}
+						distractionFreeMode={distractionFreeMode}
+						activeRemoteContainerID={activeRemoteContainerID}
+						containers={containers}
                     />
                 </Row>
             </ErrorBoundary>

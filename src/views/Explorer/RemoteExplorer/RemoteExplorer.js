@@ -56,15 +56,14 @@ class RemoteExplorer extends React.Component {
 
 
 		const {remoteName} = this.props.currentPath;
-		const {containerID, distractionFreeMode} = this.props;
+		const {containerID, className} = this.props;
 
 		const isValidPath = remoteName && remoteName !== "";
 
 		return (
 			<ErrorBoundary>
 
-				{(!distractionFreeMode) &&
-				<Card>
+				<Card className={className}>
 					<CardBody>
 						<Container fluid={true}>
 
@@ -83,7 +82,7 @@ class RemoteExplorer extends React.Component {
 
 					</CardBody>
 				</Card>
-				}
+
 
 			</ErrorBoundary>
 		);
@@ -101,7 +100,8 @@ const propTypes = {
 	currentPath: PROP_CURRENT_PATH,
 	fsInfo: PROP_FS_INFO,
 	hasError: PropTypes.bool,
-	distractionFreeMode: PropTypes.bool.isRequired
+	distractionFreeMode: PropTypes.bool.isRequired,
+	className: PropTypes.string
 
 };
 

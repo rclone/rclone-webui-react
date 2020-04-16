@@ -6,7 +6,7 @@ exports[`Remote Explorer Layout renders should match snapshot 1`] = `
   data-test="remoteExplorerLayout"
 >
   <Col
-    className="mb-3"
+    className="mb-3 d-none d-md-block"
     lg={12}
     sm={12}
     tag="div"

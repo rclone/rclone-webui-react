@@ -180,7 +180,7 @@ class FilesView extends React.PureComponent {
     }
 
 
-    getFilesList(showLoading = true) {
+    getFilesList() {
         const {remoteName, remotePath} = this.props.currentPath;
 
         this.props.getFiles(remoteName, remotePath);
@@ -264,11 +264,11 @@ class FilesView extends React.PureComponent {
 
     updateHandler = () => {
 
-        const {remoteName, remotePath} = this.props.currentPath;
-        this.getFilesList(remoteName, remotePath);
+        // const {remoteName, remotePath} = this.props.currentPath;
+        this.getFilesList();
     };
 
-    dismissAlert = (e) => {
+    dismissAlert = (_) => {
         this.setState({isDownloadProgress: false});
     };
 
@@ -301,7 +301,7 @@ class FilesView extends React.PureComponent {
         const {remoteName, remotePath} = this.props.currentPath;
         // console.log(fsInfo, files);
         if (fsInfo && !isEmpty(fsInfo)) {
-            let finalResult = files.reduce((result, item) => {
+            return files.reduce((result, item) => {
                 let {ID, Name} = item;
                 // Using fallback as fileName when the ID is not available (especially for local file system)
                 if (ID === undefined) {
@@ -323,7 +323,6 @@ class FilesView extends React.PureComponent {
                 }
                 return result;
             }, []);
-            return finalResult;
         }
     };
 
@@ -331,7 +330,7 @@ class FilesView extends React.PureComponent {
         const {changeSortFilter, containerID} = this.props;
 
         if (this.props.sortFilter === sortFilter) {
-            return changeSortFilter(containerID, sortFilter, (this.props.sortFilterAscending === true ? false : true));
+            return changeSortFilter(containerID, sortFilter, (this.props.sortFilterAscending !== true));
         } else {
             return changeSortFilter(containerID, sortFilter, true);
         }
@@ -508,7 +507,7 @@ const mapStateToProps = (state, ownProps) => {
     if (files) {
         files = files.files;
         // Filter according to visibility filters
-        if (visibilityFilter) {
+        if (visibilityFilter && visibilityFilter !== "") {
             files = changeListVisibility(files, visibilityFilter);
         }
 

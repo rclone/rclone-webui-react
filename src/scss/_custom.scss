@@ -1,6 +1,6 @@
 // Here you can add other styles
 body{
-  font-family: Noto Sans;
+  font-family: Noto Sans, sans-serif;
 }
 
 .card, .card-header, .card-body {
@@ -10,7 +10,6 @@ body{
 .btn-white {
   font-style: normal;
   font-weight: normal;
-  font-size: 20px;
   color: rgba(44,44,44,1);
   background-color: rgba(232,239,247,1);
 }
@@ -25,20 +24,17 @@ body{
   background-color: rgba(188,201,214,1);
   font-style: normal;
   font-weight: bold;
-  font-size: 25px;
   color: rgba(44,44,44,1);
 }
 
 .card .card-subtitle{
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
   color: rgba(63,121,173,1);
 }
 .card .card-text {
   font-style: normal;
   font-weight: normal;
-  font-size: 20px;
   color: rgba(114,114,114,1);
 }
 
@@ -51,7 +47,6 @@ body{
 .text-choose-layout {
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
   color: rgba(114,114,114,1);
 }
 .layout-change-button{
@@ -67,7 +62,7 @@ body{
 
 .btn-explorer-action :hover {
   border: 1px;
-  background-color: none;
+  background: none;
 }
 
 .table-fix-head          { overflow-y: auto; height: 100px; }
@@ -140,9 +135,9 @@ body{
 
   .btn-step-count {
     border-radius: 100px;
-    background-color: none;
-    border: 5px solid rgba(140,140,140,1);
-    color:rgba(66,66,66,1);
+    background: none;
+    border: 5px solid rgba(140, 140, 140, 1);
+    color: rgba(66, 66, 66, 1);
     font-weight: bold;
 
   }
@@ -177,7 +172,7 @@ body{
 .sidebar{
   ul.nav {
     background-color: #ffffff;
-    font-family: Nunito;
+    font-family: Nunito, sans-serif;
     font-weight: bold;
   }
   .nav-link.active {

@@ -1,18 +1,18 @@
 import axiosInstance from "../utils/API/API";
 import {
-    ADD_LAYOUT_CONTAINER,
-    CHANGE_ACTIVE_REMOTE_CONTAINER,
-    CHANGE_DISTRACTION_FREE_MODE,
-    CHANGE_LAYOUT_COLS,
-    GET_CONFIG_FOR_REMOTE,
-    GET_FILES_LIST,
-    GET_REMOTE_LIST,
-    REMOVE_LAYOUT_CONTAINER,
-    REQUEST_ERROR,
-    REQUEST_SUCCESS
+	ADD_LAYOUT_CONTAINER,
+	CHANGE_ACTIVE_REMOTE_CONTAINER,
+	CHANGE_DISTRACTION_FREE_MODE,
+	CHANGE_LAYOUT_COLS,
+	GET_CONFIG_FOR_REMOTE,
+	GET_FILES_LIST,
+	GET_REMOTE_LIST,
+	REMOVE_LAYOUT_CONTAINER,
+	REQUEST_ERROR,
+	REQUEST_SUCCESS
 } from "./types";
 import {addColonAtLast, isLocalRemoteName, makeUniqueID} from "../utils/Tools";
-import {createPath} from "./explorerStateActions";
+import {createPath, removePath} from "./explorerStateActions";
 import urls from "../utils/API/endpoint";
 
 /**
@@ -159,7 +159,7 @@ export const addRemoteContainer = (paneID) => (dispatch) => {
  * @returns {Function}
  */
 export const removeRemoteContainer = (containerID, paneID) => (dispatch) => {
-    // dispatch(removePath(containerID));
+	dispatch(removePath(containerID));
     // console.log("Removing : " + containerID);
     dispatch({
         type: REMOVE_LAYOUT_CONTAINER,

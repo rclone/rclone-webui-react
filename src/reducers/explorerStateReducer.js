@@ -1,17 +1,17 @@
 import {
-    CHANGE_GRID_MODE,
-    CHANGE_LOAD_IMAGES,
-    CHANGE_PATH,
-    CHANGE_REMOTE_NAME,
-    CHANGE_REMOTE_PATH,
-    CHANGE_SEARCH_QUERY,
-    CHANGE_SORT_FILTER,
-    CHANGE_VISIBILITY_FILTER,
-    CREATE_PATH,
-    NAVIGATE_BACK,
-    NAVIGATE_FWD,
-    NAVIGATE_UP,
-    REMOVE_PATH
+	CHANGE_GRID_MODE,
+	CHANGE_LOAD_IMAGES,
+	CHANGE_PATH,
+	CHANGE_REMOTE_NAME,
+	CHANGE_REMOTE_PATH,
+	CHANGE_SEARCH_QUERY,
+	CHANGE_SORT_FILTER,
+	CHANGE_VISIBILITY_FILTER,
+	CREATE_PATH,
+	NAVIGATE_BACK,
+	NAVIGATE_FWD,
+	NAVIGATE_UP,
+	REMOVE_PATH
 } from "../actions/types";
 import BackStack from "../utils/classes/BackStack";
 
@@ -93,38 +93,38 @@ export default function (state = initialState, action) {
                 break;
 
             case CHANGE_REMOTE_PATH:
-                backStack.push({remoteName: backStack.peek().remoteName, remotePath: remotePath});
-                // ptr++;
+				backStack.push({remoteName: backStack.peek().remoteName, remotePath: remotePath});
+				// ptr++;
 
-                break;
+				break;
 
-            case CREATE_PATH:
-                if (!backStack || !(backStack instanceof BackStack))
-                    backStack = new BackStack();
-                break;
-            case REMOVE_PATH:
-                // return {
-                //     ...state,
-                //     backStacks: {...state.backStacks, [id]: undefined},
-                //     currentPaths: {...state.currentPaths, [id]: undefined},
-                //     visibilityFilters: {...state.visibilityFilters, [id]: undefined},
-                //     gridMode: {...state.gridMode, [id]: undefined},
-                //     searchQueries: {...state.searchQueries, [id]: undefined},
-                //     loadImages: {...state.loadImages, [id]: undefined},
-                //     sortFilters: {...state.sortFilters, [id]: undefined},
-                //     sortFiltersAscending: {...state.sortFiltersAscending, [id]: undefined},
-                // };
-                break;
-            case NAVIGATE_UP:
-                // TODO: Write logic for up, which will navigate one directory up
-                let current = backStack.peek();
+			case CREATE_PATH:
+				if (!backStack || !(backStack instanceof BackStack))
+					backStack = new BackStack();
+				break;
+			case REMOVE_PATH:
+				return {
+					...state,
+					backStacks: {...state.backStacks, [id]: undefined},
+					currentPaths: {...state.currentPaths, [id]: undefined},
+					visibilityFilters: {...state.visibilityFilters, [id]: undefined},
+					gridMode: {...state.gridMode, [id]: undefined},
+					searchQueries: {...state.searchQueries, [id]: undefined},
+					loadImages: {...state.loadImages, [id]: undefined},
+					sortFilters: {...state.sortFilters, [id]: undefined},
+					sortFiltersAscending: {...state.sortFiltersAscending, [id]: undefined},
+				};
+			// break;
+			case NAVIGATE_UP:
+				// TODO: Write logic for up, which will navigate one directory up
+				let current = backStack.peek();
 
-                if (current.remotePath && current.remotePath !== "") {
-                    const splitPath = current.remotePath.split('/');
-                    current.remotePath = "";
-                    if (splitPath.length > 1)
-                        for (let i = 0; i < splitPath.length - 1; i++) {
-                            current.remotePath = current.remotePath + ((i !== 0) ? '/' : '') + splitPath[i];
+				if (current.remotePath && current.remotePath !== "") {
+					const splitPath = current.remotePath.split('/');
+					current.remotePath = "";
+					if (splitPath.length > 1)
+						for (let i = 0; i < splitPath.length - 1; i++) {
+							current.remotePath = current.remotePath + ((i !== 0) ? '/' : '') + splitPath[i];
                         }
                 }
                 backStack.push(current);
@@ -138,8 +138,10 @@ export default function (state = initialState, action) {
                 backStack.moveBack();
                 break;
             case CHANGE_VISIBILITY_FILTER:
-                if (action.filter)
-                    visibilityFilter = action.filter;
+				if (action.filter)
+					visibilityFilter = action.filter;
+				else
+					visibilityFilter = "";
                 break;
             case CHANGE_GRID_MODE:
                 if (action.mode) {

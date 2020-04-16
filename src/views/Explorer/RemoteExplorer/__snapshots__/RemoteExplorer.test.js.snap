@@ -5,11 +5,6 @@ exports[`Remote Explorer renders should match snapshot 1`] = `
   <Card
     tag="div"
   >
-    <CardHeader
-      tag="div"
-    >
-      Remotes
-    </CardHeader>
     <CardBody
       tag="div"
     >
@@ -17,10 +12,6 @@ exports[`Remote Explorer renders should match snapshot 1`] = `
         fluid={true}
         tag="div"
       >
-        <Connect(RemotesList)
-          containerID="0"
-          remoteName="local"
-        />
         <Connect(FileOperations)
           containerID="0"
         />

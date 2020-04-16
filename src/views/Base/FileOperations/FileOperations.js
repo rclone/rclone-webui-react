@@ -1,34 +1,34 @@
 import React from 'react';
 import {
-    Button,
-    ButtonDropdown,
-    ButtonGroup,
-    Col,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
-    Form,
-    FormGroup,
-    Input,
-    Modal,
-    ModalBody,
-    ModalFooter,
-    ModalHeader,
-    Row,
-    Spinner,
-    UncontrolledTooltip
+	Button,
+	ButtonDropdown,
+	ButtonGroup,
+	Col,
+	DropdownItem,
+	DropdownMenu,
+	DropdownToggle,
+	Form,
+	FormGroup,
+	Input,
+	Modal,
+	ModalBody,
+	ModalFooter,
+	ModalHeader,
+	Row,
+	Spinner,
+	UncontrolledTooltip
 } from "reactstrap";
 import NewFolder from "../NewFolder/NewFolder";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {
-    changeGridMode,
-    changeVisibilityFilter,
-    getFilesForContainerID,
-    navigateBack,
-    navigateFwd,
-    setLoadImages,
-    setSearchQuery
+	changeGridMode,
+	changeVisibilityFilter,
+	getFilesForContainerID,
+	navigateBack,
+	navigateFwd,
+	setLoadImages,
+	setSearchQuery
 } from "../../../actions/explorerStateActions";
 import {visibilityFilteringOptions} from "../../../utils/Constants";
 import {getAbout} from "../../../actions/providerStatusActions";
@@ -157,18 +157,18 @@ class FileOperations extends React.Component {
         setLoadImages(containerID, !loadImages);
     };
 
-    handleSearchOpen = () =>{
-        const {containerID} = this.props;
-        this.setState((prevState) => {
-                if (prevState.searchOpen) {
-                    // Clear Search Query if the search is about to close
-                    this.props.setSearchQuery(containerID, "");
-                }
+	handleSearchOpen = () => {
+		const {containerID} = this.props;
+		this.setState((prevState) => {
+				if (prevState.searchOpen) {
+					// Clear Search Query if the search is about to close
+					this.props.setSearchQuery(containerID, "");
+				}
 
-                return {searchOpen: !prevState.searchOpen}
-            }
-        );
-    }
+				return {searchOpen: !prevState.searchOpen}
+			}
+		);
+	};
 
 
     render() {
@@ -179,31 +179,37 @@ class FileOperations extends React.Component {
 
         return (
             <nav aria-label="breadcrumb" className="row mt-3 mb-1">
-                <Col sm={4} md={2} lg={1} className="pl-0">
-                    <Button color="light" className={"mr-1 btn-explorer-action"}
-                            onClick={() => navigateBack(containerID)}><i
-                        className={"fa fa-lg fa-arrow-left"}/></Button>
-                    <Button color="light" className={"mr-1 btn-explorer-action"}
-                            onClick={() => navigateFwd(containerID)}><i
-                        className={"fa fa-lg fa-arrow-right"}/></Button>
-                </Col>
-                <Col sm={8} md={searchOpen ? 6 : 6} lg={searchOpen ? 7 : 9}>
-                    <ol className="breadcrumb float-center" style={{padding: "6px 12px"}}>
-                        <li className="breadcrumb-item active">{remoteName}:/</li>
-                        {remotePath}
-                    </ol>
-                </Col>
-                <Col sm={12} md={searchOpen ? 4 : 4} lg={searchOpen ? 4 : 2} className="pr-0">
-                    <div className="float-right form-inline">
+				<Col sm={4} md={3} className="pl-0">
+					<Button color="light" className={"mr-1 btn-explorer-action"}
+							onClick={() => navigateBack(containerID)}><i
+						className={"fa fa-lg fa-arrow-left"}/></Button>
+					<Button color="light" className={"mr-1 btn-explorer-action"}
+							onClick={() => navigateFwd(containerID)}><i
+						className={"fa fa-lg fa-arrow-right"}/></Button>
+					<Button className="mr-1 btn-explorer-action" id="RefreshButton"
+							onClick={() => getFilesForContainerID(containerID)}><i
+						className={"fa fa-lg fa-repeat"}/></Button>
+					<UncontrolledTooltip placement="right" target="RefreshButton">
+						Refresh Files
+					</UncontrolledTooltip>
+				</Col>
+				<Col sm={8} md={searchOpen ? 3 : 5}>
+					<ol className="breadcrumb float-center" style={{padding: "6px 12px"}}>
+						<li className="breadcrumb-item active">{remoteName}:/</li>
+						{remotePath}
+					</ol>
+				</Col>
+				<Col sm={12} md={searchOpen ? 6 : 4} className="pr-0">
+					<div className="float-right form-inline">
 
-                        <ButtonGroup>
-                            <Form inline>
-                                <FormGroup>
-                                    {searchOpen && <Input type="text" placeholder="Search" value={searchQuery}
-                                                          className="animate-fade-in"
-                                                          onChange={this.changeSearch}/>
-                                    }
-                                    <Button className="mr-1 btn-explorer-action" onClick={this.handleSearchOpen}>
+						<ButtonGroup>
+							<Form inline>
+								<FormGroup>
+									{searchOpen && <Input type="text" placeholder="Search" value={searchQuery}
+														  className="animate-fade-in"
+														  onChange={this.changeSearch}/>
+									}
+									<Button className="mr-1 btn-explorer-action" onClick={this.handleSearchOpen}>
                                         <i className={"fa fa-lg " + (searchOpen ? "fa-close" : "fa-search")}/>
                                     </Button>
                                 </FormGroup>
@@ -213,24 +219,21 @@ class FileOperations extends React.Component {
                             <UncontrolledTooltip placement="bottom" target="CreateFolderButton">
                                 Create a new Folder
                             </UncontrolledTooltip>
-                            <Button className="mr-1 btn-explorer-action" id="RefreshButton"
-                                    onClick={() => getFilesForContainerID(containerID)}><i
-                                className={"fa fa-lg fa-repeat"}/></Button>
-                            <UncontrolledTooltip placement="right" target="RefreshButton">
-                                Refresh Files
-                            </UncontrolledTooltip>
+
                             <ButtonDropdown  isOpen={dropdownOpen} toggle={this.toggleDropDown} direction={'down'} id="FilterButton">
-                                <DropdownToggle className="btn-explorer-action">
-                                    <i className={"fa fa-lg fa-filter"}/>
-                                </DropdownToggle>
-                                <DropdownMenu>
-                                    <DropdownItem key={0}>None</DropdownItem>
-                                    {
-                                        this.filterOptions.map((item, _) => {
-                                            return (<DropdownItem key={item} value={item} onClick={this.handleChangeFilter}>{item}</DropdownItem>)
-                                        })
-                                    }
-                                </DropdownMenu>
+								<DropdownToggle className="btn-explorer-action">
+									<i className={"fa fa-lg fa-filter"}/>
+								</DropdownToggle>
+								<DropdownMenu>
+									<DropdownItem key={"None"} value={""}
+												  onClick={this.handleChangeFilter}>None</DropdownItem>
+									{
+										this.filterOptions.map((item, _) => {
+											return (<DropdownItem key={item} value={item}
+																  onClick={this.handleChangeFilter}>{item}</DropdownItem>)
+										})
+									}
+								</DropdownMenu>
                             </ButtonDropdown>
 
                             <Button className="btn-explorer-action" id="ListViewButton"
@@ -308,17 +311,19 @@ FileOperations.propTypes = {
      */
     searchQuery: PropTypes.string,
     /**
-     * A map which gives the information about the remote about.
-     */
-    remoteAbout: PropTypes.object,
-    /**
-     * File system information and features about the current remote
-     */
-    fsInfo: PROP_FS_INFO,
-    /**
-     * Map of data to be passed to the doughnutChart.
-     */
-    doughnutData: PropTypes.object
+	 * A map which gives the information about the remote about.
+	 */
+	remoteAbout: PropTypes.object,
+	/**
+	 * File system information and features about the current remote
+	 */
+	fsInfo: PROP_FS_INFO,
+	/**
+	 * Map of data to be passed to the doughnutChart.
+	 */
+	doughnutData: PropTypes.object,
+
+	numCols: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -366,15 +371,16 @@ const mapStateToProps = (state, ownProps) => {
     }
 
     return {
-        visibilityFilter: state.explorer.visibilityFilters[ownProps.containerID],
-        loadImages: state.explorer.loadImages[ownProps.containerID],
-        currentPath: state.explorer.currentPaths[ownProps.containerID],
-        gridMode: state.explorer.gridMode[ownProps.containerID],
-        searchQuery: state.explorer.searchQueries[ownProps.containerID],
-        fsInfo,
-        doughnutData
+		visibilityFilter: state.explorer.visibilityFilters[ownProps.containerID],
+		loadImages: state.explorer.loadImages[ownProps.containerID],
+		currentPath: state.explorer.currentPaths[ownProps.containerID],
+		gridMode: state.explorer.gridMode[ownProps.containerID],
+		searchQuery: state.explorer.searchQueries[ownProps.containerID],
+		fsInfo,
+		doughnutData,
+		numCols: state.remote.numCols,
 
-    }
+	}
 };
 
 

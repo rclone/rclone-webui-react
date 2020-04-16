@@ -6,8 +6,8 @@ exports[`File Operations renders should match snapshot 1`] = `
   className="row mt-3 mb-1"
 >
   <Col
-    lg={1}
-    md={2}
+    className="pl-0"
+    md={3}
     sm={4}
     tag="div"
     widths={
@@ -40,10 +40,26 @@ exports[`File Operations renders should match snapshot 1`] = `
         className="fa fa-lg fa-arrow-right"
       />
     </Button>
+    <Button
+      className="mr-1 btn-explorer-action"
+      color="secondary"
+      id="RefreshButton"
+      onClick={[Function]}
+      tag="button"
+    >
+      <i
+        className="fa fa-lg fa-repeat"
+      />
+    </Button>
+    <UncontrolledTooltip
+      placement="right"
+      target="RefreshButton"
+    >
+      Refresh Files
+    </UncontrolledTooltip>
   </Col>
   <Col
-    lg={9}
-    md={6}
+    md={5}
     sm={8}
     tag="div"
     widths={
@@ -73,7 +89,7 @@ exports[`File Operations renders should match snapshot 1`] = `
     </ol>
   </Col>
   <Col
-    lg={2}
+    className="pr-0"
     md={4}
     sm={12}
     tag="div"
@@ -133,23 +149,6 @@ exports[`File Operations renders should match snapshot 1`] = `
         >
           Create a new Folder
         </UncontrolledTooltip>
-        <Button
-          className="mr-1 btn-explorer-action"
-          color="secondary"
-          id="RefreshButton"
-          onClick={[Function]}
-          tag="button"
-        >
-          <i
-            className="fa fa-lg fa-repeat"
-          />
-        </Button>
-        <UncontrolledTooltip
-          placement="right"
-          target="RefreshButton"
-        >
-          Refresh Files
-        </UncontrolledTooltip>
         <ButtonDropdown
           direction="down"
           id="FilterButton"
@@ -170,9 +169,11 @@ exports[`File Operations renders should match snapshot 1`] = `
             tag="div"
           >
             <DropdownItem
-              key="0"
+              key="None"
+              onClick={[Function]}
               tag="button"
               toggle={true}
+              value=""
             >
               None
             </DropdownItem>

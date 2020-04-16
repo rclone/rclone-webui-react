@@ -17,7 +17,9 @@ function TabsLayout(props) {
 								 className={"col-md-2 pl-0 pr-0 custom-tab " + (isActiveTab ? "tab-active" : "")}>
 							<NavLink className={"float-center"} onClick={() => changeActiveRemoteContainer(ID, paneID)}>
 								<i className="fa fa-folder-o pr-1"/>
-								{currentPaths[ID] && currentPaths[ID].remoteName !== "" ? currentPaths[ID].remoteName : "Open New"}
+								<span className="overflow-hidden">
+									{currentPaths[ID] && currentPaths[ID].remoteName !== "" ? currentPaths[ID].remoteName : "Open New"}
+								</span>
 								<Button className="btn-no-background btn btn-secondary float-right p-0"
 										onClick={(e) => {
 											e.stopPropagation();
@@ -40,7 +42,7 @@ function TabsLayout(props) {
 	</Nav>)
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state, _) => {
 	return {
 		containers: state.remote.containers,
 		numContainers: state.remote.numContainers,
