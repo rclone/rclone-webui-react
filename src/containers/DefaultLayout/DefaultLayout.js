@@ -49,7 +49,7 @@ class DefaultLayout extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         if (!localStorage.getItem(AUTH_KEY)) {
             this.props.history.push('/login');
         } else {

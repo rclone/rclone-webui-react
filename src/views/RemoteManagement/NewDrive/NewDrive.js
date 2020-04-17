@@ -340,7 +340,7 @@ class NewDrive extends React.Component {
     openSetupDrive = (e) => {
         if (e) e.preventDefault();
         this.setState({'colSetup': true});
-        this.setupDriveDiv.scrollIntoView({behavior: "smooth"});
+        // this.setupDriveDiv.scrollIntoView({behavior: "smooth"});
     };
 
     /**
@@ -509,7 +509,7 @@ class NewDrive extends React.Component {
      * Clears the entire form.
      * Clearing the driveName and drivePrefix automatically clears the inputs as well.
      * */
-    clearForm = e => {
+    clearForm = _ => {
         this.setState({driveName: "", drivePrefix: ""})
     };
 
@@ -568,7 +568,6 @@ class NewDrive extends React.Component {
         const {drivePrefix} = this.props.match.params;
 
 
-
         if (!this.props.providers || this.props.providers.length < 1)
             this.props.getProviders();
 
@@ -600,29 +599,23 @@ class NewDrive extends React.Component {
 
     gotoNextStep = () => {
         const {currentStepNumber, advancedOptions} = this.state;
-        if((advancedOptions && currentStepNumber === 3) || (!advancedOptions && currentStepNumber === 2)){
+        if ((advancedOptions && currentStepNumber === 3) || (!advancedOptions && currentStepNumber === 2)) {
             this.handleSubmit(null);
-        }else{
+        } else {
             this.setCurrentStep(currentStepNumber + 1);
         }
-    }
+    };
 
     gotoPrevStep = () => {
         const {currentStepNumber} = this.state;
         this.setCurrentStep(currentStepNumber - 1);
-    }
+    };
 
 
     setCurrentStep = (stepNo) => {
         this.setState({currentStepNumber: stepNo});
-        // const {currentStepNumber, advancedOptions} = this.state;
-        // if((advancedOptions && currentStepNumber === 3) || (!advancedOptions && currentStepNumber === 2)){
-        //     this.handleSubmit(null);
-        // }else{
-        //     this.setState({currentStepNumber: stepNo});
-        // }
 
-    }
+    };
 
     StepShowCase = ({currentStepNumber}) => {
         const buttonActiveClassName = "step-active";
@@ -638,7 +631,7 @@ class NewDrive extends React.Component {
                     {stepTitles.map((item, idx) => {
                         idx += 1;
                         return (
-                            <React.Fragment id={idx}>
+                            <React.Fragment key={idx}>
                                 <Col
                                     className={"text-center " + ((currentStepNumber === idx) ? buttonActiveClassName : "")}
                                     md={2} sm={4}>
@@ -648,16 +641,16 @@ class NewDrive extends React.Component {
                                 </Col>
                                 {idx !== stepTitles.length && <Col md={3} className={"d-none d-md-block"}>
                                     <div className="timeline-divider align-middle"></div>
-                            
+
                                 </Col>}
                             </React.Fragment>
                         )
                     })}
-                    
+
                 </Row>
             </Container>
         )
-        
+
     }
 
     /* return (
@@ -682,7 +675,6 @@ class NewDrive extends React.Component {
             </div>
        ) */
 
-    
 
     render() {
         const {drivePrefix, advancedOptions, driveName, driveNameIsValid, currentStepNumber} = this.state;
@@ -692,21 +684,21 @@ class NewDrive extends React.Component {
                 <ErrorBoundary>
                     <p>This 3 step process will guide you through creating a new config. For auto config, leave the
                         parameters as it is.</p>
-                        <this.StepShowCase currentStepNumber={currentStepNumber}/>
+                    <this.StepShowCase currentStepNumber={currentStepNumber}/>
                     <Collapse isOpen={currentStepNumber === 1}>
                         <Card>
 
                             <CardBody>
                                 <CustomInput label="Name of this drive (For your reference)"
-                                                changeHandler={this.changeName} value={driveName}
-                                                placeholder={"Enter a name"} name="name" id="driveName"
-                                                isValid={driveNameIsValid}/>
+                                             changeHandler={this.changeName} value={driveName}
+                                             placeholder={"Enter a name"} name="name" id="driveName"
+                                             isValid={driveNameIsValid}/>
 
                                 <FormGroup row>
                                     <Label for="driveType" sm={5}>Select</Label>
                                     <Col sm={7}>
                                         <ProviderAutoSuggest suggestions={providers} value={drivePrefix}
-                                                                onChange={this.changeDriveType}/>
+                                                             onChange={this.changeDriveType}/>
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
@@ -725,34 +717,35 @@ class NewDrive extends React.Component {
                             </CardBody>
 
                         </Card>
-                        </Collapse>
-                        <Collapse isOpen={currentStepNumber === 2}>
-                            <Card>
-                                {/*div for Scrolling to here*/}
-                                {/* <div ref={(el) => this.setupDriveDiv = el}/> */}
-                                    <CardBody>
-                                        <DriveParameters drivePrefix={drivePrefix} loadAdvanced={false}
-                                                        changeHandler={this.handleInputChange}
-                                                        errorsMap={this.state.formErrors}
-                                                        isValidMap={this.state.isValid}
-                                                        currentValues={this.state.formValues} config={providers}/>
+                    </Collapse>
+                    <Collapse isOpen={currentStepNumber === 2}>
+                        <Card>
+                            {/*div for Scrolling to here*/}
+                            {/* <div ref={(el) => this.setupDriveDiv = el}/> */}
+                            <CardBody>
+                                <DriveParameters drivePrefix={drivePrefix} loadAdvanced={false}
+                                                 changeHandler={this.handleInputChange}
+                                                 errorsMap={this.state.formErrors}
+                                                 isValidMap={this.state.isValid}
+                                                 currentValues={this.state.formValues} config={providers}/>
 
-                                        <div className="clearfix">
-                                            <div className="float-right">
-                                                <Input type="checkbox" value={advancedOptions}
-                                                        onChange={this.editAdvancedOptions}/><span className="mr-3">Edit Advanced Options</span>
-                                                <Button className="btn-no-background" onClick={this.gotoPrevStep}>Go back</Button>
+                                <div className="clearfix">
+                                    <div className="float-right">
+                                        <Input type="checkbox" value={advancedOptions}
+                                               onChange={this.editAdvancedOptions}/><span className="mr-3">Edit Advanced Options</span>
+                                        <Button className="btn-no-background" onClick={this.gotoPrevStep}>Go
+                                            back</Button>
 
-                                                <Button className="ml-3 btn-blue" onClick={this.gotoNextStep}>Next</Button>
+                                        <Button className="ml-3 btn-blue" onClick={this.gotoNextStep}>Next</Button>
 
-                                            </div>
-                                        </div>      
-                                    </CardBody>
-                            </Card>
-                        </Collapse>
-                        <Collapse isOpen={currentStepNumber === 3}>
-                            <Card>
-                                {/* <CardHeader>
+                                    </div>
+                                </div>
+                            </CardBody>
+                        </Card>
+                    </Collapse>
+                    <Collapse isOpen={currentStepNumber === 3}>
+                        <Card>
+                            {/* <CardHeader>
                                     <h5>
                                         <Button color="link" name="colAdvanced" onClick={this.toggle}
                                                 style={{marginBottom: '1rem'}}><strong>Step 3:</strong> Advanced
@@ -761,31 +754,31 @@ class NewDrive extends React.Component {
                                     </h5>
 
                                 </CardHeader> */}
-                                
 
-                                    <CardBody>
-                                        <DriveParameters drivePrefix={drivePrefix} loadAdvanced={true}
-                                                        changeHandler={this.handleInputChange}
-                                                        errorsMap={this.state.formErrors}
-                                                        isValidMap={this.state.isValid}
-                                                        currentValues={this.state.formValues} config={providers}/>
 
-                                        <div className="clearfix">
-                                            <div className="float-right">
-                                                <Input type="checkbox" value={advancedOptions}
-                                                        onChange={this.editAdvancedOptions}/><span className="mr-3">Edit Advanced Options</span>
-                                                <Button className="btn-no-background" onClick={this.gotoPrevStep}>Go back</Button>
+                            <CardBody>
+                                <DriveParameters drivePrefix={drivePrefix} loadAdvanced={true}
+                                                 changeHandler={this.handleInputChange}
+                                                 errorsMap={this.state.formErrors}
+                                                 isValidMap={this.state.isValid}
+                                                 currentValues={this.state.formValues} config={providers}/>
 
-                                                <Button className="ml-3 btn-blue" onClick={this.gotoNextStep}>Next</Button>
-                                            </div>
-                                        </div>      
-                                    </CardBody>
+                                <div className="clearfix">
+                                    <div className="float-right">
+                                        <Input type="checkbox" value={advancedOptions}
+                                               onChange={this.editAdvancedOptions}/><span className="mr-3">Edit Advanced Options</span>
+                                        <Button className="btn-no-background" onClick={this.gotoPrevStep}>Go
+                                            back</Button>
 
-                                    
+                                        <Button className="ml-3 btn-blue" onClick={this.gotoNextStep}>Next</Button>
+                                    </div>
+                                </div>
+                            </CardBody>
 
-                            </Card>
-                        </Collapse>
-                        {/* <div className="clearfix" ref={(el) => {
+
+                        </Card>
+                    </Collapse>
+                    {/* <div className="clearfix" ref={(el) => {
                             this.configEndDiv = el
                         }}>
                             <div className="float-right mb-3">
