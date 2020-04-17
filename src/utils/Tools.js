@@ -174,6 +174,15 @@ export function validateDuration(str) {
 }
 
 /**
+ * Validate the allowed drive name
+ * @returns {boolean|*|never}
+ * */
+export function validateDriveName(name) {
+    const regex = /^[0-9A-Za-z_-]*$/i;
+    return baseValidator(regex, name);
+}
+
+/**
  * Opens the specified URL in a new tab and focus on it.
  * @param url {string} URL to be opened.
  */

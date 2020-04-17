@@ -3,7 +3,14 @@ import {Button, Card, CardBody, Col, Collapse, Container, FormFeedback, FormGrou
 // import {config} from "./config.js";
 import NewDriveAuthModal from "../../Base/NewDriveAuthModal";
 import axiosInstance from "../../../utils/API/API";
-import {findFromConfig, isEmpty, validateDuration, validateInt, validateSizeSuffix} from "../../../utils/Tools";
+import {
+    findFromConfig,
+    isEmpty,
+    validateDriveName,
+    validateDuration,
+    validateInt,
+    validateSizeSuffix
+} from "../../../utils/Tools";
 import ProviderAutoSuggest from "./ProviderAutoSuggest";
 import {toast} from "react-toastify";
 import * as PropTypes from 'prop-types';
@@ -519,8 +526,8 @@ class NewDrive extends React.Component {
      * */
     changeName = e => {
         const {driveNameIsEditable} = this.state;
-        if (driveNameIsEditable) {
-            const value = e.target.value;
+        const value = e.target.value;
+        if (driveNameIsEditable && validateDriveName(value)) {
 
             this.setState({driveName: value}, () => {
 
@@ -542,6 +549,7 @@ class NewDrive extends React.Component {
                 }
 
             });
+
         } else {
             this.setState((prevState) => ({formErrors: {...prevState.formErrors, "driveName": "Cannot edit name"}}))
         }
