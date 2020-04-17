@@ -25,7 +25,7 @@ function TaskModal() {
 class BackendStatusCard extends React.Component {
 
 
-    componentWillMount() {
+    componentDidMount() {
 
         // Check if the connection to the backend is active
         this.props.getStatus();

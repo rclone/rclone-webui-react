@@ -56,7 +56,6 @@ const filesTarget = {
     },
     canDrop(props, monitor) {
         const {remoteName, remotePath} = monitor.getItem();
-        console.log(remoteName, props.currentPath.remoteName, remotePath, props.currentPath.remotePath);
         const destRemoteName = props.currentPath.remoteName;
         const destRemotePath = props.currentPath.remotePath;
         if (destRemoteName === remoteName) {
