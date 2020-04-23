@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 import {compose} from "redux";
 import {createPath} from "../../../actions/explorerStateActions";
 import * as PropTypes from 'prop-types';
-import {changeDistractionFreeMode, changeNumCols} from "../../../actions/explorerActions";
+import {addRemoteContainer, changeDistractionFreeMode, changeNumCols} from "../../../actions/explorerActions";
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 
 import singlePaneImg from '../../../assets/img/single-pane.png';
@@ -19,25 +19,24 @@ import TabsLayout from "../TabsLayout/TabsLayout";
 
 class RemoteExplorerLayout extends React.Component {
 
+	changeLayout = (nos, mode) => {
+		const {changeNumCols} = this.props;
+		// Check if the current layout is not same as previous
+		if (nos !== changeNumCols) {
+			changeNumCols(nos, mode);
+		}
+	};
 
-    changeLayout = (nos, mode) => {
-        const {changeNumCols} = this.props;
-        // Check if the current layout is not same as previous
-        if(nos !== changeNumCols){
-            changeNumCols(nos, mode);
-        }
-    };
+	componentDidMount() {
+		//Load one explorer layout
+		const {numCols, addRemoteContainer} = this.props;
 
-    componentDidMount() {
-        //Load one explorer layout
-        const {numCols, changeNumCols} = this.props;
+		if (numCols === 1) {
+			addRemoteContainer(0)
+		}
+	}
 
-        if (numCols < 1) {
-            changeNumCols(1, "horizontal");
-        }
-    }
-
-    toggleDistractionFreeMode = (_) => {
+	toggleDistractionFreeMode = (_) => {
 		const {distractionFreeMode, changeDistractionFreeMode} = this.props;
 		// this.setState((prevState) => ({
 		//     distractionFreeMode: !prevState.distractionFreeMode
@@ -68,9 +67,6 @@ class RemoteExplorerLayout extends React.Component {
 							}
 						})
 					}
-					{/*{activeRemoteContainerID && activeRemoteContainerID[pane] && activeRemoteContainerID[pane] !== "" &&*/}
-					{/*<RemoteExplorer containerID={activeRemoteContainerID[pane]} className={"d-none"}*/}
-					{/*                distractionFreeMode={distractionFreeMode}/>}*/}
 
 				</Col>
             ))
@@ -151,6 +147,6 @@ RemoteExplorerLayout.propTypes = {
 };
 
 export default compose(
-    connect(mapStateToProps, {createPath, changeNumCols, changeDistractionFreeMode}),
-    DragDropContext(HTML5Backend)
+	connect(mapStateToProps, {createPath, changeNumCols, changeDistractionFreeMode, addRemoteContainer}),
+	DragDropContext(HTML5Backend)
 )(RemoteExplorerLayout);
