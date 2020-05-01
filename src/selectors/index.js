@@ -6,16 +6,8 @@ const fileListSelector = (state, props) => {
   const currentPath = state.explorer.currentPaths[props.containerID];
   const { remoteName, remotePath } = currentPath;
   const pathKey = `${remoteName}-${remotePath}`;
-  if (
-    state &&
-    state.remote &&
-    state.remote.files &&
-    state.remote.files[pathKey] &&
-    state.remote.files[pathKey].files
-  ) {
-    return state.remote.files[pathKey].files;
-  }
-  return [];
+
+  return get(state, ["remote", "files", pathKey, "files"], []);
 };
 
 const sortParamsSelector = (state, props) => {
