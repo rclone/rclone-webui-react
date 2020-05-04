@@ -6,7 +6,7 @@ import {DropTarget} from "react-dnd";
 import FileComponent from "./FileComponent";
 import {ItemTypes} from "./Constants";
 import {toast} from "react-toastify";
-import {addColonAtLast, changeListVisibility, changeSearchFilter, isEmpty} from "../../../utils/Tools";
+import {addColonAtLast, isEmpty} from "../../../utils/Tools";
 import {connect} from "react-redux";
 import {getFiles} from "../../../actions/explorerActions";
 import {compose} from "redux";
@@ -18,7 +18,7 @@ import {PROP_CURRENT_PATH, PROP_FS_INFO} from "../../../utils/RclonePropTypes";
 import * as PropTypes from 'prop-types';
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 import urls from "../../../utils/API/endpoint";
-import {getSortedFilesList} from "../../../selectors";
+import {getFilesList} from "../../../selectors";
 
 const DirectionIcon = ({direction, className = ""}) => {
     const directionClassName = direction === "desc" ? "fa-arrow-down" : "fa-arrow-up";
@@ -294,11 +294,11 @@ class FilesView extends React.PureComponent {
     };
 
     getFileComponents = (isDir) => {
-        const {sortedFiles, containerID, gridMode, fsInfo, loadImages} = this.props;
+        const {files, containerID, gridMode, fsInfo, loadImages} = this.props;
         const {remoteName, remotePath} = this.props.currentPath;
         // console.log(fsInfo, files);
         if (fsInfo && !isEmpty(fsInfo)) {
-            return sortedFiles.map((item, idx) => {
+            return files.map((item, idx) => {
                 let {ID, Name} = item;
                 // Using fallback as fileName when the ID is not available (for local file system)
                 if (ID === undefined) {
@@ -328,10 +328,8 @@ class FilesView extends React.PureComponent {
 
     render() {
         const {isLoading, isDownloadProgress, downloadingItems, generatedLink, showLinkShareModal} = this.state;
-        const {connectDropTarget, isOver, files, sortedFiles, navigateUp, containerID, gridMode, canDrop, setSortParams} = this.props;
+        const {connectDropTarget, isOver, files, navigateUp, containerID, gridMode, canDrop, setSortParams} = this.props;
         const {remoteName} = this.props.currentPath;
-
-        // console.log(this.props.searchQuery);
 
         if (isLoading || !files) {
             return (<div><Spinner color="primary"/> Loading</div>);
@@ -411,7 +409,7 @@ class FilesView extends React.PureComponent {
                                 </thead>
                                 <tbody>
                                 <UpButtonComponent upButtonHandle={() => navigateUp(containerID)} gridMode={gridMode}/>
-                                {sortedFiles.length > 0 ? (
+                                {files.length > 0 ? (
                                         <React.Fragment>
                                             <tr>
                                                 <td colSpan={1} className="d-none d-md-block"/>
@@ -484,14 +482,12 @@ FilesView.defaultProps = defaultProps;
 
 const mapStateToProps = (state, ownProps) => {
     const currentPath = state.explorer.currentPaths[ownProps.containerID];
-    const visibilityFilter = state.explorer.visibilityFilters[ownProps.containerID];
     const gridMode = state.explorer.gridMode[ownProps.containerID];
-    const searchQuery = state.explorer.searchQueries[ownProps.containerID];
     const loadImages = state.explorer.loadImages[ownProps.containerID];
     const sortParams = state.explorer.sortParams[ownProps.containerID];
 
     let fsInfo = {};
-    const {remoteName, remotePath} = currentPath;
+    const {remoteName} = currentPath;
 
     if (currentPath && state.remote.configs) {
 
@@ -501,30 +497,11 @@ const mapStateToProps = (state, ownProps) => {
             fsInfo = state.remote.configs[tempRemoteName];
     }
 
-    const pathKey = `${remoteName}-${remotePath}`;
-
-    let files = state.remote.files[pathKey];
-
-    if (files) {
-        files = files.files;
-        // Filter according to visibility filters
-        if (visibilityFilter) {
-            files = changeListVisibility(files, visibilityFilter);
-        }
-
-        //Filter according to search query, if ny
-        if (searchQuery) {
-            files = changeSearchFilter(files, searchQuery);
-        }
-    }
-
     return {
-        files,
-        sortedFiles: getSortedFilesList(state, ownProps),
+        files: getFilesList(state, ownProps),
         currentPath,
         fsInfo,
         gridMode,
-        searchQuery,
         loadImages,
         sortParams
     }
