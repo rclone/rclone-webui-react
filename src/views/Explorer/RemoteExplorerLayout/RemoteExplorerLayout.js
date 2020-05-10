@@ -29,9 +29,9 @@ class RemoteExplorerLayout extends React.Component {
 
 	componentDidMount() {
 		//Load one explorer layout
-		const {numCols, addRemoteContainer} = this.props;
+		const {numContainers, addRemoteContainer} = this.props;
 
-		if (numCols === 1) {
+		if (numContainers < 1) {
 			addRemoteContainer(0)
 		}
 	}
@@ -131,12 +131,13 @@ class RemoteExplorerLayout extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    backStacks: state.explorer.backStacks,
-    numCols: state.remote.numCols,
-    distractionFreeMode: state.remote.distractionFreeMode,
-    splitMode: state.remote.splitMode,
-    activeRemoteContainerID: state.remote.activeRemoteContainerID,
-    containers: state.remote.containers,
+	backStacks: state.explorer.backStacks,
+	numCols: state.remote.numCols,
+	numContainers: state.remote.numContainers,
+	distractionFreeMode: state.remote.distractionFreeMode,
+	splitMode: state.remote.splitMode,
+	activeRemoteContainerID: state.remote.activeRemoteContainerID,
+	containers: state.remote.containers,
 });
 
 RemoteExplorerLayout.propTypes = {
