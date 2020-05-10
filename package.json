@@ -41,7 +41,7 @@
     "react-router-config": "^5.1.1",
     "react-router-dom": "~5.0.1",
     "react-test-renderer": "^16.12.0",
-    "react-toastify": "^5.5.0",
+    "react-toastify": "^6.0.0",
     "reactstrap": "^8.4.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
