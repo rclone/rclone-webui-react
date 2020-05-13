@@ -7,13 +7,7 @@ exports[`App Component should match snapshot 1`] = `
   <ErrorBoundary>
     <ToastContainer
       autoClose={5000}
-      bodyClassName={null}
-      className={null}
-      closeButton={
-        <CloseButton
-          ariaLabel="close"
-        />
-      }
+      closeButton={[Function]}
       closeOnClick={true}
       draggable={true}
       draggablePercent={80}
@@ -22,12 +16,8 @@ exports[`App Component should match snapshot 1`] = `
       pauseOnFocusLoss={true}
       pauseOnHover={true}
       position="top-right"
-      progressClassName={null}
-      progressStyle={null}
       role="alert"
       rtl={false}
-      style={null}
-      toastClassName={null}
       transition={[Function]}
     />
     <HashRouter>
