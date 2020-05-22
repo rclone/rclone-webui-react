@@ -21,6 +21,11 @@ export default {
             icon: 'icon-star',
         },
         {
+            name: 'Plugins',
+            url: '/pluginsDashboard',
+            icon: 'icon-plugins'
+        },
+        {
             name: 'Mounts',
             url: '/mountDashboard',
             icon: 'fa fa-hdd-o'
@@ -30,6 +35,5 @@ export default {
             url: '/login',
             icon: 'icon-logout',
         },
-
     ],
 };

@@ -1,4 +1,4 @@
-import {GET_TEST_PLUGINS, REQUEST_ERROR, REQUEST_SUCCESS} from "../actions/types";
+import {ADD_TEST_PLUGIN, GET_TEST_PLUGINS, REQUEST_ERROR, REQUEST_SUCCESS} from "../actions/types";
 
 const initialState = {
 	loadedTestPlugins: {},
@@ -27,6 +27,8 @@ export default function (state = initialState, action) {
 				}
 			}
 			break;
+		case ADD_TEST_PLUGIN:
+			return state;
 		default:
 			return state;
 	}
