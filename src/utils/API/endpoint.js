@@ -138,5 +138,7 @@ const urls = {
      */
     unmountAll: "mount/unmountall",
 
+    listTestPlugins: "pluginsctl/listTestPlugins",
+
 };
 export default urls;

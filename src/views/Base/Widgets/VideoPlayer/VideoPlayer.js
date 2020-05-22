@@ -1,11 +1,12 @@
 import React, {useState} from "react";
-import {Button, Modal} from "reactstrap";
+import {Button} from "reactstrap";
 import * as ReactDOM from "react-dom";
-import {MODAL_ROOT_ELEMENT} from "../../../../utils/Constants";
 import * as PropTypes from "prop-types";
 import ErrorBoundary from "../../../../ErrorHandling/ErrorBoundary";
 
 import ReactAwesomePlayer from 'react-awesome-player'
+import {connect} from "react-redux";
+import {MODAL_ROOT_ELEMENT} from "../../../../utils/Constants";
 
 class PlayerComponent extends React.Component {
     // loadeddata() {
@@ -46,9 +47,14 @@ class PlayerComponent extends React.Component {
     }
 }
 
-function VideoPlayer({playbackURL, MimeType}) {
+function VideoPlayer({playbackURL, MimeType, loadedTestPlugins}) {
 
     const [preview, setPreview] = useState(true);
+
+    const pluginUrl = loadedTestPlugins["@rclone/video-plugin"];
+
+    console.log("Plugin URL: " + pluginUrl, loadedTestPlugins)
+
 
     function hideFull(e) {
         e.stopPropagation();
@@ -67,7 +73,7 @@ function VideoPlayer({playbackURL, MimeType}) {
             </div>
         )
     } else {
-
+        if (!pluginUrl) return <p>Cannot load plugin</p>;
         // Load the video
 
         const subtitleURL = playbackURL.substring(0, playbackURL.lastIndexOf('.')) + ".vtt";
@@ -89,18 +95,25 @@ function VideoPlayer({playbackURL, MimeType}) {
         };
 
 
-        element = ReactDOM.createPortal((
-            <Modal className="task-modal d-none d-sm-block" data-test="videoPlayerWidget" isOpen={!preview}
-                   toggle={hideFull}>
+        element =
+            ReactDOM.createPortal(
+                <>
+                    <div className="task-modal d-none d-sm-block" data-test="videoPlayerWidget">
 
-                {/*<video id="video" controls preload="metadata" width="600">*/}
-                {/*    <source src={playbackURL} type={MimeType}/>*/}
-                {/*</video>*/}
-                <PlayerComponent {...options}/>
+                        {/*<video id="video" controls preload="metadata" width="600">*/}
+                        {/*    <source src={playbackURL} type={MimeType}/>*/}
+                        {/*</video>*/}
+                        <PlayerComponent {...options}/>
+                        <Button color="link" onClick={hideFull} className="modal-button">
+                            <i
+                                className="fa fa-close fa-3x"
+                            />
+                        </Button>
+                    </div>
+                    <div className="modal-backdrop fade show"></div>
 
 
-            </Modal>
-        ), document.getElementById(MODAL_ROOT_ELEMENT));
+                </>, document.getElementById(MODAL_ROOT_ELEMENT));
     }
 
     return (
@@ -114,7 +127,12 @@ function VideoPlayer({playbackURL, MimeType}) {
 
 VideoPlayer.propTypes = {
     playbackURL: PropTypes.string.isRequired,
-    MimeType: PropTypes.string.isRequired
+    MimeType: PropTypes.string.isRequired,
+    loadedTestPlugins: PropTypes.object.isRequired,
 };
 
-export default VideoPlayer;
+const mapStateToProps = (state) => ({
+    loadedTestPlugins: state.plugins.loadedTestPlugins
+});
+
+export default connect(mapStateToProps, {})(VideoPlayer);
