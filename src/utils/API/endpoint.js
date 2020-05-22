@@ -148,5 +148,6 @@ const urls = {
      */
     addTestPlugin: "pluginsctl/addTestPlugin",
 
+
 };
 export default urls;

@@ -1,13 +1,14 @@
 import React, {useState} from "react";
 import {Button} from "reactstrap";
 import * as ReactDOM from "react-dom";
-import {MODAL_ROOT_ELEMENT} from "../../../../utils/Constants";
 import * as PropTypes from "prop-types";
 import ErrorBoundary from "../../../../ErrorHandling/ErrorBoundary";
 import Iframe from 'react-iframe'
 
 import ReactAwesomePlayer from 'react-awesome-player'
 import {connect} from "react-redux";
+import {MODAL_ROOT_ELEMENT} from "../../../../utils/Constants";
+
 
 class PlayerComponent extends React.Component {
     // loadeddata() {
@@ -48,7 +49,7 @@ class PlayerComponent extends React.Component {
     }
 }
 
-function VideoPlayer({playbackURL, MimeType}) {
+function VideoPlayer({playbackURL, MimeType, loadedTestPlugins}) {
 
     const [preview, setPreview] = useState(true);
 
@@ -72,11 +73,12 @@ function VideoPlayer({playbackURL, MimeType}) {
             <div className="img-thumbnail w-100 text-center" data-test="videoPlayerWidget">
                 <Button color="link" onClick={hideFull}>
                     <i className="fa fa-play-circle fa-4x"/>
+                    {/*<ReactPlayer url={playbackURL} light={true} controls={true}/>*/}
                 </Button>
             </div>
         )
     } else {
-        // if (!pluginUrl) return <p>Cannot load plugin</p>;
+        if (!pluginUrl) return <p>Cannot load plugin</p>;
         // Load the video
 
         const subtitleURL = playbackURL.substring(0, playbackURL.lastIndexOf('.')) + ".vtt";

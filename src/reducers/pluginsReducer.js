@@ -18,7 +18,7 @@ export default function (state = initialState, action) {
 			if (action.status === REQUEST_SUCCESS) {
 				return {
 					...state,
-					loadedTestPlugins: action.payload.LoadedTestPlugins,
+					loadedTestPlugins: action.payload.loadedTestPlugins,
 				}
 			} else if (action.status === REQUEST_ERROR) {
 				return {
