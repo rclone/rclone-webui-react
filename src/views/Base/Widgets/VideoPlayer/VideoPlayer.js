@@ -7,6 +7,7 @@ import ErrorBoundary from "../../../../ErrorHandling/ErrorBoundary";
 import ReactAwesomePlayer from 'react-awesome-player'
 import {connect} from "react-redux";
 import {MODAL_ROOT_ELEMENT} from "../../../../utils/Constants";
+import Iframe from "react-iframe";
 
 class PlayerComponent extends React.Component {
     // loadeddata() {
@@ -51,6 +52,9 @@ function VideoPlayer({playbackURL, MimeType, loadedTestPlugins}) {
 
     const [preview, setPreview] = useState(true);
 
+    if (!loadedTestPlugins) {
+        return null;
+    }
     const pluginUrl = loadedTestPlugins["@rclone/video-plugin"];
 
     console.log("Plugin URL: " + pluginUrl, loadedTestPlugins)
@@ -68,7 +72,6 @@ function VideoPlayer({playbackURL, MimeType, loadedTestPlugins}) {
             <div className="img-thumbnail w-100 text-center" data-test="videoPlayerWidget">
                 <Button color="link" onClick={hideFull}>
                     <i className="fa fa-play-circle fa-4x"/>
-                    {/*<ReactPlayer url={playbackURL} light={true} controls={true}/>*/}
                 </Button>
             </div>
         )
@@ -103,7 +106,14 @@ function VideoPlayer({playbackURL, MimeType, loadedTestPlugins}) {
                         {/*<video id="video" controls preload="metadata" width="600">*/}
                         {/*    <source src={playbackURL} type={MimeType}/>*/}
                         {/*</video>*/}
-                        <PlayerComponent {...options}/>
+                        {/*<PlayerComponent {...options}/>*/}
+                        <Iframe url={`${pluginUrl}?loadUrl=${playbackURL}&mimeType=${MimeType}`}
+                                allowTransparency="true"
+                                allowFullScreen="true"
+                                width="100%"
+                                height="100%"
+                                display="initial"
+                                position="relative"/>
                         <Button color="link" onClick={hideFull} className="modal-button">
                             <i
                                 className="fa fa-close fa-3x"
