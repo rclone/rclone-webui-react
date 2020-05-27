@@ -263,7 +263,7 @@ export function changeSearchFilter(list, searchQuery = "") {
     searchQuery = searchQuery.toLowerCase();
     if (searchQuery) {
         let newList = list.filter((item) => {
-            return item.Name.toLowerCase().startsWith(searchQuery);
+            return item.Name.toLowerCase().includes(searchQuery);
         });
         return newList;
     }
