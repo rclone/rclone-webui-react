@@ -52,12 +52,12 @@ function VideoPlayer({playbackURL, MimeType, loadedTestPlugins}) {
 
     const [preview, setPreview] = useState(true);
 
-    if (!loadedTestPlugins) {
-        return null;
-    }
-    const pluginUrl = loadedTestPlugins["@rclone/video-plugin"];
+    // if (!loadedTestPlugins) {
+    //     return null;
+    // }
+    // const pluginUrl = loadedTestPlugins["rclone/video-plugin"];
 
-    console.log("Plugin URL: " + pluginUrl, loadedTestPlugins)
+    // console.log("Plugin URL: " + pluginUrl, loadedTestPlugins)
 
 
     function hideFull(e) {
@@ -76,27 +76,27 @@ function VideoPlayer({playbackURL, MimeType, loadedTestPlugins}) {
             </div>
         )
     } else {
-        if (!pluginUrl) return <p>Cannot load plugin</p>;
+        // if (!pluginUrl) return <p>Cannot load plugin</p>;
         // Load the video
 
         const subtitleURL = playbackURL.substring(0, playbackURL.lastIndexOf('.')) + ".vtt";
         console.log(subtitleURL);
 
-        const options = {
-            options: {
-                sources: [{
-                    type: MimeType,
-                    src: playbackURL
-                }],
-                subtitles: [
-                    {
-                        language: 'en',
-                        url: subtitleURL,
-                        label: "EN"
-                    }],
-            }
-        };
-
+        // const options = {
+        //     options: {
+        //         sources: [{
+        //             type: MimeType,
+        //             src: playbackURL
+        //         }],
+        //         subtitles: [
+        //             {
+        //                 language: 'en',
+        //                 url: subtitleURL,
+        //                 label: "EN"
+        //             }],
+        //     }
+        // };
+        //
 
         element =
             ReactDOM.createPortal(
@@ -107,13 +107,14 @@ function VideoPlayer({playbackURL, MimeType, loadedTestPlugins}) {
                         {/*    <source src={playbackURL} type={MimeType}/>*/}
                         {/*</video>*/}
                         {/*<PlayerComponent {...options}/>*/}
-                        <Iframe url={`${pluginUrl}?loadUrl=${playbackURL}&mimeType=${MimeType}`}
-                                allowTransparency="true"
-                                allowFullScreen="true"
-                                width="100%"
-                                height="100%"
-                                display="initial"
-                                position="relative"/>
+                        <Iframe
+                            url={`http://localhost:5572/plugins/rclone/video-plugin/?loadUrl=${playbackURL}&mimeType=${MimeType}`}
+                            allowTransparency="true"
+                            allowFullScreen="true"
+                            width="100%"
+                            height="100%"
+                            display="initial"
+                            position="relative"/>
                         <Button color="link" onClick={hideFull} className="modal-button">
                             <i
                                 className="fa fa-close fa-3x"
