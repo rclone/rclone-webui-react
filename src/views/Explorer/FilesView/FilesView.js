@@ -274,6 +274,10 @@ class FilesView extends React.PureComponent {
 
     };
 
+    pluginHandle = (item) => {
+        console.log(item);
+    }
+
     getFileComponents = (isDir) => {
         const {files, containerID, gridMode, fsInfo, loadImages} = this.props;
         const {remoteName, remotePath} = this.props.currentPath;
@@ -293,6 +297,7 @@ class FilesView extends React.PureComponent {
                                        containerID={containerID}
                                        linkShareHandle={this.linkShareHandle}
                                        loadImages={loadImages}
+                                       pluginHandle={this.pluginHandle}
                                        isBucketBased={fsInfo.Features.BucketBased}
                                        canCopy={fsInfo.Features.Copy} canMove={fsInfo.Features.Move} itemIdx={1}>
 
