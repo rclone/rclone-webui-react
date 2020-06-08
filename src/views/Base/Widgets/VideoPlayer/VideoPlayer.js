@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 import {Button} from "reactstrap";
 import * as ReactDOM from "react-dom";
+import {MODAL_ROOT_ELEMENT} from "../../../../utils/Constants";
 import * as PropTypes from "prop-types";
 import ErrorBoundary from "../../../../ErrorHandling/ErrorBoundary";
 import Iframe from 'react-iframe'
 
 import ReactAwesomePlayer from 'react-awesome-player'
 import {connect} from "react-redux";
-import {MODAL_ROOT_ELEMENT} from "../../../../utils/Constants";
 
 class PlayerComponent extends React.Component {
     // loadeddata() {
