@@ -23,6 +23,8 @@ import {PROP_CURRENT_PATH, PROP_FS_INFO} from "../../../utils/RclonePropTypes";
 import * as PropTypes from 'prop-types';
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 import {createNewPublicLink, deleteFile, purgeDir} from "rclone-api";
+
+import {createNewPublicLink, deleteFile, purgeDir} from "rclone-api";
 import {createSelector} from "reselect";
 import DropOverlay from "../../Base/DropOverlay/DropOverlay";
 
@@ -454,7 +456,8 @@ const propTypes = {
     loadImages: PropTypes.bool.isRequired
 };
 
-const defaultProps = {};
+const defaultProps = {
+};
 
 
 FilesView.propTypes = propTypes;
