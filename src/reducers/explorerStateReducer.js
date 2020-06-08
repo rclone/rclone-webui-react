@@ -54,26 +54,26 @@ export default function (state = initialState, action) {
         let remoteName = action.remoteName;
         let remotePath = action.remotePath;
 
-        if (!remoteName) remoteName = "";
-        if (!remotePath) remotePath = "";
-        const data = {
-            remoteName: remoteName,
-            remotePath: remotePath
-        };
+		if (!remoteName) remoteName = "";
+		if (!remotePath) remotePath = "";
+		const data = {
+			remoteName: remoteName,
+			remotePath: remotePath
+		};
 
-        let visibilityFilter = state.visibilityFilters[id];
-        let gridMode = state.gridMode[id];
+		let visibilityFilter = state.visibilityFilters[id];
+		let gridMode = state.gridMode[id];
+		if (!gridMode) gridMode = "list";
+		let searchQuery = "";
+		let loadImages = state.loadImages[id];
+		if (!loadImages) loadImages = false;
 
-        let searchQuery = "";
-        let loadImages = state.loadImages[id];
-        if (!loadImages) loadImages = false;
+		let sortFilterAscending = state.sortFiltersAscending[id];
+		if (!sortFilterAscending) sortFilterAscending = true;
+		let sortFilter = state.sortFilters[id];
+		if (!sortFilter) sortFilter = "name";
 
-        let sortFilterAscending = state.sortFiltersAscending[id];
-        if(!sortFilterAscending) sortFilterAscending = true;
-        let sortFilter = state.sortFilters[id];
-        if(!sortFilter) sortFilter = "name";
-
-        switch (action.type) {
+		switch (action.type) {
             case CHANGE_PATH:
                 backStack.push(data);
                 break;
