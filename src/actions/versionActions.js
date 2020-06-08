@@ -1,22 +1,21 @@
-import axiosInstance from '../utils/API/API';
-import urls from '../utils/API/endpoint';
-import { GET_VERSION, REQUEST_SUCCESS, REQUEST_ERROR } from './types';
+import {GET_VERSION, REQUEST_ERROR, REQUEST_SUCCESS} from './types';
+import {getRcloneVersion} from "rclone-api";
 
 export const getVersion = () => {
-  return dispatch => {
-    axiosInstance.post(urls.getRcloneVersion).then(
-      res =>
-        dispatch({
-          type: GET_VERSION,
-          status: REQUEST_SUCCESS,
-          payload: res.data
-        }),
-      error =>
-        dispatch({
-          type: GET_VERSION,
-          status: REQUEST_ERROR,
-          payload: error
-        })
-    );
-  };
+    return dispatch => {
+        getRcloneVersion().then(
+            res =>
+                dispatch({
+                    type: GET_VERSION,
+                    status: REQUEST_SUCCESS,
+                    payload: res
+                }),
+            error =>
+                dispatch({
+                    type: GET_VERSION,
+                    status: REQUEST_ERROR,
+                    payload: error
+                })
+        );
+    };
 };

@@ -22,7 +22,7 @@ import {FILES_VIEW_HEIGHT} from "../../../utils/Constants";
 import {PROP_CURRENT_PATH, PROP_FS_INFO} from "../../../utils/RclonePropTypes";
 import * as PropTypes from 'prop-types';
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
-import urls from "../../../utils/API/endpoint";
+import {createNewPublicLink, deleteFile, purgeDir} from "rclone-api";
 
 
 /*
@@ -239,14 +239,14 @@ class FilesView extends React.PureComponent {
         try {
             if (item.IsDir) {
 
-                await axiosInstance.post(urls.purge, data);
+                await purgeDir(remoteName, item.Path);
 
                 this.updateHandler();
                 toast.info(`${item.Name} deleted.`);
 
             } else {
 
-                await axiosInstance.post(urls.deleteFile, data);
+                await deleteFile(remoteName, item.Path);
                 this.updateHandler();
                 toast.info(`${item.Name} deleted.`, {
                     autoClose: true
@@ -276,19 +276,17 @@ class FilesView extends React.PureComponent {
         if (fsInfo.Features.PublicLink) {
             // console.log("Sharing link" + item.Name);
             const {remoteName} = this.props.currentPath;
-            axiosInstance.post(urls.createPublicLink, {
-                fs: addColonAtLast(remoteName),
-                remote: item.Path
-            }).then((res) => {
-                // console.log("Public Link: " + res.data.url);
+            createNewPublicLink(remoteName, item.Path)
+                .then((res) => {
+                    // console.log("Public Link: " + res.data.url);
 
-                this.setState({
-                    generatedLink: res.data.url,
-                    showLinkShareModal: true
+                    this.setState({
+                        generatedLink: res.url,
+                        showLinkShareModal: true
+                    })
+                }, (error) => {
+                    toast.error("Error Generating link: " + error)
                 })
-            }, (error) => {
-                toast.error("Error Generating link: " + error)
-            })
         } else {
             toast.error("This remote does not support public link");
         }
@@ -504,6 +502,7 @@ const mapStateToProps = (state, ownProps) => {
     let files = state.remote.files[pathKey];
 
     if (files) {
+        console.log(files);
         files = files.files;
         // Filter according to visibility filters
         if (visibilityFilter && visibilityFilter !== "") {

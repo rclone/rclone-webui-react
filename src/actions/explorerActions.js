@@ -1,19 +1,18 @@
-import axiosInstance from "../utils/API/API";
 import {
-	ADD_LAYOUT_CONTAINER,
-	CHANGE_ACTIVE_REMOTE_CONTAINER,
-	CHANGE_DISTRACTION_FREE_MODE,
-	CHANGE_LAYOUT_COLS,
-	GET_CONFIG_FOR_REMOTE,
-	GET_FILES_LIST,
-	GET_REMOTE_LIST,
-	REMOVE_LAYOUT_CONTAINER,
-	REQUEST_ERROR,
-	REQUEST_SUCCESS
+    ADD_LAYOUT_CONTAINER,
+    CHANGE_ACTIVE_REMOTE_CONTAINER,
+    CHANGE_DISTRACTION_FREE_MODE,
+    CHANGE_LAYOUT_COLS,
+    GET_CONFIG_FOR_REMOTE,
+    GET_FILES_LIST,
+    GET_REMOTE_LIST,
+    REMOVE_LAYOUT_CONTAINER,
+    REQUEST_ERROR,
+    REQUEST_SUCCESS
 } from "./types";
-import {addColonAtLast, isLocalRemoteName, makeUniqueID} from "../utils/Tools";
+import {makeUniqueID} from "../utils/Tools";
 import {createPath, removePath} from "./explorerStateActions";
-import urls from "../utils/API/endpoint";
+import {getAllRemoteNames, getFilesList, getRemoteInfo} from "rclone-api"
 
 /**
  * Gets the information regarding features, hashes from the rclone backend. Stores into redux store.
@@ -21,32 +20,20 @@ import urls from "../utils/API/endpoint";
  * @returns {Function}
  */
 export const getFsInfo = (remoteName) => dispatch => {
-
-    let sentRemoteName;
-    let setRemoteName;
-
-    if (isLocalRemoteName(remoteName)) {
-        sentRemoteName = setRemoteName = "/";
-
-    } else {
-        setRemoteName = remoteName.split(':')[0];
-        sentRemoteName = addColonAtLast(setRemoteName);
-    }
     // console.log("Actual: ", sentRemoteName);
-    axiosInstance.post(urls.getFsInfo, {fs: sentRemoteName})
-        .then((res) => {
-                dispatch({
-                    type: GET_CONFIG_FOR_REMOTE,
-                    status: REQUEST_SUCCESS,
-                    payload: {[setRemoteName]: res.data},
-
-                })
-            },
-            error => dispatch({
+    getRemoteInfo(remoteName).then((res) => {
+            dispatch({
                 type: GET_CONFIG_FOR_REMOTE,
-                status: REQUEST_ERROR,
-                payload: error
-            }))
+                status: REQUEST_SUCCESS,
+                payload: {[remoteName.split(':')[0]]: res},
+
+            })
+        },
+        error => dispatch({
+            type: GET_CONFIG_FOR_REMOTE,
+            status: REQUEST_ERROR,
+            payload: error
+        }))
 
 };
 
@@ -61,10 +48,10 @@ export const getRemoteNames = () => {
         // console.log(state);
         if (!state.remote.remotes || state.remote.remotes.length < 1) {
 
-            axiosInstance.post(urls.listRemotes).then(res => dispatch({
+            getAllRemoteNames().then(res => dispatch({
                 type: GET_REMOTE_LIST,
                 status: REQUEST_SUCCESS,
-                payload: res.data.remotes
+                payload: res.remotes
             }), error => dispatch({
                 type: GET_REMOTE_LIST,
                 status: REQUEST_ERROR,
@@ -81,25 +68,12 @@ export const getRemoteNames = () => {
  * @returns {Function}
  */
 export const getFiles = (remoteName, remotePath) => dispatch => {
-    let newRemoteName = "";
     if (remoteName !== "") {
-        if (remoteName.indexOf('/') !== 0) {/*The name starts with a /: local Name*/
-            newRemoteName = addColonAtLast(remoteName);
-        } else {
-            newRemoteName = remoteName;
-        }
-
-
-        let data = {
-            fs: newRemoteName,
-            remote: remotePath
-        };
-
         const path = `${remoteName}-${remotePath}`;
-        axiosInstance.post(urls.getFilesList, data).then(res => dispatch({
+        getFilesList(remoteName, remotePath).then(res => dispatch({
                 type: GET_FILES_LIST,
                 status: REQUEST_SUCCESS,
-                payload: {path: path, filesList: res.data.list}
+                payload: {path: path, filesList: res.list}
             }),
             error => dispatch({
                 type: GET_FILES_LIST,
@@ -159,7 +133,7 @@ export const addRemoteContainer = (paneID) => (dispatch) => {
  * @returns {Function}
  */
 export const removeRemoteContainer = (containerID, paneID) => (dispatch) => {
-	dispatch(removePath(containerID));
+    dispatch(removePath(containerID));
     // console.log("Removing : " + containerID);
     dispatch({
         type: REMOVE_LAYOUT_CONTAINER,

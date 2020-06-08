@@ -33,129 +33,121 @@ import {
 import {visibilityFilteringOptions} from "../../../utils/Constants";
 import {getAbout} from "../../../actions/providerStatusActions";
 import {Doughnut} from "react-chartjs-2";
-import {addColonAtLast, bytesToGB, isEmpty, isLocalRemoteName} from "../../../utils/Tools";
-import axiosInstance from "../../../utils/API/API";
+import {bytesToGB, isEmpty} from "../../../utils/Tools";
 import {toast} from "react-toastify";
 import {PROP_FS_INFO} from "../../../utils/RclonePropTypes";
-import urls from "../../../utils/API/endpoint";
-import newFolderImg from '../../../assets/img/new-folder.png'; // with import
+import newFolderImg from '../../../assets/img/new-folder.png';
+import {cleanTrashForRemote} from "rclone-api"; // with import
 
 /**
  * File Operations component which handles user actions for files in the remote.( Visibility, gridmode, back, forward etc)
  */
 class FileOperations extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            newFolderModalIsVisible: false,
-            isAboutModalOpen: false,
-            dropdownOpen: false,
-            searchOpen: false
-        };
-        this.filterOptions = visibilityFilteringOptions;
-    }
+	constructor(props) {
+		super(props);
+		this.state = {
+			newFolderModalIsVisible: false,
+			isAboutModalOpen: false,
+			dropdownOpen: false,
+			searchOpen: false
+		};
+		this.filterOptions = visibilityFilteringOptions;
+	}
 
-    openNewFolderModal = () => {
-        const {fsInfo} = this.props;
-        if (fsInfo && fsInfo.Features && fsInfo.Features.CanHaveEmptyDirectories) {
-            this.setState({newFolderModalIsVisible: true});
-        } else {
-            toast.error("This remote cannot have empty directories");
-        }
-    };
+	openNewFolderModal = () => {
+		const {fsInfo} = this.props;
+		if (fsInfo && fsInfo.Features && fsInfo.Features.CanHaveEmptyDirectories) {
+			this.setState({newFolderModalIsVisible: true});
+		} else {
+			toast.error("This remote cannot have empty directories");
+		}
+	};
 
-    closeNewFolderModal = () => {
-        this.setState({newFolderModalIsVisible: false});
-    };
+	closeNewFolderModal = () => {
+		this.setState({newFolderModalIsVisible: false});
+	};
 
-    handleChangeFilter = (e) => {
-        const newFilter = e.target.value;
+	handleChangeFilter = (e) => {
+		const newFilter = e.target.value;
 
-        const {changeVisibilityFilter} = this.props;
+		const {changeVisibilityFilter} = this.props;
 
-        changeVisibilityFilter(this.props.containerID, newFilter);
+		changeVisibilityFilter(this.props.containerID, newFilter);
 
-    };
-
-
-    handleChangeGridMode = () => {
-        const {gridMode, changeGridMode, containerID} = this.props;
-        changeGridMode(containerID, gridMode === "list" ? "card" : "list");
-    };
-
-    changeSearch = (e) => {
-        e.preventDefault();
-        const {containerID} = this.props;
-        this.props.setSearchQuery(containerID, e.target.value);
-    };
+	};
 
 
-    toggleDropDown = () => {
-        this.setState((prevState) => {
-            return {
-                dropdownOpen: !prevState.dropdownOpen
-            }
-        })
-    };
+	handleChangeGridMode = () => {
+		const {gridMode, changeGridMode, containerID} = this.props;
+		changeGridMode(containerID, gridMode === "list" ? "card" : "list");
+	};
 
-    toggleAboutModal = () => {
-        const {fsInfo} = this.props;
-        if (fsInfo && fsInfo.Features && fsInfo.Features.About) {
-            this.setState((prevState) => {
-                return {
-                    isAboutModalOpen: !prevState.isAboutModalOpen
-                }
-            }, () => {
-                if (this.state.isAboutModalOpen) {
-                    const {containerID} = this.props;
-                    this.props.getAbout(containerID);
-                }
-            });
-        } else {
-            toast.error("This remote does not support About");
-        }
+	changeSearch = (e) => {
+		e.preventDefault();
+		const {containerID, setSearchQuery} = this.props;
+		setSearchQuery(containerID, e.target.value);
+	};
 
-    };
 
-    handleCleanTrash = () => {
-        const {fsInfo} = this.props;
-        if (fsInfo && fsInfo.Features && fsInfo.Features.CleanUp) {
+	toggleDropDown = () => {
+		this.setState((prevState) => {
+			return {
+				dropdownOpen: !prevState.dropdownOpen
+			}
+		})
+	};
 
-            if (window.confirm("Are you sure you want to clear the trash. This operation cannot be undone")) {
+	toggleAboutModal = () => {
+		const {fsInfo} = this.props;
+		if (fsInfo && fsInfo.Features && fsInfo.Features.About) {
+			this.setState((prevState) => {
+				return {
+					isAboutModalOpen: !prevState.isAboutModalOpen
+				}
+			}, () => {
+				if (this.state.isAboutModalOpen) {
+					const {containerID} = this.props;
+					this.props.getAbout(containerID);
+				}
+			});
+		} else {
+			toast.error("This remote does not support About");
+		}
 
-                const {currentPath, containerID} = this.props;
-                let {remoteName} = currentPath;
+	};
 
-                if (!isLocalRemoteName(remoteName)) {
-                    remoteName = addColonAtLast(remoteName);
-                }
+	handleCleanTrash = () => {
+		const {fsInfo} = this.props;
+		if (fsInfo && fsInfo.Features && fsInfo.Features.CleanUp) {
 
-                axiosInstance.post(urls.cleanUpRemote, {
-                    fs: remoteName
-                }).then((res) => {
-                        if (res.status === 200) {
-                            toast('Trash Cleaned');
-                            this.props.getAbout(containerID);
+			if (window.confirm("Are you sure you want to clear the trash. This operation cannot be undone")) {
 
-                        }
-                    },
-                    (err) => {
-                        toast.error("Error clearing trash " + err);
-                    }
-                )
-            }
-        } else {
-            // Cleanup is not allowed
-            toast.error("Clearing trash is not allowed on this remote");
-        }
-    };
+				const {currentPath, containerID} = this.props;
+				let {remoteName} = currentPath;
 
-    changeLoadMedia = (e) => {
-        e.stopPropagation();
-        // console.log(e);
-        const {setLoadImages, containerID, loadImages} = this.props;
-        setLoadImages(containerID, !loadImages);
-    };
+				cleanTrashForRemote(remoteName).then((res) => {
+						if (res.status === 200) {
+							toast('Trash Cleaned');
+							this.props.getAbout(containerID);
+
+						}
+					},
+					(err) => {
+						toast.error("Error clearing trash " + err);
+					}
+				)
+			}
+		} else {
+			// Cleanup is not allowed
+			toast.error("Clearing trash is not allowed on this remote");
+		}
+	};
+
+	changeLoadMedia = (e) => {
+		e.stopPropagation();
+		const {setLoadImages, containerID, loadImages} = this.props;
+		setLoadImages(containerID, !loadImages);
+	};
 
 	handleSearchOpen = () => {
 		const {containerID} = this.props;
@@ -171,14 +163,14 @@ class FileOperations extends React.Component {
 	};
 
 
-    render() {
-        const {containerID, getFilesForContainerID, gridMode, navigateFwd, navigateBack, searchQuery, currentPath, doughnutData} = this.props;
-        const {newFolderModalIsVisible, dropdownOpen, isAboutModalOpen, searchOpen} = this.state;
+	render() {
+		const {containerID, getFilesForContainerID, gridMode, navigateFwd, navigateBack, searchQuery, currentPath, doughnutData} = this.props;
+		const {newFolderModalIsVisible, dropdownOpen, isAboutModalOpen, searchOpen} = this.state;
 
-        const {remoteName, remotePath} = currentPath;
+		const {remoteName, remotePath} = currentPath;
 
-        return (
-            <nav aria-label="breadcrumb" className="row mt-3 mb-1">
+		return (
+			<nav aria-label="breadcrumb" className="row mt-3 mb-1">
 				<Col sm={4} md={3} className="pl-0">
 					<Button color="light" className={"mr-1 btn-explorer-action"}
 							onClick={() => navigateBack(containerID)}><i
@@ -210,17 +202,19 @@ class FileOperations extends React.Component {
 														  onChange={this.changeSearch}/>
 									}
 									<Button className="mr-1 btn-explorer-action" onClick={this.handleSearchOpen}>
-                                        <i className={"fa fa-lg " + (searchOpen ? "fa-close" : "fa-search")}/>
-                                    </Button>
-                                </FormGroup>
-                            </Form>
-                            <Button className="mr-1 btn-explorer-action p-1" id="CreateFolderButton"
-                                    onClick={this.openNewFolderModal}><img src={newFolderImg} alt="New Folder" className="fa fa-lg"/> </Button>
-                            <UncontrolledTooltip placement="bottom" target="CreateFolderButton">
-                                Create a new Folder
-                            </UncontrolledTooltip>
+										<i className={"fa fa-lg " + (searchOpen ? "fa-close" : "fa-search")}/>
+									</Button>
+								</FormGroup>
+							</Form>
+							<Button className="mr-1 btn-explorer-action p-1" id="CreateFolderButton"
+									onClick={this.openNewFolderModal}><img src={newFolderImg} alt="New Folder"
+																		   className="fa fa-lg"/> </Button>
+							<UncontrolledTooltip placement="bottom" target="CreateFolderButton">
+								Create a new Folder
+							</UncontrolledTooltip>
 
-                            <ButtonDropdown  isOpen={dropdownOpen} toggle={this.toggleDropDown} direction={'down'} id="FilterButton">
+							<ButtonDropdown isOpen={dropdownOpen} toggle={this.toggleDropDown} direction={'down'}
+											id="FilterButton">
 								<DropdownToggle className="btn-explorer-action">
 									<i className={"fa fa-lg fa-filter"}/>
 								</DropdownToggle>
@@ -234,83 +228,83 @@ class FileOperations extends React.Component {
 										})
 									}
 								</DropdownMenu>
-                            </ButtonDropdown>
+							</ButtonDropdown>
 
-                            <Button className="btn-explorer-action" id="ListViewButton"
-                                    onClick={this.handleChangeGridMode}>
-                                <i className={"fa fa-lg " + (gridMode === "card" ? "fa-list" : "fa-th-large")}/>
-                            </Button>
-                            <UncontrolledTooltip placement="right" target="ListViewButton">
-                                {(gridMode === "card" ? "List View" : "Card View")}
-                            </UncontrolledTooltip>
-                        </ButtonGroup>
+							<Button className="btn-explorer-action" id="ListViewButton"
+									onClick={this.handleChangeGridMode}>
+								<i className={"fa fa-lg " + (gridMode === "card" ? "fa-list" : "fa-th-large")}/>
+							</Button>
+							<UncontrolledTooltip placement="right" target="ListViewButton">
+								{(gridMode === "card" ? "List View" : "Card View")}
+							</UncontrolledTooltip>
+						</ButtonGroup>
 
 
-                        <NewFolder containerID={containerID} isVisible={newFolderModalIsVisible}
-                                   closeModal={this.closeNewFolderModal}/>
+						<NewFolder containerID={containerID} isVisible={newFolderModalIsVisible}
+								   closeModal={this.closeNewFolderModal}/>
 
-                        <Modal isOpen={isAboutModalOpen} toggle={this.toggleAboutModal}>
-                            <ModalHeader>
-                                Status for {remoteName}
-                            </ModalHeader>
-                            <ModalBody>
-                                <Row>
-                                    <Col sm={12}>
-                                        <div className="chart-wrapper">
-                                            <p>Space Usage (in GB)</p>
-                                            {doughnutData && !isEmpty(doughnutData) ? <Doughnut data={doughnutData}/> :
-                                                <React.Fragment><Spinner color="primary"/>Loading</React.Fragment>}
-                                        </div>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col sm={12}>
-                                        <Button color="danger" onClick={this.handleCleanTrash}>Clean Trash <i
-                                            className="fa fa-lg fa-trash"/></Button>
-                                    </Col>
-                                </Row>
+						<Modal isOpen={isAboutModalOpen} toggle={this.toggleAboutModal}>
+							<ModalHeader>
+								Status for {remoteName}
+							</ModalHeader>
+							<ModalBody>
+								<Row>
+									<Col sm={12}>
+										<div className="chart-wrapper">
+											<p>Space Usage (in GB)</p>
+											{doughnutData && !isEmpty(doughnutData) ? <Doughnut data={doughnutData}/> :
+												<React.Fragment><Spinner color="primary"/>Loading</React.Fragment>}
+										</div>
+									</Col>
+								</Row>
+								<Row>
+									<Col sm={12}>
+										<Button color="danger" onClick={this.handleCleanTrash}>Clean Trash <i
+											className="fa fa-lg fa-trash"/></Button>
+									</Col>
+								</Row>
 
-                            </ModalBody>
-                            <ModalFooter>
+							</ModalBody>
+							<ModalFooter>
 
-                            </ModalFooter>
+							</ModalFooter>
 
-                        </Modal>
+						</Modal>
 
-                    </div>
-                </Col>
-            </nav>
+					</div>
+				</Col>
+			</nav>
 
-        );
-    }
+		);
+	}
 }
 
 FileOperations.propTypes = {
-    /**
-     * Container ID of the current remote explorer
-     */
-    containerID: PropTypes.string.isRequired,
-    /**
-     * Redux function to change the visibility of images/ pdf etc.
-     */
-    changeVisibilityFilter: PropTypes.func.isRequired,
-    /**
-     * The current visibility filter setting
-     */
-    visibilityFilter: PropTypes.string,
-    /**
-     * Render mode: Grid/Card
-     */
-    gridMode: PropTypes.string,
-    /**
-     * Redux function to set the search query as typed by user.
-     */
-    setSearchQuery: PropTypes.func.isRequired,
-    /**
-     * Currently set search Query from redux
-     */
-    searchQuery: PropTypes.string,
-    /**
+	/**
+	 * Container ID of the current remote explorer
+	 */
+	containerID: PropTypes.string.isRequired,
+	/**
+	 * Redux function to change the visibility of images/ pdf etc.
+	 */
+	changeVisibilityFilter: PropTypes.func.isRequired,
+	/**
+	 * The current visibility filter setting
+	 */
+	visibilityFilter: PropTypes.string,
+	/**
+	 * Render mode: Grid/Card
+	 */
+	gridMode: PropTypes.string,
+	/**
+	 * Redux function to set the search query as typed by user.
+	 */
+	setSearchQuery: PropTypes.func.isRequired,
+	/**
+	 * Currently set search Query from redux
+	 */
+	searchQuery: PropTypes.string,
+	/**
 	 * A map which gives the information about the remote about.
 	 */
 	remoteAbout: PropTypes.object,
@@ -327,50 +321,50 @@ FileOperations.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-    const remoteAbout = state.providerStatus.about[ownProps.containerID];
-    let doughnutData = {};
-    const currentPath = state.explorer.currentPaths[ownProps.containerID];
-    let fsInfo = {};
+	const remoteAbout = state.providerStatus.about[ownProps.containerID];
+	let doughnutData = {};
+	const currentPath = state.explorer.currentPaths[ownProps.containerID];
+	let fsInfo = {};
 
-    if (currentPath && state.remote.configs && state.remote.configs[currentPath.remoteName]) {
-        fsInfo = state.remote.configs[currentPath.remoteName];
-    }
+	if (currentPath && state.remote.configs && state.remote.configs[currentPath.remoteName]) {
+		fsInfo = state.remote.configs[currentPath.remoteName];
+	}
 
-    if (remoteAbout) {
+	if (remoteAbout) {
 
-        let labels = [];
-        let data = [];
+		let labels = [];
+		let data = [];
 
-        for (const [key, value] of Object.entries(remoteAbout)) {
-            if (key !== "total") {
-                labels.push(key);
-                data.push(bytesToGB(value).toFixed(2));
-            }
-        }
-        if (labels.length > 1 && data.length > 1) {
-            doughnutData = {
-                labels: labels, datasets: [
-                    {
-                        data: data,
-                        backgroundColor: [
-                            '#FF6384',
-                            '#36A2EB',
-                            '#FFCE56',
-                            '#ff7459',
-                        ],
-                        hoverBackgroundColor: [
-                            '#FF6384',
-                            '#36A2EB',
-                            '#FFCE56',
-                            '#ff7459',
-                        ],
-                    }
-                ]
-            };
-        }
-    }
+		for (const [key, value] of Object.entries(remoteAbout)) {
+			if (key !== "total") {
+				labels.push(key);
+				data.push(bytesToGB(value).toFixed(2));
+			}
+		}
+		if (labels.length > 1 && data.length > 1) {
+			doughnutData = {
+				labels: labels, datasets: [
+					{
+						data: data,
+						backgroundColor: [
+							'#FF6384',
+							'#36A2EB',
+							'#FFCE56',
+							'#ff7459',
+						],
+						hoverBackgroundColor: [
+							'#FF6384',
+							'#36A2EB',
+							'#FFCE56',
+							'#ff7459',
+						],
+					}
+				]
+			};
+		}
+	}
 
-    return {
+	return {
 		visibilityFilter: state.explorer.visibilityFilters[ownProps.containerID],
 		loadImages: state.explorer.loadImages[ownProps.containerID],
 		currentPath: state.explorer.currentPaths[ownProps.containerID],
@@ -385,12 +379,12 @@ const mapStateToProps = (state, ownProps) => {
 
 
 export default connect(mapStateToProps, {
-    changeVisibilityFilter,
-    changeGridMode,
-    navigateBack,
-    navigateFwd,
-    getFilesForContainerID,
-    setSearchQuery,
-    getAbout,
-    setLoadImages
+	changeVisibilityFilter,
+	changeGridMode,
+	navigateBack,
+	navigateFwd,
+	getFilesForContainerID,
+	setSearchQuery,
+	getAbout,
+	setLoadImages
 })(FileOperations);

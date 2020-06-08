@@ -1,7 +1,6 @@
-import axiosInstance from "../utils/API/API";
 import {addColonAtLast, isLocalRemoteName} from "../utils/Tools";
 import {GET_REMOTE_ABOUT, REQUEST_ERROR, REQUEST_SUCCESS} from "../actions/types";
-import urls from "../utils/API/endpoint";
+import {getRemoteInfo} from "rclone-api";
 
 /**
  * Gets the information of a provider
@@ -29,13 +28,13 @@ export const getAbout = (containerID) => {
                 payload: {}
             });
 
-            axiosInstance.post(urls.getAbout, {fs: remoteName})
+            getRemoteInfo(remoteName)
                 .then((res) => {
                     dispatch({
                         type: GET_REMOTE_ABOUT,
                         status: REQUEST_SUCCESS,
                         id: containerID,
-                        payload: res.data
+                        payload: res
                     })
                 }, (res) => {
                     dispatch({

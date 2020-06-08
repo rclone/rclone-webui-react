@@ -46,7 +46,8 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "simple-line-icons": "^2.4.1",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "rclone-api": "^1.0.0"
   },
   "devDependencies": {
     "check-prop-types": "^1.1.2",

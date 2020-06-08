@@ -5,9 +5,8 @@ import {
     REQUEST_ERROR,
     REQUEST_SUCCESS
 } from './types';
-import axiosInstance from "../utils/API/API";
 import {toast} from "react-toastify";
-import urls from "../utils/API/endpoint";
+import {createNewPublicLink, getJobStatus} from "rclone-api";
 
 /**
  * Create a public link for a supported remote
@@ -17,11 +16,11 @@ import urls from "../utils/API/endpoint";
  */
 export const createPublicLink = (remoteName, remotePath) => {
     return (dispatch) => {
-        axiosInstance.post(urls.createPublicLink, {fs: remoteName, remote: remotePath}).then((res) =>
+        createNewPublicLink(remoteName, remotePath).then((res) =>
                 dispatch({
                     type: CREATE_PUBLIC_LINK,
                     status: REQUEST_SUCCESS,
-                    payload: res.data
+                    payload: res
                 }),
             (error) => {
                 dispatch({
@@ -42,11 +41,11 @@ export const createPublicLink = (remoteName, remotePath) => {
  */
 
 export const getRunningJobs = () => dispatch => {
-    axiosInstance.post(urls.getRunningJobs).then((res) => {
+    getRunningJobs().then((res) => {
             dispatch({
                 type: GET_RUNNING_JOBS,
                 status: REQUEST_SUCCESS,
-                payload: res.data
+                payload: res
             })
         },
         (err) => {
@@ -64,12 +63,12 @@ export const getRunningJobs = () => dispatch => {
  * @returns {Function}
  */
 export const getStatusForRunningJob = (jobId) => dispatch => {
-    axiosInstance.post(urls.getStatusForJob, {jobid: jobId}).then((res) => {
+    getJobStatus(jobId).then((res) => {
             dispatch({
                 type: GET_STATUS_FOR_RUNNING_JOB,
                 status: REQUEST_SUCCESS,
                 id: jobId,
-                payload: res.data
+                payload: res
             })
         },
         (err) => {
