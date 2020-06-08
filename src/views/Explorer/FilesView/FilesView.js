@@ -23,7 +23,7 @@ import {PROP_CURRENT_PATH, PROP_FS_INFO} from "../../../utils/RclonePropTypes";
 import * as PropTypes from 'prop-types';
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 import {createNewPublicLink, deleteFile, purgeDir} from "rclone-api";
-
+import {createSelector} from "reselect";
 
 /*
 * Start code for react DND
@@ -468,41 +468,24 @@ const propTypes = {
     loadImages: PropTypes.bool.isRequired
 };
 
-const defaultProps = {
-};
+const defaultProps = {};
 
 
 FilesView.propTypes = propTypes;
 FilesView.defaultProps = defaultProps;
 
+let count = 0;
 
-const mapStateToProps = (state, ownProps) => {
-    const {currentPaths, visibilityFilters, gridMode, searchQueries, loadImages, sortFilters, sortFiltersAscending} = state.explorer;
-    const {containerID} = ownProps;
-    const currentPath = currentPaths[containerID];
-    const visibilityFilter = visibilityFilters[containerID];
-    const mgridMode = gridMode[containerID];
-    const searchQuery = searchQueries[containerID];
-    const mloadImages = loadImages[containerID];
-    const sortFilter = sortFilters[containerID];
-    const sortFilterAscending = sortFiltersAscending[containerID];
-
-    let fsInfo = {};
-    const {remoteName, remotePath} = currentPath;
-
-    if (currentPath && state.remote.configs) {
-
-        const tempRemoteName = remoteName.split(':')[0];
-        if (state.remote.configs[tempRemoteName])
-            fsInfo = state.remote.configs[tempRemoteName];
-    }
-
-    const pathKey = `${remoteName}-${remotePath}`;
-
-    let files = state.remote.files[pathKey];
-
-    if (files) {
-        console.log(files);
+const getVisibleFiles = createSelector(
+    (state, props) => props.containerID,
+    (state, props) => state.explorer.currentPaths[props.containerID],
+    (state, props) => state.explorer.visibilityFilters[props.containerID],
+    (state, props) => state.explorer.sortFilters[props.containerID],
+    (state, props) => state.explorer.searchQueries[props.containerID],
+    (state, props) => state.explorer.sortFiltersAscending[props.containerID],
+    (state, props) => state.remote.files[`${state.explorer.currentPaths[props.containerID].remoteName}-${state.explorer.currentPaths[props.containerID].remotePath}`],
+    (containerID, currentPath, visibilityFilter, sortFilter, searchQuery, sortFilterAscending, files) => {
+        console.log("Files render : " + (++count));
         files = files.files;
         // Filter according to visibility filters
         if (visibilityFilter && visibilityFilter !== "") {
@@ -515,11 +498,38 @@ const mapStateToProps = (state, ownProps) => {
         }
         files.sort(getSortCompareFunction(sortFilter, sortFilterAscending));
 
+        return files;
+    }
+)
+
+const mapStateToProps = (state, ownProps) => {
+    const {currentPaths, visibilityFilters, gridMode, searchQueries, loadImages, sortFilters, sortFiltersAscending} = state.explorer;
+    const {containerID} = ownProps;
+    const currentPath = currentPaths[containerID];
+    const mgridMode = gridMode[containerID];
+    const searchQuery = searchQueries[containerID];
+    const mloadImages = loadImages[containerID];
+    const sortFilter = sortFilters[containerID];
+    const sortFilterAscending = sortFiltersAscending[containerID];
+
+    let fsInfo = {};
+    const {remoteName, remotePath} = currentPath;
+
+    if (currentPath && state.remote.configs) {
+        const tempRemoteName = remoteName.split(':')[0];
+        if (state.remote.configs[tempRemoteName])
+            fsInfo = state.remote.configs[tempRemoteName];
+    }
+
+    const pathKey = `${remoteName}-${remotePath}`;
+
+    let files = state.remote.files[pathKey];
+
+    if (files) {
+        files = getVisibleFiles(state, ownProps);
     }
 
     // Sort the files
-
-
     return {
         files,
         currentPath,

@@ -28,6 +28,7 @@
     "node-sass": "^4.13.1",
     "package.json": "^2.0.1",
     "prop-types": "^15.7.2",
+    "rclone-api": "^1.0.0",
     "react": "^16.12.0",
     "react-app-polyfill": "^1.0.6",
     "react-autosuggest": "^10.0.0",
@@ -45,9 +46,9 @@
     "reactstrap": "^8.4.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0",
     "simple-line-icons": "^2.4.1",
-    "typescript": "^3.7.5",
-    "rclone-api": "^1.0.0"
+    "typescript": "^3.7.5"
   },
   "devDependencies": {
     "check-prop-types": "^1.1.2",
