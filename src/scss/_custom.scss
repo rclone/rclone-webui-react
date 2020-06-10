@@ -195,15 +195,22 @@ body{
     font-family: Nunito, sans-serif;
     font-weight: bold;
   }
+
   .nav-link.active {
     background-color: #ffffff;
-    color: rgb(63,121,173);
+    color: rgb(63, 121, 173);
   }
-  .nav-link.active > .nav-icon :hover{
-    color: rgb(63,121,173);
+
+  .nav-link.active .nav-icon :hover {
+    color: rgb(63, 121, 173);
   }
+
+  .nav-link.active .nav-icon :hover {
+    color: rgb(63, 121, 173);
+  }
+
   .nav-link {
-    color: rgb(114,114,114);
+    color: rgb(114, 114, 114);
     padding-top: 15px;
     padding-bottom: 15px;
     border-top: 1px solid rgba(232, 239, 247, 1);

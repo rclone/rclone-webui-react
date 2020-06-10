@@ -1,6 +1,7 @@
 import axiosInstance from "../utils/API/API";
 import urls from "../utils/API/endpoint";
-import {ADD_TEST_PLUGIN, GET_TEST_PLUGINS, REQUEST_ERROR, REQUEST_SUCCESS} from "./types";
+import {ADD_TEST_PLUGIN, GET_TEST_PLUGINS, LOAD_PLUGINS, REQUEST_ERROR, REQUEST_SUCCESS} from "./types";
+import {toast} from "react-toastify";
 
 /**
  * Load test plugins
@@ -34,5 +35,34 @@ export const addTestPlugin = (pluginName, pluginUrl) => (dispatch) => {
 			status: REQUEST_ERROR,
 			payload: error
 		})
+	})
+}
+
+export const getPlugins = () => (dispatch) => {
+	axiosInstance.post("pluginsctl/getPlugins").then(res => {
+			dispatch({
+				type: LOAD_PLUGINS,
+				status: REQUEST_SUCCESS,
+				payload: res.data
+			})
+		},
+		(error) => {
+			dispatch({
+				type: LOAD_PLUGINS,
+				status: REQUEST_ERROR,
+				payload: error
+			})
+		}
+	)
+
+}
+
+export const addPlugin = (pluginURL) => dispatch => {
+	axiosInstance.post("pluginsctl/addPlugin", {url: pluginURL}).then(res => {
+		toast.info(`Plugin ${pluginURL} added successfully`);
+		// reload plugins database
+		dispatch(getPlugins())
+	}, (error) => {
+		toast.error(`Error adding plugin. Please try again: ${error.data}`);
 	})
 }

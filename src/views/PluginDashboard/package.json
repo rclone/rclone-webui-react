@@ -1,0 +1,6 @@
+{
+  "name": "PluginDashboard",
+  "version": "0.0.0",
+  "private": true,
+  "main": "PluginDashboard.js"
+}

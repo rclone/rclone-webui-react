@@ -22,8 +22,8 @@ export default {
         },
         {
             name: 'Plugins',
-            url: '/pluginsDashboard',
-            icon: 'icon-plugins'
+            url: '/pluginDashboard',
+            icon: 'fa fa-plug'
         },
         {
             name: 'Mounts',

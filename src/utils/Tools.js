@@ -182,6 +182,11 @@ export function validateDriveName(name) {
     return baseValidator(regex, name);
 }
 
+export function validateURL(url) {
+    const regex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/g;
+    return baseValidator(regex, url);
+}
+
 /**
  * Opens the specified URL in a new tab and focus on it.
  * @param url {string} URL to be opened.

@@ -1,7 +1,8 @@
-import {ADD_TEST_PLUGIN, GET_TEST_PLUGINS, REQUEST_ERROR, REQUEST_SUCCESS} from "../actions/types";
+import {ADD_TEST_PLUGIN, GET_TEST_PLUGINS, LOAD_PLUGINS, REQUEST_ERROR, REQUEST_SUCCESS} from "../actions/types";
 
 const initialState = {
 	loadedTestPlugins: {},
+	loadedPlugins: {},
 	error: ""
 };
 
@@ -28,6 +29,21 @@ export default function (state = initialState, action) {
 			}
 			break;
 		case ADD_TEST_PLUGIN:
+			return state;
+		case LOAD_PLUGINS:
+			if (action.status === REQUEST_SUCCESS) {
+				return {
+					...state,
+					loadedPlugins: action.payload.loadedPlugins,
+					error: ""
+				}
+			} else if (action.status === REQUEST_ERROR) {
+				return {
+					...state,
+					loadedPlugins: {},
+					error: action.payload
+				}
+			}
 			return state;
 		default:
 			return state;
