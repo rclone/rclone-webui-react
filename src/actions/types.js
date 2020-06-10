@@ -52,6 +52,7 @@ export const CREATE_MOUNT = "CREATE_MOUNT";
 export const GET_TEST_PLUGINS = "GET_TEST_PLUGINS";
 
 export const ADD_TEST_PLUGIN = "ADD_TEST_PLUGIN";
+export const LOAD_PLUGINS = "LOAD_PLUGINS";
 
 export const REQUEST_ERROR = 'ERROR';
 export const REQUEST_SUCCESS = 'SUCCESS';

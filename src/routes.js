@@ -8,6 +8,7 @@ const Login = React.lazy(() => import("./views/Pages/Login"));
 const RCloneDashboard = React.lazy(() => import("./views/RCloneDashboard"));
 const PluginDashboard = React.lazy(() => import("./views/PluginDashboard"));
 const MountDashboard = React.lazy(() => import("./views/MountDashboard"));
+const PluginDashboard = React.lazy(() => import("./views/PluginDashboard"));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 // Define the routes as required
@@ -21,6 +22,7 @@ const routes = [
     {path: '/remoteExplorer/:remoteName/:remotePath', exact: true, name: 'Explorer', component: RemoteExplorerLayout},
     {path: '/remoteExplorer', name: 'Explorer', component: RemoteExplorerLayout},
     {path: '/rcloneBackend', name: 'Rclone Backend', component: RCloneDashboard},
+    {path: '/pluginDashboard', name: 'Plugins', component: PluginDashboard},
     {path: '/mountDashboard', name: 'Mount Dashboard', component: MountDashboard},
     {path: '/pluginDashboard', name: 'Plugins', component: PluginDashboard},
     {path: '/mountDashboard', name: 'Mount Dashboard', component: MountDashboard},
