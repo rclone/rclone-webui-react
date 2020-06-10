@@ -1,0 +1,187 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Plugin Dashboard renders should match snapshot 1`] = `
+<div
+  data-test="pluginDashboardComponent"
+>
+  <Row
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    <Card
+      className="col-12"
+      tag="div"
+    >
+      <CardHeader
+        tag="div"
+      >
+        Add Plugin
+      </CardHeader>
+      <CardBody
+        tag="div"
+      >
+        <FormGroup
+          row={true}
+          tag="div"
+        >
+          <Label
+            for="mountPoint"
+            sm={5}
+            tag="label"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            Plugin URL
+          </Label>
+          <Col
+            sm={7}
+            tag="div"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            <Input
+              id="mountPoint"
+              name="mountPoint"
+              onChange={[Function]}
+              required={true}
+              type="text"
+              value=""
+            />
+            <FormFeedback
+              tag="div"
+            />
+          </Col>
+        </FormGroup>
+      </CardBody>
+      <CardFooter
+        tag="div"
+      >
+        <div
+          className="clear-fix float-right"
+        >
+          <Button
+            color="primary"
+            disabled={true}
+            onClick={[Function]}
+            tag="button"
+          >
+            Verify and add
+          </Button>
+        </div>
+        <div
+          className="clear-fix float-right mr-2"
+        >
+          <Button
+            color="danger"
+            onClick={[Function]}
+            tag="button"
+          >
+            Cancel
+          </Button>
+        </div>
+      </CardFooter>
+    </Card>
+  </Row>
+  <Row
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    <Col
+      className="mb-4"
+      lg={8}
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <Button
+        className="float-left"
+        color="primary"
+        onClick={[Function]}
+        tag="button"
+      >
+        Add new Plugin
+      </Button>
+    </Col>
+    <Col
+      lg={4}
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    />
+  </Row>
+  <Table
+    className="table-striped"
+    responsive={true}
+    responsiveTag="div"
+    tag="table"
+  >
+    <thead>
+      <tr>
+        <th>
+          Author/ Name
+        </th>
+        <th>
+          Description
+        </th>
+        <th>
+          Actions
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <PluginRowEntries
+        loadedPlugins={Object {}}
+      />
+    </tbody>
+  </Table>
+</div>
+`;
