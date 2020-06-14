@@ -45,6 +45,10 @@ export const CREATE_MOUNT = "CREATE_MOUNT";
 export const ADD_TEST_PLUGIN = "ADD_TEST_PLUGIN";
 export const LOAD_PLUGINS = "LOAD_PLUGINS";
 
+export const GET_MOUNT_LIST = "GET_MOUNT_LIST";
+export const REMOVE_MOUNT = "REMOVE_MOUNT";
+export const CREATE_MOUNT = "CREATE_MOUNT";
+
 export const REQUEST_ERROR = 'ERROR';
 export const REQUEST_SUCCESS = 'SUCCESS';
 export const REQUEST_LOADING = 'LOADING';

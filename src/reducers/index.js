@@ -10,6 +10,8 @@ import userActionsReducer from "./userActionsReducer";
 import imagesReducer from "./imagesReducer";
 import versionReducer from "./versionReducer";
 import mountReducer from "./mountReducer";
+import pluginsReducer from "./pluginsReducer";
+import mountReducer from "./mountReducer";
 
 /**
  * Configures the root reducer to be executed before any other reducers configured in the system.
@@ -40,6 +42,8 @@ const appReducer = combineReducers({
     user: userActionsReducer,
     imageLoader: imagesReducer,
     version: versionReducer,
+    plugins: pluginsReducer,
+    mount: mountReducer,
     mount: mountReducer,
     // remoteOps: remoteOpsReducer
 });

@@ -21,6 +21,7 @@ const routes = [
     {path: '/remoteExplorer/:remoteName/:remotePath', exact: true, name: 'Explorer', component: RemoteExplorerLayout},
     {path: '/remoteExplorer', name: 'Explorer', component: RemoteExplorerLayout},
     {path: '/rcloneBackend', name: 'Rclone Backend', component: RCloneDashboard},
+    {path: '/mountDashboard', name: 'Mount Dashboard', component: MountDashboard},
     {path: '/pluginDashboard', name: 'Plugins', component: PluginDashboard},
     {path: '/mountDashboard', name: 'Mount Dashboard', component: MountDashboard},
 
