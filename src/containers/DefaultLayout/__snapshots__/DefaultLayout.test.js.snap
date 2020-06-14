@@ -77,6 +77,11 @@ exports[`Remote Explorer renders should match snapshot 1`] = `
                     "url": "/rcloneBackend",
                   },
                   Object {
+                    "icon": "fa fa-hdd-o",
+                    "name": "Mounts",
+                    "url": "/mountDashboard",
+                  },
+                  Object {
                     "icon": "icon-logout",
                     "name": "Log Out",
                     "url": "/login",
@@ -199,6 +204,16 @@ exports[`Remote Explorer renders should match snapshot 1`] = `
                 "name": "Rclone Backend",
                 "path": "/rcloneBackend",
               },
+              Object {
+                "component": Object {
+                  "$$typeof": Symbol(react.lazy),
+                  "_ctor": [Function],
+                  "_result": null,
+                  "_status": -1,
+                },
+                "name": "Mount Dashboard",
+                "path": "/mountDashboard",
+              },
             ]
           }
           className=""
@@ -269,9 +284,15 @@ exports[`Remote Explorer renders should match snapshot 1`] = `
                 path="/rcloneBackend"
                 render={[Function]}
               />
+              <Route
+                key="9"
+                name="Mount Dashboard"
+                path="/mountDashboard"
+                render={[Function]}
+              />
               <Redirect
                 from="/"
-                to="/login"
+                to="/dashboard"
               />
             </Switch>
           </Suspense>

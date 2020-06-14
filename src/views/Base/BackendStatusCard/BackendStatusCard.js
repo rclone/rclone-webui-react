@@ -140,11 +140,11 @@ const propTypes = {
      */
     checkStatus: PropTypes.bool.isRequired,
 
-
     /**
      * Function to enable or disable status check
      */
     enableCheckStatus: PropTypes.func.isRequired,
+
     /**
      * Get the current status
      */

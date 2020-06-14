@@ -232,10 +232,6 @@ class FilesView extends React.PureComponent {
     async deleteHandle(item) {
         let {remoteName} = this.props.currentPath;
 
-        const data = {
-            fs: addColonAtLast(remoteName),
-            remote: item.Path,
-        };
         try {
             if (item.IsDir) {
 
@@ -503,7 +499,7 @@ const getVisibleFiles = createSelector(
 )
 
 const mapStateToProps = (state, ownProps) => {
-    const {currentPaths, visibilityFilters, gridMode, searchQueries, loadImages, sortFilters, sortFiltersAscending} = state.explorer;
+    const {currentPaths, gridMode, searchQueries, loadImages, sortFilters, sortFiltersAscending} = state.explorer;
     const {containerID} = ownProps;
     const currentPath = currentPaths[containerID];
     const mgridMode = gridMode[containerID];

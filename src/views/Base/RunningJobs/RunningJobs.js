@@ -7,6 +7,7 @@ import {Line} from "react-chartjs-2";
 import {CustomTooltips} from "@coreui/coreui-plugin-chartjs-custom-tooltips";
 import axiosInstance from "../../../utils/API/API";
 import urls from "../../../utils/API/endpoint";
+import {toast} from "react-toastify";
 
 const options = {
     tooltips: {
@@ -145,12 +146,10 @@ function TransferringJobs({transferring}) {
 function TransferringJobsRow({transferring}) {
     if (transferring !== undefined) {
         const grouped = groupByKey(transferring, job => job.group);
-        console.log(grouped);
 
         const array = [];
 
         grouped.forEach((val, keys) => {
-            console.log(val, keys);
             array.push (<JobGroup job={val} groupId={keys} key={keys}/>);
         });
         return array;
@@ -165,7 +164,6 @@ function TransferringJobsRow({transferring}) {
 function JobGroup({job, groupId}) {
     const [showCollapse, setShowCollapse] = useState(false);
     const [cancelButtonEnabled, setCancelButtonEnabled] = useState(true);
-    console.log(job);
 
     const stopJob = (e, groupId) => {
         e.stopPropagation();
@@ -173,9 +171,10 @@ function JobGroup({job, groupId}) {
             setCancelButtonEnabled(false);
             const jobid = groupId.split('/')[1];
             axiosInstance.post(urls.stopJob, {jobid, _async:true}).then(function (res) {
-                console.log(res);
+                toast.info(`Job ${jobid} stopped`);
             }).catch(err => {
-                console.error(err);
+                toast.error(`Job ${jobid} couldn't be stopped`)
+
             })
         }
     };
@@ -323,14 +322,12 @@ const mapStateToProps = (state, ownProps) => {
         const dataLength = speedData.length;
         //
         const limitedData = speedData.slice(dataLength - 50, dataLength - 1);
-        // console.log(limitedData.length);
         limitedData.forEach((item, idx) => {
             labels.push(Math.ceil(item.elapsedTime));
             data1.push(bytesToKB(item.speed).toFixed(2));
             data2.push(bytesToKB(item.speedAvg).toFixed(2));
         });
 
-        // console.log(data1, data2);
         lineChartData = {
             labels: labels,
             datasets: [

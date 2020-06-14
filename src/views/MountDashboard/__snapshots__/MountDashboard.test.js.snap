@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Mount Dashboard renders should match snapshot 1`] = `
+<div
+  data-test="mountDashboardComponent"
+>
+  <Row
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    <Col
+      className="mb-4 d-flex justify-content-between"
+      lg={12}
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <NewMountModal
+        buttonLabel="Create new mount"
+        okHandle={[Function]}
+      />
+      <Button
+        className="float-right"
+        color="danger"
+        onClick={[Function]}
+        tag="button"
+      >
+        Unmount all
+      </Button>
+    </Col>
+  </Row>
+  <Table
+    className="table-striped"
+    responsive={true}
+    responsiveTag="div"
+    tag="table"
+  >
+    <thead>
+      <tr>
+        <th>
+          No.
+        </th>
+        <th>
+          Mount Point
+        </th>
+        <th>
+          Mounted since
+        </th>
+        <th>
+          Fs
+        </th>
+        <th>
+          Actions
+        </th>
+      </tr>
+    </thead>
+    <tbody />
+  </Table>
+</div>
+`;

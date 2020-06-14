@@ -1,0 +1,118 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`New Mount Modal renders should match snapshot 1`] = `
+<div
+  data-test="newMountModalComponent"
+>
+  <Button
+    color="primary"
+    onClick={[Function]}
+    tag="button"
+  />
+  <Modal
+    autoFocus={true}
+    backdrop={true}
+    backdropTransition={
+      Object {
+        "mountOnEnter": true,
+        "timeout": 150,
+      }
+    }
+    centered={false}
+    fade={true}
+    isOpen={false}
+    keyboard={true}
+    modalTransition={
+      Object {
+        "timeout": 300,
+      }
+    }
+    onClosed={[Function]}
+    onOpened={[Function]}
+    returnFocusAfterClose={true}
+    role="dialog"
+    scrollable={false}
+    toggle={[Function]}
+    unmountOnClose={true}
+    zIndex={1050}
+  >
+    <ModalHeader
+      charCode={215}
+      closeAriaLabel="Close"
+      tag="h5"
+      toggle={[Function]}
+      wrapTag="div"
+    >
+      New Mount
+    </ModalHeader>
+    <ModalBody
+      tag="div"
+    >
+      <FormGroup
+        row={true}
+        tag="div"
+      >
+        <Label
+          for="mountFs"
+          sm={5}
+          tag="label"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          Fs
+        </Label>
+        <Col
+          sm={7}
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Connect(RemotesList)
+            handleChangeRemoteName={[Function]}
+            remoteName=""
+          />
+          <FormFeedback
+            tag="div"
+          />
+        </Col>
+      </FormGroup>
+    </ModalBody>
+    <ModalFooter
+      tag="div"
+    >
+      <Button
+        color="primary"
+        data-test="ok-button"
+        disabled={true}
+        onClick={[Function]}
+        tag="button"
+      >
+        Create
+      </Button>
+       
+      <Button
+        color="secondary"
+        data-test="cancel-button"
+        onClick={[Function]}
+        tag="button"
+      >
+        Cancel
+      </Button>
+    </ModalFooter>
+  </Modal>
+</div>
+`;

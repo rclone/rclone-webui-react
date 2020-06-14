@@ -21,6 +21,11 @@ export default {
             icon: 'icon-star',
         },
         {
+            name: 'Mounts',
+            url: '/mountDashboard',
+            icon: 'fa fa-hdd-o'
+        },
+        {
             name: 'Log Out',
             url: '/login',
             icon: 'icon-logout',

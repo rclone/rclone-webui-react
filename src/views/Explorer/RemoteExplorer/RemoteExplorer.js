@@ -17,6 +17,7 @@ import FileOperations from "../../Base/FileOperations/FileOperations";
 import {PROP_CURRENT_PATH, PROP_FS_INFO} from "../../../utils/RclonePropTypes";
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 import RemotesList from "../RemotesList";
+import {getFsInfo} from "../../../actions/explorerActions";
 
 
 class RemoteExplorer extends React.Component {
@@ -52,6 +53,12 @@ class RemoteExplorer extends React.Component {
 		this.props.changePath(this.props.containerID, updateRemoteName, updateRemotePath);
 	}
 
+	handleChangeRemoteName = (remoteName) => {
+		const {changeRemoteName, containerID, getFsInfo} = this.props;
+		changeRemoteName(containerID, remoteName);
+		getFsInfo(remoteName);
+	}
+
 	render() {
 
 
@@ -76,6 +83,7 @@ class RemoteExplorer extends React.Component {
 								<RemotesList
 									remoteName={remoteName}
 									containerID={containerID}
+									handleChangeRemoteName={this.handleChangeRemoteName}
 								/>
 							)}
 						</Container>
@@ -139,6 +147,6 @@ export default connect(
 	{
 		createPath, changePath,
 		changeRemoteName, changeRemotePath, navigateUp,
-		navigateBack, navigateFwd
+		navigateBack, navigateFwd, getFsInfo
 	}
 )(RemoteExplorer);

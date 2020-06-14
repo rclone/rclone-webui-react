@@ -97,25 +97,46 @@ const urls = {
     /**
      * List the remote names of created remotes.
      */
-    listRemotes: "config/listremotes",
-    /**
-     * Get the files for given remoteName and path.
-     */
-    getFilesList: "operations/list",
+	listRemotes: "config/listremotes",
+	/**
+	 * Get the files for given remoteName and path.
+	 */
+	getFilesList: "operations/list",
+
+	/**
+	 * Get information about the rclone backend.
+	 */
+	getAbout: "operations/about",
+	/**
+	 * Delete a config with config name.
+	 */
+	deleteConfig: "config/delete",
+
+	/**
+	 * Stop a running job by job id
+	 */
+	stopJob: "job/stop",
+
+
+	/**
+	 * List all the current mounts
+	 */
+	listMounts: "mount/listmounts",
 
     /**
-     * Get information about the rclone backend.
+     * Create a new mount (mount)
      */
-    getAbout: "operations/about",
-    /**
-     * Delete a config with config name.
-     */
-    deleteConfig: "config/delete",
+    createMount: "mount/mount",
 
     /**
-     * Stop a running job by job id
+     * Delete a created mount(unmount)
      */
-    stopJob: "job/stop",
+    removeMount: "mount/unmount",
+
+    /**
+     * Delete all created mounts(unmount)
+     */
+    unmountAll: "mount/unmountall",
 
 };
 export default urls;

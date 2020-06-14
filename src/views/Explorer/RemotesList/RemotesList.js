@@ -29,7 +29,6 @@ class RemotesList extends React.Component {
             this.setState({
                 remoteName: newValue,
                 openButtonText: "Open local path",
-
             });
         } else {
             this.setState({
@@ -37,17 +36,14 @@ class RemotesList extends React.Component {
                 openButtonText: "Open"
             });
         }
-
-
     };
 
     openRemote = (e) => {
         e.preventDefault();
-        const {changeRemoteName, containerID} = this.props;
+        const {handleChangeRemoteName} = this.props;
         const {remoteName} = this.state;
-        changeRemoteName(containerID, remoteName);
 
-        this.props.getFsInfo(remoteName);
+        handleChangeRemoteName(remoteName);
 
     };
 
@@ -73,7 +69,6 @@ class RemotesList extends React.Component {
 
             return (
                 <Form onSubmit={this.openRemote} className="row">
-                    
                     
                     <Col xs={12} sm={10} lg={10}>
                         <RemoteListAutoSuggest value={remoteName} onChange={this.shouldUpdateRemoteName}
@@ -102,8 +97,8 @@ const propTypes = {
     remotes: PropTypes.array.isRequired,
     error: PropTypes.object,
     hasError: PropTypes.bool,
-    containerID: PropTypes.string.isRequired,
-    currentPath: PROP_CURRENT_PATH
+    currentPath: PROP_CURRENT_PATH,
+    handleChangeRemoteName: PropTypes.func.isRequired,
 };
 
 
