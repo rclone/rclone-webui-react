@@ -1,23 +1,10 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {
-	Button,
-	Card,
-	CardBody,
-	CardFooter,
-	CardHeader,
-	Col,
-	FormFeedback,
-	FormGroup,
-	Input,
-	Label,
-	Row,
-	Table
-} from "reactstrap";
+import {Col, Table} from "reactstrap";
 import * as PropTypes from 'prop-types';
 import {addPlugin, getPlugins} from "../../actions/pluginActions";
 import PluginRowEntries from "./PluginRowEntries";
-import {validateURL} from "../../utils/Tools";
+import NewPluginModal from "./NewPluginModal";
 
 // function MountRows({remotes, refreshHandle}) {
 //
@@ -33,88 +20,25 @@ import {validateURL} from "../../utils/Tools";
 
 class PluginDashboard extends React.Component {
 
-	constructor(props, context) {
-		super(props, context);
-		this.state = {
-			pluginDownloadURL: "",
-			showNewPluginCard: false,
-		}
-	}
-
 	componentDidMount() {
 		const {getPlugins} = this.props;
 		getPlugins();
 	}
 
-	addPluginHandler = (e) => {
-		e.stopPropagation();
+	addPluginHandle = (pluginDownloadURL) => {
 		const {addPlugin} = this.props;
-		const {pluginDownloadURL} = this.state;
 		addPlugin(pluginDownloadURL);
 	}
 
-	changePluginURL = (e) => {
-		const pluginDownloadURL = e.target.value;
-		this.setState({pluginDownloadURL})
-	}
-
-	toggleShowNewPluginCard = () => {
-		this.setState((state) => ({showNewPluginCard: !state.showNewPluginCard}))
-	}
-
-	addButtonStatus = () => {
-		const {pluginDownloadURL} = this.state;
-		return !pluginDownloadURL || this.state.pluginDownloadURL === "" || !validateURL(pluginDownloadURL);
-	}
-
 	render() {
-		const {showNewPluginCard, pluginDownloadURL} = this.state;
 		const {loadedPlugins} = this.props;
 		return (
 			<div data-test="pluginDashboardComponent">
-				<Row style={{display: showNewPluginCard ? "block" : "none"}}>
-					<Card
-						className={"col-12"}>
-						<CardHeader>
-							Add Plugin
-						</CardHeader>
-						<CardBody>
-							<FormGroup row>
-								<Label for={"mountPoint"} sm={5}>Plugin URL</Label>
-								<Col sm={7}>
-									<Input type={"text"} value={pluginDownloadURL}
-										   name={"mountPoint"}
-										   id={"mountPoint"} onChange={this.changePluginURL} required={true}
-									>
-									</Input>
-									<FormFeedback/>
+				<Col lg={12} className="mb-4 d-flex justify-content-between">
+					<NewPluginModal buttonLabel="Add New" okHandle={this.addPluginHandle}/>
+					<NewPluginModal buttonLabel="Visit Store" okHandle={this.addPluginHandle}/>
+				</Col>
 
-								</Col>
-							</FormGroup>
-						</CardBody>
-						<CardFooter>
-							<div className="clear-fix float-right">
-								<Button color="primary" disabled={this.addButtonStatus()}
-										onClick={this.addPluginHandler}>Verify and add</Button>
-							</div>
-							<div className="clear-fix float-right mr-2">
-								<Button color="danger" onClick={this.toggleShowNewPluginCard}>Cancel</Button>
-							</div>
-						</CardFooter>
-					</Card>
-				</Row>
-
-				<Row>
-					{!showNewPluginCard && <Col lg={8} className={"mb-4"}>
-						<Button color={"primary"} className={"float-left"} onClick={this.toggleShowNewPluginCard}>
-							Add new Plugin
-						</Button>
-					</Col>}
-					<Col lg={4}>
-
-					</Col>
-
-				</Row>
 				<Table responsive className="table-striped">
 					<thead>
 					<tr>

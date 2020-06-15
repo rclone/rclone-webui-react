@@ -23,8 +23,6 @@ import {PROP_CURRENT_PATH, PROP_FS_INFO} from "../../../utils/RclonePropTypes";
 import * as PropTypes from 'prop-types';
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 import {createNewPublicLink, deleteFile, purgeDir} from "rclone-api";
-
-import {createNewPublicLink, deleteFile, purgeDir} from "rclone-api";
 import {createSelector} from "reselect";
 import DropOverlay from "../../Base/DropOverlay/DropOverlay";
 
@@ -140,6 +138,11 @@ class FilesView extends React.PureComponent {
         if (IsDir || IsBucket) {
             this.updateRemotePath(Path, IsDir, IsBucket);
         } else {
+            // check for compatible plugin
+            // if plugin is found, open using the plugin. If not found, then Open modal
+            // display plugins which can be used with this mime type if plugins are absent
+            // else allow to use plugin.
+
             this.downloadHandle(item);
         }
 
@@ -456,8 +459,7 @@ const propTypes = {
     loadImages: PropTypes.bool.isRequired
 };
 
-const defaultProps = {
-};
+const defaultProps = {};
 
 
 FilesView.propTypes = propTypes;

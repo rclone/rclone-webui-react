@@ -183,7 +183,7 @@ export function validateDriveName(name) {
 }
 
 export function validateURL(url) {
-    const regex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/g;
+    const regex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=]+$/g;
     return baseValidator(regex, url);
 }
 
