@@ -1,7 +1,7 @@
 name: Node CI
 
 on:
-  [push, pull_request] 
+  [push, pull_request]
 
 jobs:
   build:
@@ -21,7 +21,11 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm ci
-          npm run test:cov
+          make test-coverage
           npm run build
         env:
           CI: true
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
