@@ -1,6 +1,15 @@
-# Rclone Web UI  [![Google Summer of Code 19](https://img.shields.io/badge/Google%20Summer%20of%20Code-2019%202020-blue.svg)](https://summerofcode.withgoogle.com/projects/#5104629795258368)
+# Rclone Web UI  [![Google Summer of Code 19](https://img.shields.io/badge/Google%20Summer%20of%20Code-2019%202020-blue.svg)](https://summerofcode.withgoogle.com/projects/#5104629795258368) [![CCExtractor](https://img.shields.io/badge/CCExtractor-org-red.svg)](https://www.ccextractor.org/) [![RClone](https://img.shields.io/badge/RClone-org-blue.svg)](https://rclone.org/)
 
-[![CCExtractor](https://img.shields.io/badge/CCExtractor-org-red.svg)](https://www.ccextractor.org/) [![RClone](https://img.shields.io/badge/RClone-org-blue.svg)](https://rclone.org/)
+**Latest hosted release:** https://rclone.github.io/rclone-webui-react
+
+
+
+## Build Status
+
+![Node CI](https://github.com/rclone/rclone-webui-react/workflows/Node%20CI/badge.svg)
+![Code scanning](https://github.com/rclone/rclone-webui-react/workflows/Code%20scanning%20-%20action/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/rclone/rclone-webui-react/badge.svg?branch=master)](https://coveralls.io/github/rclone/rclone-webui-react?branch=master)
+
 ## About
 
 This project is developed as a part of Google Summer of Code 2019 and 2020 under [ccextractor.org](https://ccextractor.org) and [rclone.org](https://rclone.org) by [negative0](https://github.com/negative0).
@@ -17,11 +26,6 @@ This is a reactjs based web UI for the rclone cli project @ [Rclone Website](htt
 ## Intro
 
 This project is being actively developed. Feel free to create any issues, feature requests or enhancements as you encounter them. 
-
-## Build Status
-
-![Node CI](https://github.com/rclone/rclone-webui-react/workflows/Node%20CI/badge.svg)
-![Code scanning](https://github.com/rclone/rclone-webui-react/workflows/Code%20scanning%20-%20action/badge.svg)
 
 ## Getting Started
 
