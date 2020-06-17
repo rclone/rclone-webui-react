@@ -9,7 +9,7 @@ import {toast} from "react-toastify";
  */
 export const loadTestPlugins = () => {
 	return (dispatch) => {
-		axiosInstance.post(urls.listTestPlugins).then((res) => {
+		axiosInstance.post(urls.listPlugins).then((res) => {
 				dispatch({
 					type: GET_TEST_PLUGINS,
 					status: REQUEST_SUCCESS,

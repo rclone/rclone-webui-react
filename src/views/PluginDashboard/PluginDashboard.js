@@ -1,22 +1,10 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {Col, Table} from "reactstrap";
+import {Button, Col, Row, Table} from "reactstrap";
 import * as PropTypes from 'prop-types';
 import {addPlugin, getPlugins} from "../../actions/pluginActions";
 import PluginRowEntries from "./PluginRowEntries";
 import NewPluginModal from "./NewPluginModal";
-
-// function MountRows({remotes, refreshHandle}) {
-//
-// 	let returnMap = [];
-// 	let curKey = 1;
-// 	for (const [key, value] of Object.entries(remotes)) {
-// 		returnMap.push((<ConfigRow sequenceNumber={curKey} key={key} remoteName={key} remote={value}
-// 								   refreshHandle={refreshHandle}/>));
-// 		curKey++;
-// 	}
-// 	return returnMap;
-// }
 
 class PluginDashboard extends React.Component {
 
@@ -31,14 +19,17 @@ class PluginDashboard extends React.Component {
 	}
 
 	render() {
-		const {loadedPlugins} = this.props;
+		const {navigation, loadedPlugins} = this.props;
 		return (
 			<div data-test="pluginDashboardComponent">
-				<Col lg={12} className="mb-4 d-flex justify-content-between">
-					<NewPluginModal buttonLabel="Add New" okHandle={this.addPluginHandle}/>
-					<NewPluginModal buttonLabel="Visit Store" okHandle={this.addPluginHandle}/>
-				</Col>
-
+				<Row>
+					<Col lg={12} className="mb-4 d-flex justify-content-between">
+						<NewPluginModal buttonLabel="Add New" okHandle={this.addPluginHandle}/>
+						<Button onClick={() => this.props.history.push("/storeDashboard")}>
+							Visit Store
+						</Button>
+					</Col>
+				</Row>
 				<Table responsive className="table-striped">
 					<thead>
 					<tr>

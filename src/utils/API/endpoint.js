@@ -141,7 +141,7 @@ const urls = {
     /**
      *  List the loaded test plugins
      */
-    listTestPlugins: "pluginsctl/listTestPlugins",
+    listPlugins: "pluginsctl/listPlugins",
 
     /**
      * Add a test plugin

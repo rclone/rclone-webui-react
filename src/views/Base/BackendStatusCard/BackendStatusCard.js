@@ -15,7 +15,6 @@ import {IP_ADDRESS_KEY, MODAL_ROOT_ELEMENT, STATUS_REFRESH_TIMEOUT, USER_NAME_KE
 function TaskModal() {
     return ReactDOM.createPortal((
         <RunningJobs mode={"modal"}/>
-
     ), document.getElementById(MODAL_ROOT_ELEMENT));
 }
 
@@ -105,7 +104,7 @@ function StatusText({connectivityStatus, checkStatus, ipAddress, userName}) {
         // Connected to backend
         statusText = "rClone Backend is connected and working as expected";
     }else{
-        statusText = "Cannot connect to rclone backend. There is a problem with connecting to {ipAddress}."
+        statusText = `Cannot connect to rclone backend. There is a problem with connecting to ${ipAddress}.`
     }
 
     return (
@@ -117,10 +116,6 @@ function StatusText({connectivityStatus, checkStatus, ipAddress, userName}) {
             <p>
                 <span className={"card-subtitle"}>Current IP Address: {" "}</span>
                 <span className="card-text">{ipAddress}</span>
-            </p>
-            <p>
-                <span className={"card-subtitle"}>Username: {" "}</span>
-                <span className="card-text">{userName}</span>
             </p>
         </>
     )

@@ -19,11 +19,13 @@ export default function (state = initialState, action) {
 				return {
 					...state,
 					loadedTestPlugins: action.payload.loadedTestPlugins,
+					loadedPlugins: action.payload.loadedPlugins
 				}
 			} else if (action.status === REQUEST_ERROR) {
 				return {
 					...state,
-					loadedTestPlugins: undefined,
+					loadedTestPlugins: {},
+					loadedPlugins: {},
 					error: action.payload
 				}
 			}
