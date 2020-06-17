@@ -1,0 +1,222 @@
+Index: .github/workflows/nodejs.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>name: Node CI\n\non:\n  [push, pull_request] \n\njobs:\n  build:\n\n    strategy:\n      matrix:\n        platform: [ubuntu-latest, macos-latest, windows-latest]\n        node-version: [8.x, 10.x, 12.x]\n    runs-on: ${{ matrix.platform }}\n\n    steps:\n      - uses: actions/checkout@v1\n      - name: Use Node.js ${{ matrix.node-version }}\n        uses: actions/setup-node@v1\n        with:\n          node-version: ${{ matrix.node-version }}\n      - name: npm install, build, and test\n        run: |\n          npm ci\n          npm run test:cov\n          npm run build\n        env:\n          CI: true\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .github/workflows/nodejs.yml	(revision 01ddd2adb079d0e67ca795e10625ebbb0dd4c019)
++++ .github/workflows/nodejs.yml	(date 1592401555203)
+@@ -1,7 +1,7 @@
+ name: Node CI
+ 
+ on:
+-  [push, pull_request] 
++  [push, pull_request]
+ 
+ jobs:
+   build:
+@@ -21,7 +21,11 @@
+       - name: npm install, build, and test
+         run: |
+           npm ci
+-          npm run test:cov
++          make test-coverage
+           npm run build
+         env:
+           CI: true
++      - name: Coveralls
++        uses: coverallsapp/github-action@master
++        with:
++          github-token: ${{ secrets.GITHUB_TOKEN }}
+Index: package.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{\n  \"name\": \"@rclone/rclone-webui-react\",\n  \"version\": \"2.0.1\",\n  \"description\": \"A web interface for r-clone\",\n  \"author\": \"Chaitanya Bankanhal\",\n  \"copyright\": \"\",\n  \"license\": \"MIT\",\n  \"private\": false,\n  \"homepage\": \"./\",\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git@github.com:negative0/rclone-webui-react.git\"\n  },\n  \"dependencies\": {\n    \"@coreui/coreui\": \"^2.1.16\",\n    \"@coreui/coreui-plugin-chartjs-custom-tooltips\": \"^1.3.1\",\n    \"@coreui/icons\": \"0.3.0\",\n    \"@coreui/react\": \"^2.5.4\",\n    \"axios\": \"^0.19.2\",\n    \"bootstrap\": \"^4.4.1\",\n    \"chart.js\": \"^2.9.3\",\n    \"classnames\": \"^2.2.6\",\n    \"core-js\": \"^3.6.5\",\n    \"flag-icon-css\": \"^3.4.6\",\n    \"font-awesome\": \"^4.7.0\",\n    \"jquery\": \"^3.5.1\",\n    \"lodash\": \"^4.17.14\",\n    \"node-sass\": \"^4.14.1\",\n    \"package.json\": \"^2.0.1\",\n    \"prop-types\": \"^15.7.2\",\n    \"rclone-api\": \"^1.0.7\",\n    \"react\": \"^16.12.0\",\n    \"react-app-polyfill\": \"^1.0.6\",\n    \"react-autosuggest\": \"^10.0.0\",\n    \"react-awesome-player\": \"^1.0.11\",\n    \"react-chartjs-2\": \"^2.9.0\",\n    \"react-dnd\": \"^7.7.0\",\n    \"react-dnd-html5-backend\": \"^7.7.0\",\n    \"react-dom\": \"^16.12.0\",\n    \"react-in-viewport\": \"0.0.38\",\n    \"react-redux\": \"^7.1.3\",\n    \"react-router-config\": \"^5.1.1\",\n    \"react-router-dom\": \"~5.2.0\",\n    \"react-test-renderer\": \"^16.12.0\",\n    \"react-toastify\": \"^6.0.0\",\n    \"reactstrap\": \"^8.4.1\",\n    \"redux\": \"^4.0.5\",\n    \"redux-thunk\": \"^2.3.0\",\n    \"reselect\": \"^4.0.0\",\n    \"simple-line-icons\": \"^2.4.1\",\n    \"typescript\": \"^3.7.5\"\n  },\n  \"devDependencies\": {\n    \"@babel/core\": \"^7.10.2\",\n    \"check-prop-types\": \"^1.1.2\",\n    \"coveralls\": \"^3.0.9\",\n    \"enzyme\": \"^3.11.0\",\n    \"enzyme-adapter-react-16\": \"^1.15.2\",\n    \"enzyme-to-json\": \"^3.4.4\",\n    \"fetch-mock\": \"^9.4.0\",\n    \"react-dnd-test-backend\": \"^7.7.0\",\n    \"react-dnd-test-utils\": \"^7.4.4\",\n    \"react-scripts\": \"^3.3.1\",\n    \"redux-mock-store\": \"^1.5.4\"\n  },\n  \"scripts\": {\n    \"start\": \"react-scripts start\",\n    \"build\": \"react-scripts build\",\n    \"test\": \"react-scripts test\",\n    \"test:cov\": \"react-scripts test --coverage\",\n    \"test:debug\": \"react-scripts --inspect-brk test --runInBand\",\n    \"coveralls\": \"cat ./coverage/lcov.info | node node_modules/.bin/coveralls\",\n    \"eject\": \"react-scripts eject\"\n  },\n  \"bugs\": {\n    \"url\": \"https://github.com/negative0/rclone-webui-react/issues\"\n  },\n  \"eslintConfig\": {\n    \"extends\": \"react-app\"\n  },\n  \"browserslist\": [\n    \">0.2%\",\n    \"not dead\",\n    \"not ie <= 11\",\n    \"not op_mini all\"\n  ],\n  \"resolutions\": {\n    \"browserslist\": \"4.6.2\",\n    \"caniuse-lite\": \"1.0.30000974\"\n  },\n  \"jest\": {\n    \"collectCoverageFrom\": [\n      \"src/**/*.{js,jsx}\",\n      \"src/**/**/.{js,jsx}\",\n      \"!**/node_modules/**\",\n      \"!**/*index.js\",\n      \"!src/serviceWorker.js\",\n      \"!src/polyfill.js\"\n    ]\n  }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- package.json	(revision 01ddd2adb079d0e67ca795e10625ebbb0dd4c019)
++++ package.json	(date 1592401345849)
+@@ -53,7 +53,7 @@
+   "devDependencies": {
+     "@babel/core": "^7.10.2",
+     "check-prop-types": "^1.1.2",
+-    "coveralls": "^3.0.9",
++    "coveralls": "^3.1.0",
+     "enzyme": "^3.11.0",
+     "enzyme-adapter-react-16": "^1.15.2",
+     "enzyme-to-json": "^3.4.4",
+Index: package-lock.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- package-lock.json	(revision 01ddd2adb079d0e67ca795e10625ebbb0dd4c019)
++++ package-lock.json	(date 1592401347889)
+@@ -1,6 +1,6 @@
+ {
+-  "name": "@rclone/rclone-webui",
+-  "version": "0.0.6",
++  "name": "@rclone/rclone-webui-react",
++  "version": "2.0.1",
+   "lockfileVersion": 1,
+   "requires": true,
+   "dependencies": {
+@@ -3366,6 +3366,16 @@
+       "integrity": "sha512-Phlt0plgpIIBOGTT/ehfFnbNlfsDEiqmzE2KRXoX1bLIlir4X/MR+zSyBEkL05ffWgnRSf/DXv+WrUAVr93/ow==",
+       "dev": true
+     },
++    "bindings": {
++      "version": "1.5.0",
++      "resolved": "https://registry.npmjs.org/bindings/-/bindings-1.5.0.tgz",
++      "integrity": "sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==",
++      "dev": true,
++      "optional": true,
++      "requires": {
++        "file-uri-to-path": "1.0.0"
++      }
++    },
+     "block-stream": {
+       "version": "0.0.9",
+       "resolved": "https://registry.npmjs.org/block-stream/-/block-stream-0.0.9.tgz",
+@@ -6826,6 +6836,13 @@
+         "schema-utils": "^2.5.0"
+       }
+     },
++    "file-uri-to-path": {
++      "version": "1.0.0",
++      "resolved": "https://registry.npmjs.org/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz",
++      "integrity": "sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==",
++      "dev": true,
++      "optional": true
++    },
+     "filesize": {
+       "version": "6.0.1",
+       "resolved": "https://registry.npmjs.org/filesize/-/filesize-6.0.1.tgz",
+@@ -8991,6 +9008,7 @@
+           "dev": true,
+           "optional": true,
+           "requires": {
++            "bindings": "^1.5.0",
+             "nan": "^2.12.1"
+           }
+         }
+@@ -16785,6 +16803,7 @@
+           "dev": true,
+           "optional": true,
+           "requires": {
++            "bindings": "^1.5.0",
+             "nan": "^2.12.1"
+           }
+         },
+@@ -17128,6 +17147,7 @@
+           "dev": true,
+           "optional": true,
+           "requires": {
++            "bindings": "^1.5.0",
+             "nan": "^2.12.1"
+           }
+         },
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># Rclone Web UI  [![Google Summer of Code 19](https://img.shields.io/badge/Google%20Summer%20of%20Code-2019-blue.svg)](https://summerofcode.withgoogle.com/projects/#5104629795258368)\n\n[![CCExtractor](https://img.shields.io/badge/CCExtractor-org-blue.svg)](https://www.ccextractor.org/) [![RClone](https://img.shields.io/badge/RClone-org-blue.svg)](https://rclone.org/)\n## About\n\nThis project is developed as a part of Google Summer of Code '19 under [ccextractor.org](https://ccextractor.org) and [rclone.org](https://rclone.org) by [negative0](https://github.com/negative0).\n\nThis is a reactjs based web UI for the rclone cli project @ [Rclone Website](https://rclone.org/)  \n\n### Work Products (GSoC):\n\n- Proposal for developing this project: [here](https://docs.google.com/document/d/1l6OHrM2XemHP-l2_iBdYPdPNVgiSB5t1es_-0ogrty0/edit?usp=sharing)\n- The latest automated build can be found here: http://rclone.github.io/rclone-webui-react\n- GSoC phase I plan: [here](http://good2be.me/blog/gsoc-phase-i.html)\n- The thread for beta testing is here: https://forum.rclone.org/t/beta-testing-webgui-for-rclone/11156\n\n## Intro\n\nThis project can be unstable and is being actively developed. Feel free to create any issues, feature requests or enhancements as you encounter them. \n\n## Build Status\n\n[![Build Status](https://travis-ci.com/rclone/rclone-webui-react.svg?branch=master)](https://travis-ci.com/rclone/rclone-webui-react) \n[![Greenkeeper badge](https://badges.greenkeeper.io/rclone/rclone-webui-react.svg)](https://greenkeeper.io/)\n[![Coverage Status](https://coveralls.io/repos/github/rclone/rclone-webui-react/badge.svg?branch=master)](https://coveralls.io/github/rclone/rclone-webui-react?branch=master)\n\n## Getting Started\n\nThe project currently requires you to install and configure react and npm to run correctly.\nRead more about the project details at [good2be.me](http://good2be.me/blog)\n\n## Running the project through rclone:\n\nIf you have rclone installed, you can easily run this UI through rclone without any additional configuration.\n\nNote: The instructions for installing rclone can be found [here](https://rclone.org/install/).\n\nTo run the web-gui, simply run the following command:\n\n```shell script\n    rclone rcd --rc-web-gui --rc-user=<user> --rc-pass=<pass> \n```\nThe web-gui should now be available at the url http://localhost:5572\n\n### Parameters:\n--rc-web-gui - run the web-gui\n\n--rc-user - username to be used for login (Optional) default is gui.\n\n--rc-pass - password to be used for login (Optional) if not provided, rclone will generate one for you.\n\n--rc-addr - useful if you are running rclone on a headless machine, specify the private/public IP of your VM for rclone to bind to. (Optional)\n\n--rc-web-gui-update - Force update web-gui to the latest version.\n\n\n\n## Screenshots\n### Dashboard\n![Dashboard](screenshots/dashboard.png)\n\n### Login\n![Login](screenshots/login.png)\n\n### Remote Explorer\n![Explorer](screenshots/remoteexplorer.png)\n\n### Creating config\n![New Config](screenshots/newRemote.png)\n\n## Get the automated script and get running\n\n**Bash users:**\n\nDownload the sh file given here: \n[webui.sh](https://raw.githubusercontent.com/rclone/rclone-webui-react/master/webui.sh)\n\nCopy the file to root folder of rclone.\n\n```\ncp webui.sh <root-of-rclone>/\n```\nFirst of all open the webui.sh\n\nYou need to edit this code to the username and password you would like to use.\n```\nusername='<your-username>'\npassword='<your-password>'\n```\nSave this file.\n\nNow you can run the following commands:\n\n- Download the project:\n```\n./webui.sh get\n```\n\n- Build the webui app:\n```\n./webui.sh build\n```\n\n- Run the app with rclone backend:\n```\n./webui.sh run\n```\n\n- At any point, you can update the webui with new changes from the repo (optional):\n\n```\n./webui.sh update\n```\n\n\n**Windows:**\nComing soon\n\n### Get the Project\n```\n    git clone https://github.com/rclone/rclone-webui-react\n```\nOR download a zip from the option above.\n\n### Install dependencies\nIf you are using NPM:\n\n**Make sure that you are using the latest LTS version of NPM**\n```\n    cd <cloned directory>\n    npm install \n```\n\nUsing yarn:\n```\n    cd <cloned directory>\n    yarn install\n```\n\n\n### Run the project\n```\n    npm start\n```\nOR\n```\n    npm run start\n```\n\n### Run tests\n```npm test```OR ```yarn test``` if you want to run all jest tests. \nTest specific environment can be set using setupTests.js\n\n**With Coverage**: ```npm run test:cov```\n\n\n### Run Rclone\nYou have to run rclone with the following flags:\n```\n    rclone rcd --rc-user=<username> --rc-pass=<password> --rc-serve\n```\nReplace username and password with your custom username password. This will be required to login to rclone. rc-no-auth is not available due to security concerns.\n\n--rc-serve:  It serves the remote objects at localhost:5572/[remoteName:remotePath]/path/to/file. It enables us to download files via the RemoteExplorer through the browser.\n\n## Progress\n\nFor the progress and future implementation details please refer Progress.md\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- README.md	(revision 01ddd2adb079d0e67ca795e10625ebbb0dd4c019)
++++ README.md	(date 1592401077375)
+@@ -1,13 +1,13 @@
+-# Rclone Web UI  [![Google Summer of Code 19](https://img.shields.io/badge/Google%20Summer%20of%20Code-2019-blue.svg)](https://summerofcode.withgoogle.com/projects/#5104629795258368)
++# Rclone Web UI  [![Google Summer of Code 19](https://img.shields.io/badge/Google%20Summer%20of%20Code-2019%202020-blue.svg)](https://summerofcode.withgoogle.com/projects/#5104629795258368)
+ 
+-[![CCExtractor](https://img.shields.io/badge/CCExtractor-org-blue.svg)](https://www.ccextractor.org/) [![RClone](https://img.shields.io/badge/RClone-org-blue.svg)](https://rclone.org/)
++[![CCExtractor](https://img.shields.io/badge/CCExtractor-org-red.svg)](https://www.ccextractor.org/) [![RClone](https://img.shields.io/badge/RClone-org-blue.svg)](https://rclone.org/)
+ ## About
+ 
+-This project is developed as a part of Google Summer of Code '19 under [ccextractor.org](https://ccextractor.org) and [rclone.org](https://rclone.org) by [negative0](https://github.com/negative0).
++This project is developed as a part of Google Summer of Code 2019 and 2020 under [ccextractor.org](https://ccextractor.org) and [rclone.org](https://rclone.org) by [negative0](https://github.com/negative0).
+ 
+ This is a reactjs based web UI for the rclone cli project @ [Rclone Website](https://rclone.org/)  
+ 
+-### Work Products (GSoC):
++### Work Products (GSoC 2019):
+ 
+ - Proposal for developing this project: [here](https://docs.google.com/document/d/1l6OHrM2XemHP-l2_iBdYPdPNVgiSB5t1es_-0ogrty0/edit?usp=sharing)
+ - The latest automated build can be found here: http://rclone.github.io/rclone-webui-react
+@@ -16,32 +16,49 @@
+ 
+ ## Intro
+ 
+-This project can be unstable and is being actively developed. Feel free to create any issues, feature requests or enhancements as you encounter them. 
++This project is being actively developed. Feel free to create any issues, feature requests or enhancements as you encounter them. 
+ 
+ ## Build Status
+ 
+-[![Build Status](https://travis-ci.com/rclone/rclone-webui-react.svg?branch=master)](https://travis-ci.com/rclone/rclone-webui-react) 
+-[![Greenkeeper badge](https://badges.greenkeeper.io/rclone/rclone-webui-react.svg)](https://greenkeeper.io/)
++![Code scanning](https://github.com/rclone/rclone-webui-react/workflows/Code%20scanning%20-%20action/badge.svg)
++![Node CI](https://github.com/rclone/rclone-webui-react/workflows/Node%20CI/badge.svg)
+ [![Coverage Status](https://coveralls.io/repos/github/rclone/rclone-webui-react/badge.svg?branch=master)](https://coveralls.io/github/rclone/rclone-webui-react?branch=master)
+ 
+ ## Getting Started
+ 
+ The project currently requires you to install and configure react and npm to run correctly.
+-Read more about the project details at [good2be.me](http://good2be.me/blog)
++Read more about the project details at [chaitanya.codes](http://chaitanya.codes)
+ 
+ ## Running the project through rclone:
+ 
+ If you have rclone installed, you can easily run this UI through rclone without any additional configuration.
+ 
+-Note: The instructions for installing rclone can be found [here](https://rclone.org/install/).
++**Note: The instructions for installing rclone can be found [here](https://rclone.org/install/).**
+ 
+ To run the web-gui, simply run the following command:
+ 
+ ```shell script
+-    rclone rcd --rc-web-gui --rc-user=<user> --rc-pass=<pass> 
++rclone rcd --rc-web-gui --rc-user=<user> --rc-pass=<pass> 
+ ```
+ The web-gui should now be available at the url http://localhost:5572
+ 
++You may have to clear the browser local storage if needed, after switching to the older version.
++
++## Alternatively, you can use the hosted version:
++With every release, we publish it to github-pages. You can directly use it without installing rclone locally.
++
++Head over to https://rclone.github.io/rclone-webui-react/. And enter the IP address, username and password of rclone rc server.
++
++While running the rclone rc server, use the following command,
++```
++rclone rcd --rc-user=abc --rc-pass=abcd --rc-allow-origin="https://rclone.github.io" 
++```
++replace the username and password with your liking. If you are not comfortable with specifying it here, use the .htpasswd option.
++
++```
++rclone rcd --rc-allow-origin="https://rclone.github.io" --rc-htpasswd /path/to/.htpasswd
++```
++
+ ### Parameters:
+ --rc-web-gui - run the web-gui
+ 
+@@ -113,9 +130,6 @@
+ ```
+ 
+ 
+-**Windows:**
+-Coming soon
+-
+ ### Get the Project
+ ```
+     git clone https://github.com/rclone/rclone-webui-react
+@@ -132,7 +146,7 @@
+ ```
+ 
+ Using yarn:
+-```
++```explorer
+     cd <cloned directory>
+     yarn install
+ ```

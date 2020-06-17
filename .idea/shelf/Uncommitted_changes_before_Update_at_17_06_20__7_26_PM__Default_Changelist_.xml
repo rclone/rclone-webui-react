@@ -1,0 +1,29 @@
+<changelist name="Uncommitted_changes_before_Update_at_17_06_20,_7_26_PM_[Default_Changelist]" date="1592402165254" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_06_20,_7_26_PM_[Default_Changelist]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 17/06/20, 7:26 PM [Default Changelist]" />
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="screenshots/config.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_06_20,_7_26_PM_[Default_Changelist]/config.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="screenshots/dashboard.png" />
+    <option name="AFTER_PATH" value="screenshots/dashboard.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_06_20,_7_26_PM_[Default_Changelist]/dashboard.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="screenshots/remoteexplorer.png" />
+    <option name="AFTER_PATH" value="screenshots/remoteexplorer.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_06_20,_7_26_PM_[Default_Changelist]/remoteexplorer.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="screenshots/mounts.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_06_20,_7_26_PM_[Default_Changelist]/mounts.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="screenshots/login.png" />
+    <option name="AFTER_PATH" value="screenshots/login.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_06_20,_7_26_PM_[Default_Changelist]/login.png" />
+  </binary>
+</changelist>
