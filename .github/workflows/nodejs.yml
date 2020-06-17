@@ -21,11 +21,19 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm ci
-          make test-coverage
+          npm run test:cov
           npm run build
         env:
           CI: true
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test Coverage
+        run: |
+          npm ci
+          npm run test:cov        
+      - name: Coveralls GitHub Action
+        if:  ${{ success() }}
+        uses: coverallsapp/github-action@v1.1.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
