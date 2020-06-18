@@ -23,6 +23,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {
 	changeGridMode,
+	changePath,
 	changeVisibilityFilter,
 	getFilesForContainerID,
 	navigateBack,
@@ -31,13 +32,19 @@ import {
 	setSearchQuery
 } from "../../../actions/explorerStateActions";
 import {visibilityFilteringOptions} from "../../../utils/Constants";
-import {getAbout} from "../../../actions/providerStatusActions";
+import {getAboutRemote} from "../../../actions/providerStatusActions";
 import {Doughnut} from "react-chartjs-2";
 import {bytesToGB, isEmpty} from "../../../utils/Tools";
 import {toast} from "react-toastify";
 import {PROP_FS_INFO} from "../../../utils/RclonePropTypes";
 import newFolderImg from '../../../assets/img/new-folder.png';
-import {cleanTrashForRemote} from "rclone-api"; // with import
+import {cleanTrashForRemote} from "rclone-api";
+import {createSelector} from "reselect"; // with import
+
+function getUrl(currentPath) {
+	const {remoteName, remotePath} = currentPath;
+	return `${remoteName}:/${remotePath}`;
+}
 
 /**
  * File Operations component which handles user actions for files in the remote.( Visibility, gridmode, back, forward etc)
@@ -49,9 +56,17 @@ class FileOperations extends React.Component {
 			newFolderModalIsVisible: false,
 			isAboutModalOpen: false,
 			dropdownOpen: false,
-			searchOpen: false
+			searchOpen: false,
+			tempUrl: getUrl(props.currentPath),
+			isUrlBarFocused: false
 		};
 		this.filterOptions = visibilityFilteringOptions;
+	}
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (prevProps.currentPath !== this.props.currentPath) {
+			this.setState({tempUrl: getUrl(this.props.currentPath)})
+		}
 	}
 
 	openNewFolderModal = () => {
@@ -107,7 +122,7 @@ class FileOperations extends React.Component {
 			}, () => {
 				if (this.state.isAboutModalOpen) {
 					const {containerID} = this.props;
-					this.props.getAbout(containerID);
+					this.props.getAboutRemote(containerID);
 				}
 			});
 		} else {
@@ -162,16 +177,36 @@ class FileOperations extends React.Component {
 		);
 	};
 
+	onChangeTrial = (e) =>
+		this.setState({
+			tempUrl: e.target.value
+		})
+	onFocusHandle = (_) =>
+		this.setState({isUrlBarFocused: true, tempUrl: getUrl(this.props.currentPath)});
+
+	onBlurHandle = (_) =>
+		this.setState({isUrlBarFocused: false, tempUrl: getUrl(this.props.currentPath)});
+
+	onSubmitUrlChange = (e) => {
+		e.preventDefault();
+		const {changePath, containerID, currentPath} = this.props;
+		const {tempUrl} = this.state;
+		let urlSplits = tempUrl.split(":/")
+		console.log("Url splits", urlSplits);
+
+		if (urlSplits && urlSplits[0] && (currentPath.remoteName !== urlSplits[0] || currentPath.remotePath !== urlSplits[1]))
+			changePath(containerID, urlSplits[0], urlSplits[1])
+	}
 
 	render() {
 		const {containerID, getFilesForContainerID, gridMode, navigateFwd, navigateBack, searchQuery, currentPath, doughnutData} = this.props;
-		const {newFolderModalIsVisible, dropdownOpen, isAboutModalOpen, searchOpen} = this.state;
+		const {newFolderModalIsVisible, dropdownOpen, isAboutModalOpen, searchOpen, tempUrl, isUrlBarFocused} = this.state;
 
 		const {remoteName, remotePath} = currentPath;
 
 		return (
 			<nav aria-label="breadcrumb" className="row mt-3 mb-1">
-				<Col sm={4} md={3} className="pl-0">
+				<Col sm={4} md={3} lg={2} className="pl-0">
 					<Button color="light" className={"mr-1 btn-explorer-action"}
 							onClick={() => navigateBack(containerID)}><i
 						className={"fa fa-lg fa-arrow-left"}/></Button>
@@ -185,15 +220,18 @@ class FileOperations extends React.Component {
 						Refresh Files
 					</UncontrolledTooltip>
 				</Col>
-				<Col sm={8} md={searchOpen ? 3 : 5}>
-					<ol className="breadcrumb float-center" style={{padding: "6px 12px"}}>
-						<li className="breadcrumb-item active">{remoteName}:/</li>
-						{remotePath}
-					</ol>
-				</Col>
-				<Col sm={12} md={searchOpen ? 6 : 4} className="pr-0">
-					<div className="float-right form-inline">
+				<Col sm={8} md={6} lg={7}>
+					<Form inline onSubmit={this.onSubmitUrlChange}>
+						<Input style={{width: "100%"}} value={tempUrl} onChange={this.onChangeTrial}
+							   onFocus={this.onFocusHandle} onBlur={this.onBlurHandle}/>
+						<Button className={isUrlBarFocused ? "" : "d-none"} color="link" type={"submit"}
+								style={{marginLeft: "-45px"}}><i className="fa fa-arrow-right"/></Button>
+					</Form>
 
+				</Col>
+				<Col md={3} lg={3}>
+					<div className="float-right form-inline">
+						{/*<Button className="p-0 float-right" color="link"><i className="fa fa-info-circle"/></Button>*/}
 						<ButtonGroup>
 							<Form inline>
 								<FormGroup>
@@ -237,6 +275,15 @@ class FileOperations extends React.Component {
 							<UncontrolledTooltip placement="right" target="ListViewButton">
 								{(gridMode === "card" ? "List View" : "Card View")}
 							</UncontrolledTooltip>
+
+							<Button className="btn-explorer-action" id="InfoButton"
+									onClick={this.toggleAboutModal}>
+								<i className="fa fa-lg fa-info"/>
+							</Button>
+							<UncontrolledTooltip placement="right" target="InfoButton">
+								Show Remote Info
+							</UncontrolledTooltip>
+
 						</ButtonGroup>
 
 
@@ -317,20 +364,18 @@ FileOperations.propTypes = {
 	 */
 	doughnutData: PropTypes.object,
 
+	/**
+	 * Number of columns
+	 */
 	numCols: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = (state, ownProps) => {
-	const remoteAbout = state.providerStatus.about[ownProps.containerID];
-	let doughnutData = {};
-	const currentPath = state.explorer.currentPaths[ownProps.containerID];
-	let fsInfo = {};
-
-	if (currentPath && state.remote.configs && state.remote.configs[currentPath.remoteName]) {
-		fsInfo = state.remote.configs[currentPath.remoteName];
-	}
-
-	if (remoteAbout) {
+const getDoughnutData = createSelector(
+	(state, props) => props.containerID,
+	(state, props) => state.providerStatus.about[props.containerID]
+	,
+	(containerID, remoteAbout) => {
+		if (!remoteAbout) return {};
 
 		let labels = [];
 		let data = [];
@@ -342,7 +387,7 @@ const mapStateToProps = (state, ownProps) => {
 			}
 		}
 		if (labels.length > 1 && data.length > 1) {
-			doughnutData = {
+			return {
 				labels: labels, datasets: [
 					{
 						data: data,
@@ -361,9 +406,27 @@ const mapStateToProps = (state, ownProps) => {
 					}
 				]
 			};
-		}
-	}
 
+
+		}
+		return {};
+	})
+
+const getFsInfoSelector = createSelector(
+	(state, props) => props.containerID,
+	(state, props) => state.explorer.currentPaths[props.containerID],
+	(state, props) => state.remote.configs,
+	(containerID, currentPath, configs) => {
+		if (currentPath && configs && configs[currentPath.remoteName]) {
+			return configs[currentPath.remoteName];
+		}
+		return {}
+	}
+)
+
+const mapStateToProps = (state, ownProps) => {
+	let doughnutData = getDoughnutData(state, ownProps);
+	let fsInfo = getFsInfoSelector(state, ownProps);
 	return {
 		visibilityFilter: state.explorer.visibilityFilters[ownProps.containerID],
 		loadImages: state.explorer.loadImages[ownProps.containerID],
@@ -373,7 +436,6 @@ const mapStateToProps = (state, ownProps) => {
 		fsInfo,
 		doughnutData,
 		numCols: state.remote.numCols,
-
 	}
 };
 
@@ -385,6 +447,7 @@ export default connect(mapStateToProps, {
 	navigateFwd,
 	getFilesForContainerID,
 	setSearchQuery,
-	getAbout,
-	setLoadImages
+	getAboutRemote,
+	setLoadImages,
+	changePath,
 })(FileOperations);

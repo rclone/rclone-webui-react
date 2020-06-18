@@ -26,8 +26,8 @@ export const changePath = (containerID, remoteName, remotePath) => {
     return (dispatch) => {
         dispatch({
             type: CHANGE_PATH,
-            remoteName: remoteName,
             id: containerID,
+            remoteName: remoteName,
             remotePath: remotePath
         });
         dispatch(getFilesForContainerID(containerID))

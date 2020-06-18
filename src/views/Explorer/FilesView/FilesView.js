@@ -470,7 +470,6 @@ const defaultProps = {};
 FilesView.propTypes = propTypes;
 FilesView.defaultProps = defaultProps;
 
-let count = 0;
 
 const getVisibleFiles = createSelector(
     (state, props) => props.containerID,
@@ -481,7 +480,6 @@ const getVisibleFiles = createSelector(
     (state, props) => state.explorer.sortFiltersAscending[props.containerID],
     (state, props) => state.remote.files[`${state.explorer.currentPaths[props.containerID].remoteName}-${state.explorer.currentPaths[props.containerID].remotePath}`],
     (containerID, currentPath, visibilityFilter, sortFilter, searchQuery, sortFilterAscending, files) => {
-        console.log("Files render : " + (++count));
         files = files.files;
         // Filter according to visibility filters
         if (visibilityFilter && visibilityFilter !== "") {
