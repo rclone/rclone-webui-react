@@ -38,7 +38,8 @@ import {toast} from "react-toastify";
 import {PROP_FS_INFO} from "../../../utils/RclonePropTypes";
 import newFolderImg from '../../../assets/img/new-folder.png';
 import {cleanTrashForRemote} from "rclone-api";
-import {createSelector} from "reselect"; // with import
+import {createSelector} from "reselect";
+import FileUploadModal from "./FileUploadModal"; // with import
 
 function getUrl(currentPath) {
 	const {remoteName, remotePath} = currentPath;
@@ -195,11 +196,6 @@ class FileOperations extends React.Component {
 			changePath(containerID, urlSplits[0], urlSplits[1])
 	}
 
-	getLg = (n) => {
-		const {numCols} = this.props;
-		return Math.abs(n * numCols);
-	}
-
 	render() {
 		const {containerID, getFilesForContainerID, gridMode, navigateFwd, navigateBack, searchQuery, currentPath, doughnutData} = this.props;
 		const {newFolderModalIsVisible, dropdownOpen, isAboutModalOpen, searchOpen, tempUrl, isUrlBarFocused} = this.state;
@@ -273,7 +269,8 @@ class FileOperations extends React.Component {
 					<UncontrolledTooltip placement="right" target="InfoButton">
 						Show Remote Info
 					</UncontrolledTooltip>
-
+					<FileUploadModal currentPath={currentPath} buttonLabel={"Upload"}
+									 buttonClass={"btn-explorer-action"}/>
 					<Form inline>
 						<FormGroup>
 							{searchOpen && <Input type="text" placeholder="Search" value={searchQuery}

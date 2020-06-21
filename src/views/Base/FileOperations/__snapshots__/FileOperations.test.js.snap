@@ -220,20 +220,36 @@ exports[`File Operations renders should match snapshot 1`] = `
             className="fa fa-lg fa-search"
           />
         </Button>
-      </FormGroup>
-    </Form>
-    <Connect(NewFolder)
-      closeModal={[Function]}
-      containerID="0"
-      isVisible={false}
-    />
-    <Modal
-      autoFocus={true}
-      backdrop={true}
-      backdropTransition={
-        Object {
-          "mountOnEnter": true,
-          "timeout": 150,
+        <UncontrolledTooltip
+          placement="right"
+          target="InfoButton"
+        >
+          Show Remote Info
+        </UncontrolledTooltip>
+        <FileUploadModal
+          buttonClass="btn-explorer-action"
+          buttonLabel="Upload"
+          currentPath={
+            Object {
+              "remoteName": "local",
+              "remotePath": "",
+            }
+          }
+        />
+      </ButtonGroup>
+      <Connect(NewFolder)
+        closeModal={[Function]}
+        containerID="0"
+        isVisible={false}
+      />
+      <Modal
+        autoFocus={true}
+        backdrop={true}
+        backdropTransition={
+          Object {
+            "mountOnEnter": true,
+            "timeout": 150,
+          }
         }
       }
       centered={false}
