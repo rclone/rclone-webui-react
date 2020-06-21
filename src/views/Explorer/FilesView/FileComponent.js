@@ -1,14 +1,5 @@
 import React from "react";
-import {
-    Button,
-    Card,
-    CardBody,
-    CardFooter,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
-    UncontrolledButtonDropdown,
-} from "reactstrap";
+import {Card, CardBody, CardFooter,} from "reactstrap";
 
 import {ItemTypes} from './Constants'
 import {DragSource} from 'react-dnd'
@@ -20,6 +11,8 @@ import handleViewport from 'react-in-viewport';
 import MediaWidget, {isMedia} from "../../Base/MediaWidget/MediaWidget";
 import {PROP_ITEM} from "../../../utils/RclonePropTypes";
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
+import FileActions from "./FileActions";
+import FileIcon from "./FileIcon";
 
 async function performCopyMoveOperation(params) {
     const {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir, dropEffect, updateHandler} = params;
@@ -94,88 +87,7 @@ function collect(connect, monitor) {
     }
 }
 
-function FileIcon({IsDir, MimeType}, ...props) {
-    let className = "fa-file";
-    if (IsDir) {
-        className = "fa-folder";
-    } else if (MimeType === "application/pdf") {
-        className = "fa-file-pdf-o";
-    } else if (MimeType === "image/jpeg") {
-        className = "fa-file-image-o";
-    } else if (MimeType === "application/rar" || MimeType === "application/x-rar-compressed" || MimeType === " application/zip") {
-        className = "fa-file-archive-o";
-    } else if (MimeType === "text/plain") {
-        className = "fa-file-text-o";
-    } else if (MimeType === "text/x-vcard") {
-        className = "fa-address-card-o";
-    }
-    return <i className={className + " fa fa-lg"}/>;
-}
 
-function confirmDelete(deleteHandle, item) {
-    if (window.confirm(`Are you sure you want to delete ${item.Name}`)) {
-        deleteHandle(item);
-    }
-}
-
-function Actions({downloadHandle, deleteHandle, item, linkShareHandle}) {
-
-    const {IsDir} = item;
-    // let {ID, Name} = item;
-    // // Using fallback as fileName when the ID is not available (for local file system)
-    // if (ID === undefined) {
-    //     ID = Name;
-    // }
-
-
-    if (!IsDir) {
-
-        return (
-            <React.Fragment>
-                <Button color="link" onClick={() => downloadHandle(item)}>
-                    <i className={"fa fa-cloud-download fa-lg d-inline"}/>
-                </Button>
-                <Button color="link">
-                    <i className="fa fa-info-circle"/>
-                </Button>
-
-                <UncontrolledButtonDropdown>
-                    <DropdownToggle color="link">
-                        <i className="fa fa-ellipsis-v"/>
-                    </DropdownToggle>
-                    <DropdownMenu>
-                        <DropdownItem header>Actions</DropdownItem>
-                        <DropdownItem onClick={() => linkShareHandle(item)}><i
-                            className="fa fa-share fa-lg d-inline"/> Share with link</DropdownItem>
-                        <DropdownItem divider/>
-                        <DropdownItem onClick={() => confirmDelete(deleteHandle, item)}><i
-                            className="fa fa-remove fa-lg d-inline text-danger"/> Delete </DropdownItem>
-                    </DropdownMenu>
-                </UncontrolledButtonDropdown>
-            </React.Fragment>
-
-        );
-    } else {
-        return (
-            <React.Fragment>
-
-                <UncontrolledButtonDropdown>
-                    <DropdownToggle color="link">
-                        <i className="fa fa-ellipsis-v"/>
-                    </DropdownToggle>
-                    <DropdownMenu>
-                        <DropdownItem header>Actions</DropdownItem>
-                        <DropdownItem onClick={() => linkShareHandle(item)}><i
-                            className="fa fa-share fa-lg d-inline"/> Share with link</DropdownItem>
-                        <DropdownItem divider/>
-                        <DropdownItem onClick={() => confirmDelete(deleteHandle, item)}><i
-                            className="fa fa-remove fa-lg d-inline text-danger"/> Delete </DropdownItem>
-                    </DropdownMenu>
-                </UncontrolledButtonDropdown>
-            </React.Fragment>
-        )
-    }
-}
 
 /**
  * Main class for individual render of file/directory in the files view.
@@ -235,8 +147,8 @@ class FileComponent extends React.Component {
                             {Name}
                         </CardBody>
                         <CardFooter>
-                            <Actions downloadHandle={downloadHandle} linkShareHandle={linkShareHandle}
-                                     deleteHandle={deleteHandle} item={item}/>
+                            <FileActions downloadHandle={downloadHandle} linkShareHandle={linkShareHandle}
+                                         deleteHandle={deleteHandle} item={item}/>
                         </CardFooter>
                     </Card>
                 </div>
