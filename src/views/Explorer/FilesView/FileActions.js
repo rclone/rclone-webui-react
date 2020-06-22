@@ -17,54 +17,30 @@ function FileActions({downloadHandle, deleteHandle, item, linkShareHandle}) {
     //     ID = Name;
     // }
 
+    return (
+        <div data-test="fileActionsComponent">
+            {!IsDir && <Button color="link" onClick={() => downloadHandle(item)} data-test="btn-download">
+                <i className={"fa fa-cloud-download fa-lg d-inline"}/>
+            </Button>}
+            <Button color="link">
+                <i className="fa fa-info-circle"/>
+            </Button>
 
-    if (!IsDir) {
-
-        return (
-            <React.Fragment>
-                <Button color="link" onClick={() => downloadHandle(item)}>
-                    <i className={"fa fa-cloud-download fa-lg d-inline"}/>
-                </Button>
-                <Button color="link">
-                    <i className="fa fa-info-circle"/>
-                </Button>
-
-                <UncontrolledButtonDropdown>
-                    <DropdownToggle color="link">
-                        <i className="fa fa-ellipsis-v"/>
-                    </DropdownToggle>
-                    <DropdownMenu>
-                        <DropdownItem header>Actions</DropdownItem>
-                        <DropdownItem onClick={() => linkShareHandle(item)}><i
-                            className="fa fa-share fa-lg d-inline"/> Share with link</DropdownItem>
-                        <DropdownItem divider/>
-                        <DropdownItem onClick={() => confirmDelete(deleteHandle, item)}><i
-                            className="fa fa-remove fa-lg d-inline text-danger"/> Delete </DropdownItem>
-                    </DropdownMenu>
-                </UncontrolledButtonDropdown>
-            </React.Fragment>
-
-        );
-    } else {
-        return (
-            <React.Fragment>
-
-                <UncontrolledButtonDropdown>
-                    <DropdownToggle color="link">
-                        <i className="fa fa-ellipsis-v"/>
-                    </DropdownToggle>
-                    <DropdownMenu>
-                        <DropdownItem header>Actions</DropdownItem>
-                        <DropdownItem onClick={() => linkShareHandle(item)}><i
-                            className="fa fa-share fa-lg d-inline"/> Share with link</DropdownItem>
-                        <DropdownItem divider/>
-                        <DropdownItem onClick={() => confirmDelete(deleteHandle, item)}><i
-                            className="fa fa-remove fa-lg d-inline text-danger"/> Delete </DropdownItem>
-                    </DropdownMenu>
-                </UncontrolledButtonDropdown>
-            </React.Fragment>
-        )
-    }
+            <UncontrolledButtonDropdown>
+                <DropdownToggle color="link">
+                    <i className="fa fa-ellipsis-v"/>
+                </DropdownToggle>
+                <DropdownMenu>
+                    <DropdownItem header>Actions</DropdownItem>
+                    <DropdownItem data-test="btn-share-with-link" onClick={() => linkShareHandle(item)}><i
+                        className="fa fa-share fa-lg d-inline"/> Share with link</DropdownItem>
+                    <DropdownItem divider/>
+                    <DropdownItem data-test="btn-delete-item" onClick={() => confirmDelete(deleteHandle, item)}><i
+                        className="fa fa-remove fa-lg d-inline text-danger"/> Delete </DropdownItem>
+                </DropdownMenu>
+            </UncontrolledButtonDropdown>
+        </div>
+    )
 }
 
 FileActions.propTypes = {

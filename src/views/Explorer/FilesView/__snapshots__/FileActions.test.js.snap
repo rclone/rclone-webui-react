@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`File Actions renders should match snapshot 1`] = `
+<div
+  data-test="fileActionsComponent"
+>
+  <Button
+    color="link"
+    data-test="btn-download"
+    onClick={[Function]}
+    tag="button"
+  >
+    <i
+      className="fa fa-cloud-download fa-lg d-inline"
+    />
+  </Button>
+  <Button
+    color="link"
+    tag="button"
+  >
+    <i
+      className="fa fa-info-circle"
+    />
+  </Button>
+  <UncontrolledButtonDropdown>
+    <DropdownToggle
+      aria-haspopup={true}
+      color="link"
+    >
+      <i
+        className="fa fa-ellipsis-v"
+      />
+    </DropdownToggle>
+    <DropdownMenu
+      flip={true}
+      tag="div"
+    >
+      <DropdownItem
+        header={true}
+        tag="button"
+        toggle={true}
+      >
+        Actions
+      </DropdownItem>
+      <DropdownItem
+        data-test="btn-share-with-link"
+        onClick={[Function]}
+        tag="button"
+        toggle={true}
+      >
+        <i
+          className="fa fa-share fa-lg d-inline"
+        />
+         Share with link
+      </DropdownItem>
+      <DropdownItem
+        divider={true}
+        tag="button"
+        toggle={true}
+      />
+      <DropdownItem
+        data-test="btn-delete-item"
+        onClick={[Function]}
+        tag="button"
+        toggle={true}
+      >
+        <i
+          className="fa fa-remove fa-lg d-inline text-danger"
+        />
+         Delete 
+      </DropdownItem>
+    </DropdownMenu>
+  </UncontrolledButtonDropdown>
+</div>
+`;
