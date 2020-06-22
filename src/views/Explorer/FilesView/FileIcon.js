@@ -1,26 +1,28 @@
 import React from "react";
 import * as PropTypes from "prop-types";
 
+const mimeClassMap = {
+    "application/pdf": "fa-file-pdf-o",
+    "image/jpeg": "fa-file-image-o",
+    "application/rar": "fa-file-archive-o",
+    "application/x-rar-compressed": "fa-file-archive-o",
+    "application/zip": "fa-file-archive-o",
+    "text/plain": "fa-file-text-o",
+    "text/x-vcard": "fa-address-card-o"
+}
+
 function FileIcon({IsDir, MimeType}) {
-    let className = "fa-file";
+    let className = mimeClassMap[MimeType];
     if (IsDir) {
-        className = "fa-folder";
-    } else if (MimeType === "application/pdf") {
-        className = "fa-file-pdf-o";
-    } else if (MimeType === "image/jpeg") {
-        className = "fa-file-image-o";
-    } else if (MimeType === "application/rar" || MimeType === "application/x-rar-compressed" || MimeType === " application/zip") {
-        className = "fa-file-archive-o";
-    } else if (MimeType === "text/plain") {
-        className = "fa-file-text-o";
-    } else if (MimeType === "text/x-vcard") {
-        className = "fa-address-card-o";
+        className = "fa-folder"
     }
-    return <i className={className + " fa fa-lg"}/>;
+    if (!className) className = "fa-file";
+
+    return <i className={className + " fa fa-lg"} data-test="fileIconComponent"/>;
 }
 
 FileIcon.propTypes = {
-    IsDir: PropTypes.string.isRequired,
+    IsDir: PropTypes.bool.isRequired,
     MimeType: PropTypes.string.isRequired
 }
 

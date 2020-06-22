@@ -1,12 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`File Operations renders should match snapshot 1`] = `
-<div
-  className="pl-0 mt-3 mb-1 d-flex justify-content-between align-items-center"
-  style={
-    Object {
-      "marginLeft": "-15px",
-      "marginRight": "-15px",
+<Row
+  className="mt-3 mb-1"
+  tag="div"
+  widths={
+    Array [
+      "xs",
+      "sm",
+      "md",
+      "lg",
+      "xl",
+    ]
+  }
+>
+  <Col
+    className="pl-0"
+    lg={2}
+    md={3}
+    sm={4}
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
     }
   }
 >
@@ -131,17 +152,10 @@ exports[`File Operations renders should match snapshot 1`] = `
         flip={true}
         tag="div"
       >
-        <DropdownItem
-          key="None"
-          onClick={[Function]}
-          tag="button"
-          toggle={true}
-          value=""
-        >
-          None
-        </DropdownItem>
-        <DropdownItem
-          key="Images"
+        <Button
+          className="mr-1 btn-explorer-action p-1"
+          color="secondary"
+          id="CreateFolderButton"
           onClick={[Function]}
           tag="button"
           toggle={true}
@@ -236,6 +250,25 @@ exports[`File Operations renders should match snapshot 1`] = `
             }
           }
         />
+        <Form
+          inline={true}
+          tag="form"
+        >
+          <FormGroup
+            tag="div"
+          >
+            <Button
+              className="mr-1 btn-explorer-action"
+              color=""
+              onClick={[Function]}
+              tag="button"
+            >
+              <i
+                className="fa fa-lg fa-search"
+              />
+            </Button>
+          </FormGroup>
+        </Form>
       </ButtonGroup>
       <Connect(NewFolder)
         closeModal={[Function]}
@@ -355,18 +388,24 @@ exports[`File Operations renders should match snapshot 1`] = `
               onClick={[Function]}
               tag="button"
             >
-              Clean Trash 
-              <i
-                className="fa fa-lg fa-trash"
-              />
-            </Button>
-          </Col>
-        </Row>
-      </ModalBody>
-      <ModalFooter
-        tag="div"
-      />
-    </Modal>
-  </div>
-</div>
+              <Button
+                color="danger"
+                onClick={[Function]}
+                tag="button"
+              >
+                Clean Trash 
+                <i
+                  className="fa fa-lg fa-trash"
+                />
+              </Button>
+            </Col>
+          </Row>
+        </ModalBody>
+        <ModalFooter
+          tag="div"
+        />
+      </Modal>
+    </div>
+  </Col>
+</Row>
 `;

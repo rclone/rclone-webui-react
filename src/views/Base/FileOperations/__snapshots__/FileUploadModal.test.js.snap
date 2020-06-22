@@ -48,65 +48,56 @@ exports[`File upload Modal renders should match snapshot 1`] = `
     unmountOnClose={true}
     zIndex={1050}
   >
-    <ModalHeader
-      charCode={215}
-      closeAriaLabel="Close"
-      tag="h5"
-      toggle={[Function]}
-      wrapTag="div"
+    <DndProvider
+      backend={[Function]}
     >
-      New Mount
-    </ModalHeader>
-    <ModalBody
-      tag="div"
-    >
-      <Container
-        fluid={true}
+      <ModalHeader
+        charCode={215}
+        closeAriaLabel="Close"
+        tag="h5"
+        toggle={[Function]}
+        wrapTag="div"
+      >
+        New Mount
+      </ModalHeader>
+      <ModalBody
         tag="div"
       >
-        <Row
-          className="upload-box"
+        <Container
+          fluid={true}
           tag="div"
-          widths={
-            Array [
-              "xs",
-              "sm",
-              "md",
-              "lg",
-              "xl",
-            ]
-          }
         >
-          <Col
-            sm={3}
-            tag="div"
-            widths={
-              Array [
-                "xs",
-                "sm",
-                "md",
-                "lg",
-                "xl",
-              ]
-            }
-          />
-          <Col
-            sm={6}
-            tag="div"
-            widths={
-              Array [
-                "xs",
-                "sm",
-                "md",
-                "lg",
-                "xl",
-              ]
-            }
+          <FileUploadBox
+            onDrop={[Function]}
           >
-            <label
-              htmlFor="upload-file"
+            <Row
+              className="upload-box"
+              tag="div"
+              widths={
+                Array [
+                  "xs",
+                  "sm",
+                  "md",
+                  "lg",
+                  "xl",
+                ]
+              }
             >
-              <Row
+              <Col
+                sm={3}
+                tag="div"
+                widths={
+                  Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+                }
+              />
+              <Col
+                sm={6}
                 tag="div"
                 widths={
                   Array [
@@ -118,81 +109,98 @@ exports[`File upload Modal renders should match snapshot 1`] = `
                   ]
                 }
               >
-                <i
-                  className="fa fa-lg fa-plus mx-auto mt-5"
-                />
-                <p
-                  className="text-center mt-2"
+                <label
+                  htmlFor="upload-file"
                 >
-                  Click here or drag and drop files to upload
-                </p>
-              </Row>
-            </label>
-          </Col>
-          <Col
-            sm={3}
-            tag="div"
-            widths={
-              Array [
-                "xs",
-                "sm",
-                "md",
-                "lg",
-                "xl",
-              ]
-            }
-          />
-        </Row>
-        <Row
-          tag="div"
-          widths={
-            Array [
-              "xs",
-              "sm",
-              "md",
-              "lg",
-              "xl",
-            ]
-          }
+                  <Row
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <i
+                      className="fa fa-lg fa-plus mx-auto mt-5"
+                    />
+                    <p
+                      className="text-center mt-2"
+                    >
+                      Click here or drag and drop files to upload
+                    </p>
+                  </Row>
+                </label>
+              </Col>
+              <Col
+                sm={3}
+                tag="div"
+                widths={
+                  Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+                }
+              />
+            </Row>
+            <Row
+              tag="div"
+              widths={
+                Array [
+                  "xs",
+                  "sm",
+                  "md",
+                  "lg",
+                  "xl",
+                ]
+              }
+            >
+              <FormGroup
+                className="pl-2 pr-2 d-none"
+                row={true}
+                tag="div"
+              >
+                <Input
+                  id="upload-file"
+                  multiple={true}
+                  name="file"
+                  onChange={[Function]}
+                  type="file"
+                />
+              </FormGroup>
+            </Row>
+          </FileUploadBox>
+        </Container>
+      </ModalBody>
+      <ModalFooter
+        tag="div"
+      >
+        <Button
+          color="primary"
+          data-test="ok-button"
+          disabled={true}
+          onClick={[Function]}
+          tag="button"
         >
-          <FormGroup
-            className="pl-2 pr-2"
-            row={true}
-            tag="div"
-          >
-            <Input
-              id="upload-file"
-              multiple={true}
-              name="file"
-              onChange={[Function]}
-              type="file"
-            />
-          </FormGroup>
-        </Row>
-      </Container>
-    </ModalBody>
-    <ModalFooter
-      tag="div"
-    >
-      <Button
-        color="primary"
-        data-test="ok-button"
-        disabled={true}
-        onClick={[Function]}
-        tag="button"
-      >
-        Create
-      </Button>
-       
-      <Button
-        color="secondary"
-        data-test="cancel-button"
-        onClick={[Function]}
-        tag="button"
-      >
-        Cancel
-      </Button>
-    </ModalFooter>
+          Upload
+        </Button>
+         
+        <Button
+          color="secondary"
+          data-test="cancel-button"
+          onClick={[Function]}
+          tag="button"
+        >
+          Cancel
+        </Button>
+      </ModalFooter>
+    </DndProvider>
   </Modal>
 </div>
 `;

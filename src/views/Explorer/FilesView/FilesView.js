@@ -24,6 +24,7 @@ import * as PropTypes from 'prop-types';
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 import {createNewPublicLink, deleteFile, purgeDir} from "rclone-api";
 import {createSelector} from "reselect";
+import DropOverlay from "../../Base/DropOverlay/DropOverlay";
 
 /*
 * Start code for react DND
@@ -73,22 +74,6 @@ function collect(connect, monitor) {
     }
 }
 
-function renderOverlay() {
-    return (
-        <div
-            style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                height: '100%',
-                width: '100%',
-                zIndex: 1,
-                opacity: 0.5,
-                backgroundColor: 'gray',
-            }}
-        />
-    );
-}
 
 /*
 * END code for react DND
@@ -435,7 +420,7 @@ class FilesView extends React.PureComponent {
 
             return connectDropTarget(
                 <div className={"row"}>
-                    {isOver && canDrop && renderOverlay()}
+                    {isOver && canDrop && <DropOverlay/>}
                     <ErrorBoundary>
 
                         <Alert color="info" isOpen={isDownloadProgress} toggle={this.dismissAlert} sm={12}

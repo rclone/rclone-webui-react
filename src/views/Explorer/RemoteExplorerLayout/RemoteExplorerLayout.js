@@ -1,10 +1,7 @@
 import React from "react";
 import {Button, Col, Row} from "reactstrap";
 
-import HTML5Backend from "react-dnd-html5-backend";
-import {DragDropContext} from "react-dnd";
 import {connect} from "react-redux";
-import {compose} from "redux";
 import {createPath} from "../../../actions/explorerStateActions";
 import * as PropTypes from 'prop-types';
 import {addRemoteContainer, changeDistractionFreeMode, changeNumCols} from "../../../actions/explorerActions";
@@ -15,6 +12,9 @@ import doublePaneImg from '../../../assets/img/double-pane1.png';
 import triplePaneImg from '../../../assets/img/triple-pane.png';
 import TabbedPanes from "./TabbedPanes";
 
+import TabsLayout from "../TabsLayout/TabsLayout";
+import {DndProvider} from "react-dnd";
+import {HTML5Backend} from 'react-dnd-html5-backend';
 
 class RemoteExplorerLayout extends React.Component {
 
@@ -51,42 +51,43 @@ class RemoteExplorerLayout extends React.Component {
 		const {numCols, distractionFreeMode, activeRemoteContainerID, containers} = this.props;
 		return (
 			<ErrorBoundary>
-				<Row className={"d-none d-md-block"} data-test="remoteExplorerLayout">
+				<DndProvider backend={HTML5Backend}>
+					<Row className={"d-none d-md-block"} data-test="remoteExplorerLayout">
 
-					{distractionFreeMode && <div className="clearfix float-right">
-						<Button color={"success"} className={"ml-2"}
-								onClick={this.toggleDistractionFreeMode}><i className="fa fa-arrows"/></Button>
-					</div>}
+						{distractionFreeMode && <div className="clearfix float-right">
+							<Button color={"success"} className={"ml-2"}
+									onClick={this.toggleDistractionFreeMode}><i className="fa fa-arrows"/></Button>
+						</div>}
 
-					{(!distractionFreeMode) &&
-					<Col sm={12} lg={12} className="mb-3 d-none d-md-block">
+						{(!distractionFreeMode) &&
+						<Col sm={12} lg={12} className="mb-3 d-none d-md-block">
                             
 
                         <span className="text-choose-layout">
                             Choose Layout: {"  "}
                         </span>
 
-						<Button color={"primary"} className={"ml-2 layout-change-button"}
-								onClick={() => this.changeLayout(1, "horizontal")}>
-							<img style={{height: 24}} src={singlePaneImg} alt="Single Vertical Pane"/>
-						</Button>
-						<Button color={"primary"} className={"ml-2 layout-change-button"}
-								onClick={() => this.changeLayout(2, "horizontal")}>
-							<img style={{height: 24}} src={doublePaneImg} alt="Double Vertical Pane"/>
-						</Button>
-						<Button color={"primary"} className={"ml-2 layout-change-button"}
-								onClick={() => this.changeLayout(3, "horizontal")}>
-							<img style={{height: 24}} src={triplePaneImg} alt="Triple Vertical Pane"/>
-						</Button>
+							<Button color={"primary"} className={"ml-2 layout-change-button"}
+									onClick={() => this.changeLayout(1, "horizontal")}>
+								<img style={{height: 24}} src={singlePaneImg} alt="Single Vertical Pane"/>
+							</Button>
+							<Button color={"primary"} className={"ml-2 layout-change-button"}
+									onClick={() => this.changeLayout(2, "horizontal")}>
+								<img style={{height: 24}} src={doublePaneImg} alt="Double Vertical Pane"/>
+							</Button>
+							<Button color={"primary"} className={"ml-2 layout-change-button"}
+									onClick={() => this.changeLayout(3, "horizontal")}>
+								<img style={{height: 24}} src={triplePaneImg} alt="Triple Vertical Pane"/>
+							</Button>
 
-						<Button color={"success"} className={"ml-2"}
-								onClick={this.toggleDistractionFreeMode}><i className="fa fa-arrows"/> Full Screen
-						</Button>
-						{/*<Button onClick={this.changeLayout(4,"grid")}>4 - grid</Button>*/}
+							<Button color={"success"} className={"ml-2"}
+									onClick={this.toggleDistractionFreeMode}><i className="fa fa-arrows"/> Full Screen
+							</Button>
+							{/*<Button onClick={this.changeLayout(4,"grid")}>4 - grid</Button>*/}
 
-					</Col>
-					}
-				</Row>
+						</Col>
+						}
+					</Row>
 
 				<Row>
 					<TabbedPanes
@@ -96,6 +97,7 @@ class RemoteExplorerLayout extends React.Component {
 						containers={containers}
 					/>
 				</Row>
+				</DndProvider>
 			</ErrorBoundary>
 		);
 	}
@@ -118,7 +120,10 @@ RemoteExplorerLayout.propTypes = {
 	distractionFreeMode: PropTypes.bool.isRequired
 };
 
-export default compose(
-	connect(mapStateToProps, {createPath, changeNumCols, changeDistractionFreeMode, addRemoteContainer}),
-	DragDropContext(HTML5Backend)
-)(RemoteExplorerLayout);
+export default connect(mapStateToProps, {
+	createPath,
+	changeNumCols,
+	changeDistractionFreeMode,
+	addRemoteContainer
+})
+(RemoteExplorerLayout);

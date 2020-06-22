@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Drop Overlay renders should match snapshot 1`] = `
+<div
+  data-test="dropOverlay"
+  style={
+    Object {
+      "backgroundColor": "gray",
+      "height": "100%",
+      "left": 0,
+      "opacity": 0.5,
+      "position": "absolute",
+      "top": 0,
+      "width": "100%",
+      "zIndex": 1,
+    }
+  }
+/>
+`;

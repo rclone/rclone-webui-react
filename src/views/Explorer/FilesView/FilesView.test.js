@@ -11,15 +11,11 @@ const setUp = (intialState = {}, props = {}) => {
     const store = testStore(intialState);
     const MyFiles = wrapInTestContext(FilesView);
     const component = shallow(<MyFiles {...props} store={store}/>);
-    const manager = component.instance().getManager();
-    const backend = manager.getBackend()
     return component.childAt(0).dive();
 };
 
 
-describe('Files View', function () {
-
-
+describe(__filename, function () {
     describe('renders', function () {
         let wrapper;
         beforeEach(() => {
@@ -41,11 +37,5 @@ describe('Files View', function () {
         it('should match snapshot', function () {
             expect(toJson(wrapper)).toMatchSnapshot()
         });
-
-
     });
-
-
-
-
 });
