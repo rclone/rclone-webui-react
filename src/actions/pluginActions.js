@@ -39,7 +39,7 @@ export const addTestPlugin = (pluginName, pluginUrl) => (dispatch) => {
 }
 
 export const getPlugins = () => (dispatch) => {
-	axiosInstance.post("pluginsctl/getPlugins").then(res => {
+	axiosInstance.post("pluginsctl/listPlugins").then(res => {
 			dispatch({
 				type: LOAD_PLUGINS,
 				status: REQUEST_SUCCESS,

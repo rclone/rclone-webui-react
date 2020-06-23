@@ -7,7 +7,7 @@ import axios from "axios";
 import PluginPlaceHolderCard from "./PluginPlaceHolderCard";
 import {toast} from "react-toastify";
 
-class PluginDashboard extends React.Component {
+class StoreDashboard extends React.Component {
 
     constructor(props, context) {
         super(props, context);
@@ -35,6 +35,9 @@ class PluginDashboard extends React.Component {
 
     render() {
         const {pluginsList} = this.state;
+        if (pluginsList.length <= 0) {
+            return (<p>Loading</p>)
+        }
         return (
             <div data-test="storeDashboardComponent">
                 <Row>
@@ -60,7 +63,7 @@ const mapStateToProps = state => ({
     loadedPlugins: state.plugins.loadedPlugins,
 });
 
-PluginDashboard.propTypes = {
+StoreDashboard.propTypes = {
     loadedPlugins: PropTypes.object.isRequired,
 
     getPlugins: PropTypes.func.isRequired,
@@ -68,4 +71,4 @@ PluginDashboard.propTypes = {
     addPlugin: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, {getPlugins, addPlugin})(PluginDashboard);
+export default connect(mapStateToProps, {getPlugins, addPlugin})(StoreDashboard);

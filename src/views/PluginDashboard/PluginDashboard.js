@@ -39,7 +39,7 @@ class PluginDashboard extends React.Component {
 					</tr>
 					</thead>
 					<tbody>
-					<PluginRowEntries loadedPlugins={loadedPlugins}/>
+					<PluginRowEntries loadedPlugins={loadedPlugins} getPlugins={getPlugins}/>
 					</tbody>
 				</Table>
 			</div>);
