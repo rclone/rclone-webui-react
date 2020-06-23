@@ -25,7 +25,7 @@ const getSuggestionValue = suggestion => suggestion;
 // Use your imagination to render suggestions.
 const renderSuggestion = suggestion => (
     <div>
-        {suggestion}
+        <i className="fa fa-lg fa-hdd-o"/> {suggestion}
     </div>
 );
 
@@ -47,7 +47,6 @@ class RemoteListAutoSuggest extends React.Component {
     // Autosuggest will call this function every time you need to update suggestions.
     // You already implemented this logic above, so just use it.
     onSuggestionsFetchRequested = ({value}) => {
-        // console.log(value);
         this.setState({
             suggestions: getSuggestions(this.props.suggestions, value)
         });
@@ -79,6 +78,7 @@ class RemoteListAutoSuggest extends React.Component {
                 onSuggestionsClearRequested={this.onSuggestionsClearRequested}
                 getSuggestionValue={getSuggestionValue}
                 renderSuggestion={renderSuggestion}
+                alwaysRenderSuggestions={true}
                 highlightFirstSuggestion={true}
                 inputProps={inputProps}
                 style={{width:"100%"}}
