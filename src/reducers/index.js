@@ -45,7 +45,6 @@ const appReducer = combineReducers({
     version: versionReducer,
     plugins: pluginsReducer,
     mount: mountReducer,
-    mount: mountReducer,
     // remoteOps: remoteOpsReducer
 });
 

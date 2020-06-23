@@ -19,7 +19,7 @@ class PluginDashboard extends React.Component {
 	}
 
 	render() {
-		const {navigation, loadedPlugins} = this.props;
+		const {loadedPlugins, getPlugins} = this.props;
 		return (
 			<div data-test="pluginDashboardComponent">
 				<Row>

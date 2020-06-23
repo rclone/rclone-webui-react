@@ -8,7 +8,6 @@ const Login = React.lazy(() => import("./views/Pages/Login"));
 const RCloneDashboard = React.lazy(() => import("./views/RCloneDashboard"));
 const PluginDashboard = React.lazy(() => import("./views/PluginDashboard"));
 const MountDashboard = React.lazy(() => import("./views/MountDashboard"));
-const PluginDashboard = React.lazy(() => import("./views/PluginDashboard"));
 const StoreDashboard = React.lazy(() => import("./views/StoreDashboard"));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
