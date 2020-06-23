@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Plugin Dashboard renders should match snapshot 1`] = `
+<div
+  data-test="storeDashboardComponent"
+>
+  <Row
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    <Col
+      className="mb-4 d-flex justify-content-between"
+      lg={12}
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <Button
+        color="secondary"
+        onClick={[Function]}
+        tag="button"
+      >
+        Back
+      </Button>
+      <Button
+        color="primary"
+        tag="button"
+      >
+        <span
+          className="fa fa-search"
+        />
+         Search
+      </Button>
+    </Col>
+  </Row>
+  <Row
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  />
+</div>
+`;
