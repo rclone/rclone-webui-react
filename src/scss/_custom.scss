@@ -49,7 +49,8 @@ body{
   font-weight: bold;
   color: rgba(114,114,114,1);
 }
-.layout-change-button{
+
+.layout-change-button {
   background: none;
   padding: 0;
 
@@ -58,6 +59,12 @@ body{
 .btn-explorer-action {
   background: none;
   border: none;
+
+}
+
+.file-ops-container {
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .btn-explorer-action :hover {
@@ -65,9 +72,22 @@ body{
   background: none;
 }
 
-.table-fix-head          { overflow-y: auto; height: 100px; }
-.table-fix-head thead th { position: sticky; top: 0; z-index: 2; border-top: none; border-bottom: 1px solid #c8ced3;}
-.table-fix-head th       { background: #ffffff; }
+.table-fix-head {
+  overflow-y: auto;
+  height: 100px;
+}
+
+.table-fix-head thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  border-top: none;
+  border-bottom: 1px solid #c8ced3;
+}
+
+.table-fix-head th {
+  background: #ffffff;
+}
 
 .animate-fade-in {
   -webkit-animation: fadein 0.5s; /* Safari, Chrome and Opera > 12.1 */

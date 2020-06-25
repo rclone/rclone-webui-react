@@ -2,7 +2,6 @@ import React from 'react';
 import {
 	Button,
 	ButtonDropdown,
-	ButtonGroup,
 	Col,
 	DropdownItem,
 	DropdownMenu,
@@ -192,22 +191,26 @@ class FileOperations extends React.Component {
 		const {changePath, containerID, currentPath} = this.props;
 		const {tempUrl} = this.state;
 		let urlSplits = tempUrl.split(":/")
-		console.log("Url splits", urlSplits);
-
 		if (urlSplits && urlSplits[0] && (currentPath.remoteName !== urlSplits[0] || currentPath.remotePath !== urlSplits[1]))
 			changePath(containerID, urlSplits[0], urlSplits[1])
+	}
+
+	getLg = (n) => {
+		const {numCols} = this.props;
+		return Math.abs(n * numCols);
 	}
 
 	render() {
 		const {containerID, getFilesForContainerID, gridMode, navigateFwd, navigateBack, searchQuery, currentPath, doughnutData} = this.props;
 		const {newFolderModalIsVisible, dropdownOpen, isAboutModalOpen, searchOpen, tempUrl, isUrlBarFocused} = this.state;
 
-		const {remoteName, remotePath} = currentPath;
+		const {remoteName} = currentPath;
 
 		return (
-			<nav aria-label="breadcrumb" className="row mt-3 mb-1">
-				<Col sm={4} md={3} lg={2} className="pl-0">
-					<Button color="light" className={"mr-1 btn-explorer-action"}
+			<div className="pl-0 mt-3 mb-1 d-flex justify-content-between align-items-center"
+				 style={{marginLeft: "-15px", marginRight: "-15px"}}>
+				<div className="d-flex flex-nowrap">
+					<Button color="light" className="mr-1 btn-explorer-action"
 							onClick={() => navigateBack(containerID)}><i
 						className={"fa fa-lg fa-arrow-left"}/></Button>
 					<Button color="light" className={"mr-1 btn-explorer-action"}
@@ -219,108 +222,105 @@ class FileOperations extends React.Component {
 					<UncontrolledTooltip placement="right" target="RefreshButton">
 						Refresh Files
 					</UncontrolledTooltip>
-				</Col>
-				<Col sm={8} md={6} lg={7}>
-					<Form inline onSubmit={this.onSubmitUrlChange}>
+				</div>
+				<div className="flex-grow-1 pl-1 pr-1 pr-lg-3 pl-lg-3">
+					<Form inline onSubmit={this.onSubmitUrlChange} className="h-100">
 						<Input style={{width: "100%"}} value={tempUrl} onChange={this.onChangeTrial}
 							   onFocus={this.onFocusHandle} onBlur={this.onBlurHandle}/>
 						<Button className={isUrlBarFocused ? "" : "d-none"} color="link" type={"submit"}
 								style={{marginLeft: "-45px"}}><i className="fa fa-arrow-right"/></Button>
 					</Form>
+				</div>
+				<div className="d-flex flex-wrap">
+					{/*<Button className="p-0 float-right" color="link"><i className="fa fa-info-circle"/></Button>*/}
 
-				</Col>
-				<Col md={3} lg={3}>
-					<div className="float-right form-inline">
-						{/*<Button className="p-0 float-right" color="link"><i className="fa fa-info-circle"/></Button>*/}
-						<ButtonGroup>
-							<Form inline>
-								<FormGroup>
-									{searchOpen && <Input type="text" placeholder="Search" value={searchQuery}
-														  className="animate-fade-in"
-														  onChange={this.changeSearch}/>
-									}
-									<Button className="mr-1 btn-explorer-action" onClick={this.handleSearchOpen}>
-										<i className={"fa fa-lg " + (searchOpen ? "fa-close" : "fa-search")}/>
-									</Button>
-								</FormGroup>
-							</Form>
-							<Button className="mr-1 btn-explorer-action p-1" id="CreateFolderButton"
-									onClick={this.openNewFolderModal}><img src={newFolderImg} alt="New Folder"
-																		   className="fa fa-lg"/> </Button>
-							<UncontrolledTooltip placement="bottom" target="CreateFolderButton">
-								Create a new Folder
-							</UncontrolledTooltip>
+					<Button className="mr-1 btn-explorer-action p-1" id="CreateFolderButton"
+							onClick={this.openNewFolderModal}><img src={newFolderImg} alt="New Folder"
+																   className="fa fa-lg"/> </Button>
+					<UncontrolledTooltip placement="bottom" target="CreateFolderButton">
+						Create a new Folder
+					</UncontrolledTooltip>
 
-							<ButtonDropdown isOpen={dropdownOpen} toggle={this.toggleDropDown} direction={'down'}
-											id="FilterButton">
-								<DropdownToggle className="btn-explorer-action">
-									<i className={"fa fa-lg fa-filter"}/>
-								</DropdownToggle>
-								<DropdownMenu>
-									<DropdownItem key={"None"} value={""}
-												  onClick={this.handleChangeFilter}>None</DropdownItem>
-									{
-										this.filterOptions.map((item, _) => {
-											return (<DropdownItem key={item} value={item}
-																  onClick={this.handleChangeFilter}>{item}</DropdownItem>)
-										})
-									}
-								</DropdownMenu>
-							</ButtonDropdown>
+					<ButtonDropdown isOpen={dropdownOpen} toggle={this.toggleDropDown} direction={'down'}
+									id="FilterButton">
+						<DropdownToggle className="btn-explorer-action">
+							<i className={"fa fa-lg fa-filter"}/>
+						</DropdownToggle>
+						<DropdownMenu>
+							<DropdownItem key={"None"} value={""}
+										  onClick={this.handleChangeFilter}>None</DropdownItem>
+							{
+								this.filterOptions.map((item, _) => {
+									return (<DropdownItem key={item} value={item}
+														  onClick={this.handleChangeFilter}>{item}</DropdownItem>)
+								})
+							}
+						</DropdownMenu>
+					</ButtonDropdown>
 
-							<Button className="btn-explorer-action" id="ListViewButton"
-									onClick={this.handleChangeGridMode}>
-								<i className={"fa fa-lg " + (gridMode === "card" ? "fa-list" : "fa-th-large")}/>
+					<Button className="btn-explorer-action" id="ListViewButton"
+							onClick={this.handleChangeGridMode}>
+						<i className={"fa fa-lg " + (gridMode === "card" ? "fa-list" : "fa-th-large")}/>
+					</Button>
+					<UncontrolledTooltip placement="right" target="ListViewButton">
+						{(gridMode === "card" ? "List View" : "Card View")}
+					</UncontrolledTooltip>
+
+					<Button className="btn-explorer-action" id="InfoButton"
+							onClick={this.toggleAboutModal}>
+						<i className="fa fa-lg fa-info"/>
+					</Button>
+					<UncontrolledTooltip placement="right" target="InfoButton">
+						Show Remote Info
+					</UncontrolledTooltip>
+
+					<Form inline>
+						<FormGroup>
+							{searchOpen && <Input type="text" placeholder="Search" value={searchQuery}
+												  className="animate-fade-in"
+												  onChange={this.changeSearch}/>
+							}
+							<Button color="" className="mr-1 btn-explorer-action"
+									onClick={this.handleSearchOpen}>
+								<i className={"fa fa-lg " + (searchOpen ? "fa-close" : "fa-search")}/>
 							</Button>
-							<UncontrolledTooltip placement="right" target="ListViewButton">
-								{(gridMode === "card" ? "List View" : "Card View")}
-							</UncontrolledTooltip>
-
-							<Button className="btn-explorer-action" id="InfoButton"
-									onClick={this.toggleAboutModal}>
-								<i className="fa fa-lg fa-info"/>
-							</Button>
-							<UncontrolledTooltip placement="right" target="InfoButton">
-								Show Remote Info
-							</UncontrolledTooltip>
-
-						</ButtonGroup>
+						</FormGroup>
+					</Form>
 
 
-						<NewFolder containerID={containerID} isVisible={newFolderModalIsVisible}
-								   closeModal={this.closeNewFolderModal}/>
+					<NewFolder containerID={containerID} isVisible={newFolderModalIsVisible}
+							   closeModal={this.closeNewFolderModal}/>
 
-						<Modal isOpen={isAboutModalOpen} toggle={this.toggleAboutModal}>
-							<ModalHeader>
-								Status for {remoteName}
-							</ModalHeader>
-							<ModalBody>
-								<Row>
-									<Col sm={12}>
-										<div className="chart-wrapper">
-											<p>Space Usage (in GB)</p>
-											{doughnutData && !isEmpty(doughnutData) ? <Doughnut data={doughnutData}/> :
-												<React.Fragment><Spinner color="primary"/>Loading</React.Fragment>}
-										</div>
-									</Col>
-								</Row>
-								<Row>
-									<Col sm={12}>
-										<Button color="danger" onClick={this.handleCleanTrash}>Clean Trash <i
-											className="fa fa-lg fa-trash"/></Button>
-									</Col>
-								</Row>
+					<Modal isOpen={isAboutModalOpen} toggle={this.toggleAboutModal}>
+						<ModalHeader>
+							Status for {remoteName}
+						</ModalHeader>
+						<ModalBody>
+							<Row>
+								<Col sm={12}>
+									<div className="chart-wrapper">
+										<p>Space Usage (in GB)</p>
+										{doughnutData && !isEmpty(doughnutData) ? <Doughnut data={doughnutData}/> :
+											<React.Fragment><Spinner color="primary"/>Loading</React.Fragment>}
+									</div>
+								</Col>
+							</Row>
+							<Row>
+								<Col sm={12}>
+									<Button color="danger" onClick={this.handleCleanTrash}>Clean Trash <i
+										className="fa fa-lg fa-trash"/></Button>
+								</Col>
+							</Row>
 
-							</ModalBody>
-							<ModalFooter>
+						</ModalBody>
+						<ModalFooter>
 
-							</ModalFooter>
+						</ModalFooter>
 
-						</Modal>
+					</Modal>
 
-					</div>
-				</Col>
-			</nav>
+				</div>
+			</div>
 
 		);
 	}

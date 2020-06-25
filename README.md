@@ -12,9 +12,9 @@
 
 ## About
 
-This project is developed as a part of Google Summer of Code 2019 and 2020 under [ccextractor.org](https://ccextractor.org) and [rclone.org](https://rclone.org) by [negative0](https://github.com/negative0).
+This project under development as a part of Google Summer of Code 2019 and 2020 under [ccextractor.org](https://ccextractor.org) and [rclone.org](https://rclone.org) by [negative0](https://github.com/negative0).
 
-This is a reactjs based web UI for the rclone cli project @ [Rclone Website](https://rclone.org/)  
+This is a reactJS based web UI for the rclone cli project @ [Rclone Website](https://rclone.org/)  
 
 ### Work Products (GSoC 2019):
 
@@ -50,7 +50,7 @@ You may have to clear the browser local storage if needed, after switching to th
 ## Alternatively, you can use the hosted version:
 With every release, we publish it to github-pages. You can directly use it without installing rclone locally.
 
-Head over to https://rclone.github.io/rclone-webui-react/. And enter the IP address, username and password of rclone rc server.
+Head over to https://rclone.github.io/rclone-webui-react/. To login, enter the IP address, username and password of rclone rc server.
 
 While running the rclone rc server, use the following command,
 ```

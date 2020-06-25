@@ -1,6 +1,5 @@
 import React from "react";
 import {Button, Col, Row} from "reactstrap";
-import RemoteExplorer from "../RemoteExplorer";
 
 import HTML5Backend from "react-dnd-html5-backend";
 import {DragDropContext} from "react-dnd";
@@ -14,7 +13,7 @@ import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 import singlePaneImg from '../../../assets/img/single-pane.png';
 import doublePaneImg from '../../../assets/img/double-pane1.png';
 import triplePaneImg from '../../../assets/img/triple-pane.png';
-import TabsLayout from "../TabsLayout/TabsLayout";
+import TabbedPanes from "./TabbedPanes";
 
 
 class RemoteExplorerLayout extends React.Component {
@@ -45,49 +44,21 @@ class RemoteExplorerLayout extends React.Component {
 
 	};
 
-	Panes = ({numCols, activeRemoteContainerID, distractionFreeMode, containers}) => {
-		let returnData = [];
-		const lgSize = 12 / numCols;
-		for (let pane = 0; pane < numCols; pane++) {
-			returnData.push((
-				<Col lg={lgSize} key={pane}>
-					<Row>
-						<Col lg={12}>
-							<TabsLayout paneID={pane}/>
-						</Col>
-					</Row>
-					{
-						containers.map(({ID, paneID}) => {
-							if (paneID === pane) {
-								return (<RemoteExplorer containerID={ID} key={ID}
-														className={activeRemoteContainerID && activeRemoteContainerID[pane] && activeRemoteContainerID[pane] !== ID ? "d-none" : ""}
-														distractionFreeMode={distractionFreeMode}/>)
-							} else {
-								return null;
-							}
-						})
-					}
 
-				</Col>
-            ))
-        }
-        return returnData;
-    };
+	render() {
 
-    render() {
-
-        /*Divide the 12 bootstrap columns to fit number of explorers*/
+		/*Divide the 12 bootstrap columns to fit number of explorers*/
 		const {numCols, distractionFreeMode, activeRemoteContainerID, containers} = this.props;
-        return (
-            <ErrorBoundary>
-                <Row className={"d-none d-md-block"} data-test="remoteExplorerLayout">
+		return (
+			<ErrorBoundary>
+				<Row className={"d-none d-md-block"} data-test="remoteExplorerLayout">
 
-                    {distractionFreeMode && <div className="clearfix float-right">
-                        <Button color={"success"} className={"ml-2"}
-                                onClick={this.toggleDistractionFreeMode}><i className="fa fa-arrows"/></Button>
-                    </div>}
+					{distractionFreeMode && <div className="clearfix float-right">
+						<Button color={"success"} className={"ml-2"}
+								onClick={this.toggleDistractionFreeMode}><i className="fa fa-arrows"/></Button>
+					</div>}
 
-                    {(!distractionFreeMode) &&
+					{(!distractionFreeMode) &&
 					<Col sm={12} lg={12} className="mb-3 d-none d-md-block">
                             
 
@@ -99,35 +70,35 @@ class RemoteExplorerLayout extends React.Component {
 								onClick={() => this.changeLayout(1, "horizontal")}>
 							<img style={{height: 24}} src={singlePaneImg} alt="Single Vertical Pane"/>
 						</Button>
-                        <Button color={"primary"} className={"ml-2 layout-change-button"}
-                                onClick={() => this.changeLayout(2, "horizontal")}>
-                            <img style={{height: 24}} src={doublePaneImg} alt="Double Vertical Pane"/>
-                        </Button>
-                        <Button color={"primary"} className={"ml-2 layout-change-button"}
-                                onClick={() => this.changeLayout(3, "horizontal")}>
-                            <img style={{height: 24}} src={triplePaneImg} alt="Triple Vertical Pane"/>
-                        </Button>
+						<Button color={"primary"} className={"ml-2 layout-change-button"}
+								onClick={() => this.changeLayout(2, "horizontal")}>
+							<img style={{height: 24}} src={doublePaneImg} alt="Double Vertical Pane"/>
+						</Button>
+						<Button color={"primary"} className={"ml-2 layout-change-button"}
+								onClick={() => this.changeLayout(3, "horizontal")}>
+							<img style={{height: 24}} src={triplePaneImg} alt="Triple Vertical Pane"/>
+						</Button>
 
-                        <Button color={"success"} className={"ml-2"}
-                                onClick={this.toggleDistractionFreeMode}><i className="fa fa-arrows"/> Full Screen
-                        </Button>
-                        {/*<Button onClick={this.changeLayout(4,"grid")}>4 - grid</Button>*/}
+						<Button color={"success"} className={"ml-2"}
+								onClick={this.toggleDistractionFreeMode}><i className="fa fa-arrows"/> Full Screen
+						</Button>
+						{/*<Button onClick={this.changeLayout(4,"grid")}>4 - grid</Button>*/}
 
-                    </Col>
-                    }
-                </Row>
+					</Col>
+					}
+				</Row>
 
-                <Row>
-                    <this.Panes
+				<Row>
+					<TabbedPanes
 						numCols={numCols}
 						distractionFreeMode={distractionFreeMode}
 						activeRemoteContainerID={activeRemoteContainerID}
 						containers={containers}
-                    />
-                </Row>
-            </ErrorBoundary>
-        );
-    }
+					/>
+				</Row>
+			</ErrorBoundary>
+		);
+	}
 }
 
 const mapStateToProps = (state) => ({
@@ -141,10 +112,10 @@ const mapStateToProps = (state) => ({
 });
 
 RemoteExplorerLayout.propTypes = {
-    backStacks: PropTypes.object.isRequired,
-    createPath: PropTypes.func.isRequired,
-    changeNumCols: PropTypes.func.isRequired,
-    distractionFreeMode: PropTypes.bool.isRequired
+	backStacks: PropTypes.object.isRequired,
+	createPath: PropTypes.func.isRequired,
+	changeNumCols: PropTypes.func.isRequired,
+	distractionFreeMode: PropTypes.bool.isRequired
 };
 
 export default compose(
