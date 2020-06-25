@@ -28,7 +28,7 @@ function PluginsHandler(props) {
 
 		for (let m in loadedTestPlugins) {
 			let p = loadedTestPlugins[m];
-			if (p["rclone"]["handlesType"].includes(MimeType))
+			if (p["rclone"] && p["rclone"]["handlesType"] && p["rclone"]["handlesType"].includes(MimeType))
 				availablePlugins.push(p)
 		}
 
