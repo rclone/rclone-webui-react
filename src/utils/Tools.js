@@ -356,6 +356,11 @@ export function getSortCompareFunction(type, ascending) {
     }
 }
 
+/**
+ * Utility function to generate a random string with [A-Z, 0-9] with the specified length
+ * @param length        {number}    Length of the required string
+ * @returns             {string}    Unique id of given length.
+ */
 export function makeUniqueID(length) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -364,4 +369,8 @@ export function makeUniqueID(length) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
+}
+
+export function openInWindow(url) {
+    window.open(url);
 }

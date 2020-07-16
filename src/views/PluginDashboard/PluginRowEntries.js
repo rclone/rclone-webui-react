@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import * as PropTypes from "prop-types";
 import {Button} from "reactstrap";
 import axiosInstance from "../../utils/API/API";
@@ -10,16 +10,21 @@ const deactivatePlugin = (item) => {
 
 
 function PluginRowEntries({loadedPlugins, getPlugins}) {
-
+	const [isLoading, setIsLoading] = useState(false);
 	const removePlugin = (key) => {
+		setIsLoading(true);
 		axiosInstance.post("pluginsctl/removePlugin", {
 			name: key
 		}).then(res => {
+			getPlugins();
+
+			setIsLoading(false);
 			toast.info(`Plugin ${key} removed successfully`);
 		}, err => {
+			setIsLoading(false);
+
 			toast.error(`Error removing plugin ${key} : ${err}`);
 		})
-		getPlugins();
 
 	}
 	let entries = [];
@@ -29,8 +34,13 @@ function PluginRowEntries({loadedPlugins, getPlugins}) {
 				<td>{value.name}</td>
 				<td>{value.description}</td>
 				<td>
-					<Button color="primary">Deactivate</Button>
-					<Button color={"danger"} className="ml-2" onClick={() => removePlugin(key)}>Delete</Button>
+					{isLoading ? "Installing..." :
+						<>
+							<Button color="primary">Deactivate</Button>
+							<Button color={"danger"} className="ml-2" onClick={() => removePlugin(key)}>Delete</Button>
+
+						</>
+					}
 				</td>
 			</tr>
 		)

@@ -5,111 +5,6 @@ exports[`Plugin Dashboard renders should match snapshot 1`] = `
   data-test="pluginDashboardComponent"
 >
   <Row
-    style={
-      Object {
-        "display": "none",
-      }
-    }
-    tag="div"
-    widths={
-      Array [
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl",
-      ]
-    }
-  >
-    <Card
-      className="col-12"
-      tag="div"
-    >
-      <CardHeader
-        tag="div"
-      >
-        Add Plugin
-      </CardHeader>
-      <CardBody
-        tag="div"
-      >
-        <FormGroup
-          row={true}
-          tag="div"
-        >
-          <Label
-            for="mountPoint"
-            sm={5}
-            tag="label"
-            widths={
-              Array [
-                "xs",
-                "sm",
-                "md",
-                "lg",
-                "xl",
-              ]
-            }
-          >
-            Plugin URL
-          </Label>
-          <Col
-            sm={7}
-            tag="div"
-            widths={
-              Array [
-                "xs",
-                "sm",
-                "md",
-                "lg",
-                "xl",
-              ]
-            }
-          >
-            <Input
-              id="mountPoint"
-              name="mountPoint"
-              onChange={[Function]}
-              required={true}
-              type="text"
-              value=""
-            />
-            <FormFeedback
-              tag="div"
-            />
-          </Col>
-        </FormGroup>
-      </CardBody>
-      <CardFooter
-        tag="div"
-      >
-        <div
-          className="clear-fix float-right"
-        >
-          <Button
-            color="primary"
-            disabled={true}
-            onClick={[Function]}
-            tag="button"
-          >
-            Verify and add
-          </Button>
-        </div>
-        <div
-          className="clear-fix float-right mr-2"
-        >
-          <Button
-            color="danger"
-            onClick={[Function]}
-            tag="button"
-          >
-            Cancel
-          </Button>
-        </div>
-      </CardFooter>
-    </Card>
-  </Row>
-  <Row
     tag="div"
     widths={
       Array [
@@ -122,8 +17,8 @@ exports[`Plugin Dashboard renders should match snapshot 1`] = `
     }
   >
     <Col
-      className="mb-4"
-      lg={8}
+      className="mb-4 d-flex justify-content-between"
+      lg={12}
       tag="div"
       widths={
         Array [
@@ -135,28 +30,18 @@ exports[`Plugin Dashboard renders should match snapshot 1`] = `
         ]
       }
     >
+      <NewPluginModal
+        buttonLabel="Add New"
+        okHandle={[Function]}
+      />
       <Button
-        className="float-left"
-        color="primary"
+        color="secondary"
         onClick={[Function]}
         tag="button"
       >
-        Add new Plugin
+        Visit Store
       </Button>
     </Col>
-    <Col
-      lg={4}
-      tag="div"
-      widths={
-        Array [
-          "xs",
-          "sm",
-          "md",
-          "lg",
-          "xl",
-        ]
-      }
-    />
   </Row>
   <Table
     className="table-striped"
@@ -179,6 +64,7 @@ exports[`Plugin Dashboard renders should match snapshot 1`] = `
     </thead>
     <tbody>
       <PluginRowEntries
+        getPlugins={[Function]}
         loadedPlugins={Object {}}
       />
     </tbody>
