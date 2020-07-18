@@ -99,7 +99,6 @@ export default function (state = initialState, action) {
 				[action.payload.paneID]: (lastItem ? lastItem.ID : undefined)
 			};
 
-			// state.activeRemoteContainerID = lastItem ? lastItem : "";
 			return {...state};
 		case CHANGE_ACTIVE_REMOTE_CONTAINER:
 			state.activeRemoteContainerID = {
