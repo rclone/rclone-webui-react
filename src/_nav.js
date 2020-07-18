@@ -31,6 +31,11 @@ export default {
             icon: 'fa fa-hdd-o'
         },
         {
+            name: 'Terminal',
+            url: '/terminal',
+            icon: 'fa fa-terminal'
+        },
+        {
             name: 'Log Out',
             url: '/login',
             icon: 'icon-logout',

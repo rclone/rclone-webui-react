@@ -124,5 +124,9 @@ async function performCopyOrMoveFile(srcFs, srcRemote, dstFs, dstRemote, Name, I
     }
 }
 
+export const getIPAddress = () => {
+    return localStorage.getItem(IP_ADDRESS_KEY);
+}
+
 
 export default axiosInstance;
