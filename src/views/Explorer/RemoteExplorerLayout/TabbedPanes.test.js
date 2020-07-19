@@ -24,7 +24,10 @@ describe(__filename, function () {
             };
 
             const props = {
-                numCols: 1, activeRemoteContainerID: {0: "AAA"}, distractionFreeMode: false, containers: []
+                numCols: 1,
+                activeRemoteContainerID: {0: "AAA"},
+                distractionFreeMode: false,
+                containers: [{ID: "AAA", paneID: 0}]
             };
             wrapper = setUp(initialState, props)
         });

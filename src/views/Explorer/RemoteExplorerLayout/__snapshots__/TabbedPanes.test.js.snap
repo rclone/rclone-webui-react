@@ -45,5 +45,11 @@ exports[`/media/negativezero/Projects/rclone/rclone-webui-react/src/views/Explor
       />
     </Col>
   </Row>
+  <Connect(RemoteExplorer)
+    className=""
+    containerID="AAA"
+    distractionFreeMode={false}
+    key="AAA"
+  />
 </Col>
 `;
