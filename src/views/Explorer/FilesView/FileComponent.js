@@ -242,17 +242,24 @@ class FileComponent extends React.Component {
                 </div>
             )
         } else {
-            element = connectDragSource(
-                <tr className={"pointer-cursor"}>
-                    <td onClick={(e) => clickHandler(e, item)}>
-                        <FileIcon IsDir={IsDir} MimeType={MimeType}/>{" "}{Name}
-                    </td>
-                    <td>{Size === -1 ? "-" : formatBytes(Size, 2)}</td>
-                    <td className="d-none d-md-table-cell">{modTime.toLocaleDateString()}</td>
-                    <td><Actions downloadHandle={downloadHandle} linkShareHandle={linkShareHandle}
-                                 deleteHandle={deleteHandle} item={item}/></td>
-                </tr>
-            )
+            if (inViewport) {
+                element = connectDragSource(
+                    <tr className="pointer-cursor fadeIn">
+                        <td onClick={(e) => clickHandler(e, item)}>
+                            <FileIcon IsDir={IsDir} MimeType={MimeType}/>{" "}{Name}
+                        </td>
+                        <td>{Size === -1 ? "-" : formatBytes(Size, 2)}</td>
+                        <td className="d-none d-md-table-cell">{modTime.toLocaleDateString()}</td>
+                        <td><Actions downloadHandle={downloadHandle} linkShareHandle={linkShareHandle}
+                                     deleteHandle={deleteHandle} item={item}/></td>
+                    </tr>
+                )
+            } else {
+                // not in view, render an empty div
+                element = (<tr className={"pointer-cursor"} style={{height: "60px"}}>
+
+                </tr>)
+            }
         }
         return <ErrorBoundary>
             {element}
