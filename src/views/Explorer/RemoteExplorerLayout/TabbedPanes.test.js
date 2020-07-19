@@ -24,7 +24,7 @@ describe(__filename, function () {
             };
 
             const props = {
-                numCols: 1, activeRemoteContainerID: "AAA", distractionFreeMode: false, containers:
+                numCols: 1, activeRemoteContainerID: "AAA", distractionFreeMode: false, containers: {}
             };
             wrapper = setUp(initialState, props)
         });

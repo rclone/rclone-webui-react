@@ -35,9 +35,9 @@ const TabbedPanes = ({numCols, activeRemoteContainerID, distractionFreeMode, con
 
 TabbedPanes.propTypes = {
     numCols: PropTypes.number.isRequired,
-    activeRemoteContainerID: PropTypes.string.isRequired,
+    activeRemoteContainerID: PropTypes.object.isRequired,
     distractionFreeMode: PropTypes.bool.isRequired,
-    containers: PropTypes.object.isRequired
+    containers: PropTypes.array.isRequired
 }
 
 export default TabbedPanes;
