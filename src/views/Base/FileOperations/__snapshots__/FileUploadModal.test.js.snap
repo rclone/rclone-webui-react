@@ -5,7 +5,7 @@ exports[`File upload Modal renders should match snapshot 1`] = `
   data-test="fileUploadModalComponent"
 >
   <Button
-    className="btn-explorer-action"
+    className="btn-explorer-action h-100"
     color="secondary"
     id="UploadButton"
     onClick={[Function]}
@@ -31,6 +31,7 @@ exports[`File upload Modal renders should match snapshot 1`] = `
       }
     }
     centered={false}
+    container="body"
     fade={true}
     isOpen={false}
     keyboard={true}

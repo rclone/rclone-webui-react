@@ -14,7 +14,6 @@ const setUp = (initialState = {}, props = {}) => {
 
 describe('Tabbed Panes', function () {
 
-
     describe('renders', function () {
         let wrapper;
         beforeEach(() => {

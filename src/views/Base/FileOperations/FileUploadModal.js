@@ -95,7 +95,7 @@ const FileUploadModal = (props) => {
     return (
         <div data-test="fileUploadModalComponent">
 
-            <Button className="btn-explorer-action" id="UploadButton"
+            <Button className="btn-explorer-action h-100" id="UploadButton"
                     onClick={toggle}>
                 <i className="fa fa-lg fa-upload"/>
             </Button>

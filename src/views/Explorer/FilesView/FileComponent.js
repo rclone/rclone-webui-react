@@ -162,8 +162,8 @@ class FileComponent extends React.Component {
                         </td>
                         <td>{Size === -1 ? "-" : formatBytes(Size, 2)}</td>
                         <td className="d-none d-md-table-cell">{modTime.toLocaleDateString()}</td>
-                        <td><Actions downloadHandle={downloadHandle} linkShareHandle={linkShareHandle}
-                                     deleteHandle={deleteHandle} item={item}/></td>
+                        <td><FileActions downloadHandle={downloadHandle} linkShareHandle={linkShareHandle}
+                                         deleteHandle={deleteHandle} item={item}/></td>
                     </tr>
                 )
             } else {

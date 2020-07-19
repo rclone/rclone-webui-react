@@ -15,7 +15,7 @@ const setUp = (intialState = {}, props = {}) => {
 };
 
 
-describe(__filename, function () {
+describe("Files View", function () {
     describe('renders', function () {
         let wrapper;
         beforeEach(() => {

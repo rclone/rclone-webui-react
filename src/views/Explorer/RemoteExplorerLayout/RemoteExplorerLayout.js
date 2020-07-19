@@ -12,7 +12,6 @@ import doublePaneImg from '../../../assets/img/double-pane1.png';
 import triplePaneImg from '../../../assets/img/triple-pane.png';
 import TabbedPanes from "./TabbedPanes";
 
-import TabsLayout from "../TabsLayout/TabsLayout";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from 'react-dnd-html5-backend';
 
@@ -117,7 +116,8 @@ RemoteExplorerLayout.propTypes = {
 	backStacks: PropTypes.object.isRequired,
 	createPath: PropTypes.func.isRequired,
 	changeNumCols: PropTypes.func.isRequired,
-	distractionFreeMode: PropTypes.bool.isRequired
+	distractionFreeMode: PropTypes.bool.isRequired,
+	activeRemoteContainerID: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps, {
