@@ -62,14 +62,17 @@ function getCroppedName(name) {
 }
 
 function JobCardRow({job}) {
-    const {name, percentage, speed, size} = job;
+    // https://github.com/rclone/rclone-webui-react/issues/99:
+    // Speed and AvgSpeed seem to be swapped in Running Jobs Card #99
+    const {name, percentage, speedAvg, size} = job;
+    console.log("Job:" + job);
     return (
         <React.Fragment>
             <Row className="runningJobs">
-                {(size && speed) ? (
+                {(size && speedAvg) ? (
 
                     <Col lg={12} className="itemName"> {getCroppedName(name)} {" "}
-                        ({formatBytes(size)}) - {formatBytes(speed)}PS </Col>
+                        ({formatBytes(size)}) - {formatBytes(speedAvg)}PS </Col>
                 ) : (
                     <Col lg={12}>Calculating</Col>)}
 
@@ -174,7 +177,6 @@ function JobGroup({job, groupId}) {
                 toast.info(`Job ${jobid} stopped`);
             }).catch(err => {
                 toast.error(`Job ${jobid} couldn't be stopped`)
-
             })
         }
     };
