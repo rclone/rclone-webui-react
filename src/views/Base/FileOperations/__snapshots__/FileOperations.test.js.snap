@@ -1,25 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`File Operations renders should match snapshot 1`] = `
-<nav
-  aria-label="breadcrumb"
-  className="row mt-3 mb-1"
->
-  <Col
-    className="pl-0"
-    lg={2}
-    md={3}
-    sm={4}
-    tag="div"
-    widths={
-      Array [
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl",
-      ]
+ <div
+  className="pl-0 mt-3 mb-1 d-flex justify-content-between align-items-center"
+  style={
+    Object {
+      "marginLeft": "-15px",
+      "marginRight": "-15px",
     }
+  }
+>
+  <div
+    className="d-flex flex-nowrap"
   >
     <Button
       className="mr-1 btn-explorer-action"
@@ -58,23 +50,12 @@ exports[`File Operations renders should match snapshot 1`] = `
     >
       Refresh Files
     </UncontrolledTooltip>
-  </Col>
-  <Col
-    lg={7}
-    md={6}
-    sm={8}
-    tag="div"
-    widths={
-      Array [
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl",
-      ]
-    }
+  </div>
+  <div
+    className="flex-grow-1 pl-1 pr-1 pr-lg-3 pl-lg-3"
   >
     <Form
+      className="h-100"
       inline={true}
       onSubmit={[Function]}
       tag="form"
@@ -107,288 +88,268 @@ exports[`File Operations renders should match snapshot 1`] = `
         />
       </Button>
     </Form>
-  </Col>
-  <Col
-    lg={3}
-    md={3}
-    tag="div"
-    widths={
-      Array [
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl",
-      ]
-    }
+  </div>
+  <div
+    className="d-flex flex-wrap"
   >
-    <div
-      className="float-right form-inline"
+    <Button
+      className="mr-1 btn-explorer-action p-1"
+      color="secondary"
+      id="CreateFolderButton"
+      onClick={[Function]}
+      tag="button"
     >
-      <ButtonGroup
-        role="group"
+      <img
+        alt="New Folder"
+        className="fa fa-lg"
+        src="new-folder.png"
+      />
+       
+    </Button>
+    <UncontrolledTooltip
+      placement="bottom"
+      target="CreateFolderButton"
+    >
+      Create a new Folder
+    </UncontrolledTooltip>
+    <ButtonDropdown
+      direction="down"
+      id="FilterButton"
+      isOpen={false}
+      toggle={[Function]}
+    >
+      <DropdownToggle
+        aria-haspopup={true}
+        className="btn-explorer-action"
+        color="secondary"
+      >
+        <i
+          className="fa fa-lg fa-filter"
+        />
+      </DropdownToggle>
+      <DropdownMenu
+        flip={true}
         tag="div"
       >
-        <Form
-          inline={true}
-          tag="form"
+        <DropdownItem
+          key="None"
+          onClick={[Function]}
+          tag="button"
+          toggle={true}
+          value=""
         >
-          <FormGroup
+          None
+        </DropdownItem>
+        <DropdownItem
+          key="Images"
+          onClick={[Function]}
+          tag="button"
+          toggle={true}
+          value="Images"
+        >
+          Images
+        </DropdownItem>
+        <DropdownItem
+          key="Pdf"
+          onClick={[Function]}
+          tag="button"
+          toggle={true}
+          value="Pdf"
+        >
+          Pdf
+        </DropdownItem>
+        <DropdownItem
+          key="Videos"
+          onClick={[Function]}
+          tag="button"
+          toggle={true}
+          value="Videos"
+        >
+          Videos
+        </DropdownItem>
+      </DropdownMenu>
+    </ButtonDropdown>
+    <Button
+      className="btn-explorer-action"
+      color="secondary"
+      id="ListViewButton"
+      onClick={[Function]}
+      tag="button"
+    >
+      <i
+        className="fa fa-lg fa-th-large"
+      />
+    </Button>
+    <UncontrolledTooltip
+      placement="right"
+      target="ListViewButton"
+    >
+      Card View
+    </UncontrolledTooltip>
+    <Button
+      className="btn-explorer-action"
+      color="secondary"
+      id="InfoButton"
+      onClick={[Function]}
+      tag="button"
+    >
+      <i
+        className="fa fa-lg fa-info"
+      />
+    </Button>
+    <UncontrolledTooltip
+      placement="right"
+      target="InfoButton"
+    >
+      Show Remote Info
+    </UncontrolledTooltip>
+    <Form
+      inline={true}
+      tag="form"
+    >
+      <FormGroup
+        tag="div"
+      >
+        <Button
+          className="mr-1 btn-explorer-action"
+          color=""
+          onClick={[Function]}
+          tag="button"
+        >
+          <i
+            className="fa fa-lg fa-search"
+          />
+        </Button>
+      </FormGroup>
+    </Form>
+    <Connect(NewFolder)
+      closeModal={[Function]}
+      containerID="0"
+      isVisible={false}
+    />
+    <Modal
+      autoFocus={true}
+      backdrop={true}
+      backdropTransition={
+        Object {
+          "mountOnEnter": true,
+          "timeout": 150,
+        }
+      }
+      centered={false}
+      fade={true}
+      isOpen={false}
+      keyboard={true}
+      modalTransition={
+        Object {
+          "timeout": 300,
+        }
+      }
+      onClosed={[Function]}
+      onOpened={[Function]}
+      returnFocusAfterClose={true}
+      role="dialog"
+      scrollable={false}
+      toggle={[Function]}
+      unmountOnClose={true}
+      zIndex={1050}
+    >
+      <ModalHeader
+        charCode={215}
+        closeAriaLabel="Close"
+        tag="h5"
+        wrapTag="div"
+      >
+        Status for 
+        local
+      </ModalHeader>
+      <ModalBody
+        tag="div"
+      >
+        <Row
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Col
+            sm={12}
             tag="div"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            <div
+              className="chart-wrapper"
+            >
+              <p>
+                Space Usage (in GB)
+              </p>
+              <Spinner
+                color="primary"
+                tag="div"
+                type="border"
+              >
+                Loading...
+              </Spinner>
+              Loading
+            </div>
+          </Col>
+        </Row>
+        <Row
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Col
+            sm={12}
+            tag="div"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
           >
             <Button
-              className="mr-1 btn-explorer-action"
-              color="secondary"
+              color="danger"
               onClick={[Function]}
               tag="button"
             >
+              Clean Trash 
               <i
-                className="fa fa-lg fa-search"
+                className="fa fa-lg fa-trash"
               />
             </Button>
-          </FormGroup>
-        </Form>
-        <Button
-          className="mr-1 btn-explorer-action p-1"
-          color="secondary"
-          id="CreateFolderButton"
-          onClick={[Function]}
-          tag="button"
-        >
-          <img
-            alt="New Folder"
-            className="fa fa-lg"
-            src="new-folder.png"
-          />
-           
-        </Button>
-        <UncontrolledTooltip
-          placement="bottom"
-          target="CreateFolderButton"
-        >
-          Create a new Folder
-        </UncontrolledTooltip>
-        <ButtonDropdown
-          direction="down"
-          id="FilterButton"
-          isOpen={false}
-          toggle={[Function]}
-        >
-          <DropdownToggle
-            aria-haspopup={true}
-            className="btn-explorer-action"
-            color="secondary"
-          >
-            <i
-              className="fa fa-lg fa-filter"
-            />
-          </DropdownToggle>
-          <DropdownMenu
-            flip={true}
-            tag="div"
-          >
-            <DropdownItem
-              key="None"
-              onClick={[Function]}
-              tag="button"
-              toggle={true}
-              value=""
-            >
-              None
-            </DropdownItem>
-            <DropdownItem
-              key="Images"
-              onClick={[Function]}
-              tag="button"
-              toggle={true}
-              value="Images"
-            >
-              Images
-            </DropdownItem>
-            <DropdownItem
-              key="Pdf"
-              onClick={[Function]}
-              tag="button"
-              toggle={true}
-              value="Pdf"
-            >
-              Pdf
-            </DropdownItem>
-            <DropdownItem
-              key="Videos"
-              onClick={[Function]}
-              tag="button"
-              toggle={true}
-              value="Videos"
-            >
-              Videos
-            </DropdownItem>
-          </DropdownMenu>
-        </ButtonDropdown>
-        <Button
-          className="btn-explorer-action"
-          color="secondary"
-          id="ListViewButton"
-          onClick={[Function]}
-          tag="button"
-        >
-          <i
-            className="fa fa-lg fa-th-large"
-          />
-        </Button>
-        <UncontrolledTooltip
-          placement="right"
-          target="ListViewButton"
-        >
-          Card View
-        </UncontrolledTooltip>
-        <Button
-          className="btn-explorer-action"
-          color="secondary"
-          id="InfoButton"
-          onClick={[Function]}
-          tag="button"
-        >
-          <i
-            className="fa fa-lg fa-info"
-          />
-        </Button>
-        <UncontrolledTooltip
-          placement="right"
-          target="InfoButton"
-        >
-          Show Remote Info
-        </UncontrolledTooltip>
-      </ButtonGroup>
-      <Connect(NewFolder)
-        closeModal={[Function]}
-        containerID="0"
-        isVisible={false}
+          </Col>
+        </Row>
+      </ModalBody>
+      <ModalFooter
+        tag="div"
       />
-      <Modal
-        autoFocus={true}
-        backdrop={true}
-        backdropTransition={
-          Object {
-            "mountOnEnter": true,
-            "timeout": 150,
-          }
-        }
-        centered={false}
-        fade={true}
-        isOpen={false}
-        keyboard={true}
-        modalTransition={
-          Object {
-            "timeout": 300,
-          }
-        }
-        onClosed={[Function]}
-        onOpened={[Function]}
-        returnFocusAfterClose={true}
-        role="dialog"
-        scrollable={false}
-        toggle={[Function]}
-        unmountOnClose={true}
-        zIndex={1050}
-      >
-        <ModalHeader
-          charCode={215}
-          closeAriaLabel="Close"
-          tag="h5"
-          wrapTag="div"
-        >
-          Status for 
-          local
-        </ModalHeader>
-        <ModalBody
-          tag="div"
-        >
-          <Row
-            tag="div"
-            widths={
-              Array [
-                "xs",
-                "sm",
-                "md",
-                "lg",
-                "xl",
-              ]
-            }
-          >
-            <Col
-              sm={12}
-              tag="div"
-              widths={
-                Array [
-                  "xs",
-                  "sm",
-                  "md",
-                  "lg",
-                  "xl",
-                ]
-              }
-            >
-              <div
-                className="chart-wrapper"
-              >
-                <p>
-                  Space Usage (in GB)
-                </p>
-                <Spinner
-                  color="primary"
-                  tag="div"
-                  type="border"
-                >
-                  Loading...
-                </Spinner>
-                Loading
-              </div>
-            </Col>
-          </Row>
-          <Row
-            tag="div"
-            widths={
-              Array [
-                "xs",
-                "sm",
-                "md",
-                "lg",
-                "xl",
-              ]
-            }
-          >
-            <Col
-              sm={12}
-              tag="div"
-              widths={
-                Array [
-                  "xs",
-                  "sm",
-                  "md",
-                  "lg",
-                  "xl",
-                ]
-              }
-            >
-              <Button
-                color="danger"
-                onClick={[Function]}
-                tag="button"
-              >
-                Clean Trash 
-                <i
-                  className="fa fa-lg fa-trash"
-                />
-              </Button>
-            </Col>
-          </Row>
-        </ModalBody>
-        <ModalFooter
-          tag="div"
-        />
-      </Modal>
-    </div>
-  </Col>
-</nav>
+    </Modal>
+  </div>
+</div>
 `;
