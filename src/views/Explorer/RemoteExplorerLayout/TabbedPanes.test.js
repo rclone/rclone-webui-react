@@ -12,7 +12,7 @@ const setUp = (initialState = {}, props = {}) => {
 };
 
 
-describe(__filename, function () {
+describe('Tabbed Panes', function () {
 
 
     describe('renders', function () {

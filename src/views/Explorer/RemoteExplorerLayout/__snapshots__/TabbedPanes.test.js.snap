@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`/media/negativezero/Projects/rclone/rclone-webui-react/src/views/Explorer/RemoteExplorerLayout/TabbedPanes.test.js renders should match snapshot 1`] = `
+exports[`Tabbed Panes renders should match snapshot 1`] = `
 <Col
   key="0"
   lg={12}
