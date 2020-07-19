@@ -1,0 +1,207 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`File upload Modal renders should match snapshot 1`] = `
+<div
+  data-test="fileUploadModalComponent"
+>
+  <Button
+    className="btn-explorer-action h-100"
+    color="secondary"
+    id="UploadButton"
+    onClick={[Function]}
+    tag="button"
+  >
+    <i
+      className="fa fa-lg fa-upload"
+    />
+  </Button>
+  <UncontrolledTooltip
+    placement="right"
+    target="UploadButton"
+  >
+    Upload file(s)
+  </UncontrolledTooltip>
+  <Modal
+    autoFocus={true}
+    backdrop={true}
+    backdropTransition={
+      Object {
+        "mountOnEnter": true,
+        "timeout": 150,
+      }
+    }
+    centered={false}
+    container="body"
+    fade={true}
+    isOpen={false}
+    keyboard={true}
+    modalTransition={
+      Object {
+        "timeout": 300,
+      }
+    }
+    onClosed={[Function]}
+    onOpened={[Function]}
+    returnFocusAfterClose={true}
+    role="dialog"
+    scrollable={false}
+    toggle={[Function]}
+    unmountOnClose={true}
+    zIndex={1050}
+  >
+    <DndProvider
+      backend={[Function]}
+    >
+      <ModalHeader
+        charCode={215}
+        closeAriaLabel="Close"
+        tag="h5"
+        toggle={[Function]}
+        wrapTag="div"
+      >
+        New Mount
+      </ModalHeader>
+      <ModalBody
+        tag="div"
+      >
+        <Container
+          fluid={true}
+          tag="div"
+        >
+          <FileUploadBox
+            onDrop={[Function]}
+          >
+            <Row
+              className="upload-box"
+              tag="div"
+              widths={
+                Array [
+                  "xs",
+                  "sm",
+                  "md",
+                  "lg",
+                  "xl",
+                ]
+              }
+            >
+              <Col
+                sm={3}
+                tag="div"
+                widths={
+                  Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+                }
+              />
+              <Col
+                sm={6}
+                tag="div"
+                widths={
+                  Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+                }
+              >
+                <label
+                  htmlFor="upload-file"
+                >
+                  <Row
+                    tag="div"
+                    widths={
+                      Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                    }
+                  >
+                    <i
+                      className="fa fa-lg fa-plus mx-auto mt-5"
+                    />
+                    <p
+                      className="text-center mt-2"
+                    >
+                      Click here or drag and drop files to upload
+                    </p>
+                  </Row>
+                </label>
+              </Col>
+              <Col
+                sm={3}
+                tag="div"
+                widths={
+                  Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+                }
+              />
+            </Row>
+            <Row
+              tag="div"
+              widths={
+                Array [
+                  "xs",
+                  "sm",
+                  "md",
+                  "lg",
+                  "xl",
+                ]
+              }
+            >
+              <FormGroup
+                className="pl-2 pr-2 d-none"
+                row={true}
+                tag="div"
+              >
+                <Input
+                  id="upload-file"
+                  multiple={true}
+                  name="file"
+                  onChange={[Function]}
+                  type="file"
+                />
+              </FormGroup>
+            </Row>
+          </FileUploadBox>
+        </Container>
+      </ModalBody>
+      <ModalFooter
+        tag="div"
+      >
+        <Button
+          color="primary"
+          data-test="ok-button"
+          disabled={true}
+          onClick={[Function]}
+          tag="button"
+        >
+          Upload
+        </Button>
+         
+        <Button
+          color="secondary"
+          data-test="cancel-button"
+          onClick={[Function]}
+          tag="button"
+        >
+          Cancel
+        </Button>
+      </ModalFooter>
+    </DndProvider>
+  </Modal>
+</div>
+`;

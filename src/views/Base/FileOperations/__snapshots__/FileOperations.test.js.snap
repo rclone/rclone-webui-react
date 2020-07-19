@@ -203,6 +203,16 @@ exports[`File Operations renders should match snapshot 1`] = `
     >
       Show Remote Info
     </UncontrolledTooltip>
+    <FileUploadModal
+      buttonClass="btn-explorer-action"
+      buttonLabel="Upload"
+      currentPath={
+        Object {
+          "remoteName": "local",
+          "remotePath": "",
+        }
+      }
+    />
     <Form
       inline={true}
       tag="form"

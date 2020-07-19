@@ -1,16 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Files View renders should match snapshot 1`] = `
-<Connect(DropTarget(FilesView))
-  containerID={[Function]}
-  store={
-    Object {
-      "dispatch": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-      Symbol(observable): [Function],
-    }
-  }
-/>
-`;
+exports[`Files View renders should match snapshot 1`] = `""`;

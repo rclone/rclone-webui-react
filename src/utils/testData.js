@@ -353,3 +353,12 @@ export const FILE_ITEM_DATA = {
     ModTime: '2019-06-07T22:44:37.357539000+05:30',
     IsDir: false
 };
+
+export const DIR_ITEM_DATA = {
+    Path: 'abc',
+    Name: 'abc',
+    Size: 0,
+    MimeType: '',
+    ModTime: '2019-06-07T22:44:37.357539000+05:30',
+    IsDir: true
+};

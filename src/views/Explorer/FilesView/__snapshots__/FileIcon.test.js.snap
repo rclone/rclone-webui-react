@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`New Mount Modal renders should match snapshot 1`] = `
+<i
+  className="fa-file-text-o fa fa-lg"
+  data-test="fileIconComponent"
+/>
+`;

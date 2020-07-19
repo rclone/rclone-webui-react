@@ -31,7 +31,8 @@ describe('Remote Explorer Layout', function () {
             const initialState = {};
 
             const props = {
-                createPath: jest.fn()
+                createPath: jest.fn(),
+                activeRemoteContainerID: {0: "P14", 1: "38K", 2: "XXN"},
             };
             wrapper = setUp(initialState, props)
         });
