@@ -31,7 +31,8 @@ class BandwidthStatusCard extends React.Component {
      * Set the new bandwidth specified in state.bandwidthText
      * Check if text is valid, before sending.
      */
-    setBandwidth = () => {
+    setBandwidth = (e) => {
+        e.preventDefault();
         const {bandwidthText, hasError} = this.state;
         if (!hasError) {
             const {setBandwidth} = this.props;
