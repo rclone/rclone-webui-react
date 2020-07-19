@@ -19,6 +19,7 @@ exports[`New Mount Modal renders should match snapshot 1`] = `
       }
     }
     centered={false}
+    container="body"
     fade={true}
     isOpen={false}
     keyboard={true}
