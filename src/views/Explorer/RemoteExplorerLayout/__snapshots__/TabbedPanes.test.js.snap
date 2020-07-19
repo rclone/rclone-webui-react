@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/media/negativezero/Projects/rclone/rclone-webui-react/src/views/Explorer/RemoteExplorerLayout/TabbedPanes.test.js renders should match snapshot 1`] = `
+<Col
+  key="0"
+  lg={12}
+  tag="div"
+  widths={
+    Array [
+      "xs",
+      "sm",
+      "md",
+      "lg",
+      "xl",
+    ]
+  }
+>
+  <Row
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    <Col
+      lg={12}
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <Connect(TabsLayout)
+        paneID={0}
+      />
+    </Col>
+  </Row>
+</Col>
+`;
