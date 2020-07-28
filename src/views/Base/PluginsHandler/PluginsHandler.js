@@ -6,7 +6,7 @@ import {PROP_CURRENT_PATH, PROP_FS_INFO} from "../../../utils/RclonePropTypes";
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 import {Button} from "reactstrap";
 import NoPluginAvailableModal from "./NoPluginAvailableModal/NoPluginAvailableModal";
-import {getPluginServeUrl} from "../../../utils/PluginTools";
+import {filterPluginsByMimeType, getPluginsArray, getPluginServeUrl} from "../../../utils/PluginTools";
 import {openInWindow} from "../../../utils/Tools";
 import {toast} from "react-toastify";
 
@@ -41,25 +41,20 @@ function PluginsHandler(props) {
 		const {MimeType} = item;
 
 		// const availableTestPlugins = [];
-		const availablePlugins = [];
+		let availableTestPlugins = getPluginsArray(loadedTestPlugins);
+		availableTestPlugins = filterPluginsByMimeType(availableTestPlugins, MimeType);
 
-		for (let m in loadedTestPlugins) {
-			let p = loadedTestPlugins[m];
-			if (p["rclone"] && p["rclone"]["handlesType"] && p["rclone"]["handlesType"].includes(MimeType))
-				availablePlugins.push(p)
-		}
 
-		for (let m in loadedPlugins) {
-			let p = loadedPlugins[m];
-			if (p["rclone"]["handlesType"].includes(MimeType))
-				availablePlugins.push(p)
-		}
+		let availablePlugins = getPluginsArray(loadedPlugins);
+		availablePlugins = filterPluginsByMimeType(availablePlugins, MimeType);
+
+		// add test plugins as well
+		availablePlugins = availablePlugins.concat(availableTestPlugins);
 		// Set in state to pass to modal
 		setAvailablePlugins(availablePlugins);
 		if (availablePlugins.length === 0) {
 			// No plugins available, show modal for redirecting to the store
 			setShowPluginsModal(true);
-
 		} else if (availablePlugins.length === 1) {
 			// open the default available plugin
 			processOpenPlugin(availablePlugins[0].name, availablePlugins[0].author);
@@ -74,13 +69,13 @@ function PluginsHandler(props) {
 		<Button color={"link"} onClick={openPlugin}>
 			<i className={"fa fa-external-link fa-lg d-inline"}/>
 		</Button>
-		<NoPluginAvailableModal
+		{showPluginsModal && <NoPluginAvailableModal
 			className=""
 			isOpen={showPluginsModal}
 			setIsOpen={setShowPluginsModal}
 			availablePlugins={availablePlugins}
 			processOpenPlugin={processOpenPlugin}
-		/>
+		/>}
 	</ErrorBoundary>
 }
 

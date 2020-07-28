@@ -3,8 +3,9 @@ import Iframe from "react-iframe";
 import * as PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {getPlugins} from "../../actions/pluginActions";
-import {getPluginBaseUrl} from "../../utils/PluginTools";
+import {filterPluginsByType, getPluginBaseUrl, getPluginsArray} from "../../utils/PluginTools";
 import {getIPAddress} from "../../utils/API/API";
+import pluginTypes from "../../pluginTypes";
 
 function TerminalDashboard(props) {
     const {
@@ -14,28 +15,32 @@ function TerminalDashboard(props) {
 
     const [pluginUrl, setPluginUrl] = useState("");
 
+    const [pluginArray, setPluginArray] = useState([]);
+
     useEffect(() => {
         getPlugins();
-        const availablePlugins = [];
+        let availablePlugins = getPluginsArray(loadedPlugins);
+        availablePlugins = filterPluginsByType(availablePlugins, pluginTypes.TERMINAL);
+        setPluginArray(availablePlugins);
 
-        for (let m in loadedPlugins) {
-            let p = loadedPlugins[m];
-            if (p["rclone"]["pluginType"] === "Terminal")
-                availablePlugins.push(p)
+        if (availablePlugins.length > 0) {
+            // open the default (first) available plugin
+            setPluginUrl(getPluginBaseUrl(getIPAddress(), availablePlugins[0].name, availablePlugins[0].author));
+        } else {
+
         }
-        // open the default available plugin
-        setPluginUrl(getPluginBaseUrl(getIPAddress(), availablePlugins[0].name, availablePlugins[0].author));
 
     }, []);
 
     return (
         <div data-test="mountDashboardComponent" style={{height: "80vh"}}>
-            <Iframe url={pluginUrl}
-                    allowTransparency="true"
-                    allowFullScreen="true"
-                    width="100%"
-                    height="100%"
-                    display="initial"/>
+            {(pluginArray.length > 0) ? <Iframe url={pluginUrl}
+                                                allowTransparency="true"
+                                                allowFullScreen="true"
+                                                width="100%"
+                                                height="100%"
+                                                display="initial"/>
+                : <p>Could not find any appropriate plugin to load</p>}
         </div>
     );
 }

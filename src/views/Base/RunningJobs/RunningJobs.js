@@ -237,10 +237,6 @@ class RunningJobs extends React.Component {
         })
     };
 
-
-
-
-
     render() {
         const {jobs, isConnected, lineChartData} = this.props;
         const {transferring} = jobs;

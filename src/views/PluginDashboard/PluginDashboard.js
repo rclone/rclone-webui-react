@@ -13,9 +13,9 @@ class PluginDashboard extends React.Component {
 		getPlugins();
 	}
 
-	addPluginHandle = (pluginDownloadURL) => {
+	addPluginHandle = (pluginDownloadURL, pluginType) => {
 		const {addPlugin} = this.props;
-		addPlugin(pluginDownloadURL);
+		addPlugin(pluginDownloadURL, pluginType);
 	}
 
 	render() {

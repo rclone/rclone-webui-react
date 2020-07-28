@@ -30,6 +30,7 @@ describe("Files View", function () {
             wrapper = setUp(initialState, props)
         });
 
+
         it('should render without crashing', function () {
             expect(wrapper).toHaveLength(1)
         });

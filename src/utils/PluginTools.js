@@ -46,3 +46,45 @@ export const getPluginBaseUrl = (ipAddress, pluginName, author) => {
 
     return `${ipAddress}/plugins/${author}/${pluginName}/`;
 }
+
+/**
+ * Get plugins from map.
+ * @param plugins       {{}}    plugins map
+ * @returns             {[]}    array of plugins
+ */
+export const getPluginsArray = (plugins) => {
+    const availablePlugins = [];
+
+    for (let m in plugins) {
+        if (plugins.hasOwnProperty(m)) {
+            let p = plugins[m];
+            availablePlugins.push(p)
+        }
+    }
+
+    return availablePlugins;
+}
+
+/**
+ * filter plugins by file handling types
+ * @param plugins       {[]}
+ * @param MimeType      {String}
+ * @return              {[]}
+ */
+export const filterPluginsByMimeType = (plugins, MimeType) => {
+    return plugins.filter((p) => p["rclone"] &&
+        p["rclone"]["handlesType"] &&
+        p["rclone"]["handlesType"].includes(MimeType));
+}
+
+/**
+ * filter plugins by file handling types
+ * @param plugins   {[]}
+ * @param type      {String}
+ * @return          {[]}
+ */
+export const filterPluginsByType = (plugins, type) => {
+    return plugins.filter((p) => p["rclone"] &&
+        p["rclone"]["pluginType"] &&
+        p["rclone"]["pluginType"].toUpperCase() === type.toUpperCase());
+}

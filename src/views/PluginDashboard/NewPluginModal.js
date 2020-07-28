@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {
     Button,
     Col,
+    Form,
     FormFeedback,
     FormGroup,
     Input,
@@ -31,46 +32,66 @@ const NewPluginModal = (props) => {
 
     const [pluginDownloadURL, setPluginDownloadURL] = useState("");
 
+    const [pluginType, setPluginType] = useState("");
+
     const toggle = () => setModal(!modal);
 
     const handleCreateMount = () => {
         if (!okHandle) {
             throw new Error("Ok handle is null");
         }
-        okHandle(pluginDownloadURL);
+        okHandle(pluginDownloadURL, pluginType);
     }
 
     const isCreateDisabled = () => {
         return !pluginDownloadURL || pluginDownloadURL === "";
     }
 
+    const submitForm = (e) => {
+        e.preventDefault();
+        handleCreateMount();
+    }
+
     return (
         <div data-test="newMountModalComponent">
             <Button color="primary" onClick={toggle}>{buttonLabel}</Button>
-            <Modal isOpen={modal} toggle={toggle} className={className}>
-                <ModalHeader toggle={toggle}>New Mount</ModalHeader>
-                <ModalBody>
-                    <FormGroup row>
-                        <Label for={"mountPoint"} sm={5}>Plugin URL</Label>
-                        <Col sm={7}>
-                            <Input type={"text"} value={pluginDownloadURL}
-                                   name={"mountPoint"}
-                                   id={"mountPoint"} onChange={e => setPluginDownloadURL(e.target.value)}
-                                   required={true}
-                            >
-                            </Input>
-                            <FormFeedback/>
+            <Form onSubmit={submitForm}>
+                <Modal isOpen={modal} toggle={toggle} className={className}>
+                    <ModalHeader toggle={toggle}>New Mount</ModalHeader>
+                    <ModalBody>
 
-                        </Col>
-                    </FormGroup>
+                        <FormGroup row>
+                            <Label for={"pluginURL"} sm={5}>Plugin URL</Label>
+                            <Col sm={7}>
+                                <Input type={"text"} value={pluginDownloadURL}
+                                       name={"pluginURL"}
+                                       id={"pluginURL"} onChange={e => setPluginDownloadURL(e.target.value)}
+                                       required={true}
+                                >
+                                </Input>
+                                <FormFeedback/>
+                            </Col>
+                        </FormGroup>
 
-                </ModalBody>
-                <ModalFooter>
-                    <Button data-test="ok-button" color="primary" onClick={handleCreateMount}
-                            disabled={isCreateDisabled()}>Add</Button>{' '}
-                    <Button data-test="cancel-button" color="secondary" onClick={toggle}>Cancel</Button>
-                </ModalFooter>
-            </Modal>
+                        <FormGroup row>
+                            <Label for={"pluginType"} sm={5}>Plugin Type</Label>
+                            <Col sm={7}>
+                                <Input type={"text"} value={pluginDownloadURL}
+                                       name={"pluginType"}
+                                       id={"pluginType"} onChange={e => setPluginType(e.target.value)}
+                                       required={true}>
+                                </Input>
+                                <FormFeedback/>
+                            </Col>
+                        </FormGroup>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button data-test="ok-button" color="primary" onClick={handleCreateMount}
+                                disabled={isCreateDisabled()}>Add</Button>{' '}
+                        <Button data-test="cancel-button" color="secondary" onClick={toggle}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+            </Form>
         </div>
     );
 }

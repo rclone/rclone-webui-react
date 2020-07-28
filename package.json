@@ -39,7 +39,6 @@
     "react-dom": "^16.12.0",
     "react-in-viewport": "0.0.38",
     "react-iframe": "^1.8.0",
-
     "react-redux": "^7.2.0",
     "react-router-config": "^5.1.1",
     "react-router-dom": "~5.2.0",
