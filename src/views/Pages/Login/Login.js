@@ -18,7 +18,8 @@ import {connect} from "react-redux";
 import {changeAuthKey, changeIPAddress, changeUserNamePassword, signOut} from "../../../actions/userActions";
 import axiosInstance from "../../../utils/API/API";
 import urls from "../../../utils/API/endpoint";
-import logo from '../../../assets/img/brand/logo_symbol.png'
+import logo from '../../../assets/img/brand/logo_symbol.png';
+import {LOGIN_TOKEN} from "../../../utils/Constants";
 
 
 function removeParam(parameter) {
@@ -146,7 +147,7 @@ class Login extends Component {
 
 		let url_string = window.location.href;
 		let url = new URL(url_string);
-		let loginToken = url.searchParams.get("login_token");
+		let loginToken = url.searchParams.get(LOGIN_TOKEN);
 		let ipAddress = this.state.ipAddress;
 		if (url.searchParams.get("ip_address")) {
             ipAddress = url.searchParams.get("ip_address");
@@ -158,7 +159,7 @@ class Login extends Component {
                 this.props.changeAuthKey(loginToken),
                 this.props.changeIPAddress(ipAddress)
             ]);
-            removeParam("login_token");
+            removeParam(LOGIN_TOKEN);
             removeParam("ip_address");
             this.redirectToDashboard();
         }
