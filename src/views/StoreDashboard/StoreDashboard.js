@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {Button, Col, Row} from "reactstrap";
+import {Button, Col, Form, Input, InputGroup, InputGroupAddon, Row,} from "reactstrap";
 import * as PropTypes from 'prop-types';
 import {addPlugin, getPlugins} from "../../actions/pluginActions";
 import axios from "axios";
@@ -12,7 +12,8 @@ class StoreDashboard extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            pluginsList: []
+            pluginsList: [],
+            searchQuery: ""
         }
     }
 
@@ -34,21 +35,38 @@ class StoreDashboard extends React.Component {
     }
 
     render() {
-        const {pluginsList} = this.state;
+        const {pluginsList, searchQuery} = this.state;
         if (pluginsList.length <= 0) {
             return (<p>Loading</p>)
         }
+        const filteredList = pluginsList ? pluginsList.filter(element => {
+            return (
+                element.name.toLowerCase().includes(searchQuery) ||
+                element.description.toLowerCase().includes(searchQuery) ||
+                element.longDescription.toLowerCase().includes(searchQuery) ||
+                element.author.toLowerCase().includes(searchQuery)
+            );
+        }) : [];
         return (
             <div data-test="storeDashboardComponent">
                 <Row>
                     <Col lg={12} className="mb-4 d-flex justify-content-between">
                         <Button color="secondary" onClick={() => this.props.history.goBack()}>Back</Button>
-                        <Button color="primary"><span className="fa fa-search"/> Search</Button>
+                        <Form inline onSubmit={(e) => e.preventDefault()}>
+                            <InputGroup>
+                                <Input placeholder="Type to start searching" type="text" value={searchQuery}
+                                       onChange={(e) => this.setState({searchQuery: e.target.value})}/>
+                                <InputGroupAddon addonType="append"><Button color="primary"><span
+                                    className="fa fa-search"/></Button></InputGroupAddon>
+                            </InputGroup>
+
+
+                        </Form>
                     </Col>
                 </Row>
                 <Row>
                     {
-                        pluginsList && pluginsList.map((e) =>
+                        filteredList.map((e) =>
                             <Col lg={6} key={e.name}>
                                 <PluginPlaceHolderCard plugin={e}/>
                             </Col>
