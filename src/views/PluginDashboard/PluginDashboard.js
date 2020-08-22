@@ -25,7 +25,7 @@ class PluginDashboard extends React.Component {
 				<Row>
 					<Col lg={12} className="mb-4 d-flex justify-content-between">
 						<NewPluginModal buttonLabel="Add New" okHandle={this.addPluginHandle}/>
-						<Button onClick={() => this.props.history.push("/storeDashboard")}>
+						<Button color="primary" onClick={() => this.props.history.push("/storeDashboard")}>
 							Visit Store
 						</Button>
 					</Col>
@@ -33,7 +33,8 @@ class PluginDashboard extends React.Component {
 				<Table responsive className="table-striped">
 					<thead>
 					<tr>
-						<th>Author/ Name</th>
+						<th>Name</th>
+						<th>Author</th>
 						<th>Description</th>
 						<th>Actions</th>
 					</tr>

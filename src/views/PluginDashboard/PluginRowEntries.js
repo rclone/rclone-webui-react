@@ -4,11 +4,6 @@ import {Button} from "reactstrap";
 import axiosInstance from "../../utils/API/API";
 import {toast} from "react-toastify";
 
-const deactivatePlugin = (item) => {
-
-}
-
-
 function PluginRowEntries({loadedPlugins, getPlugins}) {
 	const [isLoading, setIsLoading] = useState(false);
 	const removePlugin = (key) => {
@@ -32,13 +27,13 @@ function PluginRowEntries({loadedPlugins, getPlugins}) {
 		entries.push(
 			<tr key={key}>
 				<td>{value.name}</td>
+				<td>{value.author}</td>
 				<td>{value.description}</td>
 				<td>
 					{isLoading ? "Installing..." :
 						<>
-							<Button color="primary">Deactivate</Button>
-							<Button color={"danger"} className="ml-2" onClick={() => removePlugin(key)}>Delete</Button>
-
+							<Button color={"danger"} className="ml-2" onClick={() => removePlugin(key)}><span
+								className="fa fa-trash pr-1"/>Delete</Button>
 						</>
 					}
 				</td>
