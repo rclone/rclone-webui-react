@@ -38,8 +38,13 @@ function PluginsHandler(props) {
 
 
 	const openPlugin = () => {
-		const {MimeType} = item;
-
+		let {MimeType} = item;
+		console.log("Plugin Item", item)
+		if (item.IsDir) {
+			// Directory mimetype to be searched
+			MimeType = "rclone/dir";
+		}
+		console.log("loaded Plugins", loadedPlugins);
 		// const availableTestPlugins = [];
 		let availableTestPlugins = getPluginsArray(loadedTestPlugins);
 		availableTestPlugins = filterPluginsByMimeType(availableTestPlugins, MimeType);

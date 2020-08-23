@@ -73,7 +73,8 @@ PluginPlaceHolderCard.propTypes = {
         icon: PropTypes.string,
         repo: PropTypes.string.isRequired,
         bugs: PropTypes.string,
-    })
+    }),
+    getPlugins: PropTypes.func.isRequired
 }
 
 export default PluginPlaceHolderCard

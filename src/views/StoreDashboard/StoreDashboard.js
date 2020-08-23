@@ -36,6 +36,7 @@ class StoreDashboard extends React.Component {
 
     render() {
         const {pluginsList, searchQuery} = this.state;
+        const {getPlugins} = this.props;
         if (pluginsList.length <= 0) {
             return (<p>Loading</p>)
         }
@@ -68,7 +69,7 @@ class StoreDashboard extends React.Component {
                     {
                         filteredList.map((e) =>
                             <Col lg={6} key={e.name}>
-                                <PluginPlaceHolderCard plugin={e}/>
+                                <PluginPlaceHolderCard plugin={e} getPlugins={getPlugins}/>
                             </Col>
                         )
                     }
