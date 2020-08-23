@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {createPath} from "../../../actions/explorerStateActions";
 import * as PropTypes from 'prop-types';
 import {addRemoteContainer, changeDistractionFreeMode, changeNumCols} from "../../../actions/explorerActions";
-import {loadTestPlugins} from "../../../actions/pluginActions";
+import {getPlugins} from "../../../actions/pluginActions";
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 
 import singlePaneImg from '../../../assets/img/single-pane.png';
@@ -28,14 +28,14 @@ class RemoteExplorerLayout extends React.Component {
 
 	componentDidMount() {
 		//Load one explorer layout
-		const {numContainers, addRemoteContainer} = this.props;
+		const {numContainers, addRemoteContainer, getPlugins} = this.props;
 
 		if (numContainers < 1) {
 			addRemoteContainer(0)
 		}
 
 		// Load the test plugins
-		loadTestPlugins();
+		getPlugins();
 
 	}
 
@@ -93,14 +93,14 @@ class RemoteExplorerLayout extends React.Component {
 						}
 					</Row>
 
-				<Row>
-					<TabbedPanes
-						numCols={numCols}
-						distractionFreeMode={distractionFreeMode}
-						activeRemoteContainerID={activeRemoteContainerID}
-						containers={containers}
-					/>
-				</Row>
+					<Row>
+						<TabbedPanes
+							numCols={numCols}
+							distractionFreeMode={distractionFreeMode}
+							activeRemoteContainerID={activeRemoteContainerID}
+							containers={containers}
+						/>
+					</Row>
 				</DndProvider>
 			</ErrorBoundary>
 		);
@@ -124,7 +124,7 @@ RemoteExplorerLayout.propTypes = {
 	createPath: PropTypes.func.isRequired,
 	changeNumCols: PropTypes.func.isRequired,
 	distractionFreeMode: PropTypes.bool.isRequired,
-	loadTestPlugins: PropTypes.func.isRequired,
+	getPlugins: PropTypes.func.isRequired,
 
 	loadedTestPlugins: PropTypes.object.isRequired,
 	loadedPlugins: PropTypes.object.isRequired,
@@ -135,6 +135,7 @@ export default connect(mapStateToProps, {
 	createPath,
 	changeNumCols,
 	changeDistractionFreeMode,
-	addRemoteContainer
+	addRemoteContainer,
+	getPlugins
 })
 (RemoteExplorerLayout);

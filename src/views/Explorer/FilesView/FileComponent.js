@@ -103,7 +103,7 @@ function confirmDelete(deleteHandle, item) {
     }
 }
 
-function Actions({downloadHandle, pluginHandle, deleteHandle, item, linkShareHandle, containerID}) {
+function Actions({downloadHandle, deleteHandle, item, linkShareHandle, containerID}) {
 
     const {IsDir} = item;
     // let {ID, Name} = item;
@@ -147,6 +147,8 @@ function Actions({downloadHandle, pluginHandle, deleteHandle, item, linkShareHan
     } else {
         return (
             <React.Fragment>
+
+                <PluginsHandler containerID={containerID} item={item}/>
 
                 <UncontrolledButtonDropdown>
                     <DropdownToggle color="link">
@@ -281,7 +283,7 @@ FileComponent.propTypes = {
     deleteHandle: PropTypes.func.isRequired,
 
     /**
-     * Function to delete a file.
+     * Used for handling the plugins click
      */
     pluginHandle: PropTypes.func.isRequired,
     /**
