@@ -4,7 +4,6 @@ import * as ReactDOM from "react-dom";
 import {MODAL_ROOT_ELEMENT} from "../../../../utils/Constants";
 import * as PropTypes from "prop-types";
 import ErrorBoundary from "../../../../ErrorHandling/ErrorBoundary";
-import Iframe from 'react-iframe'
 
 import ReactAwesomePlayer from 'react-awesome-player'
 import {connect} from "react-redux";
@@ -79,21 +78,21 @@ function VideoPlayer({playbackURL, MimeType, loadedTestPlugins}) {
         const subtitleURL = playbackURL.substring(0, playbackURL.lastIndexOf('.')) + ".vtt";
         console.log(subtitleURL);
 
-        // const options = {
-        //     options: {
-        //         sources: [{
-        //             type: MimeType,
-        //             src: playbackURL
-        //         }],
-        //         subtitles: [
-        //             {
-        //                 language: 'en',
-        //                 url: subtitleURL,
-        //                 label: "EN"
-        //             }],
-        //     }
-        // };
-        //
+        const options = {
+            options: {
+                sources: [{
+                    type: MimeType,
+                    src: playbackURL
+                }],
+                subtitles: [
+                    {
+                        language: 'en',
+                        url: subtitleURL,
+                        label: "EN"
+                    }],
+            }
+        };
+
 
         element =
             ReactDOM.createPortal(
@@ -103,21 +102,10 @@ function VideoPlayer({playbackURL, MimeType, loadedTestPlugins}) {
                         {/*<video id="video" controls preload="metadata" width="600">*/}
                         {/*    <source src={playbackURL} type={MimeType}/>*/}
                         {/*</video>*/}
-                        {/*<PlayerComponent {...options}/>*/}
-                        <Iframe url={`${pluginUrl}?loadUrl=${playbackURL}&mimeType=${MimeType}`}
-                                allowTransparency="true"
-                                allowFullScreen="true"
-                                width="100%"
-                                height="100%"
-                                display="initial"
-                                position="relative"/>
-                        <Button color="link" onClick={hideFull} className="modal-button">
-                            <i
-                                className="fa fa-close fa-3x"
-                            />
-                        </Button>
+                        <PlayerComponent {...options}/>
+
                     </div>
-                    <div className="modal-backdrop fade show"></div>
+                    {/*<div className="modal-backdrop fade show"></div>*/}
 
 
                 </>, document.getElementById(MODAL_ROOT_ELEMENT));
@@ -127,7 +115,7 @@ function VideoPlayer({playbackURL, MimeType, loadedTestPlugins}) {
         <ErrorBoundary>
             {element}
         </ErrorBoundary>
-    )
+    );
 
 
 }

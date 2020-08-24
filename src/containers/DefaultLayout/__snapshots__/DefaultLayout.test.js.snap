@@ -77,9 +77,19 @@ exports[`Remote Explorer renders should match snapshot 1`] = `
                     "url": "/rcloneBackend",
                   },
                   Object {
+                    "icon": "fa fa-plug",
+                    "name": "Plugins",
+                    "url": "/pluginDashboard",
+                  },
+                  Object {
                     "icon": "fa fa-hdd-o",
                     "name": "Mounts",
                     "url": "/mountDashboard",
+                  },
+                  Object {
+                    "icon": "fa fa-terminal",
+                    "name": "Terminal",
+                    "url": "/terminal",
                   },
                   Object {
                     "icon": "icon-logout",
@@ -211,8 +221,38 @@ exports[`Remote Explorer renders should match snapshot 1`] = `
                   "_result": null,
                   "_status": -1,
                 },
+                "name": "Plugins",
+                "path": "/pluginDashboard",
+              },
+              Object {
+                "component": Object {
+                  "$$typeof": Symbol(react.lazy),
+                  "_ctor": [Function],
+                  "_result": null,
+                  "_status": -1,
+                },
                 "name": "Mount Dashboard",
                 "path": "/mountDashboard",
+              },
+              Object {
+                "component": Object {
+                  "$$typeof": Symbol(react.lazy),
+                  "_ctor": [Function],
+                  "_result": null,
+                  "_status": -1,
+                },
+                "name": "Store Dashboard",
+                "path": "/storeDashboard",
+              },
+              Object {
+                "component": Object {
+                  "$$typeof": Symbol(react.lazy),
+                  "_ctor": [Function],
+                  "_result": null,
+                  "_status": -1,
+                },
+                "name": "Terminal",
+                "path": "/terminal",
               },
             ]
           }
@@ -286,8 +326,26 @@ exports[`Remote Explorer renders should match snapshot 1`] = `
               />
               <Route
                 key="9"
+                name="Plugins"
+                path="/pluginDashboard"
+                render={[Function]}
+              />
+              <Route
+                key="10"
                 name="Mount Dashboard"
                 path="/mountDashboard"
+                render={[Function]}
+              />
+              <Route
+                key="11"
+                name="Store Dashboard"
+                path="/storeDashboard"
+                render={[Function]}
+              />
+              <Route
+                key="12"
+                name="Terminal"
+                path="/terminal"
                 render={[Function]}
               />
               <Redirect

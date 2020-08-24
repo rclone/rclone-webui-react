@@ -7,11 +7,11 @@ import VideoPlayer from "./VideoPlayer";
 const setUp = (intialState = {}, props = {}) => {
     const store = testStore(intialState);
     const component = shallow(<VideoPlayer {...props} store={store}/>);
-    return component;
+    return component.childAt(0).dive();
 };
 
 
-describe('Video Player Widget', function () {
+describe('Video Player', function () {
 
 
     describe('renders', function () {

@@ -52,6 +52,7 @@ exports[`Home Component renders should match snapshot 1`] = `
       <Connect(BandwidthStatusCard) />
     </Col>
   </Row>
+  <Connect(DashboardPluginWidgets) />
   <h2>
     Jobs
   </h2>

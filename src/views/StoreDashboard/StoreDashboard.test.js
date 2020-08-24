@@ -13,18 +13,18 @@ const setUp = (intialState = {}, props = {}) => {
 };
 
 
-describe('Plugin Dashboard', function () {
+describe('Store Dashboard', function () {
 
     describe('renders', function () {
         let wrapper;
         beforeEach(() => {
-            const initialState = {
-                status: {
-                    checkStatus: true
-                }
-            };
+            const initialState = {};
 
-            const props = {};
+            const props = {
+                loadedPlugins: [],
+                getPlugins: jest.fn(),
+                addPlugin: jest.fn()
+            };
             wrapper = setUp(initialState, props)
         });
 

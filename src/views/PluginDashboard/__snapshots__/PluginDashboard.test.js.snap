@@ -35,7 +35,7 @@ exports[`Plugin Dashboard renders should match snapshot 1`] = `
         okHandle={[Function]}
       />
       <Button
-        color="secondary"
+        color="primary"
         onClick={[Function]}
         tag="button"
       >
@@ -52,7 +52,10 @@ exports[`Plugin Dashboard renders should match snapshot 1`] = `
     <thead>
       <tr>
         <th>
-          Author/ Name
+          Name
+        </th>
+        <th>
+          Author
         </th>
         <th>
           Description

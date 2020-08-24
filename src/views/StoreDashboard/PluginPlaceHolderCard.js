@@ -28,11 +28,11 @@ function PluginPlaceHolderCard({plugin}) {
     }
 
     return (
-        <Card>
+        <Card data-test="pluginPlaceHolder">
             <CardBody>
                 <Row>
                     <Col lg={3} className="d-none d-md-block">
-                        <img style={{width: "100%"}}
+                        <img style={{width: "100%"}} alt={icon ? name + " Icon" : 'rclone logo'}
                              src={icon ? icon : require("../../assets/img/brand/logo_symbol.png")}/>
                     </Col>
                     <Col lg={6} sm={12} md={6}>

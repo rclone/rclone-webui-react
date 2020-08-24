@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import * as PropTypes from "prop-types";
 import {filterPluginsByType, getPluginBaseUrl, getPluginsArray} from "../../utils/PluginTools";
 import pluginTypes from "../../pluginTypes";
@@ -17,18 +17,15 @@ import {getPlugins} from "../../actions/pluginActions";
  */
 function DashboardPluginWidgets({loadedPlugins, getPlugins}) {
 
-    const [dashboardWidgets, setDashboardWidgets] = useState([]);
     useEffect(() => {
         getPlugins();
-        let dashboardPlugins = getPluginsArray(loadedPlugins);
-        dashboardPlugins = filterPluginsByType(dashboardPlugins, pluginTypes.DASHBOARD)
-        setDashboardWidgets(dashboardPlugins);
-    }, [])
+    })
 
-
+    let dashboardPlugins = getPluginsArray(loadedPlugins);
+    dashboardPlugins = filterPluginsByType(dashboardPlugins, pluginTypes.DASHBOARD);
     return (
-        <Row>
-            {dashboardWidgets.map(element => <Col lg={6}>
+        <Row data-test={"dashboardPluginWidget"}>
+            {dashboardPlugins.map(element => <Col lg={6} key={element.author + "/" + element.name}>
                 <DashboardPlugin pluginUrl={getPluginBaseUrl(getIPAddress(), element.name, element.author)}/>
             </Col>)}
         </Row>

@@ -30,7 +30,7 @@ function TerminalDashboard(props) {
 
         }
 
-    }, []);
+    }, [getPlugins, loadedPlugins]);
 
     return (
         <div data-test="mountDashboardComponent" style={{height: "80vh"}}>

@@ -37,44 +37,49 @@ class StoreDashboard extends React.Component {
     render() {
         const {pluginsList, searchQuery} = this.state;
         const {getPlugins} = this.props;
+
+        let element = null;
         if (pluginsList.length <= 0) {
-            return (<p>Loading</p>)
-        }
-        const filteredList = pluginsList ? pluginsList.filter(element => {
-            return (
-                element.name.toLowerCase().includes(searchQuery) ||
-                element.description.toLowerCase().includes(searchQuery) ||
-                element.longDescription.toLowerCase().includes(searchQuery) ||
-                element.author.toLowerCase().includes(searchQuery)
+            element = (<p>Loading</p>);
+        } else {
+            const filteredList = pluginsList ? pluginsList.filter(element => {
+                return (
+                    element.name.toLowerCase().includes(searchQuery) ||
+                    element.description.toLowerCase().includes(searchQuery) ||
+                    element.longDescription.toLowerCase().includes(searchQuery) ||
+                    element.author.toLowerCase().includes(searchQuery)
+                );
+            }) : [];
+            element = (
+                <>
+                    <Row>
+                        <Col lg={12} className="mb-4 d-flex justify-content-between">
+                            <Button color="secondary" onClick={() => this.props.history.goBack()}>Back</Button>
+                            <Form inline onSubmit={(e) => e.preventDefault()}>
+                                <InputGroup>
+                                    <Input placeholder="Type to start searching" type="text" value={searchQuery}
+                                           onChange={(e) => this.setState({searchQuery: e.target.value})}/>
+                                    <InputGroupAddon addonType="append"><Button color="primary"><span
+                                        className="fa fa-search"/></Button></InputGroupAddon>
+                                </InputGroup>
+
+
+                            </Form>
+                        </Col>
+                    </Row>
+                    <Row>
+                        {
+                            filteredList.map((e) =>
+                                <Col lg={6} key={e.name}>
+                                    <PluginPlaceHolderCard plugin={e} getPlugins={getPlugins}/>
+                                </Col>
+                            )
+                        }
+                    </Row>
+                </>
             );
-        }) : [];
-        return (
-            <div data-test="storeDashboardComponent">
-                <Row>
-                    <Col lg={12} className="mb-4 d-flex justify-content-between">
-                        <Button color="secondary" onClick={() => this.props.history.goBack()}>Back</Button>
-                        <Form inline onSubmit={(e) => e.preventDefault()}>
-                            <InputGroup>
-                                <Input placeholder="Type to start searching" type="text" value={searchQuery}
-                                       onChange={(e) => this.setState({searchQuery: e.target.value})}/>
-                                <InputGroupAddon addonType="append"><Button color="primary"><span
-                                    className="fa fa-search"/></Button></InputGroupAddon>
-                            </InputGroup>
-
-
-                        </Form>
-                    </Col>
-                </Row>
-                <Row>
-                    {
-                        filteredList.map((e) =>
-                            <Col lg={6} key={e.name}>
-                                <PluginPlaceHolderCard plugin={e} getPlugins={getPlugins}/>
-                            </Col>
-                        )
-                    }
-                </Row>
-            </div>);
+        }
+        return <div data-test="storeDashboardComponent">${element}</div>
     }
 }
 

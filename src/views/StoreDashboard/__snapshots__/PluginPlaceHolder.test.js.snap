@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Plugin place holder renders should match snapshot 1`] = `
+<Card
+  data-test="pluginPlaceHolder"
+  tag="div"
+>
+  <CardBody
+    tag="div"
+  >
+    <Row
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <Col
+        className="d-none d-md-block"
+        lg={3}
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <img
+          alt="rclone logo"
+          src="logo_symbol.png"
+          style={
+            Object {
+              "width": "100%",
+            }
+          }
+        />
+      </Col>
+      <Col
+        lg={6}
+        md={6}
+        sm={12}
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <h3>
+          A video player for rclone
+        </h3>
+        <p
+          style={
+            Object {
+              "lineHeight": "1.8em",
+              "maxHeight": "9.0em",
+              "overflow": "hidden",
+              "textOverflow": "...",
+            }
+          }
+        >
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        </p>
+        <p>
+          By 
+          negative0
+        </p>
+      </Col>
+      <Col
+        lg={3}
+        md={3}
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <Button
+          color="primary mb-2"
+          onClick={[Function]}
+          tag="button"
+        >
+          Activate
+        </Button>
+        <Button
+          color="link p-sm-2 p-lg-0"
+          onClick={[Function]}
+          tag="button"
+        >
+          More Details
+        </Button>
+      </Col>
+    </Row>
+  </CardBody>
+</Card>
+`;

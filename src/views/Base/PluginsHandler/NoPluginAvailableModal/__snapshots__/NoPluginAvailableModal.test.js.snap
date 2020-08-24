@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`No plugin available Modal renders should match snapshot 1`] = `
+<div
+  data-test="noPluginAvailableModal"
+>
+  <Modal
+    autoFocus={true}
+    backdrop={true}
+    backdropTransition={
+      Object {
+        "mountOnEnter": true,
+        "timeout": 150,
+      }
+    }
+    centered={false}
+    className=""
+    container="body"
+    fade={true}
+    isOpen={true}
+    keyboard={true}
+    modalTransition={
+      Object {
+        "timeout": 300,
+      }
+    }
+    onClosed={[Function]}
+    onOpened={[Function]}
+    returnFocusAfterClose={true}
+    role="dialog"
+    scrollable={false}
+    toggle={[Function]}
+    unmountOnClose={true}
+    zIndex={1050}
+  >
+    <ModalHeader
+      charCode={215}
+      closeAriaLabel="Close"
+      tag="h5"
+      toggle={[MockFunction]}
+      wrapTag="div"
+    >
+      Couldn't find a plugin to open this file
+    </ModalHeader>
+    <ModalBody
+      tag="div"
+    >
+      <Table
+        className="table-striped"
+        responsive={true}
+        responsiveTag="div"
+        tag="table"
+      >
+        <thead>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>
+              Author
+            </th>
+            <th>
+              Description
+            </th>
+            <th />
+          </tr>
+        </thead>
+        <tbody>
+          <p
+            className="p-3"
+          >
+            Can't find a plugin to open this file. Go to the store and install some!
+          </p>
+        </tbody>
+      </Table>
+    </ModalBody>
+    <ModalFooter
+      tag="div"
+    >
+      <Button
+        color="primary"
+        data-test="ok-button"
+        tag="button"
+      >
+        Go to Store
+      </Button>
+       
+      <Button
+        color="secondary"
+        data-test="cancel-button"
+        onClick={[Function]}
+        tag="button"
+      >
+        Cancel
+      </Button>
+    </ModalFooter>
+  </Modal>
+</div>
+`;
