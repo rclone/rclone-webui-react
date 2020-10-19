@@ -27,16 +27,18 @@ export const getMountList = () => {
 
 /**
  * Add a new mount location
- * @param fs						{string}	Name of the remote eg mydrive:
- * @param mountPoint				{string}	Path to mount on the local filesystem where rclone is running
- * @param mountType					{string}	One of "cmount", "mount", "mount2": Specifies what mountType rclone should use
+ * @param fs                        {string}    Name of the remote eg mydrive:
+ * @param mountPoint                {string}    Path to mount on the local filesystem where rclone is running
+ * @param mountType                 {string}    One of "cmount", "mount", "mount2": Specifies what mountType rclone should use
+ * @param vfsOpt					{{}}		vfs options
+ * @param mountOpt					{{}}		mount options
  * @returns {function(...[*]=)}
  */
-export const addMount = (fs, mountPoint, mountType) => {
+export const addMount = (fs, mountPoint, mountType, vfsOpt, mountOpt) => {
 	if (!fs.endsWith(":")) fs = fs + ":";
 	const type = CREATE_MOUNT
 	return (dispatch) => {
-		axiosInstance.post(urls.createMount, {fs, mountPoint, mountType}).then(res => {
+		axiosInstance.post(urls.createMount, {fs, mountPoint, mountType, vfsOpt, mountOpt}).then(res => {
 			dispatch({
 				type,
 				status: REQUEST_SUCCESS,

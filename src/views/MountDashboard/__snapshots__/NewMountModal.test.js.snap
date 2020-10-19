@@ -91,6 +91,446 @@ exports[`New Mount Modal renders should match snapshot 1`] = `
           />
         </Col>
       </FormGroup>
+      <Row
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <Col
+          lg={6}
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <p>
+            Mount Options
+          </p>
+          <MountOptions
+            changeHandler={[Function]}
+            currentValues={Object {}}
+            errorsMap={
+              Object {
+                "AllowNonEmpty": "",
+                "AllowOther": "",
+                "AllowRoot": "",
+                "AsyncRead": "",
+                "AttrTimeout": "",
+                "CacheMaxAge": "",
+                "CacheMaxSize": "",
+                "CacheMode": "",
+                "CachePollInterval": "",
+                "CaseInsensitive": "",
+                "ChunkSize": "",
+                "ChunkSizeLimit": "",
+                "Daemon": "",
+                "DaemonTimeout": "",
+                "DebugFUSE": "",
+                "DefaultPermissions": "",
+                "DirCacheTime": "",
+                "DirPerms": "",
+                "ExtraFlags": "",
+                "ExtraOptions": "",
+                "FilePerms": "",
+                "GID": "",
+                "MaxReadAhead": "",
+                "NoAppleDouble": "",
+                "NoAppleXattr": "",
+                "NoChecksum": "",
+                "NoModTime": "",
+                "NoSeek": "",
+                "PollInterval": "",
+                "ReadAhead": "",
+                "ReadOnly": "",
+                "ReadWait": "",
+                "UID": "",
+                "Umask": "",
+                "VolumeName": "",
+                "WriteBack": "",
+                "WriteWait": "",
+                "WritebackCache": "",
+              }
+            }
+            isValidMap={
+              Object {
+                "AllowNonEmpty": true,
+                "AllowOther": true,
+                "AllowRoot": true,
+                "AsyncRead": true,
+                "AttrTimeout": true,
+                "CacheMaxAge": true,
+                "CacheMaxSize": true,
+                "CacheMode": true,
+                "CachePollInterval": true,
+                "CaseInsensitive": true,
+                "ChunkSize": true,
+                "ChunkSizeLimit": true,
+                "Daemon": true,
+                "DaemonTimeout": true,
+                "DebugFUSE": true,
+                "DefaultPermissions": true,
+                "DirCacheTime": true,
+                "DirPerms": true,
+                "ExtraFlags": true,
+                "ExtraOptions": true,
+                "FilePerms": true,
+                "GID": true,
+                "MaxReadAhead": true,
+                "NoAppleDouble": true,
+                "NoAppleXattr": true,
+                "NoChecksum": true,
+                "NoModTime": true,
+                "NoSeek": true,
+                "PollInterval": true,
+                "ReadAhead": true,
+                "ReadOnly": true,
+                "ReadWait": true,
+                "UID": true,
+                "Umask": true,
+                "VolumeName": true,
+                "WriteBack": true,
+                "WriteWait": true,
+                "WritebackCache": true,
+              }
+            }
+            options={
+              Object {
+                "AllowNonEmpty": Object {
+                  "Default": false,
+                  "Help": "",
+                  "Type": "bool",
+                },
+                "AllowOther": Object {
+                  "Default": false,
+                  "Help": "",
+                  "Type": "bool",
+                },
+                "AllowRoot": Object {
+                  "Default": false,
+                  "Help": "",
+                  "Type": "bool",
+                },
+                "AsyncRead": Object {
+                  "Default": true,
+                  "Help": "",
+                  "Type": "bool",
+                },
+                "AttrTimeout": Object {
+                  "Default": 1000000000,
+                  "Help": "",
+                  "Type": "int",
+                },
+                "Daemon": Object {
+                  "Default": false,
+                  "Help": "",
+                  "Type": "bool",
+                },
+                "DaemonTimeout": Object {
+                  "Default": 0,
+                  "Help": "",
+                  "Type": "int",
+                },
+                "DebugFUSE": Object {
+                  "Default": false,
+                  "Help": "",
+                  "Type": "bool",
+                },
+                "DefaultPermissions": Object {
+                  "Default": false,
+                  "Help": "",
+                  "Type": "bool",
+                },
+                "ExtraFlags": Object {
+                  "Default": Array [],
+                  "Help": "",
+                  "Type": "array",
+                },
+                "ExtraOptions": Object {
+                  "Default": Array [],
+                  "Help": "",
+                  "Type": "array",
+                },
+                "MaxReadAhead": Object {
+                  "Default": 131072,
+                  "Help": "",
+                  "Type": "int",
+                },
+                "NoAppleDouble": Object {
+                  "Default": true,
+                  "Help": "",
+                  "Type": "bool",
+                },
+                "NoAppleXattr": Object {
+                  "Default": false,
+                  "Help": "",
+                  "Type": "bool",
+                },
+                "VolumeName": Object {
+                  "Default": "",
+                  "Help": "",
+                  "Type": "string",
+                },
+                "WritebackCache": Object {
+                  "Default": false,
+                  "Help": "",
+                  "Type": "bool",
+                },
+              }
+            }
+            setCurrentValues={[Function]}
+          />
+        </Col>
+        <Col
+          lg={6}
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <p>
+            VFS Options
+          </p>
+          <MountOptions
+            changeHandler={[Function]}
+            currentValues={Object {}}
+            errorsMap={
+              Object {
+                "AllowNonEmpty": "",
+                "AllowOther": "",
+                "AllowRoot": "",
+                "AsyncRead": "",
+                "AttrTimeout": "",
+                "CacheMaxAge": "",
+                "CacheMaxSize": "",
+                "CacheMode": "",
+                "CachePollInterval": "",
+                "CaseInsensitive": "",
+                "ChunkSize": "",
+                "ChunkSizeLimit": "",
+                "Daemon": "",
+                "DaemonTimeout": "",
+                "DebugFUSE": "",
+                "DefaultPermissions": "",
+                "DirCacheTime": "",
+                "DirPerms": "",
+                "ExtraFlags": "",
+                "ExtraOptions": "",
+                "FilePerms": "",
+                "GID": "",
+                "MaxReadAhead": "",
+                "NoAppleDouble": "",
+                "NoAppleXattr": "",
+                "NoChecksum": "",
+                "NoModTime": "",
+                "NoSeek": "",
+                "PollInterval": "",
+                "ReadAhead": "",
+                "ReadOnly": "",
+                "ReadWait": "",
+                "UID": "",
+                "Umask": "",
+                "VolumeName": "",
+                "WriteBack": "",
+                "WriteWait": "",
+                "WritebackCache": "",
+              }
+            }
+            isValidMap={
+              Object {
+                "AllowNonEmpty": true,
+                "AllowOther": true,
+                "AllowRoot": true,
+                "AsyncRead": true,
+                "AttrTimeout": true,
+                "CacheMaxAge": true,
+                "CacheMaxSize": true,
+                "CacheMode": true,
+                "CachePollInterval": true,
+                "CaseInsensitive": true,
+                "ChunkSize": true,
+                "ChunkSizeLimit": true,
+                "Daemon": true,
+                "DaemonTimeout": true,
+                "DebugFUSE": true,
+                "DefaultPermissions": true,
+                "DirCacheTime": true,
+                "DirPerms": true,
+                "ExtraFlags": true,
+                "ExtraOptions": true,
+                "FilePerms": true,
+                "GID": true,
+                "MaxReadAhead": true,
+                "NoAppleDouble": true,
+                "NoAppleXattr": true,
+                "NoChecksum": true,
+                "NoModTime": true,
+                "NoSeek": true,
+                "PollInterval": true,
+                "ReadAhead": true,
+                "ReadOnly": true,
+                "ReadWait": true,
+                "UID": true,
+                "Umask": true,
+                "VolumeName": true,
+                "WriteBack": true,
+                "WriteWait": true,
+                "WritebackCache": true,
+              }
+            }
+            options={
+              Object {
+                "CacheMaxAge": Object {
+                  "Default": 3600000000000,
+                  "Type": "int",
+                },
+                "CacheMaxSize": Object {
+                  "Default": -1,
+                  "Help": "",
+                  "Type": "int",
+                },
+                "CacheMode": Object {
+                  "Default": 0,
+                  "Help": "",
+                  "Options": Array [
+                    Object {
+                      "key": 0,
+                      "value": "off",
+                    },
+                    Object {
+                      "key": 1,
+                      "value": "minimal",
+                    },
+                    Object {
+                      "key": 2,
+                      "value": "writes",
+                    },
+                    Object {
+                      "key": 3,
+                      "value": "full",
+                    },
+                  ],
+                  "Type": "options",
+                },
+                "CachePollInterval": Object {
+                  "Default": 60000000000,
+                  "Help": "",
+                  "Type": "int",
+                },
+                "CaseInsensitive": Object {
+                  "Default": false,
+                  "Help": "",
+                  "Type": "bool",
+                },
+                "ChunkSize": Object {
+                  "Default": 134217728,
+                  "Help": "",
+                  "Type": "int",
+                },
+                "ChunkSizeLimit": Object {
+                  "Default": -1,
+                  "Help": "",
+                  "Type": "int",
+                },
+                "DirCacheTime": Object {
+                  "Default": 300000000000,
+                  "Help": "",
+                  "Type": "int",
+                },
+                "DirPerms": Object {
+                  "Default": 511,
+                  "Help": "",
+                  "Type": "int",
+                },
+                "FilePerms": Object {
+                  "Default": 438,
+                  "Help": "",
+                  "Type": "int",
+                },
+                "GID": Object {
+                  "Default": 1000,
+                  "Help": "",
+                  "Type": "int",
+                },
+                "NoChecksum": Object {
+                  "Default": false,
+                  "Help": "",
+                  "Type": "bool",
+                },
+                "NoModTime": Object {
+                  "Default": false,
+                  "Help": "",
+                  "Type": "bool",
+                },
+                "NoSeek": Object {
+                  "Default": false,
+                  "Help": "",
+                  "Type": "bool",
+                },
+                "PollInterval": Object {
+                  "Default": 60000000000,
+                  "Help": "",
+                  "Type": "int",
+                },
+                "ReadAhead": Object {
+                  "Default": 0,
+                  "Help": "",
+                  "Type": "int",
+                },
+                "ReadOnly": Object {
+                  "Default": false,
+                  "Help": "",
+                  "Type": "bool",
+                },
+                "ReadWait": Object {
+                  "Default": 20000000,
+                  "Help": "",
+                  "Type": "int",
+                },
+                "UID": Object {
+                  "Default": 1000,
+                  "Help": "",
+                  "Type": "int",
+                },
+                "Umask": Object {
+                  "Default": 2,
+                  "Help": "",
+                  "Type": "int",
+                },
+                "WriteBack": Object {
+                  "Default": 5000000000,
+                  "Help": "",
+                  "Type": "int",
+                },
+                "WriteWait": Object {
+                  "Default": 1000000000,
+                  "Help": "",
+                  "Type": "int",
+                },
+              }
+            }
+            setCurrentValues={[Function]}
+          />
+        </Col>
+      </Row>
     </ModalBody>
     <ModalFooter
       tag="div"
