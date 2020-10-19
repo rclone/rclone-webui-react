@@ -428,7 +428,7 @@ exports[`New Mount Modal renders should match snapshot 1`] = `
                       "value": "full",
                     },
                   ],
-                  "Type": "options",
+                  "Type": "int",
                 },
                 "CachePollInterval": Object {
                   "Default": 60000000000,

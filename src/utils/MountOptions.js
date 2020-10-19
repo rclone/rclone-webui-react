@@ -9,7 +9,7 @@ export const vfsOptions = {
         Help: ''
     },
     "CacheMode": {
-        Type: 'options',
+        Type: 'int',
         Options: [
             {value:'off', key: 0},
             {value:'minimal', key: 1},

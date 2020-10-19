@@ -153,6 +153,18 @@ export function validateSizeSuffix(str) {
     return baseValidator(regex, str);
 }
 
+
+/**
+ * Validate Size Suffix of the format (off | 1K | 1M | 100G | 10P ) etc
+ * @param str {string} String to be validated
+ * @returns {boolean|*|never}
+ */
+export function validateBoolean(str) {
+    const regex = /^(false|true)$/i;
+
+    return baseValidator(regex, str);
+}
+
 /**
  * Validate integer without decimal points (0-9)
  * @param str {number|string} The string to be validated.

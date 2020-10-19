@@ -28,9 +28,9 @@ class MountDashboard extends React.Component {
 		unmount(item.MountPoint);
 	}
 
-	handleCreateNewMount = (mountFs, mountPoint) => {
+	handleCreateNewMount = (mountFs, mountPoint, vfsOptions, mountOptions) => {
 		const {addMount} = this.props;
-		addMount(mountFs, mountPoint, "");
+		addMount(mountFs, mountPoint, "", vfsOptions, mountOptions);
 	}
 
 	handleUnmountAll = () => {

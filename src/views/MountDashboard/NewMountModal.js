@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {
-    Row,
     Button,
     Col,
     FormFeedback,
@@ -10,7 +9,8 @@ import {
     Modal,
     ModalBody,
     ModalFooter,
-    ModalHeader
+    ModalHeader,
+    Row
 } from 'reactstrap';
 import RemotesList from "../Explorer/RemotesList";
 import * as PropTypes from "prop-types"
@@ -26,8 +26,10 @@ const OptionFormInput = ({attr, changeHandler, currentValues, isValidMap, errors
 
     let inputType = "";
 
-
-    if (attr.IsPassword) {
+    if(attr.Options || inputType === 'options') {
+        inputType = "select";
+        examplesMap = attr.Options.map(a => (<option key={a.key} value={a.key}>{a.value}</option>));
+    } else if (attr.IsPassword) {
         inputType = "password";
     } else if (hasExamples) {
         inputType = "string";
@@ -37,9 +39,6 @@ const OptionFormInput = ({attr, changeHandler, currentValues, isValidMap, errors
             (<option key={1} value={true}>Yes</option>),
             (<option key={2} value={false}>No</option>)
         ];
-    } else if(attr.Type === "options") {
-        inputType = "select";
-        examplesMap = attr.Options.map(a => (<option key={a.key} value={a.key}>{a.value}</option>));
     } else {
         if (attr.Type === "int") {
             inputType = "number";
@@ -139,7 +138,8 @@ const NewMountModal = (props) => {
         if (!okHandle) {
             throw new Error("Ok handle is null");
         }
-        okHandle(mountFs, mountPoint);
+
+        okHandle(mountFs, mountPoint, vfsOptionsValues, mountOptionsValues);
     }
 
     const isCreateDisabled = () => {
@@ -147,7 +147,7 @@ const NewMountModal = (props) => {
     }
 
     /**
-     * Handle inoit change and set appropriate errors.
+     * Handle init change and set appropriate errors.
      * @param e
      * @param option
      * @param formValues
@@ -158,6 +158,11 @@ const NewMountModal = (props) => {
         let inputName = e.target.name;
         let inputValue = e.target.value;
         const inputType = option.Type;
+        if(inputType === "bool") {
+            inputValue = inputValue === "true"
+        }else if (inputType === "int") {
+            inputValue = parseInt(inputValue);
+        }
         setFormValues({
             ...formValues,
             [inputName]: inputValue
