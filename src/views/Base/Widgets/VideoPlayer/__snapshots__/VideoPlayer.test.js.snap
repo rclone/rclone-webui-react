@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Video Player Widget renders should match snapshot 1`] = `
+exports[`Video Player renders should match snapshot 1`] = `
 <ErrorBoundary>
   <div
     className="img-thumbnail w-100 text-center"

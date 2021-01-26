@@ -9,6 +9,7 @@ import providerStatusReducer from "./providerStatusReducer";
 import userActionsReducer from "./userActionsReducer";
 import imagesReducer from "./imagesReducer";
 import versionReducer from "./versionReducer";
+import pluginsReducer from "./pluginsReducer";
 import mountReducer from "./mountReducer";
 
 /**
@@ -40,6 +41,7 @@ const appReducer = combineReducers({
     user: userActionsReducer,
     imageLoader: imagesReducer,
     version: versionReducer,
+    plugins: pluginsReducer,
     mount: mountReducer,
     // remoteOps: remoteOpsReducer
 });

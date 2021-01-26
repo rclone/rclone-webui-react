@@ -1,5 +1,14 @@
 import React from "react";
-import {Card, CardBody, CardFooter,} from "reactstrap";
+import {
+    Button,
+    Card,
+    CardBody,
+    CardFooter,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
+    UncontrolledButtonDropdown,
+} from "reactstrap";
 
 import {ItemTypes} from './Constants'
 import {DragSource} from 'react-dnd'
@@ -13,6 +22,7 @@ import {PROP_ITEM} from "../../../utils/RclonePropTypes";
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
 import FileActions from "./FileActions";
 import FileIcon from "./FileIcon";
+import PluginsHandler from "../../Base/PluginsHandler/PluginsHandler";
 
 async function performCopyMoveOperation(params) {
     const {srcRemoteName, srcRemotePath, destRemoteName, destRemotePath, Name, IsDir, dropEffect, updateHandler} = params;
@@ -87,7 +97,76 @@ function collect(connect, monitor) {
     }
 }
 
+function confirmDelete(deleteHandle, item) {
+    if (window.confirm(`Are you sure you want to delete ${item.Name}`)) {
+        deleteHandle(item);
+    }
+}
 
+function Actions({downloadHandle, deleteHandle, item, linkShareHandle, containerID}) {
+
+    const {IsDir} = item;
+    // let {ID, Name} = item;
+    // // Using fallback as fileName when the ID is not available (for local file system)
+    // if (ID === undefined) {
+    //     ID = Name;
+    // }
+
+
+    if (!IsDir) {
+
+        return (
+            <React.Fragment>
+                <Button color="link" onClick={() => downloadHandle(item)}>
+                    <i className={"fa fa-cloud-download fa-lg d-inline"}/>
+                </Button>
+
+
+                <Button color="link">
+                    <i className="fa fa-info-circle"/>
+                </Button>
+
+                <PluginsHandler containerID={containerID} item={item}/>
+
+                <UncontrolledButtonDropdown>
+                    <DropdownToggle color="link">
+                        <i className="fa fa-ellipsis-v"/>
+                    </DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem header>Actions</DropdownItem>
+                        <DropdownItem onClick={() => linkShareHandle(item)}><i
+                            className="fa fa-share fa-lg d-inline"/> Share with link</DropdownItem>
+                        <DropdownItem divider/>
+                        <DropdownItem onClick={() => confirmDelete(deleteHandle, item)}><i
+                            className="fa fa-remove fa-lg d-inline text-danger"/> Delete </DropdownItem>
+                    </DropdownMenu>
+                </UncontrolledButtonDropdown>
+            </React.Fragment>
+
+        );
+    } else {
+        return (
+            <React.Fragment>
+
+                <PluginsHandler containerID={containerID} item={item}/>
+
+                <UncontrolledButtonDropdown>
+                    <DropdownToggle color="link">
+                        <i className="fa fa-ellipsis-v"/>
+                    </DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem header>Actions</DropdownItem>
+                        <DropdownItem onClick={() => linkShareHandle(item)}><i
+                            className="fa fa-share fa-lg d-inline"/> Share with link</DropdownItem>
+                        <DropdownItem divider/>
+                        <DropdownItem onClick={() => confirmDelete(deleteHandle, item)}><i
+                            className="fa fa-remove fa-lg d-inline text-danger"/> Delete </DropdownItem>
+                    </DropdownMenu>
+                </UncontrolledButtonDropdown>
+            </React.Fragment>
+        )
+    }
+}
 
 /**
  * Main class for individual render of file/directory in the files view.
@@ -127,7 +206,11 @@ class FileComponent extends React.Component {
         }
     }
     render() {
-        const {containerID, inViewport, item, loadImages, clickHandler, downloadHandle, linkShareHandle, deleteHandle, connectDragSource, gridMode /*isDragging, remoteName*/} = this.props;
+        const {
+            containerID, inViewport, item, loadImages,
+            clickHandler, downloadHandle, linkShareHandle, deleteHandle, pluginHandle,
+            connectDragSource, gridMode /*isDragging, remoteName*/
+        } = this.props;
 
         const {IsDir, MimeType, ModTime, Name, Size} = item;
 
@@ -156,14 +239,15 @@ class FileComponent extends React.Component {
         } else {
             if (inViewport) {
                 element = connectDragSource(
-                    <tr className="pointer-cursor fadeIn">
+                    <tr className={"pointer-cursor"}>
                         <td onClick={(e) => clickHandler(e, item)}>
                             <FileIcon IsDir={IsDir} MimeType={MimeType}/>{" "}{Name}
                         </td>
                         <td>{Size === -1 ? "-" : formatBytes(Size, 2)}</td>
                         <td className="d-none d-md-table-cell">{modTime.toLocaleDateString()}</td>
-                        <td><FileActions downloadHandle={downloadHandle} linkShareHandle={linkShareHandle}
-                                         deleteHandle={deleteHandle} item={item}/></td>
+                        <td><Actions downloadHandle={downloadHandle} linkShareHandle={linkShareHandle}
+                                     pluginHandle={pluginHandle} containerID={containerID}
+                                     deleteHandle={deleteHandle} item={item}/></td>
                     </tr>
                 )
             } else {
@@ -197,6 +281,11 @@ FileComponent.propTypes = {
      * Function to delete a file.
      */
     deleteHandle: PropTypes.func.isRequired,
+
+    /**
+     * Used for handling the plugins click
+     */
+    pluginHandle: PropTypes.func.isRequired,
     /**
      * Function to share the link of a file.
      */

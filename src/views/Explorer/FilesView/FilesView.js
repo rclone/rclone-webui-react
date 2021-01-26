@@ -138,6 +138,11 @@ class FilesView extends React.PureComponent {
         if (IsDir || IsBucket) {
             this.updateRemotePath(Path, IsDir, IsBucket);
         } else {
+            // check for compatible plugin
+            // if plugin is found, open using the plugin. If not found, then Open modal
+            // display plugins which can be used with this mime type if plugins are absent
+            // else allow to use plugin.
+
             this.downloadHandle(item);
         }
 
@@ -274,6 +279,10 @@ class FilesView extends React.PureComponent {
 
     };
 
+    pluginHandle = (item) => {
+        console.log(item);
+    }
+
     getFileComponents = (isDir) => {
         const {files, containerID, gridMode, fsInfo, loadImages} = this.props;
         const {remoteName, remotePath} = this.props.currentPath;
@@ -293,6 +302,7 @@ class FilesView extends React.PureComponent {
                                        containerID={containerID}
                                        linkShareHandle={this.linkShareHandle}
                                        loadImages={loadImages}
+                                       pluginHandle={this.pluginHandle}
                                        isBucketBased={fsInfo.Features.BucketBased}
                                        canCopy={fsInfo.Features.Copy} canMove={fsInfo.Features.Move} itemIdx={1}>
 

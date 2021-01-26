@@ -21,15 +21,24 @@ export default {
             icon: 'icon-star',
         },
         {
+            name: 'Plugins',
+            url: '/pluginDashboard',
+            icon: 'fa fa-plug'
+        },
+        {
             name: 'Mounts',
             url: '/mountDashboard',
             icon: 'fa fa-hdd-o'
+        },
+        {
+            name: 'Terminal',
+            url: '/terminal',
+            icon: 'fa fa-terminal'
         },
         {
             name: 'Log Out',
             url: '/login',
             icon: 'icon-logout',
         },
-
     ],
 };

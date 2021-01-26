@@ -6,6 +6,7 @@ import BandwidthStatusCard from "../Base/BandwidthStatusCard/BandwidthStatusCard
 import {connect} from "react-redux";
 import * as PropTypes from 'prop-types';
 import {IP_ADDRESS_KEY} from "../../utils/Constants";
+import DashboardPluginWidgets from "../DashboardPluginWidgets/DashboardPluginWidgets";
 
 class Home extends React.Component {
 
@@ -23,8 +24,10 @@ class Home extends React.Component {
                         <BandwidthStatusCard/>
                     </Col>
                 </Row>
+                <DashboardPluginWidgets/>
                 <h2>Jobs</h2>
                 {checkStatus ? <RunningJobs mode={"full-status"}/> : <p>Not Monitoring</p>}
+
 
             </div>);
     }

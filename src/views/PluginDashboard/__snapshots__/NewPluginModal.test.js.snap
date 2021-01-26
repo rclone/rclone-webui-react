@@ -1,0 +1,174 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`New Plugin Modal renders should match snapshot 1`] = `
+<div
+  data-test="newMountModalComponent"
+>
+  <Button
+    color="primary"
+    onClick={[Function]}
+    tag="button"
+  />
+  <Form
+    onSubmit={[Function]}
+    tag="form"
+  >
+    <Modal
+      autoFocus={true}
+      backdrop={true}
+      backdropTransition={
+        Object {
+          "mountOnEnter": true,
+          "timeout": 150,
+        }
+      }
+      centered={false}
+      container="body"
+      fade={true}
+      isOpen={false}
+      keyboard={true}
+      modalTransition={
+        Object {
+          "timeout": 300,
+        }
+      }
+      onClosed={[Function]}
+      onOpened={[Function]}
+      returnFocusAfterClose={true}
+      role="dialog"
+      scrollable={false}
+      toggle={[Function]}
+      unmountOnClose={true}
+      zIndex={1050}
+    >
+      <ModalHeader
+        charCode={215}
+        closeAriaLabel="Close"
+        tag="h5"
+        toggle={[Function]}
+        wrapTag="div"
+      >
+        New Mount
+      </ModalHeader>
+      <ModalBody
+        tag="div"
+      >
+        <FormGroup
+          row={true}
+          tag="div"
+        >
+          <Label
+            for="pluginURL"
+            sm={5}
+            tag="label"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            Plugin URL
+          </Label>
+          <Col
+            sm={7}
+            tag="div"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            <Input
+              id="pluginURL"
+              name="pluginURL"
+              onChange={[Function]}
+              required={true}
+              type="text"
+              value=""
+            />
+            <FormFeedback
+              tag="div"
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup
+          row={true}
+          tag="div"
+        >
+          <Label
+            for="pluginType"
+            sm={5}
+            tag="label"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            Plugin Type
+          </Label>
+          <Col
+            sm={7}
+            tag="div"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            <Input
+              id="pluginType"
+              name="pluginType"
+              onChange={[Function]}
+              required={true}
+              type="text"
+              value=""
+            />
+            <FormFeedback
+              tag="div"
+            />
+          </Col>
+        </FormGroup>
+      </ModalBody>
+      <ModalFooter
+        tag="div"
+      >
+        <Button
+          color="primary"
+          data-test="ok-button"
+          disabled={true}
+          onClick={[Function]}
+          tag="button"
+        >
+          Add
+        </Button>
+         
+        <Button
+          color="secondary"
+          data-test="cancel-button"
+          onClick={[Function]}
+          tag="button"
+        >
+          Cancel
+        </Button>
+      </ModalFooter>
+    </Modal>
+  </Form>
+</div>
+`;

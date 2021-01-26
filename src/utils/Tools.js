@@ -194,6 +194,11 @@ export function validateDriveName(name) {
     return baseValidator(regex, name);
 }
 
+export function validateURL(url) {
+    const regex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=]+$/g;
+    return baseValidator(regex, url);
+}
+
 /**
  * Opens the specified URL in a new tab and focus on it.
  * @param url {string} URL to be opened.
@@ -363,6 +368,11 @@ export function getSortCompareFunction(type, ascending) {
     }
 }
 
+/**
+ * Utility function to generate a random string with [A-Z, 0-9] with the specified length
+ * @param length        {number}    Length of the required string
+ * @returns             {string}    Unique id of given length.
+ */
 export function makeUniqueID(length) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -371,4 +381,8 @@ export function makeUniqueID(length) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
+}
+
+export function openInWindow(url) {
+    window.open(url);
 }

@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Plugin Dashboard renders should match snapshot 1`] = `
+<div
+  data-test="pluginDashboardComponent"
+>
+  <Row
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    <Col
+      className="mb-4 d-flex justify-content-between"
+      lg={12}
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <NewPluginModal
+        buttonLabel="Add New"
+        okHandle={[Function]}
+      />
+      <Button
+        color="primary"
+        onClick={[Function]}
+        tag="button"
+      >
+        Visit Store
+      </Button>
+    </Col>
+  </Row>
+  <Table
+    className="table-striped"
+    responsive={true}
+    responsiveTag="div"
+    tag="table"
+  >
+    <thead>
+      <tr>
+        <th>
+          Name
+        </th>
+        <th>
+          Author
+        </th>
+        <th>
+          Description
+        </th>
+        <th>
+          Actions
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <PluginRowEntries
+        getPlugins={[Function]}
+        loadedPlugins={Object {}}
+      />
+    </tbody>
+  </Table>
+</div>
+`;

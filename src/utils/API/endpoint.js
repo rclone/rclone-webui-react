@@ -138,5 +138,21 @@ const urls = {
      */
     unmountAll: "mount/unmountall",
 
+    /**
+     *  List the loaded test plugins
+     */
+    listPlugins: "pluginsctl/listPlugins",
+
+    /**
+     * Add a test plugin
+     */
+    addTestPlugin: "pluginsctl/addTestPlugin",
+
+    /**
+     * Add a plugin
+     */
+    addPlugin: "pluginsctl/addPlugin",
+
+
 };
 export default urls;
