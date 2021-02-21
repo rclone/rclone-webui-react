@@ -7,7 +7,6 @@ import {formatBytes} from "../../../utils/Tools";
 import {performCopyFile, performMoveFile} from "../../../utils/API/API";
 import {toast} from "react-toastify";
 import * as PropTypes from "prop-types";
-import handleViewport from 'react-in-viewport';
 import MediaWidget, {isMedia} from "../../Base/MediaWidget/MediaWidget";
 import {PROP_ITEM} from "../../../utils/RclonePropTypes";
 import ErrorBoundary from "../../../ErrorHandling/ErrorBoundary";
@@ -154,24 +153,17 @@ class FileComponent extends React.Component {
                 </div>
             )
         } else {
-            if (inViewport) {
-                element = connectDragSource(
-                    <tr className="pointer-cursor fadeIn">
-                        <td onClick={(e) => clickHandler(e, item)}>
-                            <FileIcon IsDir={IsDir} MimeType={MimeType}/>{" "}{Name}
-                        </td>
-                        <td>{Size === -1 ? "-" : formatBytes(Size, 2)}</td>
-                        <td className="d-none d-md-table-cell">{modTime.toLocaleDateString()}</td>
-                        <td><FileActions downloadHandle={downloadHandle} linkShareHandle={linkShareHandle}
-                                         deleteHandle={deleteHandle} item={item}/></td>
-                    </tr>
-                )
-            } else {
-                // not in view, render an empty div
-                element = (<tr className={"pointer-cursor"} style={{height: "60px"}}>
-
-                </tr>)
-            }
+            element = connectDragSource(
+                <tr className="pointer-cursor fadeIn">
+                    <td onClick={(e) => clickHandler(e, item)}>
+                        <FileIcon IsDir={IsDir} MimeType={MimeType}/>{" "}{Name}
+                    </td>
+                    <td>{Size === -1 ? "-" : formatBytes(Size, 2)}</td>
+                    <td className="d-none d-md-table-cell">{modTime.toLocaleDateString()}</td>
+                    <td><FileActions downloadHandle={downloadHandle} linkShareHandle={linkShareHandle}
+                                     deleteHandle={deleteHandle} item={item}/></td>
+                </tr>
+            )
         }
         return <ErrorBoundary>
             {element}
@@ -237,9 +229,4 @@ FileComponent.propTypes = {
 
 };
 
-/**
- * Handles view port to check if the current item is visible on the screen.
- */
-const MyViewPort = handleViewport(FileComponent, {rootMargin: '-1.0px'});
-
-export default DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect)(MyViewPort);
+export default DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect)(FileComponent);
