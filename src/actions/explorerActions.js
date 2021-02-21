@@ -44,20 +44,15 @@ export const getFsInfo = (remoteName) => dispatch => {
 
 export const getRemoteNames = () => {
     return (dispatch, getState) => {
-        const state = getState();
-        // console.log(state);
-        if (!state.remote.remotes || state.remote.remotes.length < 1) {
-
-            getAllRemoteNames().then(res => dispatch({
-                type: GET_REMOTE_LIST,
-                status: REQUEST_SUCCESS,
-                payload: res.remotes
-            }), error => dispatch({
-                type: GET_REMOTE_LIST,
-                status: REQUEST_ERROR,
-                payload: error
-            }))
-        }
+        getAllRemoteNames().then(res => dispatch({
+            type: GET_REMOTE_LIST,
+            status: REQUEST_SUCCESS,
+            payload: res.remotes
+        }), error => dispatch({
+            type: GET_REMOTE_LIST,
+            status: REQUEST_ERROR,
+            payload: error
+        }));
     }
 };
 
