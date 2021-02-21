@@ -36,13 +36,15 @@ class BandwidthStatusCard extends React.Component {
         const {bandwidthText, hasError} = this.state;
         if (!hasError) {
             const {setBandwidth} = this.props;
-            if (bandwidthText)
+            if (bandwidthText) {
                 setBandwidth(bandwidthText);
+                this.toggleShowChangeBandwidth();
+            }
             else {
                 setBandwidth("0M");
             }
         } else {
-            toast.error("Error in form");
+            toast.error("Please check the errors before submitting");
         }
     };
 
@@ -53,10 +55,22 @@ class BandwidthStatusCard extends React.Component {
      */
     changeBandwidthInput = (e) => {
         const inputValue = e.target.value;
-        const validateInput = validateSizeSuffix(inputValue);
+        let validateInput = false;
+        if (inputValue === "") {
+            validateInput = true;
+        } else if (inputValue) {
+            const splitValue = inputValue.split(":");
+            if(splitValue.length === 1) {
+                validateInput = validateSizeSuffix(splitValue[0]);
+            }else if(splitValue.length === 2) {
+                const validateDownloadLimit = validateSizeSuffix(splitValue[0]);
+                const validateUploadLimit = validateSizeSuffix(splitValue[1]);
+                validateInput = validateDownloadLimit && validateUploadLimit;
+            }
+        }
         this.setState({
             bandwidthText: inputValue,
-            hasError: (inputValue !== "" ? !validateInput : false)
+            hasError: !validateInput
         })
     };
 
@@ -94,15 +108,14 @@ class BandwidthStatusCard extends React.Component {
                 </p>
                 <Form onSubmit={this.setBandwidth} className={showChangeBandwidth ? "" : "d-none"}>
                     <FormGroup row>
-                        <Label for="bandwidthValue" sm={5}>Enter new max speed</Label>
+                        <Label for="bandwidthValue" sm={5}>Enter new max speed (upload:download)</Label>
                         <Col sm={7}>
                             <Input type="text" value={bandwidthText}
                                     valid={!hasError} invalid={hasError}
                                     id="bandwidthValue" onChange={this.changeBandwidthInput}>
                             </Input>
                             <FormFeedback valid>Keep empty to reset.</FormFeedback>
-                            <FormFeedback>The bandwidth should be of the form 1M|2M|1G|1K|1.1K
-                                etc</FormFeedback>
+                            <FormFeedback>The bandwidth should be of the form 1M|2M|1G|1K|1.1K etc. Can also be specified as (upload:download)</FormFeedback>
 
                         </Col>
                     </FormGroup>

@@ -54,7 +54,7 @@ exports[`Bandwidth Status Card should match snapshot 1`] = `
             ]
           }
         >
-          Enter new max speed
+          Enter new max speed (upload:download)
         </Label>
         <Col
           sm={7}
@@ -86,7 +86,7 @@ exports[`Bandwidth Status Card should match snapshot 1`] = `
           <FormFeedback
             tag="div"
           >
-            The bandwidth should be of the form 1M|2M|1G|1K|1.1K etc
+            The bandwidth should be of the form 1M|2M|1G|1K|1.1K etc. Can also be specified as (upload:download)
           </FormFeedback>
         </Col>
       </FormGroup>
