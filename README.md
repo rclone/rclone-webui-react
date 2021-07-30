@@ -30,7 +30,6 @@ This project is being actively developed. Feel free to create any issues, featur
 ## Getting Started
 
 The project currently requires you to install and configure react and npm to run correctly.
-Read more about the project details at [chaitanya.codes](http://chaitanya.codes)
 
 ## Running the project through rclone:
 
