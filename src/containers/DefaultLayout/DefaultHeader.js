@@ -24,7 +24,7 @@ class DefaultHeader extends Component {
             <React.Fragment>
                 <AppSidebarToggler className="d-lg-none" display="md" mobile/>
                 <AppNavbarBrand
-                    full={{src: logo, width: 89, height: 25, alt: 'Rclone Logo'}}
+                    full={{src: logo, width: 111, height: 25, alt: 'Rclone Logo'}}
                     minimized={{src: favicon, width: 30, height: 30, alt: 'Rclone Logo'}}
                 />
                 <AppSidebarToggler className="d-md-down-none" display="lg"/>
@@ -35,7 +35,7 @@ class DefaultHeader extends Component {
                     </NavItem>
 
                 </Nav>
-                <Nav className="ml-auto" navbar>
+                <Nav className="ml-auto mr-4" navbar>
                     <BackendStatusCard mode={"button"}/>
                 </Nav>
 
