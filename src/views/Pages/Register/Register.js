@@ -9,7 +9,6 @@ import {
     Form,
     Input,
     InputGroup,
-    InputGroupAddon,
     InputGroupText,
     Row
 } from 'reactstrap';
@@ -27,33 +26,25 @@ class Register extends Component {
                                         <h1>Register</h1>
                                         <p className="text-muted">Create your account</p>
                                         <InputGroup className="mb-3">
-                                            <InputGroupAddon addonType="prepend">
-                                                <InputGroupText>
-                                                    <i className="icon-user"></i>
-                                                </InputGroupText>
-                                            </InputGroupAddon>
+                                            <InputGroupText>
+                                                <i className="icon-user"></i>
+                                            </InputGroupText>
                                             <Input type="text" placeholder="Username" autoComplete="username"/>
                                         </InputGroup>
                                         <InputGroup className="mb-3">
-                                            <InputGroupAddon addonType="prepend">
-                                                <InputGroupText>@</InputGroupText>
-                                            </InputGroupAddon>
+                                            <InputGroupText>@</InputGroupText>
                                             <Input type="text" placeholder="Email" autoComplete="email"/>
                                         </InputGroup>
                                         <InputGroup className="mb-3">
-                                            <InputGroupAddon addonType="prepend">
-                                                <InputGroupText>
-                                                    <i className="icon-lock"></i>
-                                                </InputGroupText>
-                                            </InputGroupAddon>
+                                            <InputGroupText>
+                                                <i className="icon-lock"></i>
+                                            </InputGroupText>
                                             <Input type="password" placeholder="Password" autoComplete="new-password"/>
                                         </InputGroup>
                                         <InputGroup className="mb-4">
-                                            <InputGroupAddon addonType="prepend">
-                                                <InputGroupText>
-                                                    <i className="icon-lock"></i>
-                                                </InputGroupText>
-                                            </InputGroupAddon>
+                                            <InputGroupText>
+                                                <i className="icon-lock"></i>
+                                            </InputGroupText>
                                             <Input type="password" placeholder="Repeat password"
                                                    autoComplete="new-password"/>
                                         </InputGroup>

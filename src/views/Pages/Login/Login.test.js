@@ -2,7 +2,7 @@ import React from "react";
 import {shallow} from "enzyme";
 import {findByTestAttr, testStore} from "../../../../Utils";
 import Login from "./Login";
-import {MemoryRouter} from "react-router-dom";
+import {BrowserRouter as MemoryRouter} from "react-router-dom";
 import toJson from "enzyme-to-json";
 
 const setUp = (intialState = {}, props = {}) => {

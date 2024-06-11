@@ -1,5 +1,5 @@
 import React from 'react';
-import {MemoryRouter, Route} from 'react-router-dom';
+import {BrowserRouter as MemoryRouter, Route} from 'react-router-dom';
 import DefaultLayout from '../DefaultLayout';
 import {shallow} from "enzyme";
 import {Provider} from "react-redux";

@@ -1,7 +1,7 @@
 import React from "react";
 import axiosInstance from "../../../utils/API/API";
 import {Alert, Col, Container, Row, Spinner, Table} from "reactstrap";
-import {DropTarget} from "react-dnd";
+import { useDrag } from "react-dnd";
 import FileComponent from "./FileComponent";
 import {ItemTypes} from "./Constants";
 import {toast} from "react-toastify";
@@ -451,10 +451,8 @@ const propTypes = {
 
 const defaultProps = {};
 
-
 FilesView.propTypes = propTypes;
 FilesView.defaultProps = defaultProps;
-
 
 const getVisibleFiles = createSelector(
     (state, props) => props.containerID,
@@ -521,9 +519,26 @@ const mapStateToProps = (state, ownProps) => {
     }
 };
 
+// https://github.com/react-dnd/react-dnd/issues/3387#issuecomment-1416125985
+const DragSource = () => {
+    const [{isDragging}, drag] = useDrag({
+        item: {type: ItemTypes.FILECOMPONENT},
+        collect: monitor => ({
+            isDragging: !!monitor.isDragging(),
+        }),
+    });
+
+    return (
+        <div ref={drag} style={{opacity: isDragging ? 0.5 : 1, cursor: "move"}}>
+            <FileComponent/>
+        </div>
+    )
+}
+
 export default compose(
     connect(
         mapStateToProps, {getFiles, navigateUp, changePath, changeSortFilter}
     ),
-    DropTarget(ItemTypes.FILECOMPONENT, filesTarget, collect)
+    DragSource
+    //DropTarget(ItemTypes.FILECOMPONENT, filesTarget, collect)
 )(FilesView)

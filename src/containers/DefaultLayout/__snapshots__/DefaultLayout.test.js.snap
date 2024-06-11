@@ -232,7 +232,7 @@ exports[`Remote Explorer renders should match snapshot 1`] = `
               </div>
             }
           >
-            <Switch>
+            <Routes>
               <Route
                 key="1"
                 name="Edit Remote"
@@ -290,11 +290,11 @@ exports[`Remote Explorer renders should match snapshot 1`] = `
                 path="/mountDashboard"
                 render={[Function]}
               />
-              <Redirect
+              <Navigate
                 from="/"
                 to="/dashboard"
               />
-            </Switch>
+            </Routes>
           </Suspense>
         </Container>
       </main>

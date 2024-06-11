@@ -2,7 +2,7 @@ import React from "react";
 import {Card, CardBody, CardFooter,} from "reactstrap";
 
 import {ItemTypes} from './Constants'
-import {DragSource} from 'react-dnd'
+import { useDrag } from 'react-dnd'
 import {formatBytes} from "../../../utils/Tools";
 import {performCopyFile, performMoveFile} from "../../../utils/API/API";
 import {toast} from "react-toastify";
@@ -43,7 +43,6 @@ async function performCopyMoveOperation(params) {
 
     }
 }
-
 
 const fileComponentSource = {
     canDrag(props) {
@@ -229,4 +228,23 @@ FileComponent.propTypes = {
 
 };
 
-export default DragSource(ItemTypes.FILECOMPONENT, fileComponentSource, collect)(FileComponent);
+const DragSource = () => {
+    const [{ isDragging }, drag] = useDrag({
+        item: { type: ItemTypes.FILECOMPONENT },
+        end: (item, monitor) => {
+            const dropResult = monitor.getDropResult()
+            if (item && dropResult) {
+                alert(`You dropped ${item.name} into ${dropResult.name}!`)
+            }
+        },
+    });
+
+    return (
+        <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1, fontSize: 25, fontWeight: 'bold', cursor: 'move' }}>
+        Drag me to see an effect!
+        </div>
+    );
+}
+
+export default DragSource;
+// ItemTypes.FILECOMPONENT, fileComponentSource, collect)(FileComponent)

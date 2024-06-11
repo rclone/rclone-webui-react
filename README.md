@@ -2,8 +2,6 @@
 
 **Latest hosted release:** https://rclone.github.io/rclone-webui-react
 
-
-
 ## Build Status
 
 ![Node CI](https://github.com/rclone/rclone-webui-react/workflows/Node%20CI/badge.svg)
@@ -42,26 +40,31 @@ To run the web-gui, simply run the following command:
 ```shell script
 rclone rcd --rc-web-gui --rc-user=<user> --rc-pass=<pass> 
 ```
+
 The web-gui should now be available at the url http://localhost:5572
 
 You may have to clear the browser local storage if needed, after switching to the older version.
 
 ## Alternatively, you can use the hosted version:
+
 With every release, we publish it to github-pages. You can directly use it without installing rclone locally.
 
 Head over to https://rclone.github.io/rclone-webui-react/. To login, enter the IP address, username and password of rclone rc server.
 
 While running the rclone rc server, use the following command,
-```
+
+```bash
 rclone rcd --rc-user=abc --rc-pass=abcd --rc-allow-origin="https://rclone.github.io" 
 ```
+
 replace the username and password with your liking. If you are not comfortable with specifying it here, use the .htpasswd option.
 
-```
+```bash
 rclone rcd --rc-allow-origin="https://rclone.github.io" --rc-htpasswd /path/to/.htpasswd
 ```
 
 ### Parameters:
+
 --rc-web-gui - run the web-gui
 
 --rc-user - username to be used for login (Optional) default is gui.
@@ -75,19 +78,25 @@ rclone rcd --rc-allow-origin="https://rclone.github.io" --rc-htpasswd /path/to/.
 
 
 ## Screenshots
+
 ### Dashboard
+
 ![Dashboard](screenshots/dashboard.png)
 
 ### Login
+
 ![Login](screenshots/login.png)
 
 ### Remote Explorer
+
 ![Explorer](screenshots/remoteexplorer.png)
 
 ### Creating config
+
 ![New Config](screenshots/config.png)
 
 ### Mounts
+
 ![Mounts](screenshots/mounts.png)
 
 ## Get the automated script and get running
@@ -95,62 +104,73 @@ rclone rcd --rc-allow-origin="https://rclone.github.io" --rc-htpasswd /path/to/.
 **Bash users:**
 
 Download the sh file given here: 
+
 [webui.sh](https://raw.githubusercontent.com/rclone/rclone-webui-react/master/webui.sh)
 
 Copy the file to root folder of rclone.
 
-```
+```bash
 cp webui.sh <root-of-rclone>/
 ```
 First of all open the webui.sh
 
 You need to edit this code to the username and password you would like to use.
-```
+
+```bash
 username='<your-username>'
 password='<your-password>'
 ```
+
 Save this file.
 
 Now you can run the following commands:
 
 - Download the project:
-```
+
+```bash
 ./webui.sh get
 ```
 
 - Build the webui app:
-```
+
+```bash
 ./webui.sh build
 ```
 
 - Run the app with rclone backend:
-```
+
+```bash
 ./webui.sh run
 ```
 
 - At any point, you can update the webui with new changes from the repo (optional):
 
-```
+```bash
 ./webui.sh update
 ```
 
 
 ### Get the Project
+
+```bash
+git clone https://github.com/rclone/rclone-webui-react
 ```
-    git clone https://github.com/rclone/rclone-webui-react
-```
+
 OR download a zip from the option above.
 
 ### Install dependencies
+
 If you are using NPM:
 
 **Make sure that you are using the latest LTS version of NPM**
-```
+
+```bash
     cd <cloned directory>
     npm install 
 ```
 
 Using yarn:
+
 ```explorer
     cd <cloned directory>
     yarn install
@@ -158,26 +178,30 @@ Using yarn:
 
 
 ### Run the project
-```
-    npm start
-```
-OR
-```
-    npm run start
+
+```bash
+npm start
+
+# OR
+
+npm run start
 ```
 
 ### Run tests
+
 ```npm test```OR ```yarn test``` if you want to run all jest tests. 
 Test specific environment can be set using setupTests.js
 
 **With Coverage**: ```npm run test:cov```
 
-
 ### Run Rclone
+
 You have to run rclone with the following flags:
-```
+
+```bash
     rclone rcd --rc-user=<username> --rc-pass=<password> --rc-serve
 ```
+
 Replace username and password with your custom username password. This will be required to login to rclone. rc-no-auth is not available due to security concerns.
 
 --rc-serve:  It serves the remote objects at localhost:5572/[remoteName:remotePath]/path/to/file. It enables us to download files via the RemoteExplorer through the browser.
@@ -185,5 +209,3 @@ Replace username and password with your custom username password. This will be r
 ## Progress
 
 For the progress and future implementation details please refer Progress.md
-
-

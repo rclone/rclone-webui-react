@@ -2,7 +2,7 @@ import React from "react";
 import {shallow} from "enzyme";
 import {Provider} from "react-redux";
 import {testStore} from "../../../../Utils";
-import {MemoryRouter} from "react-router-dom";
+import {BrowserRouter as MemoryRouter} from "react-router-dom";
 import DefaultHeader from "../DefaultHeader";
 
 const setUp = (props = {}) => {

@@ -1,11 +1,24 @@
-// Styles
+// Stylesheet for the App component.
+
+// Import CoreUI for React components library
+@use "@coreui/coreui/scss/coreui";
+
 // CoreUI Icons Set
-@import '~@coreui/icons/css/coreui-icons.css';
+@use "@coreui/icons/scss/free";
+@use "@coreui/icons/scss/flag";
+@use "@coreui/icons/scss/brand";
+
+// Import Chart.js custom tooltips styles
+@use "@coreui/chartjs/scss/coreui-chartjs";
+
 // Import Flag Icons Set
-@import '~flag-icon-css/css/flag-icon.min.css';
+@use "~flag-icon-css/css/flag-icon.min.css";
+
 // Import Font Awesome Icons Set
-@import '~font-awesome/css/font-awesome.min.css';
+@use "~font-awesome/scss/font-awesome";
+
 // Import Simple Line Icons Set
-@import '~simple-line-icons/css/simple-line-icons.css';
+@use "~simple-line-icons/scss/simple-line-icons";
+
 // Import Main styles for this application
-@import './scss/style.scss';
+@import "./scss/style.scss";

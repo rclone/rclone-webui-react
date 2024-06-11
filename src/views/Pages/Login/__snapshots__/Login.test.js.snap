@@ -60,18 +60,13 @@ exports[`Login Layout renders should match snapshot 1`] = `
                   className="mb-3"
                   tag="div"
                 >
-                  <InputGroupAddon
-                    addonType="prepend"
-                    tag="div"
+                  <InputGroupText
+                    tag="span"
                   >
-                    <InputGroupText
-                      tag="span"
-                    >
-                      <i
-                        className="icon-user"
-                      />
-                    </InputGroupText>
-                  </InputGroupAddon>
+                    <i
+                      className="icon-user"
+                    />
+                  </InputGroupText>
                   <Input
                     autoComplete="ipAddress"
                     data-testid="LoginForm-ipAddress"
@@ -85,18 +80,13 @@ exports[`Login Layout renders should match snapshot 1`] = `
                   className="mb-3"
                   tag="div"
                 >
-                  <InputGroupAddon
-                    addonType="prepend"
-                    tag="div"
+                  <InputGroupText
+                    tag="span"
                   >
-                    <InputGroupText
-                      tag="span"
-                    >
-                      <i
-                        className="icon-user"
-                      />
-                    </InputGroupText>
-                  </InputGroupAddon>
+                    <i
+                      className="icon-user"
+                    />
+                  </InputGroupText>
                   <Input
                     autoComplete="username"
                     data-testid="LoginForm-userName"
@@ -110,18 +100,13 @@ exports[`Login Layout renders should match snapshot 1`] = `
                   className="mb-4"
                   tag="div"
                 >
-                  <InputGroupAddon
-                    addonType="prepend"
-                    tag="div"
+                  <InputGroupText
+                    tag="span"
                   >
-                    <InputGroupText
-                      tag="span"
-                    >
-                      <i
-                        className="icon-lock"
-                      />
-                    </InputGroupText>
-                  </InputGroupAddon>
+                    <i
+                      className="icon-lock"
+                    />
+                  </InputGroupText>
                   <Input
                     autoComplete="current-password"
                     data-testid="LoginForm-password"

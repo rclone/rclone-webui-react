@@ -9,7 +9,6 @@ import {
 	Form,
 	Input,
 	InputGroup,
-	InputGroupAddon,
 	InputGroupText,
 	Row,
 	UncontrolledAlert
@@ -183,32 +182,26 @@ class Login extends Component {
 											<p className="text-muted">Sign In to your account</p>
 											{error && <UncontrolledAlert color="danger" children={error}/>}
 											<InputGroup className="mb-3">
-												<InputGroupAddon addonType="prepend">
-													<InputGroupText>
-														<i className="icon-user"/>
-													</InputGroupText>
-												</InputGroupAddon>
+                                                <InputGroupText>
+                                                    <i className="icon-user"/>
+                                                </InputGroupText>
 												<Input type="text" placeholder="IP Address / URL"
 													   autoComplete="ipAddress"
 													   onChange={this.changeIPAddress} value={ipAddress}
 													   data-testid="LoginForm-ipAddress"/>
                                             </InputGroup>
                                             <InputGroup className="mb-3">
-                                                <InputGroupAddon addonType="prepend">
-                                                    <InputGroupText>
-														<i className="icon-user"/>
-                                                    </InputGroupText>
-                                                </InputGroupAddon>
+                                                <InputGroupText>
+                                                    <i className="icon-user"/>
+                                                </InputGroupText>
                                                 <Input type="text" placeholder="Username" autoComplete="username"
                                                        data-testid="LoginForm-userName"
                                                        onChange={this.changeUserName} value={username}/>
                                             </InputGroup>
                                             <InputGroup className="mb-4">
-                                                <InputGroupAddon addonType="prepend">
-                                                    <InputGroupText>
-														<i className="icon-lock"/>
-                                                    </InputGroupText>
-                                                </InputGroupAddon>
+                                                <InputGroupText>
+                                                    <i className="icon-lock"/>
+                                                </InputGroupText>
                                                 <Input type="password" placeholder="Password"
                                                        data-testid="LoginForm-password"
                                                        autoComplete="current-password" onChange={this.changePassword}
@@ -216,8 +209,7 @@ class Login extends Component {
                                             </InputGroup>
                                             <Row>
                                                 <Col xs="6">
-                                                    <Button color="primary" className="px-4" type="submit"
-                                                            data-testid="LoginForm-BtnLogin">Login</Button>
+                                                    <Button color="primary" className="px-4" type="submit" data-testid="LoginForm-BtnLogin">Login</Button>
                                                 </Col>
                                             </Row>
                                         </Form>

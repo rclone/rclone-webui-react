@@ -1,30 +1,14 @@
-import React, {Component, Suspense} from 'react';
-import {Redirect, Route, Switch} from 'react-router-dom';
-import {Container} from 'reactstrap';
+
+import React, { lazy, Suspense } from 'react'
+import { AppContent, AppSidebar, AppFooter, AppHeader } from '../../components/index'
 import {getVersion} from "../../actions/versionActions";
-
-import {
-    AppBreadcrumb,
-    AppFooter,
-    AppHeader,
-    AppSidebar,
-    AppSidebarFooter,
-    AppSidebarForm,
-    AppSidebarHeader,
-    AppSidebarMinimizer,
-    AppSidebarNav,
-} from '@coreui/react';
-// sidebar nav config
-import navigation from '../../_nav';
-// routes config
-import routes from '../../routes';
 import {connect} from "react-redux";
+import navigation from '../../_nav';
 import {AUTH_KEY, LOGIN_TOKEN} from "../../utils/Constants";
-import ErrorBoundary from "../../ErrorHandling/ErrorBoundary";
+import {Component} from "react";
 
-// const DefaultAside = React.lazy(() => import('./DefaultAside'));
-const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
-const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
+const DefaultHeader = lazy(() => import('./DefaultHeader'));
+const DefaultFooter = lazy(() => import('./DefaultFooter'));
 
 const VERSION_NAV_ITEM_ATTRS = {
     attributes: { target: '_blank' },
@@ -33,10 +17,12 @@ const VERSION_NAV_ITEM_ATTRS = {
     url: 'https://rclone.org/changelog',
     variant: 'success'
 }
+
+const mapStateToProps = (state) => ({
+    isConnected: state.status.isConnected,
+    version: state.version,
+});
 class DefaultLayout extends Component {
-
-    loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>;
-
     get navConfig() {
         return {
             items: [
@@ -58,10 +44,70 @@ class DefaultLayout extends Component {
     }
 
     render() {
+        return (
+            <div>
+                sssss
+            <AppSidebar />
+            <div className="wrapper d-flex flex-column min-vh-100 bg-light">
+                <AppHeader>
+                    
+                        <DefaultHeader onLogout={e => this.signOut(e)}/>
+                    
+                </AppHeader>
+                <div className="body flex-grow-1 px-3">
+                <AppContent />
+                </div>
+                <AppFooter>
+                    <Suspense fallback={this.loading()}>
+                        <DefaultFooter/>
+                    </Suspense>
+                </AppFooter>
+            </div>
+            </div>
+        )
+    }
+}
+
+export default DefaultLayout;
+//connect(mapStateToProps, { getVersion })(DefaultLayout);
+
+/*import React, {Component, Suspense} from 'react';
+import { BrowserRouter as Router, Redirect, Navigate, Route, Routes} from 'react-router-dom';
+import {Container} from 'reactstrap';
+
+import {
+    AppBreadcrumb,
+    AppFooter,
+    AppHeader,
+    AppSidebar,
+    AppSidebarFooter,
+    AppSidebarForm,
+    AppSidebarHeader,
+    AppSidebarMinimizer,
+    AppSidebarNav,
+} from '../../components/index';
+// sidebar nav config
+
+// routes config
+import routes from '../../routes';
+
+
+import ErrorBoundary from "../../ErrorHandling/ErrorBoundary";
+
+// const DefaultAside = React.lazy(() => import('./DefaultAside'));
+const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
+const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
+
+
+class DefaultLayout extends Component {
+
+    loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>;
+
+    
+
+    render() {
         // console.log("isConnected, default layout", this.props.isConnected);
         return (
-
-
             <div className="app" data-test="defaultLayout">
                 <ErrorBoundary>
                     <AppHeader fixed>
@@ -83,7 +129,7 @@ class DefaultLayout extends Component {
                             <AppBreadcrumb appRoutes={routes}/>
                             <Container fluid>
                                 <Suspense fallback={this.loading()}>
-                                    <Switch>
+                                    <Routes>
                                         {
                                             routes.map((route, idx) => {
                                                 return route.component ? (
@@ -98,8 +144,8 @@ class DefaultLayout extends Component {
                                                 ) : (null);
                                             })
                                         }
-                                        <Redirect from="/" to="/dashboard"/>
-                                    </Switch>
+                                        <Navigate from="/" to="/dashboard"/>
+                                    </Routes>
                                 </Suspense>
                             </Container>
                         </main>
@@ -115,9 +161,4 @@ class DefaultLayout extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    isConnected: state.status.isConnected,
-    version: state.version,
-});
-
-export default connect(mapStateToProps, { getVersion })(DefaultLayout);
+export default connect(mapStateToProps, { getVersion })(DefaultLayout);*/

@@ -30,7 +30,7 @@ exports[`App Component should match snapshot 1`] = `
           </div>
         }
       >
-        <Switch>
+        <Routes>
           <Route
             exact={true}
             name="Login Page"
@@ -60,7 +60,7 @@ exports[`App Component should match snapshot 1`] = `
             path="/"
             render={[Function]}
           />
-        </Switch>
+        </Routes>
       </Suspense>
     </HashRouter>
   </ErrorBoundary>

@@ -69,9 +69,7 @@ class BackendStatusCard extends React.Component {
                         Overview
                     </CardHeader>
                     <CardBody>
-                        <StatusText checkStatus={checkStatus} connectivityStatus={isConnected} ipAddress={ipAddress}
-                                    userName={username}/>
-
+                        <StatusText checkStatus={checkStatus} connectivityStatus={isConnected} ipAddress={ipAddress} userName={username}/>
                     </CardBody>
                 </Card>
             );
